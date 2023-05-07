@@ -1,0 +1,108 @@
+--Crear secuencias
+	--Secuencia id de miembros
+CREATE SEQUENCE IF NOT EXISTS mbid_seq INCREMENT 1 START 1;
+	--Secuencias id de servicios
+CREATE SEQUENCE IF NOT EXISTS svid_seq INCREMENT 1 START 1;
+	--Secuencias id de citas
+CREATE SEQUENCE IF NOT EXISTS ctid_seq INCREMENT 1 START 1;
+	--Secuencias id de informes
+CREATE SEQUENCE IF NOT EXISTS ifid_seq INCREMENT 1 START 1;
+	--Secuencias id de mascotas
+CREATE SEQUENCE IF NOT EXISTS mcid_seq INCREMENT 1 START 1;
+	--Secuencias id de productos
+CREATE SEQUENCE IF NOT EXISTS prid_seq INCREMENT 1 START 1;
+	--Secuencias id de pedidos
+CREATE SEQUENCE IF NOT EXISTS pdid_seq INCREMENT 1 START 1;
+	--Secuencias id de clientes
+CREATE SEQUENCE IF NOT EXISTS clid_seq INCREMENT 1 START 1;
+--Tabla de miembros
+CREATE TABLE IF NOT EXISTS miembros(
+	mbid INTEGER UNIQUE DEFAULT NEXTVAL('mbid_seq'),
+	usuario VARCHAR (50) UNIQUE NOT NULL,
+	contraseña VARCHAR (50) NOT NULL,
+	correo VARCHAR (50) UNIQUE NOT NULL,
+	nombres VARCHAR (50) NOT NULL, 
+	apellidos VARCHAR (50) NOT NULL,
+	telefono BIGINT NOT NULL,
+	direccion VARCHAR NOT NULL,
+	rol VARCHAR NOT NULL,
+	PRIMARY KEY (mbid)
+);
+--Tabla de clientes
+CREATE TABLE IF NOT EXISTS clientes(
+	clid INTEGER UNIQUE DEFAULT NEXTVAL('clid_seq'),
+	usuario VARCHAR (50) UNIQUE NOT NULL,
+	contraseña VARCHAR (50) NOT NULL,
+	correo VARCHAR (50) UNIQUE NOT NULL,
+	nombres VARCHAR (50) NOT NULL, 
+	apellidos VARCHAR (50) NOT NULL,
+	telefono BIGINT NOT NULL,
+	direccion VARCHAR NOT NULL,
+	PRIMARY KEY (clid)
+);
+--Tabla de mascotas
+CREATE TABLE IF NOT EXISTS mascotas(
+	mcid INTEGER UNIQUE DEFAULT NEXTVAL('mcid_seq'),
+	clid INTEGER NOT NULL,
+	nombre VARCHAR (50) NOT NULL,
+	raza VARCHAR (50) NOT NULL,
+	edad VARCHAR (50) NOT NULL,
+	sexo VARCHAR (50) NOT NULL,
+	condicion VARCHAR (200) NOT NULL,
+	PRIMARY KEY (mcid),
+	FOREIGN KEY (clid) REFERENCES clientes (clid)
+);
+--Tabla de citas
+CREATE TABLE IF NOT EXISTS citas(
+	ctsid INTEGER UNIQUE DEFAULT NEXTVAL('ctid_seq'),
+	clid INTEGER NOT NULL,
+	mcid INTEGER NOT NULL,
+	fecha DATE NOT NULL,
+	hora TIME NOT NULL,
+	PRIMARY KEY (ctsid),
+	FOREIGN KEY (clid) REFERENCES clientes (clid),
+	FOREIGN KEY (mcid) REFERENCES mascotas (mcid)
+);
+--Tabla de informes
+CREATE TABLE IF NOT EXISTS informes(
+	ifid INTEGER UNIQUE DEFAULT NEXTVAL('ifid_seq'),
+	ctsid INTEGER NOT NULL,
+	nota VARCHAR (200) NOT NULL,
+	PRIMARY KEY (ifid),
+	FOREIGN KEY (ctsid) REFERENCES citas (ctsid)
+);
+--Tabla de servicios
+CREATE TABLE IF NOT EXISTS servicios(
+	svid INTEGER UNIQUE DEFAULT NEXTVAL('svid_seq'),
+	mbid INTEGER NOT NULL,
+	ctsid INTEGER NOT NULL,
+	ifid INTEGER NOT NULL,
+	nombre VARCHAR (50) NOT NULL,
+	categoria VARCHAR (50) NOT NULL,
+	descripcion VARCHAR (200) NOT NULL,
+	PRIMARY KEY (svid),
+	FOREIGN KEY (mbid) REFERENCES miembros (mbid),
+	FOREIGN KEY (ctsid) REFERENCES citas (ctsid),
+	FOREIGN KEY (ifid) REFERENCES informes (ifid)
+);
+--Tabla de pedidos
+CREATE TABLE IF NOT EXISTS pedidos(
+	pdid INTEGER UNIQUE DEFAULT NEXTVAL('pdid_seq'),
+	clid INTEGER NOT NULL,
+	mbid INTEGER NOT NULL,
+	valor INTEGER NOT NULL,
+	PRIMARY KEY (pdid),
+	FOREIGN KEY (clid) REFERENCES clientes (clid),
+	FOREIGN KEY (mbid) REFERENCES miembros (mbid)
+);
+--Tabla de productos
+CREATE TABLE IF NOT EXISTS productos(
+	prid INTEGER UNIQUE DEFAULT NEXTVAL('prid_seq'),
+	pdid INTEGER NOT NULL,
+	nombre VARCHAR (50) NOT NULL,
+	tipo VARCHAR (50) NOT NULL,
+	precio INTEGER NOT NULL,
+	cantidad INTEGER NOT NULL,
+	PRIMARY KEY (prid),
+	FOREIGN KEY (pdid) REFERENCES pedidos (pdid)
+);

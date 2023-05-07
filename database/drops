@@ -1,0 +1,5 @@
+DROP TABLE miembros, clientes, mascotas, citas, informes, servicios,
+			pedidos, productos;
+
+DROP SEQUENCE mbid_seq, svid_seq, ctid_seq, ifid_seq, mcid_seq, 
+				prid_seq, pdid_seq, clid_seq;

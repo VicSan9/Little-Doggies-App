@@ -15,6 +15,14 @@ CREATE SEQUENCE IF NOT EXISTS prid_seq INCREMENT 1 START 1;
 CREATE SEQUENCE IF NOT EXISTS pdid_seq INCREMENT 1 START 1;
 	--Secuencias id de clientes
 CREATE SEQUENCE IF NOT EXISTS clid_seq INCREMENT 1 START 1;
+	--Secuencias id de PedidosProductos
+CREATE SEQUENCE IF NOT EXISTS ppid_seq INCREMENT 1 START 1;
+	--Secuencias id de MiembrosServicios
+CREATE SEQUENCE IF NOT EXISTS msid_seq INCREMENT 1 START 1;
+	--Secuencias id de InformesServicios
+CREATE SEQUENCE IF NOT EXISTS isid_seq INCREMENT 1 START 1;
+	--Secuencias id de CitasServicios
+CREATE SEQUENCE IF NOT EXISTS csid_seq INCREMENT 1 START 1;
 --Tabla de miembros
 CREATE TABLE IF NOT EXISTS miembros(
 	mbid INTEGER UNIQUE DEFAULT NEXTVAL('mbid_seq'),
@@ -26,6 +34,7 @@ CREATE TABLE IF NOT EXISTS miembros(
 	telefono BIGINT NOT NULL,
 	direccion VARCHAR NOT NULL,
 	rol VARCHAR NOT NULL,
+	foto TEXT NOT NULL,
 	PRIMARY KEY (mbid)
 );
 --Tabla de clientes
@@ -38,6 +47,7 @@ CREATE TABLE IF NOT EXISTS clientes(
 	apellidos VARCHAR (50) NOT NULL,
 	telefono BIGINT NOT NULL,
 	direccion VARCHAR NOT NULL,
+	foto TEXT NOT NULL,
 	PRIMARY KEY (clid)
 );
 --Tabla de mascotas
@@ -74,16 +84,10 @@ CREATE TABLE IF NOT EXISTS informes(
 --Tabla de servicios
 CREATE TABLE IF NOT EXISTS servicios(
 	svid INTEGER UNIQUE DEFAULT NEXTVAL('svid_seq'),
-	mbid INTEGER NOT NULL,
-	ctsid INTEGER NOT NULL,
-	ifid INTEGER NOT NULL,
 	nombre VARCHAR (50) NOT NULL,
 	categoria VARCHAR (50) NOT NULL,
 	descripcion VARCHAR (200) NOT NULL,
-	PRIMARY KEY (svid),
-	FOREIGN KEY (mbid) REFERENCES miembros (mbid),
-	FOREIGN KEY (ctsid) REFERENCES citas (ctsid),
-	FOREIGN KEY (ifid) REFERENCES informes (ifid)
+	PRIMARY KEY (svid)
 );
 --Tabla de pedidos
 CREATE TABLE IF NOT EXISTS pedidos(
@@ -98,11 +102,45 @@ CREATE TABLE IF NOT EXISTS pedidos(
 --Tabla de productos
 CREATE TABLE IF NOT EXISTS productos(
 	prid INTEGER UNIQUE DEFAULT NEXTVAL('prid_seq'),
-	pdid INTEGER NOT NULL,
 	nombre VARCHAR (50) NOT NULL,
 	tipo VARCHAR (50) NOT NULL,
 	precio INTEGER NOT NULL,
 	cantidad INTEGER NOT NULL,
-	PRIMARY KEY (prid),
-	FOREIGN KEY (pdid) REFERENCES pedidos (pdid)
+	PRIMARY KEY (prid)
+);
+--Tabla de PedidiosProductos
+CREATE TABLE IF NOT EXISTS pedidosProductos(
+	ppid INTEGER UNIQUE DEFAULT NEXTVAL('ppid_seq'),
+	pdid INTEGER NOT NULL,
+	prid INTEGER NOT NULL,
+	PRIMARY KEY (ppid),
+	FOREIGN KEY (pdid) REFERENCES pedidos (pdid),
+	FOREIGN KEY (prid) REFERENCES productos (prid)
+);
+--Tabla de MiebrosServicios
+CREATE TABLE IF NOT EXISTS miembrosServicios(
+	msid INTEGER UNIQUE DEFAULT NEXTVAL('msid_seq'),
+	mbid INTEGER NOT NULL,
+	svid INTEGER NOT NULL,
+	PRIMARY KEY (msid),
+	FOREIGN KEY (mbid) REFERENCES miembros (mbid),
+	FOREIGN KEY (svid) REFERENCES servicios (svid)
+);
+--Tabla de InformesServicios
+CREATE TABLE IF NOT EXISTS informesServicios(
+	isid INTEGER UNIQUE DEFAULT NEXTVAL('isid_seq'),
+	ifid INTEGER NOT NULL,
+	svid INTEGER NOT NULL,
+	PRIMARY KEY (isid),
+	FOREIGN KEY (ifid) REFERENCES informes (ifid),
+	FOREIGN KEY (svid) REFERENCES servicios (svid)
+);
+--Tabla de CitasServicios
+CREATE TABLE IF NOT EXISTS citasServicios(
+	csid INTEGER UNIQUE DEFAULT NEXTVAL('csid_seq'),
+	ctsid INTEGER NOT NULL,
+	svid INTEGER NOT NULL,
+	PRIMARY KEY (csid),
+	FOREIGN KEY (ctsid) REFERENCES citas (ctsid),
+	FOREIGN KEY (svid) REFERENCES servicios (svid)
 );

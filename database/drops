@@ -1,5 +1,8 @@
-DROP TABLE miembros, clientes, mascotas, citas, informes, servicios,
-			pedidos, productos;
-
-DROP SEQUENCE mbid_seq, svid_seq, ctid_seq, ifid_seq, mcid_seq, 
-				prid_seq, pdid_seq, clid_seq;
+--Eliminar tablas
+DROP TABLE 	miembros, clientes, mascotas, citas, informes, servicios,
+			pedidos, productos, pedidosProductos, citasServicios, informesServicios,
+			MiembrosServicios;
+--Eliminar secuencias
+DROP SEQUENCE 	mbid_seq, svid_seq, ctid_seq, ifid_seq, mcid_seq, 
+				prid_seq, pdid_seq, clid_seq, ppid_seq, csid_seq,
+				isid_seq, msid_seq;

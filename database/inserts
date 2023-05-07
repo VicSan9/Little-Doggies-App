@@ -1,0 +1,8 @@
+--Insertar miembros
+INSERT INTO miembros (usuario, contraseña, correo, nombres, apellidos, telefono, direccion, rol, foto)
+VALUES 	('userAdmin', '1234asdf', 'correoadmin1234@gmail.com', 'Christian', 'Salazar', 12345678, 'Pradera#-Cr', 'administrador', 'link'),
+		('userMiembro1', 'asdf1234', 'correomiembro1234@gmail.com', 'Nombres', 'Apellidos', 11124145, 'Pradera#-Cr', 'Trabajador', 'link');
+--Insertar servicios
+INSERT INTO servicios (nombre, categoria, descripcion)
+VALUES 	('Corte corto', 'Peluqueria', 'Descripción del servicio'),
+		('Corte largo', 'Peluqueria', 'Descripción del servicio');

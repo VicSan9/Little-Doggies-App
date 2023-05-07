@@ -1,2 +1,4 @@
 SELECT * FROM miembros;
 SELECT * FROM servicios;
+SELECT * FROM clientes;
+SELECT * FROM productos;

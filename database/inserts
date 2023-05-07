@@ -6,3 +6,16 @@ VALUES 	('userAdmin', '1234asdf', 'correoadmin1234@gmail.com', 'Christian', 'Sal
 INSERT INTO servicios (nombre, categoria, descripcion)
 VALUES 	('Corte corto', 'Peluqueria', 'Descripción del servicio'),
 		('Corte largo', 'Peluqueria', 'Descripción del servicio');
+--Insertar clientes 
+INSERT INTO clientes (nombres, apellidos, correo, direccion, telefono, usuario, contraseña, foto)
+VALUES 	('Nombre cliente 1', 'Apellidos cliente 1', 'correocliente1@gmail.com', 'Pradera#-Cr', '12345512', 'userCliente1', '321dsa', 'link'),
+		('Nombre cliente 2', 'Apellidos cliente 2', 'correocliente2@gmail.com', 'Pradera#-Cr', '41252155', 'userCliente2', '321asd', 'link');
+--Insertar productos
+INSERT INTO productos (nombre, tipo, precio, cantidad)
+VALUES 	('Collar negro', 'Collar', 10500, 15),
+		('Collar rosado', 'Collar', 12000, 5);
+--Insertar mascotas
+INSERT INTO mascotas (clid, nombre, raza, edad, sexo, condicion)
+VALUES 	(2, 'Tony', 'Bulldog', '2 años', 'Macho', 'Ninguna'),
+		(1, 'Luna', 'Pastor aleman', '4 años', 'Hembra', 'Alergia en la piel'),
+		(1, 'Pelusa', 'Akita', '6 meses', 'Macho', 'Ninguna');

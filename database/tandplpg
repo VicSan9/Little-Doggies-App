@@ -30,5 +30,23 @@ FOR EACH ROW
 EXECUTE PROCEDURE function_update_value();
 
 
+--Funcion para ver los productos disponibles
+CREATE OR REPLACE FUNCTION function_products_available()
+RETURNS TRIGGER AS $function_products_available$	
+BEGIN
+	UPDATE productos AS P
+	SET	P.cantidad = P.cantidad - NEW.cantidad
+	WHERE P.prid = NEW.prid;
+	
+RETURN NEW;
+END
+$function_products_available$ LANGUAGE plpgsql;
+
+--Trigger para ver los productos disponibles
+CREATE TRIGGER trigger_products_available
+AFTER INSERT ON pedidos
+FOR EACH ROW 
+EXECUTE PROCEDURE function_products_available();
+
 
 

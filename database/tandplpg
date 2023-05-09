@@ -11,7 +11,7 @@ RETURNS TRIGGER AS $function_update_value$
 DECLARE 
     actualizarvalor INTEGER = (SELECT SUM(P.precio) as SUMA 
 							  FROM productos AS P
-							  JOIN pedidos as PP
+							  JOIN pedidos as PD
 							  ON PD.pdid = PD.pdid);			   
 BEGIN
 	UPDATE pedidos AS PD

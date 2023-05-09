@@ -1,0 +1,8 @@
+
+CREATE VIEW orders AS
+SELECT P.nombre, P.precio
+FROM productos AS P
+JOIN pedidosproductos AS PP 
+ON pp.prid = p.prid;
+
+select * from orders;

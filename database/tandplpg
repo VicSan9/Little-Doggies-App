@@ -24,9 +24,9 @@ DECLARE
 					 FROM pedidosProductos AS PP
 					 ORDER BY PP.ppid DESC LIMIT 1);
 BEGIN
-	UPDATE productos AS P
-	SET	P.cantidad = P.cantidad - 1
-	WHERE P.prid = idpro;
+	UPDATE productos AS PR
+	SET	cantidad = cantidad - 1
+	WHERE PR.prid = idpro;
 RETURN NEW;
 END
 $function_products_available$ LANGUAGE plpgsql;

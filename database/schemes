@@ -94,7 +94,6 @@ CREATE TABLE IF NOT EXISTS pedidos(
 	pdid INTEGER UNIQUE DEFAULT NEXTVAL('pdid_seq'),
 	clid INTEGER NOT NULL,
 	mbid INTEGER NOT NULL,
-	valor INTEGER NOT NULL,
 	PRIMARY KEY (pdid),
 	FOREIGN KEY (clid) REFERENCES clientes (clid),
 	FOREIGN KEY (mbid) REFERENCES miembros (mbid)

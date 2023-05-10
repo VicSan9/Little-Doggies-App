@@ -1,3 +1,9 @@
+--Eliminar vistar
+DROP VIEW orders, valor_pedido;
+--Eliminar triggers
+DROP TRIGGER trigger_products_available ON pedidos;
+--Eliminar funciones
+DROP FUNCTION function_products_available;
 --Eliminar tablas
 DROP TABLE 	miembros, clientes, mascotas, citas, informes, servicios,
 			pedidos, productos, pedidosProductos, citasServicios, informesServicios,

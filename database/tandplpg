@@ -1,34 +1,24 @@
---vista para ver el nombre y precio de los productos agregados a los pedidos
+--Vista para ver el nombre y precio de los productos agregados a los pedidos
 CREATE VIEW orders AS
-SELECT P.nombre, P.precio
+SELECT PP.pdid AS id_pedido, P.nombre, P.precio
 FROM productos AS P
 JOIN pedidosproductos AS PP 
 ON pp.prid = p.prid;
 
---Funcion para actualizar el valor del pedido
-CREATE OR REPLACE FUNCTION function_update_value()
-RETURNS TRIGGER AS $function_update_value$
-DECLARE 
-    actualizarvalor INTEGER = (SELECT SUM(P.precio) as SUMA 
-							  FROM productos AS P
-							  JOIN pedidos as PD
-							  ON PD.pdid = PD.pdid);			   
-BEGIN
-	UPDATE pedidos AS PD
-	SET PD.valor = actualizarvalor
-	WHERE PD.pdid = PD.pdid;
+SELECT * FROM orders
 
-RETURN NEW;
-END
-$function_update_value$ LANGUAGE plpgsql;
+--Vista para ver el id del pedido y la suma total a pagar por pedido
+CREATE VIEW valor_pedido AS
+SELECT PD.pdid AS id_pedido, SUM(P.precio) AS valor_total_pedido
+FROM productos AS P
+JOIN pedidosProductos AS PP
+ON PP.prid = p.prid
+JOIN pedidos AS PD
+ON PD.pdid = PP.pdid
+GROUP BY id_pedido
+ORDER BY id_pedido ASC;
 
-
---Trigger para actualizar el valor del pedido
-CREATE TRIGGER trigger_update_value
-AFTER INSERT OR UPDATE ON pedidos
-FOR EACH ROW 
-EXECUTE PROCEDURE function_update_value();
-
+SELECT * FROM valor_pedido
 
 --Funcion para ver los productos disponibles
 CREATE OR REPLACE FUNCTION function_products_available()

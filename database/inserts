@@ -29,9 +29,9 @@ INSERT INTO informes (ctsid, nota)
 VALUES 	(1, 'Se aplico una inyección extra'),
 		(2, 'Sin notas');
 --Insertar pedidos
-INSERT INTO pedidos (clid, mbid, valor)
-VALUES 	(1, 2, 0),
-		(2, 2, 0);
+INSERT INTO pedidos (clid, mbid)
+VALUES 	(1, 2),
+		(2, 2);
 --Insertar pedidiosProductos
 INSERT INTO pedidosProductos (pdid, prid)
 VALUES 	(1, 1),

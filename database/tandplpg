@@ -31,7 +31,7 @@ RETURN NEW;
 END
 $function_products_available$ LANGUAGE plpgsql;
 
---Trigger para ver los productos disponibles.
+--Trigger para ver los productos disponibles
 CREATE TRIGGER trigger_products_available
 AFTER INSERT ON pedidosProductos
 FOR EACH ROW 

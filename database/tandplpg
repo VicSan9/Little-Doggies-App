@@ -5,8 +5,6 @@ FROM productos AS P
 JOIN pedidosproductos AS PP 
 ON pp.prid = p.prid;
 
-SELECT * FROM orders
-
 --Vista para ver el id del pedido y la suma total a pagar por pedido
 CREATE VIEW valor_pedido AS
 SELECT PD.pdid AS id_pedido, SUM(P.precio) AS valor_total_pedido
@@ -18,23 +16,24 @@ ON PD.pdid = PP.pdid
 GROUP BY id_pedido
 ORDER BY id_pedido ASC;
 
-SELECT * FROM valor_pedido
-
 --Funcion para ver los productos disponibles
 CREATE OR REPLACE FUNCTION function_products_available()
 RETURNS TRIGGER AS $function_products_available$	
+DECLARE 
+	idpro INTEGER = (SELECT prid
+					 FROM pedidosProductos AS PP
+					 ORDER BY PP.ppid DESC LIMIT 1);
 BEGIN
 	UPDATE productos AS P
-	SET	P.cantidad = P.cantidad - NEW.cantidad
-	WHERE P.prid = NEW.prid;
-	
+	SET	P.cantidad = P.cantidad - 1
+	WHERE P.prid = idpro;
 RETURN NEW;
 END
 $function_products_available$ LANGUAGE plpgsql;
 
 --Trigger para ver los productos disponibles.
 CREATE TRIGGER trigger_products_available
-AFTER INSERT ON pedidos
+AFTER INSERT ON pedidosProductos
 FOR EACH ROW 
 EXECUTE PROCEDURE function_products_available(); 
 

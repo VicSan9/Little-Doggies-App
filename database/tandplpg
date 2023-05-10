@@ -6,7 +6,7 @@ JOIN pedidosproductos AS PP
 ON pp.prid = p.prid;
 
 --Vista para ver el id del pedido y la suma total a pagar por pedido
-CREATE VIEW valor_pedido AS
+CREATE VIEW order_value AS
 SELECT PD.pdid AS id_pedido, SUM(P.precio) AS valor_total_pedido
 FROM productos AS P
 JOIN pedidosProductos AS PP

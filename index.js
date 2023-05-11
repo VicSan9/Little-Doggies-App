@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
@@ -12,7 +13,7 @@ app.use((err, req, res, next) => {
     return res.json({
         message:err
     });
-});
+}); 
 
 const port = 3000
 

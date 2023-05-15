@@ -1,5 +1,6 @@
 const express = require('express')
 const morgan = require('morgan')
+const cors = require('cors')
 
 const membersRoutes = require('./routes/members.routes')
 const clientsRoutes = require('./routes/clients.routes')
@@ -10,6 +11,7 @@ const servicesRoutes = require('./routes/services.routes')
 
 const app = express();
 
+app.use(cors())
 app.use(morgan('dev'))
 app.use(express.json())
 

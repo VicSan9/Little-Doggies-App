@@ -4,7 +4,7 @@ const getAllClients = async (req, res, next) => {
     try {
         const allClients = await pool.query
             ('SELECT * FROM clientes');
-        res.json(allClients.rows);
+        res.json(allClients);
     } catch (error) {
         next(error);
     }
@@ -29,7 +29,7 @@ const createClients = async (req, res, next) => {
     const { usuario, contraseña, correo, nombres, apellidos, telefono, dirección, rol, foto} = req.body;
     try {
         const result = await pool.query
-            ('INSERT INTO clientes (usuario, contraseña, correo, nombres, apellidos, telefono, dirección, tol, foto) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *',
+            ('INSERT INTO clientes (usuario, contraseña, correo, nombres, apellidos, telefono, dirección, rol, foto) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *',
                 [usuario, contraseña, correo, nombres, apellidos, telefono, dirección, rol, foto]);                                 
         res.json(result.rows[0]);
     } catch (error){

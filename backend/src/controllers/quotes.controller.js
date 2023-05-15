@@ -4,7 +4,7 @@ const getAllQuotes = async (req, res, next) => {
     try {
         const allQuotes = await pool.query
             ('SELECT * FROM citas');
-        res.json(allQuotes.rows);
+        res.json(allQuotes);
     } catch (error) {
         next(error);
     }

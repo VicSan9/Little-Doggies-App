@@ -4,7 +4,7 @@ const getAllReports = async (req, res, next) => {
     try {
         const allReports = await pool.query
             ('SELECT * FROM informes');
-        res.json(allReports.rows);
+        res.json(allReports);
     } catch (error) {
         next(error);
     }

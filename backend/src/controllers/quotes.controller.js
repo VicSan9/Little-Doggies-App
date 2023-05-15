@@ -26,11 +26,11 @@ const getQuotes = async (req, res, next) => {
 }
 
 const createQuotes = async (req, res, next) => {
-    const { fecha, hora} = req.body;
+    const { clid, mcid, fecha, hora} = req.body;
     try {
         const result = await pool.query
-            ('INSERT INTO citas (fecha, hora) VALUES ($1, $2) RETURNING *',
-                [fecha, hora]);                                 
+            ('INSERT INTO citas (clid, mcid, fecha, hora) VALUES ($1, $2, $3, $4) RETURNING *',
+                [clid, mcid, fecha, hora]);                                 
         res.json(result.rows[0]);
     } catch (error){
         next(error);
@@ -54,11 +54,11 @@ const deleteQuotes = async (req, res, next) => {
 
 const updateQuotes = async (req, res, next) => {
     const { id } = req.params;
-    const { fecha, hora } = req.body;
+    const { clid, mcid, fecha, hora } = req.body;
     try {
         const result = await pool.query(
-            'UPDATE miembros SET fecha = $1, hora = $2 WHERE ctsid = $3 RETURNING *',
-            [fecha, hora, id]);
+            'UPDATE citas SET clid = $1,  mcid = $2, fecha = $3, hora = $4 WHERE ctsid = $5 RETURNING *',
+            [clid, mcid, fecha, hora, id]);
         if (result.rows.length === 0)
             return res.status(404).json({
                 message: "cita no encontrada",

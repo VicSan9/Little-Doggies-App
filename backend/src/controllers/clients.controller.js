@@ -25,12 +25,12 @@ const getClients = async (req, res, next) => {
     }
 }
 
-const createClients = async (req, res, next) => {
-    const { usuario, contraseña, correo, nombres, apellidos, telefono, dirección, rol, foto} = req.body;
+const  createClients = async (req, res, next) => {
+    const { usuario, contraseña, correo, nombres, apellidos, telefono, direccion, foto } = req.body;
     try {
         const result = await pool.query
-            ('INSERT INTO clientes (usuario, contraseña, correo, nombres, apellidos, telefono, dirección, rol, foto) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *',
-                [usuario, contraseña, correo, nombres, apellidos, telefono, dirección, rol, foto]);                                 
+            ('INSERT INTO clientes (usuario, contraseña, correo, nombres, apellidos, telefono, direccion, foto) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *',
+                [usuario, contraseña, correo, nombres, apellidos, telefono, direccion, foto]);                                 
         res.json(result.rows[0]);
     } catch (error){
         next(error);
@@ -54,11 +54,11 @@ const deleteClients = async (req, res, next) => {
 
 const updateClients = async (req, res, next) => {
     const { id } = req.params;
-    const { usuario, contraseña, correo, nombres, apellidos, telefono, dirección, rol, foto } = req.body;
+    const { usuario, contraseña, correo, nombres, apellidos, telefono, direccion, foto } = req.body;
     try {
         const result = await pool.query(
-            'UPDATE clientes SET usuario = $1, contraseña = $2,  correo = $3, nombres = $4, apellidos = $5, telefono = $6, dirección = $7, rol = $8 foto = $9 WHERE clid = $10 RETURNING *',
-            [usuario, contraseña, correo, nombres, apellidos, telefono, dirección, rol, foto, id]);
+            'UPDATE clientes SET usuario = $1, contraseña = $2, correo = $3, nombres = $4, apellidos = $5, telefono = $6, direccion = $7,  foto = $8 WHERE clid = $9 RETURNING *',
+            [usuario, contraseña, correo, nombres, apellidos, telefono, direccion, foto, id]);
         if (result.rows.length === 0)
             return res.status(404).json({
                 message: "Cliente no encontrado",

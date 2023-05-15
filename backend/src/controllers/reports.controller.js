@@ -26,11 +26,11 @@ const getReports = async (req, res, next) => {
 }
 
 const createReports = async (req, res, next) => {
-    const { nota } = req.body;
+    const { ctsid, nota } = req.body;
     try {
         const result = await pool.query
-            ('INSERT INTO informes (nota) VALUES ($1) RETURNING *',
-                [nota]);                                 
+            ('INSERT INTO informes (ctsid, nota) VALUES ($1, $2) RETURNING *',
+                [ctsid, nota]);                                 
         res.json(result.rows[0]);
     } catch (error){
         next(error);
@@ -54,11 +54,11 @@ const deleteReports = async (req, res, next) => {
 
 const updateReports = async (req, res, next) => {
     const { id } = req.params;
-    const { nota } = req.body;
+    const { ctsid, nota } = req.body;
     try {
         const result = await pool.query(
-            'UPDATE informes SET nota = $1 WHERE ifid = $2 RETURNING *',
-            [nota, id]);
+            'UPDATE informes SET ctsid = $1, nota = $2 WHERE ifid = $3 RETURNING *',
+            [ctsid, nota, id]);
         if (result.rows.length === 0)
             return res.status(404).json({
                 message: "Informe no encontrado",

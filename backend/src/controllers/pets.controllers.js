@@ -14,7 +14,7 @@ const getPets = async (req, res, next) => {
     try {
         const { id } = req.params;
         const result = await pool.query
-            ('SELECT * FROM mascotas WHERE id_mascota = $1', [id]);
+            ('SELECT * FROM mascotas WHERE mcid = $1', [id]);
         if (result.rows.length === 0)
             return res.status(404).json({
                 message: "Mascota no encontrada",
@@ -41,7 +41,7 @@ const deletePets = async (req, res, next) => {
     try {
         const { id } = req.params;
         const result = await pool.query
-            ('DELETE FROM mascotas WHERE id_mascota = $1 RETURNING *', [id]);
+            ('DELETE FROM mascotas WHERE mcid = $1 RETURNING *', [id]);
         if (result.rows.length === 0)
             return res.status(404).json({
                 message: "Mascota no encontrada",
@@ -57,7 +57,7 @@ const updatePets = async (req, res, next) => {
     const { nombre, raza, edad, sexo, condición } = req.body;
     try {
         const result = await pool.query(
-            'UPDATE miembros SET nombre = $1, raza = $2,  edad = $3, sexo = $4, condición = $5 WHERE id_mascota = $6 RETURNING *',
+            'UPDATE miembros SET nombre = $1, raza = $2,  edad = $3, sexo = $4, condición = $5 WHERE mcid = $6 RETURNING *',
             [nombre, raza, edad, sexo, condición, id]);
         if (result.rows.length === 0)
             return res.status(404).json({

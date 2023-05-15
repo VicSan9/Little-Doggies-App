@@ -14,7 +14,7 @@ const getClients = async (req, res, next) => {
     try {
         const { id } = req.params;
         const result = await pool.query
-            ('SELECT * FROM clientes WHERE id_cliente = $1', [id]);
+            ('SELECT * FROM clientes WHERE clid = $1', [id]);
         if (result.rows.length === 0)
             return res.status(404).json({
                 message: "Cliente no encontrado",
@@ -41,7 +41,7 @@ const deleteClients = async (req, res, next) => {
     try {
         const { id } = req.params;
         const result = await pool.query
-            ('DELETE FROM clientes WHERE id_cliente = $1 RETURNING *', [id]);
+            ('DELETE FROM clientes WHERE clid = $1 RETURNING *', [id]);
         if (result.rows.length === 0)
             return res.status(404).json({
                 message: "Cliente no encontrado",
@@ -57,7 +57,7 @@ const updateClients = async (req, res, next) => {
     const { usuario, contraseña, correo, nombres, apellidos, telefono, dirección, rol, foto } = req.body;
     try {
         const result = await pool.query(
-            'UPDATE clientes SET usuario = $1, contraseña = $2,  correo = $3, nombres = $4, apellidos = $5, telefono = $6, dirección = $7, rol = $8 foto = $9 WHERE id_cliente = $10 RETURNING *',
+            'UPDATE clientes SET usuario = $1, contraseña = $2,  correo = $3, nombres = $4, apellidos = $5, telefono = $6, dirección = $7, rol = $8 foto = $9 WHERE clid = $10 RETURNING *',
             [usuario, contraseña, correo, nombres, apellidos, telefono, dirección, rol, foto, id]);
         if (result.rows.length === 0)
             return res.status(404).json({

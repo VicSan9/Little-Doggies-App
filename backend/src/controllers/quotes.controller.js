@@ -14,7 +14,7 @@ const getQuotes = async (req, res, next) => {
     try {
         const { id } = req.params;
         const result = await pool.query
-            ('SELECT * FROM citas WHERE id_cita = $1', [id]);
+            ('SELECT * FROM citas WHERE ctsid = $1', [id]);
         if (result.rows.length === 0)
             return res.status(404).json({
                 message: "Cita no encontrada",
@@ -41,7 +41,7 @@ const deleteQuotes = async (req, res, next) => {
     try {
         const { id } = req.params;
         const result = await pool.query
-            ('DELETE FROM citas WHERE id_cita = $1 RETURNING *', [id]);
+            ('DELETE FROM citas WHERE ctsid = $1 RETURNING *', [id]);
         if (result.rows.length === 0)
             return res.status(404).json({
                 message: "Cita no encontrada",
@@ -57,7 +57,7 @@ const updateQuotes = async (req, res, next) => {
     const { fecha, hora } = req.body;
     try {
         const result = await pool.query(
-            'UPDATE miembros SET fecha = $1, hora = $2 WHERE id_cita = $3 RETURNING *',
+            'UPDATE miembros SET fecha = $1, hora = $2 WHERE ctsid = $3 RETURNING *',
             [fecha, hora, id]);
         if (result.rows.length === 0)
             return res.status(404).json({

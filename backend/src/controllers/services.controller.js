@@ -14,7 +14,7 @@ const getServices = async (req, res, next) => {
     try {
         const { id } = req.params;
         const result = await pool.query
-            ('SELECT * FROM servicios WHERE id_servicio = $1', [id]);
+            ('SELECT * FROM servicios WHERE svid = $1', [id]);
         if (result.rows.length === 0)
             return res.status(404).json({
                 message: "servicio no encontrado",
@@ -41,7 +41,7 @@ const deleteServices = async (req, res, next) => {
     try {
         const { id } = req.params;
         const result = await pool.query
-            ('DELETE FROM servicios WHERE id_servicio = $1 RETURNING *', [id]);
+            ('DELETE FROM servicios WHERE svid = $1 RETURNING *', [id]);
         if (result.rows.length === 0)
             return res.status(404).json({
                 message: "Servicio no encontrado",
@@ -57,7 +57,7 @@ const updateServices = async (req, res, next) => {
     const { nombre, categoria, descripción } = req.body;
     try {
         const result = await pool.query(
-            'UPDATE servicios SET nombre = $1, categoria = $2, descripción = $3 WHERE id_servicio = $4 RETURNING *',
+            'UPDATE servicios SET nombre = $1, categoria = $2, descripción = $3 WHERE svid = $4 RETURNING *',
             [nombre, categoria, descripción, id]);
         if (result.rows.length === 0)
             return res.status(404).json({

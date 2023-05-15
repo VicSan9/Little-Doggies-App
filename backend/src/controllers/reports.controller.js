@@ -14,7 +14,7 @@ const getReports = async (req, res, next) => {
     try {
         const { id } = req.params;
         const result = await pool.query
-            ('SELECT * FROM informes WHERE id_informe = $1', [id]);
+            ('SELECT * FROM informes WHERE ifid = $1', [id]);
         if (result.rows.length === 0)
             return res.status(404).json({
                 message: "informe no encontrado",
@@ -41,7 +41,7 @@ const deleteReports = async (req, res, next) => {
     try {
         const { id } = req.params;
         const result = await pool.query
-            ('DELETE FROM informes WHERE id_informe = $1 RETURNING *', [id]);
+            ('DELETE FROM informes WHERE ifid = $1 RETURNING *', [id]);
         if (result.rows.length === 0)
             return res.status(404).json({
                 message: "Informe no encontrado",
@@ -57,7 +57,7 @@ const updateReports = async (req, res, next) => {
     const { nota } = req.body;
     try {
         const result = await pool.query(
-            'UPDATE informes SET nota = $1 WHERE id_informe = $2 RETURNING *',
+            'UPDATE informes SET nota = $1 WHERE ifid = $2 RETURNING *',
             [nota, id]);
         if (result.rows.length === 0)
             return res.status(404).json({

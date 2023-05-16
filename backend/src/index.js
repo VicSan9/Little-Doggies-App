@@ -9,7 +9,7 @@ const quotesRoutes = require('./routes/quotes.routes')
 const reportsRoutes = require('./routes/reports.routes')
 const servicesRoutes = require('./routes/services.routes')
 const ordersRoutes = require('./routes/orders.routes')
-const productsRoutes = require('./routes/products.router')
+const productsRoutes = require('./routes/products.routes')
 
 const app = express();
 

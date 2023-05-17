@@ -37,6 +37,21 @@ const  createMemberService = async (req, res, next) => {
     }
 }
 
+const deleteMemberService = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const result = await pool.query
+            ('DELETE FROM miembrosServicios WHERE msid = $1 RETURNING *', [id]);
+        if (result.rows.length === 0)
+            return res.status(404).json({
+                message: "Miembro - Servicio no encontrado",
+            });
+        return res.sendStatus(204);
+    } catch (error) {
+        next(error);
+    }
+}
+
 const updateMemberService = async (req, res, next) => {
     const { id } = req.params;
     const { mbid, svid } = req.body;
@@ -58,5 +73,6 @@ module.exports = {
     getAllMembersServices,
     getMemberService,
     createMemberService,
+    deleteMemberService,
     updateMemberService
 }

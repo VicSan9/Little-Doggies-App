@@ -37,6 +37,21 @@ const  createOrderProduct = async (req, res, next) => {
     }
 }
 
+const deleteOrderProduct = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const result = await pool.query
+            ('DELETE FROM pedidosProductos WHERE ppid = $1 RETURNING *', [id]);
+        if (result.rows.length === 0)
+            return res.status(404).json({
+                message: "Pedido - Producto no encontrado",
+            });
+        return res.sendStatus(204);
+    } catch (error) {
+        next(error);
+    }
+}
+
 const updateOrderProduct = async (req, res, next) => {
     const { id } = req.params;
     const { pdid, prid } = req.body;
@@ -58,5 +73,6 @@ module.exports = {
     getAllOrdersProducts,
     getOrderProduct,
     createOrderProduct,
+    deleteOrderProduct,
     updateOrderProduct
 }

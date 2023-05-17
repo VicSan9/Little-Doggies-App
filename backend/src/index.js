@@ -11,6 +11,7 @@ const servicesRoutes = require('./routes/services.routes')
 const ordersRoutes = require('./routes/orders.routes')
 const productsRoutes = require('./routes/products.routes')
 const ordersProductsRoutes = require('./routes/orderProducts.routes')
+const membersServicesRoutes = require('./routes/membersServices.routes')
 
 const app = express();
 
@@ -27,6 +28,7 @@ app.use(servicesRoutes)
 app.use(ordersRoutes)
 app.use(productsRoutes)
 app.use(ordersProductsRoutes)
+app.use(membersServicesRoutes)
 
 app.use((err, req, res, next) => {
     return res.json({

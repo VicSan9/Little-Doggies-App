@@ -23,6 +23,7 @@ export default function Navbar() {
                                 style={{
                                     textDecoration: "none",
                                     color: "#000",
+                                    fontWeight: "inherit"
                                 }}> Inicio
                         </Link>
                     </Grid>
@@ -32,6 +33,7 @@ export default function Navbar() {
                                 style={{
                                     textDecoration: "none",
                                     color: "#000",
+                                    fontWeight: "inherit"
                                 }}> Citas
                         </Link>
                     </Grid>
@@ -40,7 +42,8 @@ export default function Navbar() {
                                 to='/productos'
                                 style={{
                                     textDecoration: "none",
-                                    color: "#000"
+                                    color: "#000",
+                                    fontWeight: "inherit"
                                 }}> Productos
                         </Link>
                     </Grid>

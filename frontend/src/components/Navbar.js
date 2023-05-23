@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"
 
 export default function Navbar() {
     return (
-        <Container  maxWidth = 'lg'
+        <Container  maxWidth = 'xl'
                     fixed>
                 <Grid container
                       sx={{
@@ -79,7 +79,7 @@ export default function Navbar() {
                                 direction='row'
                                 justifyContent='flex-end'
                                 alignItems='center'>
-                            <Grid item xs='6' sm='6' lg='5' md='5' xl='5'>
+                            <Grid item xs='6' sm='6' lg='5' md='5' xl='4'>
                                 <Button variant="outlined" 
                                         size='small'
                                         sx={{color:'#0265CD', 
@@ -97,7 +97,7 @@ export default function Navbar() {
                                     </Link>
                                 </Button>
                             </Grid>
-                            <Grid item xs='6' sm='6' lg='5' md='5' xl='5'>
+                            <Grid item xs='6' sm='6' lg='5' md='5' xl='4'>
                                 <Button variant="outlined" 
                                         size='small'
                                         sx={{color:'#0265CD', 

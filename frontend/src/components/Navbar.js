@@ -1,4 +1,4 @@
-import { Button, Container, Grid } from "@mui/material"
+import { Box, Button, Container, Grid } from "@mui/material"
 import { Link } from "react-router-dom"
 
 export default function Navbar() {
@@ -8,46 +8,70 @@ export default function Navbar() {
                 <Grid container
                       sx={{
                         borderRadius: '10px',
-                        borderBottom: '2px solid #0265CD'}}
+                        borderBottom: '2px solid #0265CD'
+                        }}
                       spacing= '2'
                       direction='row'
                       justifyContent='flex-start'
-                      alignItems='center'>
-                    <Grid item xs='3' sm='2' lg='2' md='2' xl='2'>
+                      alignItems="strech">
+                    <Grid item xs='3' sm='2' lg='1' md='1' xl='1'>
                         <img  src={process.env.PUBLIC_URL + "/LDLogo.png"} alt="logo"
-                              height='60vh' /> 
+                              height='55vh' /> 
                     </Grid>
-                    <Grid item xs='2' sm='2' lg='1' md='1' xl='1'>
-                        <Link   href="#" 
-                                to='/'
-                                style={{
-                                    textDecoration: "none",
-                                    color: "#000",
-                                    fontWeight: "inherit"
-                                }}> Inicio
-                        </Link>
+                    <Grid   item xs='2' sm='2' lg='1' md='1' xl='1'  
+                            sx={{backgroundColor: '#ffffff',
+                                '&:hover': {
+                                    backgroundColor: 'primary.main',
+                                    opacity: [1, 1, 1]}
+                                }}>
+                        <Box mt='15px'>
+                            <Link   href="#" 
+                                    to='/'
+                                    mt='15px'
+                                    style={{
+                                        textDecoration: "none",
+                                        color: "#000000",
+                                        fontWeight: "inherit"
+                                    }}> Inicio
+                            </Link>
+                        </Box>
                     </Grid>
-                    <Grid item xs='2' sm='2' lg='1' md='1' xl='1'>
-                        <Link   href="#" 
-                                to='/citas'
-                                style={{
-                                    textDecoration: "none",
-                                    color: "#000",
-                                    fontWeight: "inherit"
-                                }}> Citas
-                        </Link>
+                    <Grid   item xs='2' sm='2' lg='1' md='1' xl='1'
+                            sx={{backgroundColor: '#ffffff',
+                            '&:hover': {
+                                backgroundColor: 'primary.main',
+                                opacity: [1, 1, 1]}
+                            }}>
+                        <Box mt='15px'>
+                            <Link   href="#" 
+                                    to='/citas'
+                                    style={{
+                                        textDecoration: "none",
+                                        color: "#000000",
+                                        fontWeight: "inherit"
+                                    }}> Citas
+                            </Link>
+                        </Box>
+                        
                     </Grid>
-                    <Grid item xs='2' sm='2' lg='1' md='1' xl='1'>
-                        <Link   href="#" 
-                                to='/productos'
-                                style={{
-                                    textDecoration: "none",
-                                    color: "#000",
-                                    fontWeight: "inherit"
-                                }}> Productos
-                        </Link>
+                    <Grid   item xs='2' sm='2' lg='1' md='1' xl='1'
+                            sx={{backgroundColor: '#ffffff',
+                            '&:hover': {
+                                backgroundColor: 'primary.main',
+                                opacity: [1, 1, 1]}
+                            }}>
+                        <Box mt='15px'>
+                            <Link   href="#" 
+                                    to='/productos'
+                                    style={{
+                                        textDecoration: "none",
+                                        color: "#000000",
+                                        fontWeight: "inherit"
+                                    }}> Productos
+                            </Link>
+                        </Box>
                     </Grid>
-                    <Grid item xs='0' sm='0' lg='4' md='3' xl='4'>
+                    <Grid item xs='0' sm='0' lg='5' md='4' xl='5'>
                     </Grid>
                     <Grid item xs='2' sm='3' lg='3' md='4' xl='3'>
                         <Grid   container
@@ -60,6 +84,7 @@ export default function Navbar() {
                                         size='small'
                                         sx={{color:'#0265CD', 
                                             width:'104px',
+                                            mt:'13px',
                                             borderColor:'#0265CD',
                                             borderRadius:'15px',
                                             textTransform:'none'}}>
@@ -77,6 +102,7 @@ export default function Navbar() {
                                         size='small'
                                         sx={{color:'#0265CD', 
                                             width:'104px',
+                                            mt:'13px',
                                             borderColor:'#0265CD',
                                             borderRadius:'15px',
                                             textTransform:'none'}}>

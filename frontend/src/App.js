@@ -9,7 +9,7 @@ import CheckIn from './components/CheckIn'
 export default function App() {
   return (
     <BrowserRouter>
-      <Navbar />
+      <Navbar></Navbar> 
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/login' element={<Login />} />

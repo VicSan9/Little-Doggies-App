@@ -29,6 +29,64 @@ export default function Home() {
                           </Typography>
                       </Grid>
                   </Grid>
+                  <Grid container
+                        spacing='2'
+                        direction='row'
+                        justifyContent='flex-start'
+                        alignItems="strech">
+                      <Grid item xs='0' sm='0' lg='0' md='0' xl='1'>
+                          <img src={process.env.PUBLIC_URL + "/Viñeta.png"}>
+                          </img>
+                      </Grid>
+                      <Grid item xs='0' sm='0' lg='0' md='0' xl='11'>
+                          <Typography variant="h4">
+                              Vacunación 
+                          </Typography>
+                      </Grid>
+                  </Grid>
+                  <Grid container
+                        spacing='2'
+                        direction='row'
+                        justifyContent='flex-start'
+                        alignItems="strech">
+                      <Grid item xs='0' sm='0' lg='0' md='0' xl='1'>
+                          <img src={process.env.PUBLIC_URL + "/Viñeta.png"}>
+                          </img>
+                      </Grid>
+                      <Grid item xs='0' sm='0' lg='0' md='0' xl='11'>
+                          <Typography variant="h4">
+                              Jugueteria 
+                          </Typography>
+                      </Grid>
+                  </Grid>
+                  <Grid container
+                        spacing='2'
+                        direction='row'
+                        justifyContent='flex-start'
+                        alignItems="strech">
+                      <Grid item xs='0' sm='0' lg='0' md='0' xl='1'>
+                          <img src={process.env.PUBLIC_URL + "/Viñeta.png"}>
+                          </img>
+                      </Grid>
+                      <Grid item xs='0' sm='0' lg='0' md='0' xl='11'>
+                          <Typography variant="h4">
+                              Deparacitación 
+                          </Typography>
+                      </Grid>
+                  </Grid>
+                  <Grid container
+                        spacing='2'
+                        direction='row'
+                        justifyContent='flex-start'
+                        alignItems="strech">
+                      <Grid item xs='0' sm='0' lg='0' md='0' xl='0'>
+                      </Grid>
+                      <Grid item xs='0' sm='0' lg='0' md='0' xl='11'>
+                          <Typography variant="h4" mt='25px'>
+                              ¡Y mucho más! 
+                          </Typography>
+                      </Grid>
+                  </Grid>
               </Typography>
             </Grid> 
             <Grid item xs='3' sm='2' lg='8' md='1' xl='7'>

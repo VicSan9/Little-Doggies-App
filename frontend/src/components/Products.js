@@ -1,5 +1,7 @@
+import { Typography } from "@mui/material";
+
 export default function Products() {
     return (
-      <div>Products</div>
+      <Typography mt='100px'>Products</Typography>
     )
 }

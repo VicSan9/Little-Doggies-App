@@ -1,5 +1,7 @@
+import { Typography } from "@mui/material";
+
 export default function CheckIn() {
     return (
-      <div>CheckIn</div>
+      <Typography mt='100px'>Check in</Typography>
     )
   }

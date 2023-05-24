@@ -1,5 +1,7 @@
+import { Typography } from "@mui/material";
+
 export default function Quotes() {
     return (
-      <div>Quotes</div>
+      <Typography mt='100px'>Quotes</Typography>
     )
 }

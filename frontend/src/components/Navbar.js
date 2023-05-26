@@ -46,7 +46,8 @@ export default function Navbar() {
                     spacing='2'
                     direction='row'
                     justifyContent='flex-start'
-                    alignItems="strech">
+                    alignItems="strech"
+                    textAlign='center'>
                     <Grid item xs='3' sm='2' lg='1' md='2' xl='1'>
                         <img src={process.env.PUBLIC_URL + "/LDLogo.png"}
                             alt="logo"
@@ -94,7 +95,7 @@ export default function Navbar() {
                         </Box>
 
                     </Grid>
-                    <Grid item xs='3' sm='2' lg='1' md='2' xl='1'
+                    <Grid item xs='4' sm='2' lg='1' md='2' xl='1'
                         sx={{
                             backgroundColor: '#ffffff',
                             '&:hover': {
@@ -117,7 +118,7 @@ export default function Navbar() {
                     <Grid item xs='0' sm='2' lg='5' md='3' xl='6'>
                     </Grid>
                     {/* Dejar de mostar botones de inicio de sesión y login */}
-                    <Grid item xs='6' sm='3' lg='3' md='4' xl='2' sx={{display: { xs: 'none', lg: 'block' }}}>
+                    <Grid item xs='1' sm='3' lg='3' md='4' xl='2' sx={{display: { xs: 'none', lg: 'block' }}}>
                         <Grid container
                             spacing='2'
                             direction='row'

@@ -2,13 +2,13 @@ import { Box, Container, Grid } from "@mui/material";
 
 export default function Login() {
     return (
-      <Container maxWidth='lg'>
+      <Container maxWidth='lg' fixed>
           <Grid container
                 spacing='2'
                 direction='row'
                 justifyContent='flex-start'
                 alignItems="stretch"
-                margin='140px 150px 100px 150px' 
+                margin='140px 7.7vw 100px 7.7vw' 
                 width='auto' 
                 maxHeight='70vh' 
                 height='75vw'

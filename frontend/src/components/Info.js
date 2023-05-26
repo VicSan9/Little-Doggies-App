@@ -4,77 +4,155 @@ import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 
 const RootImg = styled('div')(({ theme }) => ({
-    padding: theme.spacing(1),
-    [theme.breakpoints.down('xl')]: {
-      height: '65%',
-    },
-    [theme.breakpoints.down('lg')]: {
-      height: '45%',
-    },
-    [theme.breakpoints.down('md')]: {
-      height: '30%',
-    },
-    [theme.breakpoints.down('sm')]: {
-      height: '29%',
-    },
-  }));
-  
+  padding: theme.spacing(1),
+  [theme.breakpoints.down('sm')]: {
+    height: '250px',
+  },
+}));
+
 export default function Info() {
   return (
-    <Container  maxWidth='xl'
-                        fixed >
-                <Grid container
-                    sx={{
-                        borderRadius: '10px',
-                        borderTop: '2px solid #0265CD'
-                    }}
-                    spacing='2'
-                    direction='row'
-                    justifyContent='flex-start'
-                    alignItems="strech"
-                    mt='6vw'>
-                            <Grid item xs='1' sm='1' lg='1' md='1' xl='1'>
-                            </Grid>
-                            <Grid item xs='4' sm='4' lg='4' md='4' xl='4' >
-                                <RootImg>
-                                    <img src={process.env.PUBLIC_URL + "/LDLogo2.png"}
-                                        alt="logo2"
-                                        height='100%'>
-                                    </img>
-                                </RootImg>
-                            </Grid>
-                            <Grid item xs='7' sm='7' lg='7' md='7' xl='7' >
-                                <Typography mt='1.5vw' fontSize='1.5vw' variant="h5" fontWeight='bold'>
-                                    Contactanos:
-                                </Typography>
-                                <Grid container direction='row' mt='2vw'>
-                                        <Grid item xs='2' sm='2' lg='2' md='2' xl='3'>
-                                                <LocationOnIcon sx={{fontSize:'4vw'}}></LocationOnIcon>
-                                                <Typography variant="body1" fontWeight='bold' fontSize='1vw'>
-                                                    Manzana C casa 02 
-                                                </Typography>
-                                                <Typography variant="body1" fontWeight='bold' fontSize='1vw'>
-                                                    La Lorena 
-                                                </Typography>
-                                                <Typography variant="body1" fontWeight='bold' fontSize='1vw'>
-                                                    Pradera Valle
-                                                </Typography>
-                                        </Grid>
-                                        <Grid item xs='2' sm='2' lg='2' md='2' xl='3'>
-                                                <WhatsAppIcon sx={{fontSize:'4vw'}}></WhatsAppIcon>
-                                                <Typography variant="body1" fontWeight='bold' fontSize='1vw'>
-                                                    3206928153
-                                                </Typography>
-                                        </Grid>
-                                        <Grid item xs='2' sm='2' lg='2' md='2' xl='3'>
-                                                <MailOutlineIcon sx={{fontSize:'4vw'}}></MailOutlineIcon>
-                                                <Typography variant="body1" fontWeight='bold' fontSize='1vw'>
-                                                    veterinario0711@gmail.com
-                                                </Typography>
-                                        </Grid>
-                                </Grid>
-                            </Grid>
-                </Grid>
+    <Container maxWidth='xl'
+      fixed >
+      <Grid container
+        sx={{
+          borderRadius: '10px',
+          borderTop: '2px solid #0265CD'
+        }}
+        spacing='2'
+        direction='column'
+        justifyContent='center'
+        alignItems="center"
+        textAlign='center'>
+        <Grid item xs='4' sm='4' lg='4' md='4' xl='1' >
+          <RootImg>
+            <img src={process.env.PUBLIC_URL + "/LDLogo2.png"}
+              alt="logo2"
+              height='100%'>
+            </img>
+          </RootImg>
+        </Grid>
+        {/*Pantalla grande*/}
+        <Grid container
+          sx={{ display: { md: 'block', xs:'none'} }}
+          spacing='2'
+          direction='column'
+          justifyContent='center'
+          alignItems="center"
+          textAlign='center'>
+          <Grid item xs='8' sm='6' lg='7' md='6' xl='11'>
+            <Typography fontSize='24px' variant="h5" fontWeight='bold'>
+              Contactanos:
+            </Typography>
+            <Grid container direction='row' mt='2vw'>
+              <Grid item xs='4' sm='4' lg='4' md='4' xl='4'>
+                <LocationOnIcon sx={{ fontSize: '65px' }}></LocationOnIcon>
+                <Typography variant="body1" fontSize='17px'>
+                  Manzana C casa 02
+                </Typography>
+                <Typography variant="body1" fontSize='17px'>
+                  La Lorena
+                </Typography>
+                <Typography variant="body1" fontSize='17px'>
+                  Pradera Valle
+                </Typography>
+              </Grid>
+              <Grid item xs='4' sm='4' lg='4' md='4' xl='4'>
+                <WhatsAppIcon sx={{ fontSize: '65px' }}></WhatsAppIcon>
+                <Typography variant="body1" fontSize='17px'>
+                  3206928153
+                </Typography>
+              </Grid>
+              <Grid item xs='4' sm='4' lg='4' md='4' xl='4'>
+                <MailOutlineIcon sx={{ fontSize: '65px' }}></MailOutlineIcon>
+                <Typography variant="body1" fontSize='17px'>
+                  veterinario0711@gmail.com
+                </Typography>
+              </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
+        {/*Pantalla pequeña*/}
+        <Grid container
+          sx={{ display: { xs:'none', sm:'block', xl:'none', lg:'none', md:'none'} }}
+          spacing='2'
+          direction='column'
+          justifyContent='center'
+          alignItems="center"
+          textAlign='center'>
+          <Grid item xs='11' sm='11' lg='11' md='11' xl='11'>
+            <Typography fontSize='24px' variant="h5" fontWeight='bold'>
+              Contactanos:
+            </Typography>
+            <Grid container direction='row' mt='2vw'>
+              <Grid item xs='4' sm='4' lg='4' md='4' xl='4'>
+                <LocationOnIcon sx={{ fontSize: '65px' }}></LocationOnIcon>
+                <Typography variant="body1" fontSize='12px'>
+                  Manzana C casa 02
+                </Typography>
+                <Typography variant="body1" fontSize='12px'>
+                  La Lorena
+                </Typography>
+                <Typography variant="body1" fontSize='12px'>
+                  Pradera Valle
+                </Typography>
+              </Grid>
+              <Grid item xs='3' sm='4' lg='4' md='4' xl='4'>
+                <WhatsAppIcon sx={{ fontSize: '65px' }}></WhatsAppIcon>
+                <Typography variant="body1" fontSize='12px'>
+                  3206928153
+                </Typography>
+              </Grid>
+              <Grid item xs='4' sm='4' lg='4' md='4' xl='4'>
+                <MailOutlineIcon sx={{ fontSize: '65px' }}></MailOutlineIcon>
+                <Typography variant="body1" fontSize='12px'>
+                  veterinario0711@gmail.com
+                </Typography>
+              </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
+        {/*Pantalla muy pequeña*/}
+        <Grid container
+          sx={{ display: { xs:'block', sm:'none', xl:'none', lg:'none', md:'none'}}}
+          spacing='2'
+          direction='column'
+          justifyContent='center'
+          alignItems="center"
+          textAlign='center'>
+          <Grid item xs='11' sm='11' lg='11' md='11' xl='11'>
+            <Typography fontSize='24px' variant="h5" fontWeight='bold'>
+              Contactanos:
+            </Typography>
+            <Grid container direction='row' mt='2vw'>
+              <Grid item xs='4' sm='4' lg='4' md='4' xl='4'>
+                <LocationOnIcon sx={{ fontSize: '55px' }}></LocationOnIcon>
+                <Typography variant="body1" fontSize='9px'>
+                  Manzana C casa 02
+                </Typography>
+                <Typography variant="body1" fontSize='9px'>
+                  La Lorena
+                </Typography>
+                <Typography variant="body1" fontSize='9px'>
+                  Pradera Valle
+                </Typography>
+              </Grid>
+              <Grid item xs='3' sm='4' lg='4' md='4' xl='4'>
+                <WhatsAppIcon sx={{ fontSize: '55px' }}></WhatsAppIcon>
+                <Typography variant="body1" fontSize='9px'>
+                  3206928153
+                </Typography>
+              </Grid>
+              <Grid item xs='4' sm='4' lg='4' md='4' xl='4'>
+                <MailOutlineIcon sx={{ fontSize: '55px' }}></MailOutlineIcon>
+                <Typography variant="body1" fontSize='9px'>
+                  veterinario0711@gmail.com
+                </Typography>
+              </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
+      </Grid>
     </Container>
   )
 }

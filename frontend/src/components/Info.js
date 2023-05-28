@@ -63,7 +63,7 @@ export default function Info() {
                   3206928153
                 </Typography>
               </Grid>
-              <Grid item xs='4' sm='4' lg='4' md='4' xl='4'>
+              <Grid item xs='4' sm='4' lg='4' md='4' xl='4' mb='100px'>
                 <MailOutlineIcon sx={{ fontSize: '65px' }}></MailOutlineIcon>
                 <Typography variant="body1" fontSize='17px'>
                   veterinario0711@gmail.com
@@ -103,7 +103,7 @@ export default function Info() {
                   3206928153
                 </Typography>
               </Grid>
-              <Grid item xs='4' sm='4' lg='4' md='4' xl='4'>
+              <Grid item xs='4' sm='4' lg='4' md='4' xl='4' mb='50px'>
                 <MailOutlineIcon sx={{ fontSize: '65px' }}></MailOutlineIcon>
                 <Typography variant="body1" fontSize='12px'>
                   veterinario0711@gmail.com
@@ -137,15 +137,15 @@ export default function Info() {
                   Pradera Valle
                 </Typography>
               </Grid>
-              <Grid item xs='3' sm='4' lg='4' md='4' xl='4'>
+              <Grid item xs='4' sm='4' lg='4' md='4' xl='4'>
                 <WhatsAppIcon sx={{ fontSize: '55px' }}></WhatsAppIcon>
                 <Typography variant="body1" fontSize='9px'>
                   3206928153
                 </Typography>
               </Grid>
-              <Grid item xs='4' sm='4' lg='4' md='4' xl='4'>
+              <Grid item xs='4' sm='4' lg='4' md='4' xl='4' mb='50px'>
                 <MailOutlineIcon sx={{ fontSize: '55px' }}></MailOutlineIcon>
-                <Typography variant="body1" fontSize='9px'>
+                <Typography overflow='scroll' variant="body1" fontSize='9px'>
                   veterinario0711@gmail.com
                 </Typography>
               </Grid>

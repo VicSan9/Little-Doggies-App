@@ -115,7 +115,7 @@ export default function Navbar() {
                             </Link>
                         </Box>
                     </Grid>
-                    <Grid item xs='0' sm='2' lg='5' md='3' xl='6'>
+                    <Grid item xs='1' sm='2' lg='5' md='3' xl='6'>
                     </Grid>
                     {/* Dejar de mostar botones de inicio de sesión y login */}
                     <Grid item xs='6' sm='3' lg='3' md='4' xl='2' sx={{display: { xs: 'none', lg: 'block' }}}>
@@ -169,14 +169,13 @@ export default function Navbar() {
                         </Grid>
                     </Grid>
                     {/* Menu de login y registrarse */}
-                    <Grid item xs='1' sm='2' lg='3' md='1' xl='3' sx={{ display: { lg: 'none', xl: 'none' } }}>
+                    <Grid container justifyContent='flex-end' alignItems='center' xs='1' sm='2' lg='3' md='1' xl='3' sx={{ display: { lg: 'none', xl: 'none' } }}>
                         <React.Fragment>
-                            <Box mt='9px' sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
+                            <Box ml='5px' sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
                                 <Tooltip title="Más">
                                     <IconButton
                                         onClick={handleClick}
                                         size="small"
-                                        sx={{ ml: 2 }}
                                         aria-controls={open ? 'account-menu' : undefined}
                                         aria-haspopup="true"
                                         aria-expanded={open ? 'true' : undefined}

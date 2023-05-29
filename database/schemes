@@ -14,7 +14,7 @@ CREATE SEQUENCE IF NOT EXISTS prid_seq INCREMENT 1 START 1;
 	--Secuencias id de pedidos
 CREATE SEQUENCE IF NOT EXISTS pdid_seq INCREMENT 1 START 1;
 	--Secuencias id de clientes
-CREATE SEQUENCE IF NOT EXISTS clid_seq INCREMENT 1 START 1;
+CREATE SEQUENCE IF NOT EXISTS clid_seq INCREMENT 1 START 1001;
 	--Secuencias id de PedidosProductos
 CREATE SEQUENCE IF NOT EXISTS ppid_seq INCREMENT 1 START 1;
 	--Secuencias id de MiembrosServicios

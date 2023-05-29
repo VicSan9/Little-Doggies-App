@@ -1,13 +1,40 @@
 import * as React from 'react';
-import { AppBar, Box, Button, Container, Grid, IconButton, Menu, MenuItem, Tooltip } from "@mui/material"
-import MenuIcon from '@mui/icons-material/Menu';
-import LoginIcon from '@mui/icons-material/Login';
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import { AppBar, Avatar, Box, Container, Divider, Grid, IconButton, ListItemIcon, Menu, MenuItem, Tooltip } from "@mui/material"
+import PersonAdd from '@mui/icons-material/PersonAdd';
+import Settings from '@mui/icons-material/Settings';
+import Logout from '@mui/icons-material/Logout';
 import { Link, useNavigate } from "react-router-dom"
 
 export default function Navbar() {
 
+    const [isVisible, setIsVisible] = React.useState(true)
+
+    const isAuth = () => {
+        const auth = sessionStorage.getItem('auth')
+        console.log(auth)
+        if (auth === 'yes') {
+            setIsVisible(false);
+        }
+        if (auth === 'no') {
+            setIsVisible(true);
+        }
+    };
+
+    React.useEffect(() => {
+        isAuth()
+        return () => {
+        }
+    }, [isVisible])
+
+
     const navigate = useNavigate()
+
+    const handleCloseAvatar2 = () => {
+        setAnchorEl(null);
+        sessionStorage.setItem('auth', 'no')
+        navigate('/')
+        setIsVisible(false)
+    };
 
     const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -19,16 +46,6 @@ export default function Navbar() {
 
     const handleClose = () => {
         setAnchorEl(null);
-    };
-
-    const handleClose2 = () => {
-        setAnchorEl(null);
-        navigate('/login')
-    };
-
-    const handleClose3 = () => {
-        setAnchorEl(null);
-        navigate('/registrarse')
     };
 
     return (
@@ -65,7 +82,7 @@ export default function Navbar() {
                         }}>
                         <Box mt='14px' sx={{ overflow: 'hidden' }}>
                             <Link href="#"
-                                to='/'
+                                to='/home'
                                 style={{
                                     textDecoration: "none",
                                     fontSize: '20px',
@@ -106,7 +123,7 @@ export default function Navbar() {
                         }}>
                         <Box mt='14px' sx={{ overflow: 'hidden' }}>
                             <Link href="#"
-                                to='/productos'
+                                to='/shop'
                                 style={{
                                     textDecoration: "none",
                                     color: "#000000",
@@ -116,76 +133,29 @@ export default function Navbar() {
                             </Link>
                         </Box>
                     </Grid>
-                    <Grid item xs={1} sm={2} lg={5} md={3} xl={6}>
+                    <Grid item xs={1} sm={3} lg={7} md={3} xl={7}>
                     </Grid>
-                    <Grid item xs={6} sm={3} lg={3} md={4} xl={2} sx={{ display: { xs: 'none', lg: 'block' } }}>
-                        <Grid container
-                            spacing='2'
-                            direction='row'
-                            justifyContent='flex-end'
-                            alignItems='center'>
-                            <Grid item xs={4} sm={6} lg={5} md={4} xl={6}>
-                                <Button variant="outlined"
-                                    size='small'
-                                    sx={{
-                                        color: '#0265CD',
-                                        width: '110px',
-                                        mt: '14px',
-                                        borderColor: '#0265CD',
-                                        borderRadius: '15px',
-                                        textTransform: 'none'
-                                    }}>
-                                    <Link href="#"
-                                        to='/registrarse'
-                                        style={{
-                                            textDecoration: "none",
-                                            fontSize: '13px',
-                                            color: "#0265CD"
-                                        }}> Registrarse
-                                    </Link>
-                                </Button>
-                            </Grid>
-                            <Grid item xs={4} sm={3} lg={5} md={4} xl={6}>
-                                <Button variant="outlined"
-                                    size='small'
-                                    sx={{
-                                        color: '#0265CD',
-                                        width: '110px',
-                                        mt: '14px',
-                                        borderColor: '#0265CD',
-                                        borderRadius: '15px',
-                                        textTransform: 'none'
-                                    }}>
-                                    <Link href="#"
-                                        to='/login'
-                                        style={{
-                                            textDecoration: "none",
-                                            color: "#0265CD",
-                                            fontSize: '13px'
-                                        }}> Iniciar Sesión
-                                    </Link>
-                                </Button>
-                            </Grid>
-                        </Grid>
-                    </Grid>
-                    <Grid container justifyContent='flex-end' alignItems='center' item xs={1} sm={2} lg={3} md={1} xl={3} sx={{ display: { lg: 'none', xl: 'none' } }}>
+                    <Grid container
+                        justifyContent='flex-end'
+                        alignItems='center'
+                        item xs={1} sm={1} lg={1} md={1} xl={1}>
                         <React.Fragment>
-                            <Box ml='5px' sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
-                                <Tooltip title="Más">
+                            <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
+                                <Tooltip title="Account settings">
                                     <IconButton
                                         onClick={handleClick}
                                         size="small"
-                                        aria-controls={open ? 'menu' : undefined}
+                                        aria-controls={open ? 'account-menu' : undefined}
                                         aria-haspopup="true"
                                         aria-expanded={open ? 'true' : undefined}
                                     >
-                                        <MenuIcon sx={{ width: 32, height: 32 }}></MenuIcon>
+                                        <Avatar sx={{ width: 40, height: 40 }}>M</Avatar>
                                     </IconButton>
                                 </Tooltip>
                             </Box>
                             <Menu
                                 anchorEl={anchorEl}
-                                id="menu"
+                                id="account-menu"
                                 open={open}
                                 onClose={handleClose}
                                 onClick={handleClose}
@@ -218,11 +188,30 @@ export default function Navbar() {
                                 transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
                             >
-                                <MenuItem onClick={handleClose2}>
-                                    <LoginIcon color='primary' sx={{ fontSize: '35px', marginRight: '10px', color: 'BABBBF' }} /> Iniciar Sesión
+                                <MenuItem onClick={handleClose}>
+                                    <Avatar /> Profile
                                 </MenuItem>
-                                <MenuItem onClick={handleClose3}>
-                                    <CheckCircleOutlineIcon color='primary' sx={{ fontSize: '35px', marginRight: '10px', color: 'BABBBF' }} /> Registrarse
+                                <MenuItem onClick={handleClose}>
+                                    <Avatar /> My account
+                                </MenuItem>
+                                <Divider />
+                                <MenuItem onClick={handleClose}>
+                                    <ListItemIcon>
+                                        <PersonAdd fontSize="small" />
+                                    </ListItemIcon>
+                                    Add another account
+                                </MenuItem>
+                                <MenuItem onClick={handleClose}>
+                                    <ListItemIcon>
+                                        <Settings fontSize="small" />
+                                    </ListItemIcon>
+                                    Settings
+                                </MenuItem>
+                                <MenuItem onClick={handleCloseAvatar2}>
+                                    <ListItemIcon>
+                                        <Logout fontSize="small" />
+                                    </ListItemIcon>
+                                    Logout
                                 </MenuItem>
                             </Menu>
                         </React.Fragment>

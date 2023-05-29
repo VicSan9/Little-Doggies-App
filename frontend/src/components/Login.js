@@ -1,9 +1,47 @@
 import { Box, Button, Container, Grid, TextField, Typography } from "@mui/material";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import Navbar from "./Navbar";
 
 export default function Login() {
+
+  const navigate = useNavigate()
+
+  const [login, setLogin] = useState({ usuario: '', contraseña: '' })
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const res = await fetch('http://localhost:4000/login', {
+      method: 'POST',
+      body: JSON.stringify(login),
+      headers: { "content-Type": "application/json" }
+    })
+
+    const data = await res.json()
+    console.log(data)
+
+    if (res.status === 200) {
+      sessionStorage.setItem('usuario', data.usuario)
+      sessionStorage.setItem('contraseña', data.contraseña)
+      sessionStorage.setItem('rol', data.rol)
+      sessionStorage.setItem('auth', 'yes')
+      navigate("/home")
+    } else {
+      alert('Contraseña o usuario incorrecto');
+    }
+  }
+
+  const handleChange = e => {
+    setLogin({
+      ...login,
+      [e.target.name]: e.target.value
+    })
+  }
+
   return (
+    <><Navbar></Navbar>
     <Container maxWidth='lg' fixed>
       <Grid container
         direction='row'
@@ -23,21 +61,21 @@ export default function Login() {
           borderRadius: '20px',
           display: { xs: 'none', sm: 'none', md: 'none', lg: 'flex' }
         }}>
-        <Grid item xs='5' sm='5' lg='5' md='5' xl='5'
+        <Grid item xs={5} sm={5} lg={5} md={5} xl={5}
           sx={{
-            overflow:'hidden',
+            overflow: 'hidden',
             backgroundImage: 'linear-gradient(to bottom right, #0265CD, #1e2460)'
           }}
           height='75vh'
           minHeight='550px'
           textAlign='center'>
-          <img 
-              src={process.env.PUBLIC_URL + "/pexels-anna-shvets-4587987.png"}
-              alt="collage"
-              style={{height:'75vh', minHeight:'590px'}}>
+          <img
+            src={process.env.PUBLIC_URL + "/pexels-anna-shvets-4587987.png"}
+            alt="collage"
+            style={{ height: '75vh', minHeight: '590px' }}>
           </img>
         </Grid>
-        <Grid item xs='7' sm='7' lg='7' md='7' xl='7'
+        <Grid item xs={7} sm={7} lg={7} md={7} xl={7}
           height='75vh'
           minHeight='550px'>
           <Grid container
@@ -54,26 +92,36 @@ export default function Login() {
               fontWeight='bold'>
               Iniciar Sesión
             </Typography>
-            <TextField id="outlined-basic"
-              label="Usuario"
-              variant="outlined"
-              sx={{ ml: '20px', mr: '20px', mt: '40px' }} />
-            <TextField id="outlined-basic"
-              label="Contraseña"
-              variant="outlined"
-              sx={{ ml: '20px', mr: '20px', mt: '30px' }} />
-            <Button variant="outlined"
-              size='large'
-              sx={{
-                color: '#0265CD',
-                ml: '80px',
-                mr: '80px',
-                mt: '40px',
-                borderColor: '#0265CD',
-                borderRadius: '50px',
-                textTransform: 'none'
-              }}> Iniciar Sesión
-            </Button>
+            <Grid container direction='column' component={'form'} onSubmit={handleSubmit}>
+              <TextField
+                name="usuario"
+                label="Usuario"
+                variant="outlined"
+                value={login.usuario}
+                onChange={handleChange}
+                sx={{ ml: '20px', mr: '20px', mt: '40px' }} />
+              <TextField
+                name="contraseña"
+                type="password"
+                label="Contraseña"
+                variant="outlined"
+                value={login.contraseña}
+                onChange={handleChange}
+                sx={{ ml: '20px', mr: '20px', mt: '30px' }} />
+              <Button variant="outlined"
+                size='large'
+                type="submit"
+                sx={{
+                  color: '#0265CD',
+                  ml: '80px',
+                  mr: '80px',
+                  mt: '40px',
+                  borderColor: '#0265CD',
+                  borderRadius: '50px',
+                  textTransform: 'none'
+                }}> Iniciar Sesión
+              </Button>
+            </Grid>
             <Grid container
               direction='row'
               textAlign='center'
@@ -101,7 +149,7 @@ export default function Login() {
       </Grid>
       {/*Sin parte azul*/}
       <Grid container
-        minWidth= '280px'
+        minWidth='280px'
         mb='50px'
         sx={{ display: { xl: 'none', lg: 'none' } }}
         direction='column'>
@@ -117,28 +165,36 @@ export default function Login() {
           fontWeight='bold'>
           Iniciar Sesión
         </Typography>
-        <TextField id="outlined-basic"
-          label="Usuario"
-          variant="outlined"
-          sx={{ ml: '20px', mr: '20px', mt: '80px' }} />
-        <TextField id="outlined-basic"
-          label="Contraseña"
-          variant="outlined"
-          sx={{ ml: '20px', mr: '20px', mt: '40px' }}
-        />
-        <Button variant="outlined"
-          size='large'
-          sx={{
-            color: '#0265CD',
-            ml: '40px',
-            mr: '40px',
-            mt: '60px',
-            minWidth: '200px',
-            borderColor: '#0265CD',
-            borderRadius: '50px',
-            textTransform: 'none'
-          }}> Iniciar Sesión
-        </Button>
+        <Grid container direction='column' component={'form'} onSubmit={handleSubmit}>
+          <TextField
+            name="usuario"
+            label="Usuario"
+            variant="outlined"
+            value={login.usuario}
+            onChange={handleChange}
+            sx={{ ml: '20px', mr: '20px', mt: '40px' }} />
+          <TextField
+            name="contraseña"
+            type="password"
+            label="Contraseña"
+            variant="outlined"
+            value={login.contraseña}
+            onChange={handleChange}
+            sx={{ ml: '20px', mr: '20px', mt: '30px' }} />
+          <Button variant="outlined"
+            size='large'
+            type="submit"
+            sx={{
+              color: '#0265CD',
+              ml: '80px',
+              mr: '80px',
+              mt: '40px',
+              borderColor: '#0265CD',
+              borderRadius: '50px',
+              textTransform: 'none'
+            }}> Iniciar Sesión
+          </Button>
+        </Grid>
         <Grid container
           direction='row'
           textAlign='center'
@@ -162,6 +218,6 @@ export default function Login() {
           </Link>
         </Grid>
       </Grid>
-    </Container>
+    </Container></>
   )
 }

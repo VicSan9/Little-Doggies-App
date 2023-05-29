@@ -1,7 +1,7 @@
 import { AppBar, Button, Container, Grid, Typography, styled } from "@mui/material";
 import { Link } from "react-router-dom";
 import Info from "./Info";
-import Navbar from "./Navbar";
+import UserNavbar from "./UserNavbar";
 
 const RootImg = styled('img')(({ theme }) => ({
   padding: theme.spacing(1),
@@ -15,7 +15,7 @@ const RootImg = styled('img')(({ theme }) => ({
 
 export default function Home() {
   return (
-    <><Navbar></Navbar>
+    <><UserNavbar></UserNavbar>
       {/*Primer apartado*/}
       <Container maxWidth='xl'
         fixed>

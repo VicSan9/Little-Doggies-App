@@ -24,7 +24,7 @@ export default function Info() {
         justifyContent='center'
         alignItems="center"
         textAlign='center'>
-        <Grid item xs='4' sm='4' lg='4' md='4' xl='1' >
+        <Grid item xs={4} sm={4} lg={4} md={4} xl={1} >
           <RootImg>
             <img src={process.env.PUBLIC_URL + "/LDLogo2.png"}
               alt="logo2"
@@ -40,12 +40,12 @@ export default function Info() {
           justifyContent='center'
           alignItems="center"
           textAlign='center'>
-          <Grid item xs='8' sm='6' lg='7' md='6' xl='11'>
+          <Grid item xs={8} sm={6} lg={7} md={6} xl={11}>
             <Typography fontSize='24px' variant="h5" fontWeight='bold'>
               Contactanos:
             </Typography>
             <Grid container direction='row' mt='2vw'>
-              <Grid item xs='4' sm='4' lg='4' md='4' xl='4'>
+              <Grid item xs={4} sm={4} lg={4} md={4} xl={4}>
                 <LocationOnIcon sx={{ fontSize: '65px' }}></LocationOnIcon>
                 <Typography variant="body1" fontSize='17px'>
                   Manzana C casa 02
@@ -57,13 +57,13 @@ export default function Info() {
                   Pradera Valle
                 </Typography>
               </Grid>
-              <Grid item xs='4' sm='4' lg='4' md='4' xl='4'>
+              <Grid item xs={4} sm={4} lg={4} md={4} xl={4}>
                 <WhatsAppIcon sx={{ fontSize: '65px' }}></WhatsAppIcon>
                 <Typography variant="body1" fontSize='17px'>
                   3206928153
                 </Typography>
               </Grid>
-              <Grid item xs='4' sm='4' lg='4' md='4' xl='4' mb='100px'>
+              <Grid item xs={4} sm={4} lg={4} md={4} xl={4} mb='100px'>
                 <MailOutlineIcon sx={{ fontSize: '65px' }}></MailOutlineIcon>
                 <Typography variant="body1" fontSize='17px'>
                   veterinario0711@gmail.com
@@ -80,12 +80,12 @@ export default function Info() {
           justifyContent='center'
           alignItems="center"
           textAlign='center'>
-          <Grid item xs='11' sm='11' lg='11' md='11' xl='11'>
+          <Grid item xs={11} sm={11} lg={11} md={11} xl={11}>
             <Typography fontSize='24px' variant="h5" fontWeight='bold'>
               Contactanos:
             </Typography>
             <Grid container direction='row' mt='2vw'>
-              <Grid item xs='4' sm='4' lg='4' md='4' xl='4'>
+              <Grid item xs={4} sm={4} lg={4} md={4} xl={4}>
                 <LocationOnIcon sx={{ fontSize: '65px' }}></LocationOnIcon>
                 <Typography variant="body1" fontSize='12px'>
                   Manzana C casa 02
@@ -97,13 +97,13 @@ export default function Info() {
                   Pradera Valle
                 </Typography>
               </Grid>
-              <Grid item xs='3' sm='4' lg='4' md='4' xl='4'>
+              <Grid item xs={4} sm={4} lg={4} md={4} xl={4}>
                 <WhatsAppIcon sx={{ fontSize: '65px' }}></WhatsAppIcon>
                 <Typography variant="body1" fontSize='12px'>
                   3206928153
                 </Typography>
               </Grid>
-              <Grid item xs='4' sm='4' lg='4' md='4' xl='4' mb='50px'>
+              <Grid item xs={4} sm={4} lg={4} md={4} xl={4} mb='50px'>
                 <MailOutlineIcon sx={{ fontSize: '65px' }}></MailOutlineIcon>
                 <Typography variant="body1" fontSize='12px'>
                   veterinario0711@gmail.com
@@ -120,12 +120,12 @@ export default function Info() {
           justifyContent='center'
           alignItems="center"
           textAlign='center'>
-          <Grid item xs='11' sm='11' lg='11' md='11' xl='11'>
+          <Grid item xs={11} sm={11} lg={11} md={11} xl={11}>
             <Typography fontSize='24px' variant="h5" fontWeight='bold'>
               Contactanos:
             </Typography>
             <Grid container direction='row' mt='2vw'>
-              <Grid item xs='4' sm='4' lg='4' md='4' xl='4'>
+              <Grid item xs={4} sm={4} lg={4} md={4} xl={4}>
                 <LocationOnIcon sx={{ fontSize: '55px' }}></LocationOnIcon>
                 <Typography variant="body1" fontSize='9px'>
                   Manzana C casa 02
@@ -137,13 +137,13 @@ export default function Info() {
                   Pradera Valle
                 </Typography>
               </Grid>
-              <Grid item xs='4' sm='4' lg='4' md='4' xl='4'>
+              <Grid item xs={4} sm={4} lg={4} md={4} xl={4}>
                 <WhatsAppIcon sx={{ fontSize: '55px' }}></WhatsAppIcon>
                 <Typography variant="body1" fontSize='9px'>
                   3206928153
                 </Typography>
               </Grid>
-              <Grid item xs='4' sm='4' lg='4' md='4' xl='4' mb='50px'>
+              <Grid item xs={4} sm={4} lg={4} md={4} xl={4} mb='50px'>
                 <MailOutlineIcon sx={{ fontSize: '55px' }}></MailOutlineIcon>
                 <Typography overflow='scroll' variant="body1" fontSize='9px'>
                   veterinario0711@gmail.com

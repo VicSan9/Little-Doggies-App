@@ -1,6 +1,6 @@
 --Insertar miembros
 INSERT INTO miembros (usuario, contraseña, correo, nombres, apellidos, telefono, direccion, rol, foto)
-VALUES 	('userAdmin', '1234asdf', 'correoadmin1234@gmail.com', 'Christian', 'Salazar', 12345678, 'Pradera#-Cr', 'administrador', 'link'),
+VALUES 	('userAdmin', '1234asdf', 'correoadmin1234@gmail.com', 'Christian', 'Salazar', 12345678, 'Pradera#-Cr', 'Administrador', 'link'),
 		('userMiembro1', 'asdf1234', 'correomiembro1234@gmail.com', 'Nombres', 'Apellidos', 11124145, 'Pradera#-Cr', 'Trabajador', 'link');
 --Insertar servicios
 INSERT INTO servicios (nombre, categoria, descripcion)
@@ -17,21 +17,21 @@ VALUES 	('Collar negro', 'Collar', 10500, 15),
 		('Collar rosado', 'Collar', 12000, 5);
 --Insertar mascotas
 INSERT INTO mascotas (clid, nombre, raza, edad, sexo, condicion)
-VALUES 	(2, 'Tony', 'Bulldog', '2 años', 'Macho', 'Ninguna'),
-		(1, 'Luna', 'Pastor aleman', '4 años', 'Hembra', 'Alergia en la piel'),
-		(1, 'Pelusa', 'Akita', '6 meses', 'Macho', 'Ninguna');
+VALUES 	(1002, 'Tony', 'Bulldog', '2 años', 'Macho', 'Ninguna'),
+		(1001, 'Luna', 'Pastor aleman', '4 años', 'Hembra', 'Alergia en la piel'),
+		(1001, 'Pelusa', 'Akita', '6 meses', 'Macho', 'Ninguna');
 --Insertar citas
 INSERT INTO citas (clid, mcid, fecha, hora)
-VALUES	(2, 1, '07/05/2023', '13:30'),
-		(1, 1, '10/05/2023', '16:00');
+VALUES	(1002, 1, '07/05/2023', '13:30'),
+		(1001, 1, '10/05/2023', '16:00');
 --Insertar informes
 INSERT INTO informes (ctsid, nota)
 VALUES 	(1, 'Se aplico una inyección extra'),
 		(2, 'Sin notas');
 --Insertar pedidos
 INSERT INTO pedidos (clid, mbid)
-VALUES 	(1, 2),
-		(2, 2);
+VALUES 	(1001, 2),
+		(1002, 2);
 --Insertar citasServicios
 INSERT INTO citasServicios (ctsid, svid)
 VALUES 	(1, 1),

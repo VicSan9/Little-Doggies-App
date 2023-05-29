@@ -16,6 +16,14 @@ ON PD.pdid = PP.pdid
 GROUP BY id_pedido
 ORDER BY id_pedido ASC;
 
+--Vista para ver todos los usuarios
+CREATE VIEW users AS
+SELECT M.usuario, M.contraseña, M.rol
+FROM miembros AS M
+UNION ALL
+SELECT C.usuario, C.contraseña, 'Cliente' AS rol
+FROM clientes AS C;
+
 --Funcion para ver los productos disponibles
 CREATE OR REPLACE FUNCTION function_products_available()
 RETURNS TRIGGER AS $function_products_available$	

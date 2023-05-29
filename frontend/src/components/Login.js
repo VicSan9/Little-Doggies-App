@@ -89,7 +89,7 @@ export default function Login() {
       {errorMessage && <ErrorComponent errorMessage={errorMessage} />}
       <Navbar></Navbar>
       <Container maxWidth='lg' fixed>
-        <Box height='120px'></Box>
+        <Box height='100px'></Box>
         <Grid container
           direction='row'
           justifyContent='flex-start'
@@ -200,7 +200,6 @@ export default function Login() {
           sx={{ display: { xl: 'none', lg: 'none' } }}
           direction='column'>
           <Typography textAlign='center'
-            mt='85px'
             variant='h5'
             fontWeight='bold'>
             <AccountCircleIcon sx={{ fontSize: '100px', color: '#0265CD' }}></AccountCircleIcon>

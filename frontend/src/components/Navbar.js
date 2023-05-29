@@ -32,15 +32,16 @@ export default function Navbar() {
     };
 
     return (
-        <AppBar position="fixed"
+        <AppBar position="fixed" 
             sx={{
-                backgroundColor: '#ffffff',
+                backgroundColor: 'transparent',
                 boxShadow: 'none'
             }}>
             <Container maxWidth='xl'
                 fixed >
                 <Grid container
                     sx={{
+                        backgroundColor: '#ffffff',
                         borderRadius: '10px',
                         borderBottom: '2px solid #0265CD'
                     }}

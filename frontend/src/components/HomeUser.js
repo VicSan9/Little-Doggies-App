@@ -1,7 +1,8 @@
-import { AppBar, Button, Container, Grid, Typography, styled } from "@mui/material";
+import { AppBar, Box, Button, CircularProgress, Container, Grid, Typography, styled } from "@mui/material";
 import { Link } from "react-router-dom";
 import Info from "./Info";
 import UserNavbar from "./UserNavbar";
+import { useEffect, useState } from "react";
 
 const RootImg = styled('img')(({ theme }) => ({
   padding: theme.spacing(1),
@@ -14,8 +15,27 @@ const RootImg = styled('img')(({ theme }) => ({
 }));
 
 export default function Home() {
+
+  const [auth, setAuth] = useState(false)
+
+  const isAuth = () => {
+  const res = sessionStorage.getItem('auth')
+    if (res === 'yes'){
+      setAuth(true)
+    }
+  }
+
+  useEffect(() => {
+    isAuth();
+  });
+
   return (
     <><UserNavbar></UserNavbar>
+      <div hidden={auth}>
+        <Box alignItems='center' justifyContent='center' width='100vw' height='100vh' sx={{ display: 'flex' }}>
+          <CircularProgress />
+        </Box>
+      </div>
       {/*Primer apartado*/}
       <Container maxWidth='xl'
         fixed>
@@ -104,7 +124,7 @@ export default function Home() {
         </Grid>
       </Container>
       {/*Segundo apartado*/}
-      <AppBar position="static" sx={{ mt:'12vw', mb:'10vw', boxShadow: 'none', border: 'none', backgroundColor: '#ffffff' }}>
+      <AppBar position="static" sx={{ mt: '12vw', mb: '10vw', boxShadow: 'none', border: 'none', backgroundColor: '#ffffff' }}>
         <img src={process.env.PUBLIC_URL + "/Fondo.png"}
           alt="fondo"
           height='100%'>
@@ -119,7 +139,7 @@ export default function Home() {
           textAlign='center'>
           <Grid container
             sx={{
-              display: { xl:'none'},
+              display: { xl: 'none' },
               backgroundColor: 'rgba(0,0,0,.2)',
               backdropFilter: 'blur(5px)',
               '&:hover': {
@@ -157,7 +177,7 @@ export default function Home() {
           {/*Circulo grande*/}
           <Grid container
             sx={{
-              display: { sm:'none', xs:'none', md:'none', xl:'block'},
+              display: { sm: 'none', xs: 'none', md: 'none', xl: 'block' },
               backgroundColor: 'rgba(0,0,0,.2)',
               backdropFilter: 'blur(5px)',
               '&:hover': {
@@ -193,7 +213,7 @@ export default function Home() {
             </Link>
           </Grid>
         </Grid>
-        <Grid height='23vw'sx={{display: { xl:'none', lg:'none', md:'none', sm:'none'}}}>
+        <Grid height='23vw' sx={{ display: { xl: 'none', lg: 'none', md: 'none', sm: 'none' } }}>
         </Grid>
       </AppBar>
       {/*Pie de página */}

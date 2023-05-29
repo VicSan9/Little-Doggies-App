@@ -17,6 +17,14 @@ export default function Navbar() {
         setAnchorEl(event.currentTarget);
     };
 
+    const handleClick2 = () => {
+        navigate('/registrarse')
+    }
+
+    const handleClick3 = () => {
+        navigate('/login')
+    }
+
     const handleClose = () => {
         setAnchorEl(null);
     };
@@ -32,14 +40,16 @@ export default function Navbar() {
     };
 
     return (
-        <AppBar position="fixed" 
+        <AppBar
             sx={{
                 backgroundColor: 'transparent',
-                boxShadow: 'none'
+                boxShadow: 'none',
+                position:'fixed',
+                zIndex:'1'
             }}>
             <Container maxWidth='xl'
                 fixed >
-                <Grid container
+                <Grid container position='absulute'
                     sx={{
                         backgroundColor: '#ffffff',
                         borderRadius: '10px',
@@ -126,8 +136,10 @@ export default function Navbar() {
                             justifyContent='flex-end'
                             alignItems='center'>
                             <Grid item xs={4} sm={6} lg={5} md={4} xl={6}>
-                                <Button variant="outlined"
+                                <Button 
+                                    variant="outlined"
                                     size='small'
+                                    onClick={handleClick2}
                                     sx={{
                                         color: '#0265CD',
                                         width: '110px',
@@ -135,20 +147,13 @@ export default function Navbar() {
                                         borderColor: '#0265CD',
                                         borderRadius: '15px',
                                         textTransform: 'none'
-                                    }}>
-                                    <Link href="#"
-                                        to='/registrarse'
-                                        style={{
-                                            textDecoration: "none",
-                                            fontSize: '13px',
-                                            color: "#0265CD"
-                                        }}> Registrarse
-                                    </Link>
+                                    }}> Registrarse
                                 </Button>
                             </Grid>
                             <Grid item xs={4} sm={3} lg={5} md={4} xl={6}>
                                 <Button variant="outlined"
                                     size='small'
+                                    onClick={handleClick3}
                                     sx={{
                                         color: '#0265CD',
                                         width: '110px',
@@ -156,15 +161,7 @@ export default function Navbar() {
                                         borderColor: '#0265CD',
                                         borderRadius: '15px',
                                         textTransform: 'none'
-                                    }}>
-                                    <Link href="#"
-                                        to='/login'
-                                        style={{
-                                            textDecoration: "none",
-                                            color: "#0265CD",
-                                            fontSize: '13px'
-                                        }}> Iniciar Sesión
-                                    </Link>
+                                    }}> Iniciar Sesión
                                 </Button>
                             </Grid>
                         </Grid>

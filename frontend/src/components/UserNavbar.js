@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { AppBar, Avatar, Box, Container, Divider, Grid, IconButton, ListItemIcon, Menu, MenuItem, Tooltip } from "@mui/material"
+import { AppBar, Avatar, Box, Container, Divider, Grid, IconButton, ListItemIcon, Menu, MenuItem, Tooltip, Typography } from "@mui/material"
 import PersonAdd from '@mui/icons-material/PersonAdd';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
@@ -134,14 +134,15 @@ export default function Navbar() {
                             </Link>
                         </Box>
                     </Grid>
-                    <Grid item xs={1} sm={3} lg={7} md={3} xl={7}>
+                    <Grid item xs={1} sm={3} lg={5} md={1} xl={5}>
                     </Grid>
                     <Grid container
                         justifyContent='flex-end'
                         alignItems='center'
-                        item xs={1} sm={1} lg={1} md={1} xl={1}>
+                        item xs={1} sm={1} lg={3} md={3} xl={3}>
                         <React.Fragment>
                             <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
+                                <Typography mr='15px' sx={{fontSize:'18px', display: { xs: 'none', sm: 'none', md:'flex' }}} color='#000000'>Nombre usuario</Typography>
                                 <Tooltip title="Account settings">
                                     <IconButton
                                         onClick={handleClick}
@@ -150,7 +151,7 @@ export default function Navbar() {
                                         aria-haspopup="true"
                                         aria-expanded={open ? 'true' : undefined}
                                     >
-                                        <Avatar sx={{ width: 40, height: 40 }}>M</Avatar>
+                                        <Avatar sx={{ width: 50, height: 50 }}>M</Avatar>
                                     </IconButton>
                                 </Tooltip>
                             </Box>

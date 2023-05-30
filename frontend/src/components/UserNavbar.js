@@ -1,11 +1,18 @@
 import * as React from 'react';
-import { AppBar, Avatar, Box, Container, Divider, Grid, IconButton, ListItemIcon, Menu, MenuItem, Tooltip, Typography } from "@mui/material"
-import PersonAdd from '@mui/icons-material/PersonAdd';
-import Settings from '@mui/icons-material/Settings';
+import { AppBar, Avatar, Box, Button, Container, Grid, IconButton, Menu, Tooltip, Typography } from "@mui/material"
+import PetsIcon from '@mui/icons-material/Pets';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import PersonIcon from '@mui/icons-material/Person';
 import Logout from '@mui/icons-material/Logout';
 import { Link, useNavigate } from "react-router-dom"
 
 export default function Navbar() {
+
+    const usuario = sessionStorage.getItem('usuario');
+
+    const first = usuario.charAt(0);
+
 
     const [isVisible, setIsVisible] = React.useState(true)
 
@@ -142,8 +149,12 @@ export default function Navbar() {
                         item xs={1} sm={1} lg={3} md={3} xl={3}>
                         <React.Fragment>
                             <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
-                                <Typography mr='15px' sx={{fontSize:'18px', display: { xs: 'none', sm: 'none', md:'flex' }}} color='#000000'>Nombre usuario</Typography>
-                                <Tooltip title="Account settings">
+                                <Typography mr='15px'
+                                    sx={{ fontSize: '18px', display: { xs: 'none', sm: 'none', md: 'flex' } }}
+                                    color='#000000'>
+                                    {usuario}
+                                </Typography>
+                                <Tooltip title="Mi cuenta">
                                     <IconButton
                                         onClick={handleClick}
                                         size="small"
@@ -151,7 +162,7 @@ export default function Navbar() {
                                         aria-haspopup="true"
                                         aria-expanded={open ? 'true' : undefined}
                                     >
-                                        <Avatar sx={{ width: 50, height: 50 }}>M</Avatar>
+                                        <Avatar sx={{ border: '1px solid #0265CD', width: 50, height: 50 }}>{first}</Avatar>
                                     </IconButton>
                                 </Tooltip>
                             </Box>
@@ -167,12 +178,6 @@ export default function Navbar() {
                                         overflow: 'visible',
                                         filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
                                         mt: 1.5,
-                                        '& .MuiAvatar-root': {
-                                            width: 32,
-                                            height: 32,
-                                            ml: -0.5,
-                                            mr: 1,
-                                        },
                                         '&:before': {
                                             content: '""',
                                             display: 'block',
@@ -189,32 +194,157 @@ export default function Navbar() {
                                 }}
                                 transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-                            >
-                                <MenuItem onClick={handleClose}>
-                                    <Avatar /> Profile
-                                </MenuItem>
-                                <MenuItem onClick={handleClose}>
-                                    <Avatar /> My account
-                                </MenuItem>
-                                <Divider />
-                                <MenuItem onClick={handleClose}>
-                                    <ListItemIcon>
-                                        <PersonAdd fontSize="small" />
-                                    </ListItemIcon>
-                                    Add another account
-                                </MenuItem>
-                                <MenuItem onClick={handleClose}>
-                                    <ListItemIcon>
-                                        <Settings fontSize="small" />
-                                    </ListItemIcon>
-                                    Settings
-                                </MenuItem>
-                                <MenuItem onClick={handleCloseAvatar2}>
-                                    <ListItemIcon>
-                                        <Logout fontSize="small" />
-                                    </ListItemIcon>
-                                    Logout
-                                </MenuItem>
+                            >   <Grid container
+                                direction='column'
+                                width='300px'
+                                height='400px'
+                                justifyContent='center'
+                                alignItems='center'>
+                                    <Grid container
+                                        direction='column'
+                                        width='280px'
+                                        height='340px'
+                                        sx={{ borderRadius:'20px 20px 0px 0px', backgroundColor: '#D9D9D9' }}>
+                                        <Grid container direction='row'>
+                                            <Grid item xs={4}>
+                                                <Avatar sx={{ ml: '13px', mt: '15px', border: '1px solid #000000', width: 60, height: 60 }}>{first}</Avatar>
+                                            </Grid>
+                                            <Grid item xs={8}>
+                                                <Typography mt='20px' fontWeight='bold'>{sessionStorage.getItem('usuario')}</Typography>
+                                                <Typography overflow='hidden' sx={{ fontSize: '13px' }}>{sessionStorage.getItem('correo')}</Typography>
+                                            </Grid>
+                                        </Grid>
+                                        <Box height='5px' mt='15px' sx={{ backgroundColor: '#ffffff' }}></Box>
+                                        <Grid container direction='column'>
+                                            <Grid container
+                                                height='45px'
+                                                component={Button}
+                                                onClick={handleClose}
+                                                borderRadius='0px'
+                                                sx={{
+                                                    textTransform: 'none',
+                                                    color: '#000000',
+                                                    '&:hover': {
+                                                        backgroundColor: 'white',
+                                                        opacity: [1, 1, 1]
+                                                    }
+                                                }}
+                                                direction='row'
+                                                textAlign='start'
+                                                mt='15px'>
+                                                <Grid item xs={2}>
+                                                </Grid>
+                                                <Grid item xs={7}>
+                                                    <Typography sx={{ fontSize: '15px' }}>Mis Mascotas</Typography>
+                                                </Grid>
+                                                <Grid item xs={3}>
+                                                    <PetsIcon></PetsIcon>
+                                                </Grid>
+                                            </Grid>
+                                            <Grid container
+                                                height='45px'
+                                                component={Button}
+                                                onClick={handleClose}
+                                                borderRadius='0px'
+                                                sx={{
+                                                    textTransform: 'none',
+                                                    color: '#000000',
+                                                    '&:hover': {
+                                                        backgroundColor: 'white',
+                                                        opacity: [1, 1, 1]
+                                                    }
+                                                }}
+                                                direction='row'
+                                                textAlign='start'
+                                                mt='10px'>
+                                                <Grid item xs={2}>
+                                                </Grid>
+                                                <Grid item xs={7}>
+                                                    <Typography sx={{ fontSize: '15px' }}>Mis Citas</Typography>
+                                                </Grid>
+                                                <Grid item xs={3}>
+                                                    <CalendarMonthIcon></CalendarMonthIcon>
+                                                </Grid>
+                                            </Grid>
+                                            <Grid container
+                                                height='45px'
+                                                component={Button}
+                                                onClick={handleClose}
+                                                borderRadius='0px'
+                                                sx={{
+                                                    textTransform: 'none',
+                                                    color: '#000000',
+                                                    '&:hover': {
+                                                        backgroundColor: 'white',
+                                                        opacity: [1, 1, 1]
+                                                    }
+                                                }}
+                                                direction='row'
+                                                textAlign='start'
+                                                mt='10px'>
+                                                <Grid item xs={2}>
+                                                </Grid>
+                                                <Grid item xs={7}>
+                                                    <Typography sx={{ fontSize: '15px' }}>Historial de Compras</Typography>
+                                                </Grid>
+                                                <Grid item xs={3}>
+                                                    <ShoppingCartIcon></ShoppingCartIcon>
+                                                </Grid>
+                                            </Grid>
+                                            <Grid container
+                                                height='45px'
+                                                component={Button}
+                                                onClick={handleClose}
+                                                borderRadius='0px'
+                                                sx={{
+                                                    textTransform: 'none',
+                                                    color: '#000000',
+                                                    '&:hover': {
+                                                        backgroundColor: 'white',
+                                                        opacity: [1, 1, 1]
+                                                    }
+                                                }}
+                                                direction='row'
+                                                textAlign='start'
+                                                mt='10px'>
+                                                <Grid item xs={2}>
+                                                </Grid>
+                                                <Grid item xs={7}>
+                                                    <Typography sx={{ fontSize: '15px' }}>Información Personal</Typography>
+                                                </Grid>
+                                                <Grid item xs={3}>
+                                                    <PersonIcon></PersonIcon>
+                                                </Grid>
+                                            </Grid>
+                                        </Grid>
+                                    </Grid>
+                                    <Grid container
+                                        height='45px'
+                                        width='280px'
+                                        component={Button}
+                                        onClick={handleCloseAvatar2}
+                                        borderRadius='0px 0px 20px 20px'
+                                        sx={{
+                                            textTransform: 'none',
+                                            color: '#000000',
+                                            '&:hover': {
+                                                backgroundColor: '#D9D9D9',
+                                                opacity: [1, 1, 1]
+                                            }
+                                        }}
+                                        direction='row'
+                                        textAlign='start'
+                                        mt='5px'>
+                                        <Grid item xs={2}>
+                                        </Grid>
+                                        <Grid item xs={7}>
+                                            <Typography color='#CD0227' sx={{ fontSize: '15px' }}>Cerrar Sesión</Typography>
+                                        </Grid>
+                                        <Grid item xs={3}>
+                                            <Logout></Logout>
+                                        </Grid>
+                                    </Grid>
+                                </Grid>
                             </Menu>
                         </React.Fragment>
                     </Grid>

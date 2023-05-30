@@ -27,6 +27,7 @@ export default function Login() {
       sessionStorage.setItem('usuario', data.usuario)
       sessionStorage.setItem('contraseña', data.contraseña)
       sessionStorage.setItem('rol', data.rol)
+      sessionStorage.setItem('correo', data.correo)
       sessionStorage.setItem('auth', 'yes')
       navigate("/home")
     } 
@@ -109,8 +110,7 @@ export default function Login() {
           }}>
           <Grid item xs={5} sm={5} lg={5} md={5} xl={5}
             sx={{
-              overflow: 'hidden',
-              backgroundImage: 'linear-gradient(to bottom right, #0265CD, #1e2460)'
+              overflow: 'hidden'
             }}
             height='75vh'
             minHeight='550px'

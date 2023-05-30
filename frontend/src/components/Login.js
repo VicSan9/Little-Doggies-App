@@ -64,7 +64,7 @@ export default function Login() {
           width='300px'
           height='200px'
           borderRadius='20px'
-          border='2px solid #BABBBF'
+          border='1px solid #BABBBF'
           sx={{ backgroundColor: '#ffffff' }}>
           <Typography color='#CD0227' mt='20px' variant="h5" fontWeight='bold'>Error</Typography>
           <p>{errorMessage}</p>
@@ -103,7 +103,7 @@ export default function Login() {
           minHeight='550px'
           sx={{
             overflow: 'hidden',
-            border: '2px solid #BABBBF',
+            border: '1px solid #BABBBF',
             borderRadius: '20px',
             display: { xs: 'none', sm: 'none', md: 'none', lg: 'flex' }
           }}>
@@ -118,7 +118,7 @@ export default function Login() {
             <img
               src={process.env.PUBLIC_URL + "/pexels-anna-shvets-4587987.png"}
               alt="collage"
-              style={{ height: '75vh', minHeight: '590px' }}>
+              style={{ height: '75vh', minHeight: '590px', maxHeight: '700px' }}>
             </img>
           </Grid>
           <Grid item xs={7} sm={7} lg={7} md={7} xl={7}
@@ -130,7 +130,7 @@ export default function Login() {
                 mt='25px'
                 variant='h5'
                 fontWeight='bold'>
-                <AccountCircleIcon sx={{ fontSize: '100px', color: '#0265CD' }}></AccountCircleIcon>
+                <AccountCircleIcon sx={{ fontSize: '75px', color: '#0265CD' }}></AccountCircleIcon>
               </Typography>
               <Typography textAlign='center'
                 mt='10px'

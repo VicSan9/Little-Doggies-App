@@ -32,7 +32,7 @@ export default function Navbar() {
     const handleCloseAvatar2 = () => {
         setAnchorEl(null);
         sessionStorage.clear()
-        navigate('/')
+        navigate('/login')
         setIsVisible(false)
     };
 

@@ -11,11 +11,8 @@ export default function Navbar() {
 
     const usuario = sessionStorage.getItem('usuario');
 
-    const first = usuario.charAt(0);
-
-
     const [isVisible, setIsVisible] = React.useState(true)
-
+ 
     const isAuth = () => {
         const auth = sessionStorage.getItem('auth')
         console.log(auth)
@@ -162,7 +159,7 @@ export default function Navbar() {
                                         aria-haspopup="true"
                                         aria-expanded={open ? 'true' : undefined}
                                     >
-                                        <Avatar sx={{ border: '1px solid #0265CD', width: 50, height: 50 }}>{first}</Avatar>
+                                        <Avatar sx={{ width: 50, height: 50 }}></Avatar>
                                     </IconButton>
                                 </Tooltip>
                             </Box>
@@ -207,7 +204,7 @@ export default function Navbar() {
                                         sx={{ borderRadius:'20px 20px 0px 0px', backgroundColor: '#D9D9D9' }}>
                                         <Grid container direction='row'>
                                             <Grid item xs={4}>
-                                                <Avatar sx={{ ml: '13px', mt: '15px', border: '1px solid #000000', width: 60, height: 60 }}>{first}</Avatar>
+                                                <Avatar sx={{ ml: '13px', mt: '15px', border: '1px solid #000000', width: 60, height: 60 }}></Avatar>
                                             </Grid>
                                             <Grid item xs={8}>
                                                 <Typography mt='20px' fontWeight='bold'>{sessionStorage.getItem('usuario')}</Typography>

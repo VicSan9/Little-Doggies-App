@@ -173,10 +173,13 @@ export default function Navbar() {
                                     elevation: 0,
                                     sx: {
                                         overflow: 'visible',
-                                        filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+                                        border: '1px solid #BABBBF',
+                                        borderRadius:'20px',
                                         mt: 1.5,
                                         '&:before': {
                                             content: '""',
+                                            borderTop: '1px solid #BABBBF',
+                                            borderLeft: '1px solid #BABBBF',
                                             display: 'block',
                                             position: 'absolute',
                                             top: 0,

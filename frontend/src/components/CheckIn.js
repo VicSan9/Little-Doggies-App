@@ -70,7 +70,7 @@ export default function Login() {
             onClick={handleClick}
             sx={{
               color: '#0265CD',
-              mt: '15px',
+              mt: '30px',
               borderColor: '#0265CD',
               borderRadius: '50px',
               textTransform: 'none'

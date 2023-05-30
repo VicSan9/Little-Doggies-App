@@ -2,7 +2,7 @@ import * as React from 'react';
 import { AppBar, Box, Button, Container, Grid, IconButton, Menu, MenuItem, Tooltip } from "@mui/material"
 import MenuIcon from '@mui/icons-material/Menu';
 import LoginIcon from '@mui/icons-material/Login';
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import { Link, useNavigate } from "react-router-dom"
 
 export default function Navbar() {
@@ -220,7 +220,7 @@ export default function Navbar() {
                                     <LoginIcon color='primary' sx={{ fontSize: '35px', marginRight: '10px', color: 'BABBBF' }} /> Iniciar Sesión
                                 </MenuItem>
                                 <MenuItem onClick={handleClose3}>
-                                    <CheckCircleOutlineIcon color='primary' sx={{ fontSize: '35px', marginRight: '10px', color: 'BABBBF' }} /> Registrarse
+                                    <PersonAddIcon color='primary' sx={{ fontSize: '35px', marginRight: '10px', color: 'BABBBF' }} /> Registrarse
                                 </MenuItem>
                             </Menu>
                         </React.Fragment>

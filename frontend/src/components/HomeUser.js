@@ -54,7 +54,7 @@ export default function Home() {
                 alt="Viñeta"
                 height='25px'>
               </img>
-              {""} Peluqueria
+              {""} Peluquería
             </Typography>
             <Typography fontSize='30px' variant="h4" mt='10px'>
               <img src={process.env.PUBLIC_URL + "/Viñeta.png"}
@@ -68,7 +68,7 @@ export default function Home() {
                 alt="Viñeta"
                 height='25px'>
               </img>
-              {""} Jugueteria
+              {""} Juguetería
             </Typography>
             <Typography fontSize='30px' variant="h4" mt='10px'>
               <img src={process.env.PUBLIC_URL + "/Viñeta.png"}

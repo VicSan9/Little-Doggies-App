@@ -1,5 +1,5 @@
 import { Box, Button, Container, Grid, TextField, Typography } from "@mui/material";
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import LoginIcon from '@mui/icons-material/Login';
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Navbar from "./Navbar";
@@ -73,7 +73,7 @@ export default function Login() {
             onClick={handleClick}
             sx={{
               color: '#0265CD',
-              mt: '15px',
+              mt: '30px',
               borderColor: '#0265CD',
               borderRadius: '50px',
               textTransform: 'none'
@@ -130,7 +130,7 @@ export default function Login() {
                 mt='25px'
                 variant='h5'
                 fontWeight='bold'>
-                <AccountCircleIcon sx={{ fontSize: '75px', color: '#0265CD' }}></AccountCircleIcon>
+                <LoginIcon sx={{ fontSize: '67px', color: '#0265CD' }}></LoginIcon>
               </Typography>
               <Typography textAlign='center'
                 mt='10px'
@@ -202,7 +202,7 @@ export default function Login() {
           <Typography textAlign='center'
             variant='h5'
             fontWeight='bold'>
-            <AccountCircleIcon sx={{ fontSize: '100px', color: '#0265CD' }}></AccountCircleIcon>
+            <LoginIcon sx={{ fontSize: '67px', color: '#0265CD' }}></LoginIcon>
           </Typography>
           <Typography textAlign='center'
             mt='20px'

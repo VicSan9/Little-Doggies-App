@@ -18,8 +18,8 @@ export default function Login() {
     if (checkin.nombres === '' || checkin.apellidos === '' || checkin.correo === '' || checkin.direccion === '' || checkin.telefono === '' || checkin.usuario === '' || checkin.contraseña === '') {
       setErrorMessage("Ingrese todos los datos primero");
       return
-    } 
-    
+    }
+
     const res = await fetch('http://localhost:4000/clients', {
       method: 'POST',
       body: JSON.stringify(checkin),
@@ -29,10 +29,10 @@ export default function Login() {
     const data = await res.json()
 
     console.log(data)
-    
+
     if (res.status === 200) {
       navigate("/login")
-    } 
+    }
   }
 
   const handleChange = e => {
@@ -137,60 +137,62 @@ export default function Login() {
                 variant='body1'>
                 ¡Registrate para poder acceder a nuestros servicios!
               </Typography>
-              <Grid container direction='row' component={'form'} onSubmit={handleSubmit}>
-                <Grid item container direction='column' xs={6}>
-                  <TextField
-                    name="nombres"
-                    label="Nombres"
-                    variant="outlined"
-                    value={checkin.nombres}
-                    onChange={handleChange}
-                    sx={{ ml: '25px', mr: '10px', mt: '30px' }} />
-                  <TextField
-                    name="telefono"
-                    label="Número de telefono"
-                    variant="outlined"
-                    value={checkin.telefono}
-                    onChange={handleChange}
-                    sx={{ ml: '25px', mr: '10px', mt: '30px' }} />
-                  <TextField
-                    name="usuario"
-                    label="Usuario"
-                    variant="outlined"
-                    value={checkin.usuario}
-                    onChange={handleChange}
-                    sx={{ ml: '25px', mr: '10px', mt: '30px' }} />
-                  <TextField
-                    name="direccion"
-                    label="Dirección"
-                    variant="outlined"
-                    value={checkin.direccion}
-                    onChange={handleChange}
-                    sx={{ ml: '25px', mr: '10px', mt: '30px' }} />
-                </Grid>
-                <Grid item container direction='column' xs={6}>
-                  <TextField
-                    name="apellidos"
-                    label="Apellidos"
-                    variant="outlined"
-                    value={checkin.apellidos}
-                    onChange={handleChange}
-                    sx={{ ml: '10px', mr: '25px', mt: '30px' }} />
-                  <TextField
-                    name="correo"
-                    label="Correo Electrónico"
-                    variant="outlined"
-                    value={checkin.correo}
-                    onChange={handleChange}
-                    sx={{ ml: '10px', mr: '25px', mt: '30px' }} />
-                  <TextField
-                    name="contraseña"
-                    type="password"
-                    label="Contraseña"
-                    variant="outlined"
-                    value={checkin.contraseña}
-                    onChange={handleChange}
-                    sx={{ ml: '10px', mr: '25px', mt: '30px' }} />
+              <Grid container direction='column' component={'form'} onSubmit={handleSubmit}>
+                <Grid container direction='row' >
+                  <Grid item container direction='column' xs={6}>
+                    <TextField
+                      name="nombres"
+                      label="Nombres"
+                      variant="outlined"
+                      value={checkin.nombres}
+                      onChange={handleChange}
+                      sx={{ ml: '25px', mr: '10px', mt: '30px' }} />
+                    <TextField
+                      name="telefono"
+                      label="Número de telefono"
+                      variant="outlined"
+                      value={checkin.telefono}
+                      onChange={handleChange}
+                      sx={{ ml: '25px', mr: '10px', mt: '30px' }} />
+                    <TextField
+                      name="usuario"
+                      label="Usuario"
+                      variant="outlined"
+                      value={checkin.usuario}
+                      onChange={handleChange}
+                      sx={{ ml: '25px', mr: '10px', mt: '30px' }} />
+                    <TextField
+                      name="direccion"
+                      label="Dirección"
+                      variant="outlined"
+                      value={checkin.direccion}
+                      onChange={handleChange}
+                      sx={{ ml: '25px', mr: '10px', mt: '30px' }} />
+                  </Grid>
+                  <Grid item container direction='column' xs={6}>
+                    <TextField
+                      name="apellidos"
+                      label="Apellidos"
+                      variant="outlined"
+                      value={checkin.apellidos}
+                      onChange={handleChange}
+                      sx={{ ml: '10px', mr: '25px', mt: '30px' }} />
+                    <TextField
+                      name="correo"
+                      label="Correo Electrónico"
+                      variant="outlined"
+                      value={checkin.correo}
+                      onChange={handleChange}
+                      sx={{ ml: '10px', mr: '25px', mt: '30px' }} />
+                    <TextField
+                      name="contraseña"
+                      type="password"
+                      label="Contraseña"
+                      variant="outlined"
+                      value={checkin.contraseña}
+                      onChange={handleChange}
+                      sx={{ ml: '10px', mr: '25px', mt: '30px' }} />
+                  </Grid>
                 </Grid>
                 <Button variant="outlined"
                   size='large'

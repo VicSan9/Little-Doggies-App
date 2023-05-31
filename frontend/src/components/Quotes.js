@@ -1,8 +1,13 @@
 import { Button, Box, Card, CardContent, CircularProgress, Container, Grid, Typography, Avatar } from "@mui/material";
 import UserNavbar from "./UserNavbar";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Quotes() {
+
+  var id = localStorage.clear()
+
+  const navigate = useNavigate()
 
   const [pets, setPets] = useState([])
 
@@ -42,6 +47,24 @@ export default function Quotes() {
     isAuth();
   }, []);
 
+  const handleFocus = (event) => {
+    id = event.target.value;
+    localStorage.setItem('idMascota', id)
+  }
+
+  const handleClick= () => {
+    navigate('/nueva-mascota')
+  }
+
+  const handleClick2= (event) => {
+    id = event.target.value;
+    if(id === ''){
+      return
+    } else{
+      navigate('/nueva-cita')
+    }
+  }
+
   return (
     <>
       <UserNavbar></UserNavbar>
@@ -67,31 +90,49 @@ export default function Quotes() {
             ¿Para cuál de tus mascotas es la cita?
           </Typography>
           <Typography
-            mt='25px'
+            mt='45px'
             mb='25px'
             variant="body1">
             Escoge una de las mascotas que tengas registradas, si aún no tienes una podrás registrarla.
           </Typography>
           <Grid
+            sx={{ display: { xs: 'contents', sm: 'flex' } }}
             container
             alignItems='center'
             justifyContent='center'
             direction='row'>
             {pets.map((pet) => (
-              <Card 
+              <Card
                 component={Button}
-                key={pet.mcid} 
-                sx={{ color:'#0265CD', border:'1px solid #BABBBF', borderRadius:'10px', textTransform: 'none', mb: '25px', mt: '5px', mr: '20px', height: '85px', width: '250px' }}>
-                <CardContent sx={{width:'230px',padding:'0px'}}>
+                onFocus={handleFocus}
+                on
+                key={pet.mcid}
+                value={pet.mcid}
+                sx={{
+                  '&:focus': {
+                    color: 'white',
+                    backgroundColor: '#0265CD',
+                  },
+                  border: '1px solid #BABBBF',
+                  borderRadius: '10px',
+                  textTransform: 'none',
+                  mb: '25px',
+                  mt: '5px',
+                  mr: '10px',
+                  height: '85px',
+                  width: '263px',
+                  boxShadow: 'none'
+                }}>
+                <CardContent sx={{ width: '230px', padding: '0px' }}>
                   <Grid container direction='row'>
-                    <Grid item xs={5}>
-                      <Avatar sx={{ ml:'15px', width: 50, height: 50}}>M</Avatar>
+                    <Grid item xs={4}>
+                      <Avatar sx={{ ml: '5px', width: 50, height: 50 }}>M</Avatar>
                     </Grid>
-                    <Grid item xs={7} container direction='column' textAlign='start'>
-                      <Typography sx={{color:'#000000'}}>
+                    <Grid item xs={8} container direction='column' textAlign='start'>
+                      <Typography fontWeight='bold'>
                         {pet.nombre}
                       </Typography>
-                      <Typography sx={{color:'#000000'}}>
+                      <Typography>
                         {pet.raza}
                       </Typography>
                     </Grid>
@@ -99,8 +140,30 @@ export default function Quotes() {
                 </CardContent>
               </Card>
             ))}
+            <Card
+              component={Button}
+              onClick={handleClick}
+              sx={{
+                color: '#0265CD',
+                border: '1px solid #BABBBF',
+                borderRadius: '60px',
+                textTransform: 'none',
+                mb: '25px',
+                mt: '5px',
+                height: '65px',
+                width: '65px',
+                boxShadow: 'none'
+              }}>
+              <CardContent sx={{ padding: '0px' }}>
+                <Typography fontSize='25px'>
+                  +
+                </Typography>
+              </CardContent>
+            </Card>
           </Grid>
+          <Box height='30px'></Box>
           <Button
+            onClick={handleClick2}
             variant="outlined"
             size="large"
             sx={{ fontWeight: 'bold', width: '270px', borderRadius: '20px', textTransform: 'none' }}

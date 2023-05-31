@@ -1,4 +1,4 @@
-import { Box, Card, CardContent, CircularProgress, Container, Grid, Typography } from "@mui/material";
+import { Button, Box, Card, CardContent, CircularProgress, Container, Grid, Typography, Avatar } from "@mui/material";
 import UserNavbar from "./UserNavbar";
 import { useEffect, useState } from "react";
 
@@ -78,21 +78,34 @@ export default function Quotes() {
             justifyContent='center'
             direction='row'>
             {pets.map((pet) => (
-              <Card key={pet.mcid} sx={{ mt: '5px', mr: '20px', height: '85px', width: '230px' }}>
-                <CardContent>
-                  <Typography>
-                    {pet.nombre}
-                  </Typography>
-                  <Typography>
-                    {pet.raza}
-                  </Typography>
+              <Card 
+                component={Button}
+                key={pet.mcid} 
+                sx={{ color:'#0265CD', border:'1px solid #BABBBF', borderRadius:'10px', textTransform: 'none', mb: '25px', mt: '5px', mr: '20px', height: '85px', width: '250px' }}>
+                <CardContent sx={{width:'230px',padding:'0px'}}>
+                  <Grid container direction='row'>
+                    <Grid item xs={5}>
+                      <Avatar sx={{ ml:'15px', width: 50, height: 50}}>M</Avatar>
+                    </Grid>
+                    <Grid item xs={7} container direction='column' textAlign='start'>
+                      <Typography sx={{color:'#000000'}}>
+                        {pet.nombre}
+                      </Typography>
+                      <Typography sx={{color:'#000000'}}>
+                        {pet.raza}
+                      </Typography>
+                    </Grid>
+                  </Grid>
                 </CardContent>
               </Card>
             ))}
           </Grid>
-          <Typography>
-            Boton
-          </Typography>
+          <Button
+            variant="outlined"
+            size="large"
+            sx={{ fontWeight: 'bold', width: '270px', borderRadius: '20px', textTransform: 'none' }}
+          > Continuar
+          </Button>
         </Grid>
       </Container>
     </>

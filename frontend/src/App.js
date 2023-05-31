@@ -7,6 +7,7 @@ import Products from './components/Products'
 import CheckIn from './components/CheckIn'
 import Shop from './components/Shop'
 import RouteControler1 from './components/RouteController1'
+import Recover from './components/Recover'
 
 export default function App() {
   return (
@@ -19,6 +20,7 @@ export default function App() {
         <Route exact path='/citas' element={<RouteControler1 componet = {Quotes} />} />
         <Route exact path='/registrarse' element={<CheckIn />} />
         <Route exact path='/login' element={<Login />} />
+        <Route exact path='/recuperar' element={<Recover />} />
       </Routes>
     </BrowserRouter>
   )

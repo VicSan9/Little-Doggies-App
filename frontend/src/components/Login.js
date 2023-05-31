@@ -28,6 +28,7 @@ export default function Login() {
       sessionStorage.setItem('contraseña', data.contraseña)
       sessionStorage.setItem('rol', data.rol)
       sessionStorage.setItem('correo', data.correo)
+      sessionStorage.setItem('id', data.id)
       sessionStorage.setItem('auth', 'yes')
       navigate("/home")
     } 

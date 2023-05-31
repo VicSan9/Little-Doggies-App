@@ -3,7 +3,7 @@ const { getAllPets, getPets, createPets, deletePets, updatePets } = require('../
 
 const router = Router();
 
-router.get('/pets', getAllPets)
+router.post('/pets', getAllPets)
 
 router.get('/pets/:id', getPets)
 

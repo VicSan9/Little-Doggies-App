@@ -1,10 +1,16 @@
-const pool = require ('../db');
+const pool = require('../db');
 
 const getAllPets = async (req, res, next) => {
+    const { id } = req.body;
     try {
-        const allPets = await pool.query
-            ('SELECT * FROM mascotas');
-        res.json(allPets);
+        const result = await pool.query
+            ('SELECT * FROM mascotas WHERE clid = $1', 
+            [id]);
+        if (result.rows.length === 0)
+            return res.status(404).json({
+                message: "Sin mascotas registradas",
+            });
+        return res.json(result.rows);
     } catch (error) {
         next(error);
     }
@@ -25,14 +31,14 @@ const getPets = async (req, res, next) => {
     }
 }
 
-const  createPets = async (req, res, next) => {
-    const { clid, nombre, raza, edad, sexo, condicion} = req.body;
+const createPets = async (req, res, next) => {
+    const { clid, nombre, raza, edad, sexo, condicion } = req.body;
     try {
         const result = await pool.query
             ('INSERT INTO mascotas (clid, nombre, raza, edad, sexo, condicion) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
-                [clid, nombre, raza, edad, sexo, condicion]);                                 
+                [clid, nombre, raza, edad, sexo, condicion]);
         res.json(result.rows[0]);
-    } catch (error){
+    } catch (error) {
         next(error);
     }
 }

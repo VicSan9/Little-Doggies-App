@@ -15,7 +15,6 @@ export default function Navbar() {
  
     const isAuth = () => {
         const auth = sessionStorage.getItem('auth')
-        console.log(auth)
         if (auth === 'yes') {
             setIsVisible(false);
         }

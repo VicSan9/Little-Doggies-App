@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { AppBar, Box, Button, Container, Grid, IconButton, Menu, MenuItem, Tooltip } from "@mui/material"
+import { AppBar, Box, Button, Container, Grid, IconButton, Menu, MenuItem, Tooltip, Typography } from "@mui/material"
 import MenuIcon from '@mui/icons-material/Menu';
 import LoginIcon from '@mui/icons-material/Login';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
-import { Link, useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 
 export default function Navbar() {
 
@@ -20,6 +20,18 @@ export default function Navbar() {
     const handleClick2 = () => {
         navigate('/registrarse')
     }
+
+    const handleClickInicio = () => {
+        navigate('/')
+    };
+
+    const handleClickCitas = () => {
+        navigate('/login')
+    };
+
+    const handleClickProductos = () => {
+        navigate('/productos')
+    };
 
     const handleClick3 = () => {
         navigate('/login')
@@ -55,7 +67,6 @@ export default function Navbar() {
                         borderRadius: '10px',
                         borderBottom: '2px solid #0265CD'
                     }}
-                    spacing='2'
                     direction='row'
                     justifyContent='flex-start'
                     alignItems="strech"
@@ -66,68 +77,55 @@ export default function Navbar() {
                             height='57vh'>
                         </img>
                     </Grid>
-                    <Grid item xs={2} sm={2} lg={1} md={2} xl={1}
+                    <Grid
+                        overflow='hidden'
+                        item xs={2} sm={2} lg={1} md={2} xl={1}
+                        onClick={handleClickInicio}
                         sx={{
+                            cursor: 'pointer',
+                            color: '#000000',
+                            textTransform: 'none',
                             backgroundColor: '#ffffff',
                             '&:hover': {
                                 backgroundColor: 'primary.main',
-                                opacity: [1, 1, 1]
+                                color: '#ffffff'
                             }
                         }}>
-                        <Box mt='14px' sx={{ overflow: 'hidden' }}>
-                            <Link href="#"
-                                to='/'
-                                style={{
-                                    textDecoration: "none",
-                                    fontSize: '20px',
-                                    color: "#000000",
-                                    fontWeight: "inherit"
-                                }}> Inicio
-                            </Link>
-                        </Box>
+                        <Typography ml='5px' mt='13px' textAlign='start' fontSize='20px'>Inicio</Typography>
                     </Grid>
-                    <Grid item xs={2} sm={2} lg={1} md={2} xl={1}
+                    <Grid
+                        overflow='hidden'
+                        item xs={2} sm={2} lg={1} md={2} xl={1}
+                        onClick={handleClickCitas}
                         sx={{
+                            cursor: 'pointer',
+                            color: '#000000',
+                            textTransform: 'none',
                             backgroundColor: '#ffffff',
                             '&:hover': {
                                 backgroundColor: 'primary.main',
-                                opacity: [1, 1, 1]
+                                color: '#ffffff'
                             }
                         }}>
-                        <Box mt='14px' sx={{ overflow: 'hidden' }}>
-                            <Link href="#"
-                                to='/citas'
-                                style={{
-                                    textDecoration: "none",
-                                    color: "#000000",
-                                    fontSize: '20px',
-                                    fontWeight: "inherit"
-                                }}> Citas
-                            </Link>
-                        </Box>
-
+                        <Typography ml='5px' mt='13px' textAlign='start' fontSize='20px'>Citas</Typography>
                     </Grid>
-                    <Grid item xs={3} sm={2} lg={1} md={2} xl={1}
+                    <Grid
+                        overflow='hidden'
+                        item xs={3} sm={2} lg={1} md={2} xl={1}
+                        onClick={handleClickProductos}
                         sx={{
+                            cursor: 'pointer',
+                            color: '#000000',
+                            textTransform: 'none',
                             backgroundColor: '#ffffff',
                             '&:hover': {
                                 backgroundColor: 'primary.main',
-                                opacity: [1, 1, 1]
+                                color: '#ffffff'
                             }
                         }}>
-                        <Box mt='14px' sx={{ overflow: 'hidden' }}>
-                            <Link href="#"
-                                to='/productos'
-                                style={{
-                                    textDecoration: "none",
-                                    color: "#000000",
-                                    fontSize: '20px',
-                                    fontWeight: "inherit"
-                                }}> Productos
-                            </Link>
-                        </Box>
+                        <Typography ml='5px' mt='13px' textAlign='start' fontSize='20px'>Productos</Typography>
                     </Grid>
-                    <Grid item xs={1} sm={2} lg={5} md={3} xl={6}>
+                    <Grid item xs={0} sm={2} lg={5} md={3} xl={6}>
                     </Grid>
                     <Grid item xs={6} sm={3} lg={3} md={4} xl={2} sx={{ display: { xs: 'none', lg: 'block' } }}>
                         <Grid container
@@ -166,9 +164,9 @@ export default function Navbar() {
                             </Grid>
                         </Grid>
                     </Grid>
-                    <Grid container justifyContent='flex-end' alignItems='center' item xs={1} sm={2} lg={3} md={1} xl={3} sx={{ display: { lg: 'none', xl: 'none' } }}>
+                    <Grid container justifyContent='flex-end' alignItems='center' item xs={2} sm={2} lg={3} md={1} xl={3} sx={{ display: { lg: 'none', xl: 'none' } }}>
                         <React.Fragment>
-                            <Box ml='5px' sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
+                            <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
                                 <Tooltip title="Más">
                                     <IconButton
                                         onClick={handleClick}

@@ -10,9 +10,9 @@ const RouteController = ({ componet: Componet, ...rest }) => {
     const user = sessionStorage.getItem('usuario')
     const password = sessionStorage.getItem('contraseña')
 
-    const login = {usuario: user, contraseña: password}
+    const login = { usuario: user, contraseña: password }
 
-    async function init(){
+    async function init() {
         const res = await fetch('http://localhost:4000/login', {
             method: 'POST',
             body: JSON.stringify(login),
@@ -23,15 +23,15 @@ const RouteController = ({ componet: Componet, ...rest }) => {
             if (auth === 'yes' && user === login.usuario && password === login.contraseña) {
                 setIsAuth(true)
                 return
-    
+
             } else {
                 setIsAuth(false)
                 sessionStorage.clear()
             }
-          } else {
+        } else {
             setIsAuth(false)
             sessionStorage.clear()
-          }
+        }
 
         if (auth === null) {
             setIsAuth(false)
@@ -51,7 +51,7 @@ const RouteController = ({ componet: Componet, ...rest }) => {
 
     useEffect(() => {
         init();
-      });
+    });
 
     return (
         <div hidden={false}>

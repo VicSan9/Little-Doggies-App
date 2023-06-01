@@ -7,18 +7,18 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 export default function Recover() {
     return (
       <><Navbar></Navbar>
-       <Container maxWidth='md'fixed>
+       <Container maxWidth='lg'fixed>
        <Box height='100px'></Box>
         <Grid container
-          direction='column'
+          direction='row'
           justifyContent='flex-start'
           alignItems="center"
-          mr='100px'
-          ml='100px'
+          mr='400px'
+          ml='250px'
           mb='50px'
           width='100vh'
           height='75vh'
-          maxHeight='700px'
+          maxHeight='550px'
           minHeight='550px'
           sx={{
             overflow: 'hidden',
@@ -26,7 +26,7 @@ export default function Recover() {
             borderRadius: '20px',
             display: { xs: 'none', sm: 'none', md: 'none', lg: 'flex' }
           }}>
-        <Grid container
+        <Grid container item xs={6} sm={6} lg={12} md={12} xl={12}
             direction='column'>
             <Typography textAlign='center'
             mt='50px'
@@ -50,22 +50,37 @@ export default function Recover() {
             name="correo"
             label="Correo electrónico"
             variant="outlined"
-            sx={{ ml: '25px', mr: '10px', mt: '30px' }} />
+            sx={{ ml: '40px', mr: '30px', mt: '30px' }} />
         </Grid>
+        <Grid item container direction='row' xs={6} lg={12}> 
         <Button 
             variant="outlined"
             size='large'
             type="submit"
             sx={{
                 color: '#000000',
-                ml: '150px',
-                mr: '150px',
-                mt: '30px',
+                ml: '300px',
+                mr: '20px',
+                mt: '60px',
                 borderColor: '#000000',
                 borderRadius: '50px',
                 textTransform: 'none'
                 }}> Cancelar
         </Button>
+        <Button 
+            variant="contained"
+            size='large'
+            type="submit"
+            sx={{
+                color: '#ffffff',
+                ml: '20px',
+                mt: '60px',
+                borderColor: '#000000',
+                borderRadius: '50px',
+                textTransform: 'none'
+                }}> Continuar
+        </Button>
+        </Grid>
         </Grid>
       </Container></>
     )

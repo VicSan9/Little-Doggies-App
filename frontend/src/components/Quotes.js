@@ -83,6 +83,7 @@ export default function Quotes() {
           alignItems='center'
           textAlign='center'
           height='100vh'
+          minHeight='800px'
           width='auto'>
           <Typography
             variant="h5"

@@ -101,7 +101,7 @@ export default function Navbar() {
                                 color: '#ffffff'
                             }
                         }}>
-                        <Typography ml='5px' mt='13px' textAlign='start' fontSize='20px'>Inicio</Typography>
+                        <Typography ml='5px' mt='15px' textAlign='start' fontSize='20px'>Inicio</Typography>
                     </Grid>
                     <Grid
                         overflow='hidden'
@@ -117,7 +117,7 @@ export default function Navbar() {
                                 color: '#ffffff'
                             }
                         }}>
-                        <Typography ml='5px' mt='13px' textAlign='start' fontSize='20px'>Citas</Typography>
+                        <Typography ml='5px' mt='15px' textAlign='start' fontSize='20px'>Citas</Typography>
                     </Grid>
                     <Grid
                         overflow='hidden'
@@ -133,7 +133,7 @@ export default function Navbar() {
                                 color: '#ffffff'
                             }
                         }}>
-                        <Typography ml='5px' mt='13px' textAlign='start' fontSize='20px'>Productos</Typography>
+                        <Typography ml='5px' mt='15px' textAlign='start' fontSize='20px'>Productos</Typography>
                     </Grid>
                     <Grid item xs={0} sm={3} lg={5} md={1} xl={5}>
                     </Grid>

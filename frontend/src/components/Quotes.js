@@ -105,7 +105,6 @@ export default function Quotes() {
               <Card
                 component={Button}
                 onFocus={handleFocus}
-                on
                 key={pet.mcid}
                 value={pet.mcid}
                 sx={{

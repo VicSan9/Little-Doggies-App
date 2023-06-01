@@ -15,6 +15,11 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if(login.usuario === '' || login.contraseña === ''){
+      setErrorMessage("Ingrese todos los datos primero");
+      return
+    }
+
     const res = await fetch('http://localhost:4000/login', {
       method: 'POST',
       body: JSON.stringify(login),
@@ -32,11 +37,9 @@ export default function Login() {
       sessionStorage.setItem('auth', 'yes')
       navigate("/home")
     } 
-    if (login.usuario === '' || login.contraseña === '') {
-      setErrorMessage("Ingrese todos los datos primero");
-    } 
     else {
       setErrorMessage("Usuario o contraseña incorrecto");
+      setLogin({ usuario: '', contraseña: '' })
     }
   }
 

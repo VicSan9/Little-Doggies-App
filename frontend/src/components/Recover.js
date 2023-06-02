@@ -1,87 +1,102 @@
-import { Container, Grid, Box, Typography, TextField, Button } from "@mui/material";
-import Navbar from "./UserNavbar";
+import { Container, Grid, Typography, TextField, Button, Box, Input } from "@mui/material";
+import Navbar from "./Navbar";
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-/*import LockOutlinedIcon from '@mui/icons-material/LockOutlined';*/
-
 
 export default function Recover() {
-    return (
-      <><Navbar></Navbar>
-       <Container maxWidth='lg'fixed>
-       <Box height='100px'></Box>
-        <Grid container
-          direction='row'
-          justifyContent='flex-start'
-          alignItems="center"
-          mr='400px'
-          ml='250px'
-          mb='50px'
-          width='100vh'
-          height='75vh'
-          maxHeight='550px'
-          minHeight='550px'
-          sx={{
-            overflow: 'hidden',
-            border: '1px solid #BABBBF',
-            borderRadius: '20px',
-            display: { xs: 'none', sm: 'none', md: 'none', lg: 'flex' }
-          }}>
-        <Grid container item xs={6} sm={6} lg={12} md={12} xl={12}
-            direction='column'>
-            <Typography textAlign='center'
-            mt='50px'
-            variant='h5'
-            fontWeight='bold'>
-           <LockOutlinedIcon sx={{ fontSize: '130px', color: '#000000' }}></LockOutlinedIcon>
-           </Typography>
-           <Typography textAlign='center'
-            mt='10px'
-            variant='h5'
-            fontWeight='bold'>
-            ¿Tienes problemas para ingresar?
-          </Typography>
-          <Typography textAlign='center'
-            mt='20px'
-            variant='body1'>
-            Ingresa tu nombre de usuario y te enviaremos un código de recuperación a tu correo electrónico
-          </Typography>
-          <TextField
-            mt='20px'
-            name="correo"
-            label="Correo electrónico"
-            variant="outlined"
-            sx={{ ml: '40px', mr: '30px', mt: '30px' }} />
+  return (
+    <>
+      <Navbar></Navbar>
+      <Container maxWidth='lg' fixed>
+        <Grid
+          container
+          height='100vh'
+          alignItems='center'
+          justifyContent='center'>
+          <Grid
+            container
+            direction='column'
+            alignItems='center'
+            justifyContent='center'
+            border='1px solid #BABBBF'
+            borderRadius='20px'
+            height='600px'
+            width='500px'
+            sx={{ display: { xs: 'none', sm: 'none', md: 'flex' } }}>
+            <LockOutlinedIcon sx={{ fontSize: '67px' }}></LockOutlinedIcon>
+            <Typography
+              mt='30px'
+              variant="h5"
+              fontWeight='bold'>¿Tienes problemas para ingresar?
+            </Typography>
+            <Typography
+              textAlign='center'
+              mt='30px'
+              mb='30px'
+              variant="body1">Ingresa tu correo y te enviaremos un código de recuperación.
+            </Typography>
+            <Input
+              variant="outlined"
+              sx={{ width: '400px' }}>
+            </Input>
+            <Grid container mt='30px' direction='row' alignItems='center' justifyContent='center'>
+              <Button
+                variant="contained"
+                sx={{ backgroundColor: "#BABBBF", borderRadius: '50px', width: '130px' }}>Cancelar
+              </Button>
+              <Button
+                variant="contained"
+                sx={{ ml: '20px', borderRadius: '50px', width: '130px' }}>Continuar
+              </Button>
+            </Grid>
+          </Grid>
+          <Grid
+            container
+            direction='column'
+            alignItems='center'
+            justifyContent='center'
+            borderRadius='20px'
+            sx={{ display: { xs: 'flex', sm: 'flex', md: 'none', lg: 'none', sx: 'none' } }}>
+            <LockOutlinedIcon sx={{ fontSize: '67px' }}></LockOutlinedIcon>
+            <Typography
+              textAlign='center'
+              mt='30px'
+              mr='10px'
+              ml='10px'
+              variant="h5"
+              fontWeight='bold'>¿Tienes problemas para ingresar?
+            </Typography>
+            <Typography
+              textAlign='center'
+              mt='30px'
+              mr='10px'
+              ml='10px'
+              mb='30px'
+              variant="body1">Ingresa tu correo y te enviaremos un código de recuperación.
+            </Typography>
+            <Input
+              variant="outlined"
+              sx={{ width: '80vw', maxWidth:'480px' }}>
+            </Input>
+            <Box sx={{height:'30px', width:'30px'}}></Box>
+            <Grid 
+              container 
+              direction='row' 
+              alignItems='center' 
+              justifyContent='center'
+              sx={{display:{xs: 'contents', sm: ' flex'}}}>
+              <Button
+                variant="contained"
+                sx={{ backgroundColor: "#BABBBF", borderRadius: '50px', width: '130px' }}>Cancelar
+              </Button>
+              <Box sx={{height:'30px', width:'30px'}}></Box>
+              <Button
+                variant="contained"
+                sx={{borderRadius: '50px', width: '130px' }}>Continuar
+              </Button>
+            </Grid>
+          </Grid>
         </Grid>
-        <Grid item container direction='row' xs={6} lg={12}> 
-        <Button 
-            variant="outlined"
-            size='large'
-            type="submit"
-            sx={{
-                color: '#000000',
-                ml: '300px',
-                mr: '20px',
-                mt: '60px',
-                borderColor: '#000000',
-                borderRadius: '50px',
-                textTransform: 'none'
-                }}> Cancelar
-        </Button>
-        <Button 
-            variant="contained"
-            size='large'
-            type="submit"
-            sx={{
-                color: '#ffffff',
-                ml: '20px',
-                mt: '60px',
-                borderColor: '#000000',
-                borderRadius: '50px',
-                textTransform: 'none'
-                }}> Continuar
-        </Button>
-        </Grid>
-        </Grid>
-      </Container></>
-    )
+      </Container>
+    </>
+  )
 }

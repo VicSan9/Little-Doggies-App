@@ -67,7 +67,9 @@ export default function Navbar() {
         <AppBar position="fixed"
             sx={{
                 backgroundColor: 'transparent',
-                boxShadow: 'none'
+                boxShadow: 'none',
+                position:'fixed',
+                zIndex:'1'
             }}>
             <Container maxWidth='xl'
                 fixed >

@@ -52,21 +52,63 @@ export default function Quotes() {
     localStorage.setItem('idMascota', id)
   }
 
-  const handleClick= () => {
+  const handleClick = () => {
+    setErrorMessage("");
+  }
+
+  const handleClickNuevo = () => {
     navigate('/nueva-mascota')
   }
 
-  const handleClick2= (event) => {
-    id = event.target.value;
-    if(id === ''){
-      return
-    } else{
+  const handleClick2 = () => {
+    const mascota = localStorage.getItem('idMascota')
+    if (mascota === null) {
+      setErrorMessage("Escoja una mascota primero");
+    } else {
       navigate('/nueva-cita')
     }
   }
 
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const ErrorComponent = ({ errorMessage }) => {
+    return (
+      <Grid container
+        zIndex='2'
+        width='100vw'
+        height='100vh'
+        position='absolute'
+        alignItems='center'
+        textAlign='center'
+        justifyContent='center'
+        sx={{ backgroundColor: 'rgba(0,0,0,.2)', backdropFilter: 'blur(5px)', }}>
+        <Box
+          width='300px'
+          height='200px'
+          borderRadius='20px'
+          border='1px solid #BABBBF'
+          sx={{ backgroundColor: '#ffffff' }}>
+          <Typography color='#CD0227' mt='20px' variant="h5" fontWeight='bold'>Error</Typography>
+          <p>{errorMessage}</p>
+          <Button variant="outlined"
+            size='medium'
+            onClick={handleClick}
+            sx={{
+              color: '#0265CD',
+              mt: '30px',
+              borderColor: '#0265CD',
+              borderRadius: '50px',
+              textTransform: 'none'
+            }}> Volver
+          </Button>
+        </Box>
+      </Grid>
+    );
+  };
+
   return (
     <>
+      {errorMessage && <ErrorComponent errorMessage={errorMessage} />}
       <UserNavbar></UserNavbar>
       <div hidden={auth}>
         <Box alignItems='center' justifyContent='center' width='100vw' height='100vh' sx={{ display: 'flex' }}>
@@ -142,7 +184,7 @@ export default function Quotes() {
             ))}
             <Card
               component={Button}
-              onClick={handleClick}
+              onClick={handleClickNuevo}
               sx={{
                 color: '#0265CD',
                 border: '1px solid #BABBBF',

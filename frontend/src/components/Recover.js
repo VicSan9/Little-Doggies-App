@@ -1,4 +1,4 @@
-import { Container, Grid, Typography, TextField, Button, Box, Input } from "@mui/material";
+import { Container, Grid, Typography, TextField, Button, Box } from "@mui/material";
 import Navbar from "./Navbar";
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 
@@ -34,10 +34,10 @@ export default function Recover() {
               mb='30px'
               variant="body1">Ingresa tu correo y te enviaremos un código de recuperación.
             </Typography>
-            <Input
+            <TextField
               variant="outlined"
               sx={{ width: '400px' }}>
-            </Input>
+            </TextField>
             <Grid container mt='30px' direction='row' alignItems='center' justifyContent='center'>
               <Button
                 variant="contained"
@@ -73,10 +73,10 @@ export default function Recover() {
               mb='30px'
               variant="body1">Ingresa tu correo y te enviaremos un código de recuperación.
             </Typography>
-            <Input
+            <TextField
               variant="outlined"
               sx={{ width: '80vw', maxWidth:'480px' }}>
-            </Input>
+            </TextField>
             <Box sx={{height:'30px', width:'30px'}}></Box>
             <Grid 
               container 

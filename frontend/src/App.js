@@ -9,11 +9,17 @@ import Shop from './components/Shop'
 import RouteControler1 from './components/RouteController1'
 import Recover from './components/Recover'
 import Calendar from './components/Calendar'
+<<<<<<< Updated upstream
 import Code from './components/Calendar'
 
+=======
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+>>>>>>> Stashed changes
 
-export default function App() {
+export default function App({ children }) {
   return (
+<<<<<<< Updated upstream
     <BrowserRouter>
       <Routes>
         <Route exact path='/' element={<Home />} />
@@ -29,5 +35,24 @@ export default function App() {
         
       </Routes>
     </BrowserRouter>
+=======
+    <>
+      <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="en">
+        {children}
+      </LocalizationProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route exact path='/' element={<Home />} />
+          <Route exact path='/productos' element={<Products />} />
+          <Route exact path='/registrarse' element={<CheckIn />} />
+          <Route exact path='/login' element={<Login />} />
+          <Route exact path='/recuperar' element={<Recover />} />
+          <Route exact path='/shop' element={<RouteControler1 componet={Shop} />} />
+          <Route exact path='/citas' element={<RouteControler1 componet={Quotes} />} />
+          <Route exact path='/nueva-cita' element={<RouteControler1 componet={Calendar} />} />
+          <Route exact path='/home' element={<RouteControler1 componet={HomeUser} />} />
+        </Routes>
+      </BrowserRouter></>
+>>>>>>> Stashed changes
   )
 }

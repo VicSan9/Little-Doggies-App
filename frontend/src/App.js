@@ -9,7 +9,7 @@ import Shop from './components/Shop'
 import RouteControler1 from './components/RouteController1'
 import Recover from './components/Recover'
 import Calendar from './components/Calendar'
-import Code from './components/Calendar'
+import Code from './components/Code'
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 

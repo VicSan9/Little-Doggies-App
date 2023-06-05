@@ -4,7 +4,7 @@ const getAllQuotes = async (req, res, next) => {
     try {
         const allQuotes = await pool.query
             ('SELECT * FROM citas');
-        res.json(allQuotes);
+        res.json(allQuotes.rows);
     } catch (error) {
         next(error);
     }
@@ -20,6 +20,21 @@ const getQuotes = async (req, res, next) => {
                 message: "Cita no encontrada",
             });
         res.json(result.rows[0]);
+    } catch (error) {
+        next(error);
+    }
+}
+
+const getQuotes2 = async (req, res, next) => {
+    try {
+        const { fecha } = req.body;
+        const result = await pool.query
+            ('SELECT * FROM citas WHERE fecha = $1', [fecha]);
+        if (result.rows.length === 0)
+            return res.status(404).json({
+                message: "No hay citas",
+            });
+        res.json(result.rows);
     } catch (error) {
         next(error);
     }
@@ -74,5 +89,6 @@ module.exports = {
     getQuotes,
     createQuotes,
     deleteQuotes,
-    updateQuotes
+    updateQuotes,
+    getQuotes2
 }

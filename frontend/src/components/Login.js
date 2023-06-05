@@ -15,7 +15,7 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if(login.usuario === '' || login.contraseña === ''){
+    if (login.usuario === '' || login.contraseña === '') {
       setErrorMessage("Ingrese todos los datos primero");
       return
     }
@@ -36,7 +36,7 @@ export default function Login() {
       sessionStorage.setItem('id', data.id)
       sessionStorage.setItem('auth', 'yes')
       navigate("/home")
-    } 
+    }
     else {
       setErrorMessage("Usuario o contraseña incorrecto");
       setLogin({ usuario: '', contraseña: '' })
@@ -94,177 +94,182 @@ export default function Login() {
       {errorMessage && <ErrorComponent errorMessage={errorMessage} />}
       <Navbar></Navbar>
       <Container maxWidth='lg' fixed>
-        <Box height='100px'></Box>
-        <Grid container
-          direction='row'
-          justifyContent='flex-start'
+        <Grid
+          container
+          justifyContent='center'
           alignItems="center"
-          mr='100px'
-          ml='100px'
-          mb='50px'
-          width='auto'
-          height='75vh'
-          maxHeight='700px'
-          minHeight='550px'
-          sx={{
-            overflow: 'hidden',
-            border: '1px solid #BABBBF',
-            borderRadius: '20px',
-            display: { xs: 'none', sm: 'none', md: 'none', lg: 'flex' }
-          }}>
-          <Grid item xs={5} sm={5} lg={5} md={5} xl={5}
-            sx={{
-              overflow: 'hidden'
-            }}
+          height='100vh'
+          minHeight='700px'>
+          <Grid
+            container
+            direction='row'
+            justifyContent='flex-start'
+            alignItems="center"
+            mr='60px'
+            ml='60px'
             height='75vh'
+            maxHeight='700px'
             minHeight='550px'
-            textAlign='center'>
-            <img
-              src={process.env.PUBLIC_URL + "/pexels-anna-shvets-4587987.png"}
-              alt="collage"
-              style={{ height: '75vh', minHeight: '590px', maxHeight: '700px' }}>
-            </img>
-          </Grid>
-          <Grid item xs={7} sm={7} lg={7} md={7} xl={7}
-            height='75vh'
-            minHeight='550px'>
-            <Grid container
-              direction='column'>
-              <Typography textAlign='center'
-                mt='25px'
-                variant='h5'
-                fontWeight='bold'>
-                <LoginIcon sx={{ fontSize: '67px', color: '#0265CD' }}></LoginIcon>
-              </Typography>
-              <Typography textAlign='center'
-                mt='10px'
-                variant='h5'
-                fontWeight='bold'>
-                Iniciar Sesión
-              </Typography>
-              <Grid container direction='column' component={'form'} onSubmit={handleSubmit}>
-                <TextField
-                  name="usuario"
-                  label="Usuario"
-                  variant="outlined"
-                  value={login.usuario}
-                  onChange={handleChange}
-                  sx={{ ml: '20px', mr: '20px', mt: '40px' }} />
-                <TextField
-                  name="contraseña"
-                  type="password"
-                  label="Contraseña"
-                  variant="outlined"
-                  value={login.contraseña}
-                  onChange={handleChange}
-                  sx={{ ml: '20px', mr: '20px', mt: '30px' }} />
-                <Button variant="outlined"
-                  size='large'
-                  type="submit"
-                  sx={{
-                    color: '#0265CD',
-                    ml: '80px',
-                    mr: '80px',
-                    mt: '40px',
-                    borderColor: '#0265CD',
-                    borderRadius: '50px',
-                    textTransform: 'none'
-                  }}> Iniciar Sesión
-                </Button>
-              </Grid>
+            sx={{
+              overflow: 'hidden',
+              border: '1px solid #BABBBF',
+              borderRadius: '20px',
+              display: { xs: 'none', sm: 'none', md: 'none', lg: 'flex' }
+            }}>
+            <Grid item xs={5} sm={5} lg={5} md={5} xl={5}
+              sx={{
+                overflow: 'hidden'
+              }}
+              height='75vh'
+              minHeight='550px'
+              textAlign='center'>
+              <img
+                src={process.env.PUBLIC_URL + "/pexels-anna-shvets-4587987.png"}
+                alt="collage"
+                style={{ height: '88vh',minHeight:'650px', maxHeight: '700px' }}>
+              </img>
+            </Grid>
+            <Grid item xs={7} sm={7} lg={7} md={7} xl={7}
+              height='75vh'
+              minHeight='550px'>
               <Grid container
-                direction='row'
-                textAlign='center'
-                justifyContent='center'>
-                <Typography
-                  sx={{ fontSize: '15px' }}
-                  textAlign='center'
-                  mt='30px'
-                  mr='5px'
-                  variant='body1'>
-                  ¿Olvidaste tu contraseña?
+                direction='column'>
+                <Typography textAlign='center'
+                  mt='25px'
+                  variant='h5'
+                  fontWeight='bold'>
+                  <LoginIcon sx={{ fontSize: '55px', color: '#0265CD' }}></LoginIcon>
                 </Typography>
-                <Link href="#"
-                  to='/recuperar'
-                  style={{
-                    marginLeft: '5px',
-                    marginTop: '30px',
-                    color: "#0265CD",
-                    fontSize: '15px',
-                  }}> {' Recuperar contraseña'}
-                </Link>
+                <Typography textAlign='center'
+                  mt='10px'
+                  variant='h5'
+                  fontWeight='bold'>
+                  Iniciar Sesión
+                </Typography>
+                <Grid container direction='column' component={'form'} onSubmit={handleSubmit}>
+                  <TextField
+                    name="usuario"
+                    label="Usuario"
+                    variant="outlined"
+                    value={login.usuario}
+                    onChange={handleChange}
+                    sx={{ ml: '20px', mr: '20px', mt: '40px' }} />
+                  <TextField
+                    name="contraseña"
+                    type="password"
+                    label="Contraseña"
+                    variant="outlined"
+                    value={login.contraseña}
+                    onChange={handleChange}
+                    sx={{ ml: '20px', mr: '20px', mt: '30px' }} />
+                  <Button variant="outlined"
+                    size='large'
+                    type="submit"
+                    sx={{
+                      color: '#0265CD',
+                      ml: '80px',
+                      mr: '80px',
+                      mt: '40px',
+                      borderColor: '#0265CD',
+                      borderRadius: '50px',
+                      textTransform: 'none'
+                    }}> Iniciar Sesión
+                  </Button>
+                </Grid>
+                <Grid container
+                  direction='row'
+                  textAlign='center'
+                  justifyContent='center'>
+                  <Typography
+                    sx={{ fontSize: '15px' }}
+                    textAlign='center'
+                    mt='30px'
+                    mr='5px'
+                    variant='body1'>
+                    ¿Olvidaste tu contraseña?
+                  </Typography>
+                  <Link href="#"
+                    to='/recuperar'
+                    style={{
+                      marginLeft: '5px',
+                      marginTop: '30px',
+                      color: "#0265CD",
+                      fontSize: '15px',
+                    }}> {' Recuperar contraseña'}
+                  </Link>
+                </Grid>
               </Grid>
             </Grid>
           </Grid>
-        </Grid>
-        {/*Sin parte azul*/}
-        <Grid container
-          minWidth='280px'
-          mb='50px'
-          sx={{ display: { xl: 'none', lg: 'none' } }}
-          direction='column'>
-          <Typography textAlign='center'
-            variant='h5'
-            fontWeight='bold'>
-            <LoginIcon sx={{ fontSize: '67px', color: '#0265CD' }}></LoginIcon>
-          </Typography>
-          <Typography textAlign='center'
-            mt='20px'
-            variant='h5'
-            fontWeight='bold'>
-            Iniciar Sesión
-          </Typography>
-          <Grid container direction='column' component={'form'} onSubmit={handleSubmit}>
-            <TextField
-              name="usuario"
-              label="Usuario"
-              variant="outlined"
-              value={login.usuario}
-              onChange={handleChange}
-              sx={{ ml: '20px', mr: '20px', mt: '40px' }} />
-            <TextField
-              name="contraseña"
-              type="password"
-              label="Contraseña"
-              variant="outlined"
-              value={login.contraseña}
-              onChange={handleChange}
-              sx={{ ml: '20px', mr: '20px', mt: '30px' }} />
-            <Button variant="outlined"
-              size='large'
-              type="submit"
-              sx={{
-                color: '#0265CD',
-                ml: '80px',
-                mr: '80px',
-                mt: '40px',
-                borderColor: '#0265CD',
-                borderRadius: '50px',
-                textTransform: 'none'
-              }}> Iniciar Sesión
-            </Button>
-          </Grid>
+          {/*Sin parte azul*/}
           <Grid container
-            direction='row'
-            textAlign='center'
-            justifyContent='center'>
-            <Typography
-              sx={{ fontSize: '15px' }}
-              textAlign='center'
-              mt='50px'
-              variant='body1'>
-              ¿Olvidaste tu contraseña?
+            minWidth='280px'
+            mb='10px'
+            sx={{ display: { xl: 'none', lg: 'none' } }}
+            direction='column'>
+            <Typography textAlign='center'
+              variant='h5'
+              fontWeight='bold'>
+              <LoginIcon sx={{ fontSize: '67px', color: '#0265CD' }}></LoginIcon>
             </Typography>
-            <Box width='10px'>
-            </Box>
-            <Link href="#"
-              to='/recuperar'
-              style={{
-                marginTop: '50px',
-                color: "#0265CD",
-                fontSize: '15px',
-              }}> {' Recuperar contraseña'}
-            </Link>
+            <Typography textAlign='center'
+              mt='20px'
+              variant='h5'
+              fontWeight='bold'>
+              Iniciar Sesión
+            </Typography>
+            <Grid container direction='column' component={'form'} onSubmit={handleSubmit}>
+              <TextField
+                name="usuario"
+                label="Usuario"
+                variant="outlined"
+                value={login.usuario}
+                onChange={handleChange}
+                sx={{ ml: '20px', mr: '20px', mt: '40px' }} />
+              <TextField
+                name="contraseña"
+                type="password"
+                label="Contraseña"
+                variant="outlined"
+                value={login.contraseña}
+                onChange={handleChange}
+                sx={{ ml: '20px', mr: '20px', mt: '30px' }} />
+              <Button variant="outlined"
+                size='large'
+                type="submit"
+                sx={{
+                  color: '#0265CD',
+                  ml: '80px',
+                  mr: '80px',
+                  mt: '40px',
+                  borderColor: '#0265CD',
+                  borderRadius: '50px',
+                  textTransform: 'none'
+                }}> Iniciar Sesión
+              </Button>
+            </Grid>
+            <Grid container
+              direction='row'
+              textAlign='center'
+              justifyContent='center'>
+              <Typography
+                sx={{ fontSize: '15px' }}
+                textAlign='center'
+                mt='50px'
+                variant='body1'>
+                ¿Olvidaste tu contraseña?
+              </Typography>
+              <Box width='10px'>
+              </Box>
+              <Link href="#"
+                to='/recuperar'
+                style={{
+                  marginTop: '50px',
+                  color: "#0265CD",
+                  fontSize: '15px',
+                }}> {' Recuperar contraseña'}
+              </Link>
+            </Grid>
           </Grid>
         </Grid>
       </Container></>

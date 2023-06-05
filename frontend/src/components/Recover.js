@@ -20,7 +20,7 @@ export default function Recover() {
       return
     }
 
-    const res = await fetch('http://localhost:4000/recover', {
+    const res = await fetch('http://localhost:4000/clients', {
       method: 'POST',
       body: JSON.stringify(recover),
       headers: { "content-Type": "application/json" }
@@ -30,8 +30,7 @@ export default function Recover() {
 
     if (res.status === 200) {
       sessionStorage.setItem('correo', data.correo)
-      sessionStorage.setItem('auth', 'yes')
-      navigate("/code")
+      navigate("/codigo")
     }
     else {
       setErrorMessage("Correo no encontrado");
@@ -96,7 +95,7 @@ export default function Recover() {
           alignItems='center'
           justifyContent='center'
           minHeight='700px' >
-          <Grid 
+          <Grid
             container
             direction='column'
             alignItems='center'
@@ -119,26 +118,26 @@ export default function Recover() {
               variant="body1">Ingresa tu correo y te enviaremos un código de recuperación.
             </Typography>
             <Grid component={'form'} onSubmit={handleSubmit}>
-            <TextField
-              name="correo"
-              type="email"
-              label="Correo"
-              variant="outlined"
-              value={recover.correo}
-              onChange={handleChange}
-              sx={{ width: '400px' }}
-            >
-            </TextField>
-            <Grid container mt='30px' direction='row' alignItems='center' justifyContent='center'>
-              <Button
-                variant="contained"
-                sx={{ backgroundColor: "#BABBBF", borderRadius: '50px', width: '130px' }}>Cancelar
-              </Button>
-              <Button
-                type="submit"
-                variant="contained"
-                sx={{ ml: '20px', borderRadius: '50px', width: '130px' }}>Continuar
-              </Button>
+              <TextField
+                name="correo"
+                type="email"
+                label="Correo"
+                variant="outlined"
+                value={recover.correo}
+                onChange={handleChange}
+                sx={{ width: '400px' }}
+              >
+              </TextField>
+              <Grid container mt='30px' direction='row' alignItems='center' justifyContent='center'>
+                <Button
+                  variant="contained"
+                  sx={{ backgroundColor: "#BABBBF", borderRadius: '50px', width: '130px' }}>Cancelar
+                </Button>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  sx={{ ml: '20px', borderRadius: '50px', width: '130px' }}>Continuar
+                </Button>
               </Grid>
             </Grid>
           </Grid>
@@ -167,32 +166,32 @@ export default function Recover() {
               variant="body1">Ingresa tu correo y te enviaremos un código de recuperación.
             </Typography>
             <Grid component={'form'} onSubmit={handleSubmit}>
-            <TextField
-              name="correo"
-              type="email"
-              label="Correo"
-              variant="outlined"
-              value={recover.correo}
-              onChange={handleChange}
-              sx={{ width: '80vw', maxWidth: '480px' }}>
-            </TextField>
-            <Box sx={{ height: '30px', width: '30px' }}></Box>
-            <Grid
-              container
-              direction='row'
-              alignItems='center'
-              justifyContent='center'
-              sx={{ display: { xs: 'contents', sm: ' flex' } }}>
-              <Button
-                variant="contained"
-                sx={{ backgroundColor: "#BABBBF", borderRadius: '50px', width: '130px' }}>Cancelar
-              </Button>
+              <TextField
+                name="correo"
+                type="email"
+                label="Correo"
+                variant="outlined"
+                value={recover.correo}
+                onChange={handleChange}
+                sx={{ width: '80vw', maxWidth: '480px' }}>
+              </TextField>
               <Box sx={{ height: '30px', width: '30px' }}></Box>
-              <Button
-                type="submit"
-                variant="contained"
-                sx={{ borderRadius: '50px', width: '130px' }}>Continuar
-              </Button>
+              <Grid
+                container
+                direction='row'
+                alignItems='center'
+                justifyContent='center'
+                sx={{ display: { xs: 'contents', sm: ' flex' } }}>
+                <Button
+                  variant="contained"
+                  sx={{ backgroundColor: "#BABBBF", borderRadius: '50px', width: '130px' }}>Cancelar
+                </Button>
+                <Box sx={{ height: '30px', width: '30px' }}></Box>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  sx={{ borderRadius: '50px', width: '130px' }}>Continuar
+                </Button>
               </Grid>
             </Grid>
           </Grid>

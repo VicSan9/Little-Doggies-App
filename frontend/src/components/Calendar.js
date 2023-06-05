@@ -19,33 +19,32 @@ export default function Calendar() {
 
     const [servicios, setServicios] = React.useState([])
 
-    const [citas, setCitas] = React.useState([])
-
     const [servicio, setServicio] = React.useState('')
 
     const [horario, setHorario] = React.useState('');
 
-    const [isLoggedIn1, setIsLoggedIn1] = React.useState(true);
+    const [isLoggedIn1, setIsLoggedIn1] = React.useState(false);
+
+    const [isLoggedIn2, setIsLoggedIn2] = React.useState(false);
+
+    const [isLoggedIn3, setIsLoggedIn3] = React.useState(false);
+
+    const [isLoggedIn4, setIsLoggedIn4] = React.useState(false);
+
+    const [isLoggedIn5, setIsLoggedIn5] = React.useState(false);
+
+    const [isLoggedIn6, setIsLoggedIn6] = React.useState(false);
 
     const [isDisable, setIsDisable] = React.useState(true)
 
     const [isDisable2, setIsDisable2] = React.useState(false)
 
-    const hora1 = '7:00:00'
-    const hora2 = '8:30:00'
+    const hora1 = '07:00:00'
+    const hora2 = '08:30:00'
     const hora3 = '10:00:00'
     const hora4 = '13:00:00'
     const hora5 = '14:30:00'
     const hora6 = '16:00:00'
-
-    const isDisabled1 = () => {
-       // var i = 0
-        //while (i <= citas.length + 1){
-       //     if(citas.hora[i] === hora1){
-       //         setIsLoggedIn1(false)
-       //     }
-       // }
-    };
 
     const handleClick = async () => {
         setIsDisable(false)
@@ -59,8 +58,94 @@ export default function Calendar() {
 
         const data = await res.json()
 
-        setCitas(data)
+        if (res.status === 404){
+            setIsLoggedIn1(false)
+            setIsLoggedIn2(false)
+            setIsLoggedIn3(false)
+            setIsLoggedIn4(false)
+            setIsLoggedIn5(false)
+            setIsLoggedIn6(false)
+            return
+        }
+
+        var i = 0
+        while (i <= data.length - 1){
+            if(data[i].hora === hora1){
+                setIsLoggedIn1(true)
+                break
+            }
+            setIsLoggedIn1(false)
+            i +=1
+        }
+
+        var i2 = 0
+        while (i2 <= data.length - 1){
+            if(data[i2].hora === hora2){
+                setIsLoggedIn2(true)
+                break
+            }
+            setIsLoggedIn2(false)
+            i2 +=1
+        }
+
+        var i3 = 0
+        while (i3 <= data.length - 1){
+            if(data[i3].hora === hora3){
+                setIsLoggedIn3(true)
+                break
+            }
+            setIsLoggedIn3(false)
+            i3 +=1
+        }
+
+        var i4 = 0
+        while (i4 <= data.length - 1){
+            if(data[i4].hora === hora4){
+                setIsLoggedIn4(true)
+                break
+            }
+            setIsLoggedIn4(false)
+            i4 +=1
+        }
+
+        var i5 = 0
+        while (i5 <= data.length - 1){
+            if(data[i5].hora === hora5){
+                setIsLoggedIn5(true)
+                break
+            }
+            setIsLoggedIn5(false)
+            i5 +=1
+        }
+
+        var i6 = 0
+        while (i6 <= data.length - 1){
+            if(data[i6].hora === hora6){
+                setIsLoggedIn6(true)
+                break
+            }
+            setIsLoggedIn6(false)
+            i6 +=1
+        }
     }
+
+    React.useEffect(() => {
+    }, [isLoggedIn1]);
+
+    React.useEffect(() => {
+    }, [isLoggedIn2]);
+
+    React.useEffect(() => {
+    }, [isLoggedIn3]);
+
+    React.useEffect(() => {
+    }, [isLoggedIn4]);
+
+    React.useEffect(() => {
+    }, [isLoggedIn5]);
+
+    React.useEffect(() => {
+    }, [isLoggedIn6]);
 
     const handleClick2 = () => {
         setIsDisable(true)
@@ -193,12 +278,12 @@ export default function Calendar() {
                                     value={horario}
                                     label="Horario"
                                     onChange={handleChange}>
-                                    <MenuItem disabled={isDisabled1()} value={hora1}>7:00 A.M</MenuItem>
-                                    <MenuItem disabled={false} value={hora2}>8:30 A.M</MenuItem>
-                                    <MenuItem disabled={false} value={hora3}>10:00 A.M</MenuItem>
-                                    <MenuItem disabled={false} value={hora4}>1:00 P.M</MenuItem>
-                                    <MenuItem disabled={false} value={hora5}>2:30 P.M</MenuItem>
-                                    <MenuItem disabled={false} value={hora6}>4:00 P.M</MenuItem>
+                                    <MenuItem disabled={isLoggedIn1} value={hora1}>7:00 A.M</MenuItem>
+                                    <MenuItem disabled={isLoggedIn2} value={hora2}>8:30 A.M</MenuItem>
+                                    <MenuItem disabled={isLoggedIn3} value={hora3}>10:00 A.M</MenuItem>
+                                    <MenuItem disabled={isLoggedIn4} value={hora4}>1:00 P.M</MenuItem>
+                                    <MenuItem disabled={isLoggedIn5} value={hora5}>2:30 P.M</MenuItem>
+                                    <MenuItem disabled={isLoggedIn6} value={hora6}>4:00 P.M</MenuItem>
                                 </Select>
                             </FormControl>
                             <FormControl fullWidth sx={{ mt: '20px' }}>

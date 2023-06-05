@@ -1,4 +1,4 @@
-import { Button, Container, Grid, Typography } from "@mui/material";
+import { Box, Button, Container, Grid, Typography } from "@mui/material";
 import Navbar from "./UserNavbar";
 import * as React from 'react';
 import dayjs from 'dayjs';
@@ -39,6 +39,8 @@ export default function Calendar() {
 
     const [isDisable2, setIsDisable2] = React.useState(false)
 
+    const [errorMessage, setErrorMessage] = React.useState("");
+
     const hora1 = '07:00:00'
     const hora2 = '08:30:00'
     const hora3 = '10:00:00'
@@ -46,7 +48,51 @@ export default function Calendar() {
     const hora5 = '14:30:00'
     const hora6 = '16:00:00'
 
+    const handleClick3 = () => {
+        setErrorMessage("");
+    }
+
+    const ErrorComponent = ({ errorMessage }) => {
+        return (
+            <Grid container
+                zIndex='2'
+                width='100vw'
+                height='100vh'
+                position='absolute'
+                alignItems='center'
+                textAlign='center'
+                justifyContent='center'
+                sx={{ backgroundColor: 'rgba(0,0,0,.2)', backdropFilter: 'blur(5px)', }}>
+                <Box
+                    width='300px'
+                    height='200px'
+                    borderRadius='20px'
+                    border='1px solid #BABBBF'
+                    sx={{ backgroundColor: '#ffffff' }}>
+                    <Typography color='#CD0227' mt='20px' variant="h5" fontWeight='bold'>Error</Typography>
+                    <p>{errorMessage}</p>
+                    <Button variant="outlined"
+                        size='medium'
+                        onClick={handleClick3}
+                        sx={{
+                            color: '#0265CD',
+                            mt: '30px',
+                            borderColor: '#0265CD',
+                            borderRadius: '50px',
+                            textTransform: 'none'
+                        }}> Volver
+                    </Button>
+                </Box>
+            </Grid>
+        );
+    };
+
     const handleClick = async () => {
+        if (fecha.fecha === '') {
+            setErrorMessage('Escoge un día primero')
+            return
+        }
+
         setIsDisable(false)
         setIsDisable2(true)
 
@@ -58,7 +104,7 @@ export default function Calendar() {
 
         const data = await res.json()
 
-        if (res.status === 404){
+        if (res.status === 404) {
             setIsLoggedIn1(false)
             setIsLoggedIn2(false)
             setIsLoggedIn3(false)
@@ -69,63 +115,63 @@ export default function Calendar() {
         }
 
         var i = 0
-        while (i <= data.length - 1){
-            if(data[i].hora === hora1){
+        while (i <= data.length - 1) {
+            if (data[i].hora === hora1) {
                 setIsLoggedIn1(true)
                 break
             }
             setIsLoggedIn1(false)
-            i +=1
+            i += 1
         }
 
         var i2 = 0
-        while (i2 <= data.length - 1){
-            if(data[i2].hora === hora2){
+        while (i2 <= data.length - 1) {
+            if (data[i2].hora === hora2) {
                 setIsLoggedIn2(true)
                 break
             }
             setIsLoggedIn2(false)
-            i2 +=1
+            i2 += 1
         }
 
         var i3 = 0
-        while (i3 <= data.length - 1){
-            if(data[i3].hora === hora3){
+        while (i3 <= data.length - 1) {
+            if (data[i3].hora === hora3) {
                 setIsLoggedIn3(true)
                 break
             }
             setIsLoggedIn3(false)
-            i3 +=1
+            i3 += 1
         }
 
         var i4 = 0
-        while (i4 <= data.length - 1){
-            if(data[i4].hora === hora4){
+        while (i4 <= data.length - 1) {
+            if (data[i4].hora === hora4) {
                 setIsLoggedIn4(true)
                 break
             }
             setIsLoggedIn4(false)
-            i4 +=1
+            i4 += 1
         }
 
         var i5 = 0
-        while (i5 <= data.length - 1){
-            if(data[i5].hora === hora5){
+        while (i5 <= data.length - 1) {
+            if (data[i5].hora === hora5) {
                 setIsLoggedIn5(true)
                 break
             }
             setIsLoggedIn5(false)
-            i5 +=1
+            i5 += 1
         }
 
         var i6 = 0
-        while (i6 <= data.length - 1){
-            if(data[i6].hora === hora6){
+        while (i6 <= data.length - 1) {
+            if (data[i6].hora === hora6) {
                 setIsLoggedIn6(true)
                 break
             }
             setIsLoggedIn6(false)
-            i6 +=1
+            i6 += 1
         }
     }
 
@@ -210,104 +256,109 @@ export default function Calendar() {
 
     return (
         <>
+            {errorMessage && <ErrorComponent errorMessage={errorMessage} />}
             <Navbar></Navbar>
             <Container
                 maxWidth='xl'
                 fixed>
                 <Grid
-                    mt='88px'
                     container
-                    height='85vh'>
+                    alignItems='center'
+                    height='100vh'>
                     <Grid
-                        alignItems='star'
-                        justifyContent='center'
-                        height='85vh'
-                        item xs={6} sm={6} lg={6} md={6} xl={6}
-                        borderRight='2px solid #BABBBF'>
+                        container
+                        height='78vh'>
                         <Grid
-                            container
                             alignItems='star'
-                            justifyContent='start'>
-                            <Typography textAlign='start' mt='20px' variant="h5" fontWeight='bold'>Agenda tu cita</Typography>
-                            <Typography textAlign='start' mr='20px' mt='30px' mb='30px' variant="body1">
-                                Aquí podrás programar tus citas para
-                                el día que desees, por favor asegúrate de
-                                escoger el día en el calendario, darle clic en confirmar y luego seleccionar el
-                                horario que más se adecue a tus necesidades, por último
-                                escoge los servicios que necesitarás para tu mascota.
-                            </Typography>
+                            justifyContent='center'
+                            height='85vh'
+                            item xs={6} sm={6} lg={6} md={6} xl={6}
+                            borderRight='2px solid #BABBBF'>
                             <Grid
                                 container
-                                justifyContent='center'
-                                alignItems='center'
-                                direction='column'
-                                mr='20px'>
-                                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                    <DemoContainer components={['DateCalendar', 'DateCalendar']}>
-                                        <DemoItem>
-                                            <DateCalendar
-                                                disabled={isDisable2}
-                                                disablePast={true}
-                                                value={value}
-                                                onChange={onChange}
-                                                shouldDisableDate={shouldDisableDate}
-                                                sx={{ margin: '0px' }} />
-                                        </DemoItem>
-                                    </DemoContainer>
-                                </LocalizationProvider>
-                                <Button
-                                    fullWidth
-                                    disabled={isDisable2}
-                                    variant="text"
-                                    onClick={handleClick}
-                                >{'Confirmar ->'}
-                                </Button>
+                                alignItems='star'
+                                justifyContent='start'>
+                                <Typography textAlign='start' mt='20px' variant="h5" fontWeight='bold'>Agenda tu cita</Typography>
+                                <Typography textAlign='start' mr='20px' mt='30px' mb='30px' variant="body1">
+                                    Aquí podrás programar tus citas para
+                                    el día que desees, por favor asegúrate de
+                                    escoger el día en el calendario, darle clic en confirmar y luego seleccionar el
+                                    horario que más se adecue a tus necesidades, por último
+                                    escoge los servicios que necesitarás para tu mascota.
+                                </Typography>
+                                <Grid
+                                    container
+                                    justifyContent='center'
+                                    alignItems='center'
+                                    direction='column'
+                                    mr='20px'>
+                                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                        <DemoContainer components={['DateCalendar', 'DateCalendar']}>
+                                            <DemoItem>
+                                                <DateCalendar
+                                                    disabled={isDisable2}
+                                                    disablePast={true}
+                                                    value={value}
+                                                    onChange={onChange}
+                                                    shouldDisableDate={shouldDisableDate}
+                                                    sx={{ margin: '0px' }} />
+                                            </DemoItem>
+                                        </DemoContainer>
+                                    </LocalizationProvider>
+                                    <Button
+                                        fullWidth
+                                        disabled={isDisable2}
+                                        variant="text"
+                                        onClick={handleClick}
+                                    >{'Confirmar ->'}
+                                    </Button>
+                                </Grid>
                             </Grid>
                         </Grid>
-                    </Grid>
-                    <Grid
-                        height='85vh'
-                        item xs={6} sm={6} lg={6} md={6} xl={6}>
-                        <Grid container mt='20px' ml='20px' mr='20px' width='auto'>
-                            <FormControl fullWidth>
-                                <InputLabel id="demo-simple-select-label">Horario</InputLabel>
-                                <Select
+                        <Grid
+                            height='85vh'
+                            item xs={6} sm={6} lg={6} md={6} xl={6}>
+                            <Grid container mt='20px' ml='20px' mr='20px' width='auto'>
+                                <FormControl fullWidth>
+                                    <InputLabel id="demo-simple-select-label">Horario</InputLabel>
+                                    <Select
+                                        disabled={isDisable}
+                                        labelId="demo-simple-select-label"
+                                        id="demo-simple-select"
+                                        value={horario}
+                                        label="Horario"
+                                        onChange={handleChange}>
+                                        <MenuItem disabled={isLoggedIn1} value={hora1}>7:00 A.M</MenuItem>
+                                        <MenuItem disabled={isLoggedIn2} value={hora2}>8:30 A.M</MenuItem>
+                                        <MenuItem disabled={isLoggedIn3} value={hora3}>10:00 A.M</MenuItem>
+                                        <MenuItem disabled={isLoggedIn4} value={hora4}>1:00 P.M</MenuItem>
+                                        <MenuItem disabled={isLoggedIn5} value={hora5}>2:30 P.M</MenuItem>
+                                        <MenuItem disabled={isLoggedIn6} value={hora6}>4:00 P.M</MenuItem>
+                                    </Select>
+                                </FormControl>
+                                <FormControl fullWidth sx={{ mt: '20px' }}>
+                                    <InputLabel id="demo-simple-select-label2">Servicios</InputLabel>
+                                    <Select
+                                        disabled={isDisable}
+                                        labelId="demo-simple-select-label2"
+                                        id="demo-simple-select2"
+                                        value={servicio}
+                                        label="Servicios"
+                                        onChange={handleChange2}>
+                                        {servicios.map((servicio) => (
+                                            <MenuItem key={servicio.svid} value={servicio.svid}>{servicio.nombre}</MenuItem>
+                                        ))}
+                                    </Select>
+                                </FormControl>
+                                <Button
+                                    sx={{ mt: '40px' }}
+                                    fullWidth
                                     disabled={isDisable}
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
-                                    value={horario}
-                                    label="Horario"
-                                    onChange={handleChange}>
-                                    <MenuItem disabled={isLoggedIn1} value={hora1}>7:00 A.M</MenuItem>
-                                    <MenuItem disabled={isLoggedIn2} value={hora2}>8:30 A.M</MenuItem>
-                                    <MenuItem disabled={isLoggedIn3} value={hora3}>10:00 A.M</MenuItem>
-                                    <MenuItem disabled={isLoggedIn4} value={hora4}>1:00 P.M</MenuItem>
-                                    <MenuItem disabled={isLoggedIn5} value={hora5}>2:30 P.M</MenuItem>
-                                    <MenuItem disabled={isLoggedIn6} value={hora6}>4:00 P.M</MenuItem>
-                                </Select>
-                            </FormControl>
-                            <FormControl fullWidth sx={{ mt: '20px' }}>
-                                <InputLabel id="demo-simple-select-label2">Servicios</InputLabel>
-                                <Select
-                                    disabled={isDisable}
-                                    labelId="demo-simple-select-label2"
-                                    id="demo-simple-select2"
-                                    value={servicio}
-                                    label="Servicios"
-                                    onChange={handleChange2}>
-                                    {servicios.map((servicio) => (
-                                        <MenuItem key={servicio.svid} value={servicio.svid}>{servicio.nombre}</MenuItem>
-                                    ))}
-                                </Select>
-                            </FormControl>
-                            <Button
-                                sx={{ mt: '40px' }}
-                                fullWidth
-                                disabled={isDisable}
-                                variant="text"
-                                onClick={handleClick2}
-                            >{' <- Cambiar fecha'}
-                            </Button>
+                                    variant="text"
+                                    onClick={handleClick2}
+                                >{' <- Cambiar fecha'}
+                                </Button>
+                            </Grid>
                         </Grid>
                     </Grid>
                 </Grid>

@@ -1,4 +1,4 @@
-import { Box, Button, Container, Grid, Typography } from "@mui/material";
+import { Box, Button, Chip, Container, Grid, Typography } from "@mui/material";
 import Navbar from "./UserNavbar";
 import * as React from 'react';
 import dayjs from 'dayjs';
@@ -11,6 +11,16 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+    PaperProps: {
+        style: {
+            maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+            width: 250,
+        },
+    },
+};
 
 export default function Calendar() {
     const [value, setValue] = React.useState(null);
@@ -19,7 +29,7 @@ export default function Calendar() {
 
     const [servicios, setServicios] = React.useState([])
 
-    const [servicio, setServicio] = React.useState('')
+    const [servicio2, setServicio2] = React.useState([])
 
     const [horario, setHorario] = React.useState('');
 
@@ -47,6 +57,16 @@ export default function Calendar() {
     const hora4 = '13:00:00'
     const hora5 = '14:30:00'
     const hora6 = '16:00:00'
+
+    const handleChange5 = (event) => {
+        const {
+            target: { value },
+        } = event;
+        setServicio2(
+            // On autofill we get a stringified value.
+            typeof value === 'string' ? value.split(',') : value,
+        );
+    };
 
     const handleClick3 = () => {
         setErrorMessage("");
@@ -197,7 +217,7 @@ export default function Calendar() {
         setIsDisable(true)
         setIsDisable2(false)
         setHorario('')
-        setServicio('')
+        setServicio2([])
     }
 
     React.useEffect(() => {
@@ -205,11 +225,6 @@ export default function Calendar() {
 
     const handleChange = (event) => {
         setHorario(event.target.value);
-        console.log(event.target.value)
-    };
-
-    const handleChange2 = (event) => {
-        setServicio(event.target.value);
         console.log(event.target.value)
     };
 
@@ -339,14 +354,27 @@ export default function Calendar() {
                                 <FormControl fullWidth sx={{ mt: '20px' }}>
                                     <InputLabel id="demo-simple-select-label2">Servicios</InputLabel>
                                     <Select
+                                        multiple
                                         disabled={isDisable}
                                         labelId="demo-simple-select-label2"
                                         id="demo-simple-select2"
-                                        value={servicio}
+                                        value={servicio2}
                                         label="Servicios"
-                                        onChange={handleChange2}>
+                                        onChange={handleChange5}
+                                        renderValue={(selected) => (
+                                            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                                                {selected.map((value) => (
+                                                    <Chip key={value} label={value} />
+                                                ))}
+                                            </Box>
+                                        )}
+                                        MenuProps={MenuProps}>
                                         {servicios.map((servicio) => (
-                                            <MenuItem key={servicio.svid} value={servicio.svid}>{servicio.nombre}</MenuItem>
+                                            <MenuItem
+                                                key={servicio.svid}
+                                                value={servicio.nombre}>
+                                                {servicio.nombre}
+                                            </MenuItem>
                                         ))}
                                     </Select>
                                 </FormControl>

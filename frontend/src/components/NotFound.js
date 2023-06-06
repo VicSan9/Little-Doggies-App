@@ -6,7 +6,7 @@ export default function NotFound() {
         <Container maxWidth='lg'>
             <Card sx={{boxShadow:'none'}}>
                 <Typography mt='100px' variant="h4">404 Not Found</Typography>
-                <Typography>The page you are looking for could not be found.</Typography>
+                <Typography>No se pudo encontrar la página que está buscando.</Typography>
                 <Link to={'/home'}>Regregar a Little Doggies</Link>
             </Card>
         </Container>

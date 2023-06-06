@@ -1,4 +1,4 @@
-import { Box, Button, Chip, Container, Grid, Typography } from "@mui/material";
+import { Box, Button, Chip, Container, FormHelperText, Grid, Typography } from "@mui/material";
 import Navbar from "./UserNavbar";
 import * as React from 'react';
 import dayjs from 'dayjs';
@@ -362,7 +362,7 @@ export default function Calendar() {
                                 alignItems='star'
                                 justifyContent='start'>
                                 <Typography textAlign='start' mt='20px' variant="h5" fontWeight='bold'>Agenda tu cita</Typography>
-                                <Typography textAlign='start' mr='20px' mt='30px' mb='30px' variant="body1">
+                                <Typography textAlign='start' mr='40px' mt='30px' mb='30px' variant="body1">
                                     Aquí podrás programar tus citas para
                                     el día que desees, por favor asegúrate de
                                     escoger el día en el calendario, darle clic en confirmar y luego seleccionar el
@@ -445,6 +445,7 @@ export default function Calendar() {
                                             </MenuItem>
                                         ))}
                                     </Select>
+                                    <FormHelperText>Escoge uno o varios servicios, si ya no quieres un servicio solo dale click de nuevo para quitarlo</FormHelperText>
                                 </FormControl>
                                 <Button
                                     sx={{ mt: '40px' }}

@@ -10,6 +10,7 @@ import RouteControler1 from './components/RouteController1'
 import Recover from './components/Recover'
 import Calendar from './components/Calendar'
 import Code from './components/Code'
+import Password from './components/Password'
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 
@@ -22,6 +23,7 @@ export default function App({ children }) {
       <BrowserRouter>
         <Routes>
           <Route exact path='/codigo' element={<Code />} />
+          <Route exact path='/contraseña' element={<Password />} />
           <Route exact path='/' element={<Home />} />
           <Route exact path='/productos' element={<Products />} />
           <Route exact path='/registrarse' element={<CheckIn />} />

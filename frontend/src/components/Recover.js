@@ -32,10 +32,6 @@ export default function Recover() {
       sessionStorage.setItem('correo', data.correo)
       navigate("/codigo")
     }
-    else {
-      setErrorMessage("Correo no encontrado");
-      setRecover({ correo: '' })
-    }
   }
 
   const handleChange = e => {

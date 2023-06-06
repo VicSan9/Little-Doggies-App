@@ -15,7 +15,7 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (login.usuario === '' || login.contraseña === '') {
+    if (login.usuario.trim() === '' || login.contraseña.trim() === '') {
       setErrorMessage("Ingrese todos los datos primero");
       return
     }

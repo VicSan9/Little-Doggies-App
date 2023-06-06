@@ -11,6 +11,7 @@ import Recover from './components/Recover'
 import Calendar from './components/Calendar'
 import Code from './components/Code'
 import Password from './components/Password'
+import NotFound from './components/NotFound'
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 
@@ -33,6 +34,7 @@ export default function App({ children }) {
           <Route exact path='/citas' element={<RouteControler1 componet={Quotes} />} />
           <Route exact path='/nueva-cita' element={<RouteControler1 componet={Calendar} />} />
           <Route exact path='/home' element={<RouteControler1 componet={HomeUser} />} />
+          <Route path='*' element={<NotFound />} />
         </Routes>
       </BrowserRouter>
     </>

@@ -15,8 +15,9 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (checkin.nombres === '' || checkin.apellidos === '' || checkin.correo === '' || checkin.direccion === '' || checkin.telefono === '' || checkin.usuario === '' || checkin.contraseña === '') {
+    if (checkin.nombres.trim() === '' || checkin.apellidos.trim() === '' || checkin.correo.trim() === '' || checkin.direccion.trim() === '' || checkin.telefono.trim() === '' || checkin.usuario.trim() === '' || checkin.contraseña.trim() === '') {
       setErrorMessage("Ingrese todos los datos primero");
+      setCheckin({ nombres: '', apellidos: '', correo: '', direccion: '', telefono: '', usuario: '', contraseña: '', foto: 'foto' })
       return
     }
 
@@ -28,10 +29,24 @@ export default function Login() {
 
     const data = await res.json()
 
-    console.log(data)
-
-    if (res.status === 200) {
+    if (!data.message) {
       navigate("/login")
+      return
+    } 
+
+    if (data.message.code === "22P02"){
+      setErrorMessage('Debe de ingresar un número en telefono')
+      return
+    }
+
+    if (data.message.constraint === "clientes_usuario_key"){
+      setErrorMessage('Nombre de usuario ya registrado')
+      return
+    }
+
+    if (data.message.constraint === "clientes_correo_key"){
+      setErrorMessage('Correo electrónico ya registrado')
+      return
     }
   }
 
@@ -149,6 +164,7 @@ export default function Login() {
                       sx={{ ml: '25px', mr: '10px', mt: '30px' }} />
                     <TextField
                       name="telefono"
+                      type="tel"
                       label="Número de telefono"
                       variant="outlined"
                       value={checkin.telefono}
@@ -180,6 +196,7 @@ export default function Login() {
                     <TextField
                       name="correo"
                       label="Correo Electrónico"
+                      type="email"
                       variant="outlined"
                       value={checkin.correo}
                       onChange={handleChange}

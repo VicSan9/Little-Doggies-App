@@ -10,6 +10,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import { useNavigate } from "react-router-dom";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -50,6 +51,8 @@ export default function Calendar() {
     const [isDisable2, setIsDisable2] = React.useState(false)
 
     const [errorMessage, setErrorMessage] = React.useState("");
+
+    const navigate = useNavigate()
 
     const hora1 = '07:00:00'
     const hora2 = '08:30:00'
@@ -108,6 +111,9 @@ export default function Calendar() {
     };
 
     const handleClick = async () => {
+        if (sessionStorage.getItem('id') === null) {
+            return
+        }
         if (fecha.fecha === '') {
             setErrorMessage('Escoge un día primero')
             return
@@ -225,7 +231,6 @@ export default function Calendar() {
 
     const handleChange = (event) => {
         setHorario(event.target.value);
-        console.log(event.target.value)
     };
 
     const onChange = async (newValue) => {
@@ -268,6 +273,69 @@ export default function Calendar() {
         // Disable Saturday and Sunday
         return day === 6 || day === 0;
     };
+
+    const onClick = async () => {
+        if (sessionStorage.getItem('id') === null) {
+            return
+        }
+        if (horario === '') {
+            setErrorMessage('Por favor selecciona un horario primero')
+            return
+        }
+        if (servicio2.length === 0) {
+            setErrorMessage('Por favor selecciona los servicios primero')
+            return
+        }
+
+        const day = (dayjs(value).date())
+        const month = (dayjs(value).month())
+        const year = (dayjs(value).year())
+
+        const formattedDate = `${day}/${month + 1}/${year}`
+
+        const body = {
+            'clid': sessionStorage.getItem('id'),
+            'mcid': localStorage.getItem('idMascota'),
+            'fecha': formattedDate,
+            'hora': horario,
+        }
+
+        var id = []
+
+        for (let i = 0; i < servicio2.length; i++) {
+            for (let j = 0; j < servicios.length; j++) {
+                if (servicio2[i] === servicios[j].nombre) {
+                    id.push(servicios[j].svid)
+                }
+            }
+        }
+
+        const res = await fetch('http://localhost:4000/quotes', {
+            method: 'POST',
+            body: JSON.stringify(body),
+            headers: { "content-Type": "application/json" }
+        })
+
+        const data = await res.json();
+
+        for (let i = 0; i < id.length; i++) {
+            var body2 = {
+                'ctsid': data.ctsid,
+                'svid': id[i]
+            }
+            const res2 = await fetch('http://localhost:4000/quotesServices', {
+                method: 'POST',
+                body: JSON.stringify(body2),
+                headers: { "content-Type": "application/json" }
+            })
+
+            const data2 = await res2.json();
+
+            console.log(data2)
+        }
+
+        navigate('/mis-citas')
+    }
 
     return (
         <>
@@ -385,6 +453,14 @@ export default function Calendar() {
                                     variant="text"
                                     onClick={handleClick2}
                                 >{' <- Cambiar fecha'}
+                                </Button>
+                                <Button
+                                    sx={{ mt: '40px', borderRadius: '20px' }}
+                                    fullWidth
+                                    disabled={isDisable}
+                                    variant="outlined"
+                                    onClick={onClick}
+                                >{'Agendar cita'}
                                 </Button>
                             </Grid>
                         </Grid>

@@ -337,6 +337,18 @@ export default function Calendar() {
         navigate('/mis-citas')
     }
 
+    const checkMascota = () => {
+        if(localStorage.getItem('idMascota') === null){
+            navigate('/citas')
+        }
+    }
+
+    React.useEffect(() => {
+      checkMascota()
+      return
+    },)
+    
+
     return (
         <>
             {errorMessage && <ErrorComponent errorMessage={errorMessage} />}

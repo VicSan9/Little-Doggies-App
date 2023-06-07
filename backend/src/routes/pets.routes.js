@@ -7,7 +7,7 @@ router.post('/pets', getAllPets)
 
 router.get('/pets/:id', getPets)
 
-router.post('/pets', createPets)
+router.post('/pets2', createPets)
 
 router.delete('/pets/:id', deletePets)
 

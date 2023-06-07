@@ -14,6 +14,7 @@ import Password from './components/Password'
 import NotFound from './components/NotFound'
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import NewPet from './components/NewPet'
 
 export default function App({ children }) {
   return (
@@ -34,6 +35,7 @@ export default function App({ children }) {
           <Route exact path='/citas' element={<RouteControler1 componet={Quotes} />} />
           <Route exact path='/nueva-cita' element={<RouteControler1 componet={Calendar} />} />
           <Route exact path='/home' element={<RouteControler1 componet={HomeUser} />} />
+          <Route exact path='/nueva-mascota' element={<RouteControler1 componet={NewPet} />} />
           <Route path='*' element={<NotFound />} />
         </Routes>
       </BrowserRouter>

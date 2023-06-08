@@ -18,6 +18,7 @@ import NewPet from './components/NewPet'
 import PersonalInformation from './components/personalInformation'
 import UserPets from './components/userPets'
 import UserQuotes from './components/userQuotes'
+import ModifyInformation from './components/ModifyInformation'
 
 export default function App({ children }) {
   return (
@@ -43,6 +44,7 @@ export default function App({ children }) {
           <Route exact path='/mis-citas' element={<RouteControler1 componet={UserQuotes} />} />
           <Route path='*' element={<NotFound />} />
           <Route path='/cuenta' element={<PersonalInformation />} />
+          <Route path='/editar-cuenta' element={<ModifyInformation />} />
         </Routes>
       </BrowserRouter>
     </>

@@ -12,9 +12,10 @@ import Calendar from './components/Calendar'
 import Code from './components/Code'
 import Password from './components/Password'
 import NotFound from './components/NotFound'
-import { LocalizationProvider } from '@mui/x-date-pickers';
+import { LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import NewPet from './components/NewPet'
+import PersonalInformation from './components/personalInformation'
 
 export default function App({ children }) {
   return (
@@ -37,6 +38,7 @@ export default function App({ children }) {
           <Route exact path='/home' element={<RouteControler1 componet={HomeUser} />} />
           <Route exact path='/nueva-mascota' element={<RouteControler1 componet={NewPet} />} />
           <Route path='*' element={<NotFound />} />
+          <Route path='/informacionpersonal' element={<PersonalInformation />} />
         </Routes>
       </BrowserRouter>
     </>

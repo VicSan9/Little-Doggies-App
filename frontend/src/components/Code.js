@@ -42,7 +42,7 @@ export default function Code() {
     }
 
     const handleClick = () => {
-        setErrorMessage("");
+        navigate("/contraseña")
     }
 
     const ErrorComponent = ({ errorMessage }) => {
@@ -150,6 +150,7 @@ export default function Code() {
                             sx={{ width: '80vw', maxWidth: '400px' }}>
                         </TextField>
                         <Button
+                            onClick={handleClick}
                             variant="contained"
                             sx={{ mt: '30px', borderRadius: '50px', width: '130px' }}>Continuar
                         </Button>

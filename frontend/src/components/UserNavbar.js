@@ -63,6 +63,10 @@ export default function Navbar() {
         setAnchorEl(null);
     };
 
+    const handleClickInfo = () => {
+        navigate('/informacionpersonal')
+    };
+
     return (
         <AppBar position="fixed"
             sx={{
@@ -293,7 +297,7 @@ export default function Navbar() {
                                             <Grid container
                                                 height='45px'
                                                 component={Button}
-                                                onClick={handleClose}
+                                                onClick={handleClickInfo}
                                                 borderRadius='0px'
                                                 sx={{
                                                     textTransform: 'none',

@@ -2,37 +2,18 @@ import { Container, Grid, Typography, TextField, Button, Box } from "@mui/materi
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Navbar from "./Navbar";
+import emailjs from "@emailjs/browser";
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 
 export default function Recover() {
 
   const navigate = useNavigate()
 
+  const correo = {userEmail:'', emailTitle:'', emailDetails:''};
+
+  const [recover, setRecover] = useState(correo);
+
   const [errorMessage, setErrorMessage] = useState("");
-
-  const [recover, setRecover] = useState({ correo: '' })
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    if (recover.correo === '') {
-      setErrorMessage("Ingrese todos los datos primero");
-      return
-    }
-
-    const res = await fetch('http://localhost:4000/clients', {
-      method: 'POST',
-      body: JSON.stringify(recover),
-      headers: { "content-Type": "application/json" }
-    })
-
-    const data = await res.json()
-
-    if (res.status === 200) {
-      sessionStorage.setItem('correo', data.correo)
-      navigate("/codigo")
-    }
-  }
 
   const handleChange = e => {
     setRecover({
@@ -41,8 +22,31 @@ export default function Recover() {
     })
   }
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    emailjs.send("service_jb9suue", "template_1tuc8ub", recover, 
+    "3hGSO4pkI3GrvsU97").then(
+      (result) => {
+        console.log(result.text);
+      },
+      (error) => {
+        console.log(error.text);
+      }
+    );
+  }
+
+    if (recover.correo === '') {
+      setErrorMessage("Ingrese todos los datos primero");
+      return
+    }
+
   const handleClick = () => {
     setErrorMessage("");
+  }
+
+  const handleCancel=() => {
+    navigate('/login')
   }
 
   const ErrorComponent = ({ errorMessage }) => {
@@ -62,7 +66,7 @@ export default function Recover() {
           borderRadius='20px'
           border='1px solid #BABBBF'
           sx={{ backgroundColor: '#ffffff' }}>
-          <Typography color='#CD0227' mt='20px' variant="h5" fontWeight='bold'>Error</Typography>
+          <Typography color='#CD0227' mt='20px' variant="h5" fontWeight='bold'>Alerta</Typography>
           <p>{errorMessage}</p>
           <Button variant="outlined"
             size='medium'
@@ -126,6 +130,7 @@ export default function Recover() {
               </TextField>
               <Grid container mt='30px' direction='row' alignItems='center' justifyContent='center'>
                 <Button
+                  onClick={handleCancel}
                   variant="contained"
                   sx={{ backgroundColor: "#BABBBF", borderRadius: '50px', width: '130px' }}>Cancelar
                 </Button>
@@ -179,14 +184,15 @@ export default function Recover() {
                 justifyContent='center'
                 sx={{ display: { xs: 'contents', sm: ' flex' } }}>
                 <Button
+                  onClick={handleCancel}
                   variant="contained"
-                  sx={{ backgroundColor: "#BABBBF", borderRadius: '50px', width: '130px' }}>Cancelar
+                  sx={{ backgroundColor: "#BABBBF", borderRadius: '50px', width: '130px', ml: '20vw' }}>Cancelar
                 </Button>
                 <Box sx={{ height: '30px', width: '30px' }}></Box>
                 <Button
                   type="submit"
                   variant="contained"
-                  sx={{ borderRadius: '50px', width: '130px' }}>Continuar
+                  sx={{ borderRadius: '50px', width: '130px',  ml: '25vw' }}>Continuar
                 </Button>
               </Grid>
             </Grid>

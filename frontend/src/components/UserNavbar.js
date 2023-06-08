@@ -47,6 +47,14 @@ export default function Navbar() {
         setAnchorEl(event.currentTarget);
     };
 
+    const handleClick2 = () => {
+        navigate('/mis-mascotas')
+    };
+
+    const handleClick3 = () => {
+        navigate('/mis-citas')
+    };
+
     const handleClickInicio = () => {
         navigate('/home')
     };
@@ -222,7 +230,7 @@ export default function Navbar() {
                                             <Grid container
                                                 height='45px'
                                                 component={Button}
-                                                onClick={handleClose}
+                                                onClick={handleClick2}
                                                 borderRadius='0px'
                                                 sx={{
                                                     textTransform: 'none',
@@ -247,7 +255,7 @@ export default function Navbar() {
                                             <Grid container
                                                 height='45px'
                                                 component={Button}
-                                                onClick={handleClose}
+                                                onClick={handleClick3}
                                                 borderRadius='0px'
                                                 sx={{
                                                     textTransform: 'none',

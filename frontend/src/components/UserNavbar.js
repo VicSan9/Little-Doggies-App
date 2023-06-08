@@ -72,7 +72,7 @@ export default function Navbar() {
     };
 
     const handleClickInfo = () => {
-        navigate('/informacionpersonal')
+        navigate('/cuenta')
     };
 
     return (

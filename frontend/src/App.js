@@ -15,12 +15,9 @@ import NotFound from './components/NotFound'
 import { LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import NewPet from './components/NewPet'
-<<<<<<< Updated upstream
 import PersonalInformation from './components/personalInformation'
-=======
 import UserPets from './components/userPets'
 import UserQuotes from './components/userQuotes'
->>>>>>> Stashed changes
 
 export default function App({ children }) {
   return (
@@ -45,7 +42,7 @@ export default function App({ children }) {
           <Route exact path='/mis-mascotas' element={<RouteControler1 componet={UserPets} />} />
           <Route exact path='/mis-citas' element={<RouteControler1 componet={UserQuotes} />} />
           <Route path='*' element={<NotFound />} />
-          <Route path='/informacionpersonal' element={<PersonalInformation />} />
+          <Route path='/cuenta' element={<PersonalInformation />} />
         </Routes>
       </BrowserRouter>
     </>

@@ -24,7 +24,13 @@ export default function Quotes() {
       body: JSON.stringify(id),
       headers: { "content-Type": "application/json" }
     })
+
     const data = await res.json();
+
+    if(res.status === 404){
+      setPets([])
+      return
+    }
 
     setPets(data);
   }

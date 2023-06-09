@@ -54,11 +54,10 @@ export default function ModifyInformation() {
 
         const data = await res.json()
 
-        sessionStorage.setItem('usuario', data.usuario)
-        sessionStorage.setItem('contraseña', data.contraseña)
-        sessionStorage.setItem('correo', data.correo)
-
         if (!data.message) {
+            sessionStorage.setItem('usuario', data.usuario)
+            sessionStorage.setItem('contraseña', data.contraseña)
+            sessionStorage.setItem('correo', data.correo)
             navigate("/cuenta")
             return
         }

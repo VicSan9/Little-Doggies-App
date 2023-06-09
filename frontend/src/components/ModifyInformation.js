@@ -20,16 +20,10 @@ export default function ModifyInformation() {
             headers: { "content-Type": "application/json" }
         })
 
-
         const data = await res.json();
 
         setUser(data)
-
     }
-
-    useEffect(() => {
-        loadUser();
-    }, []);
 
     const handleChange = e => {
         setUser({
@@ -38,6 +32,9 @@ export default function ModifyInformation() {
         })
     }
 
+    useEffect(() => {
+        loadUser();
+    }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -55,18 +52,39 @@ export default function ModifyInformation() {
             headers: { "content-Type": "application/json" }
         });
 
-        const data = res.json()
+        const data = await res.json()
 
-        console.log(data)
+        sessionStorage.setItem('usuario', data.usuario)
+        sessionStorage.setItem('contraseña', data.contraseña)
+        sessionStorage.setItem('correo', data.correo)
 
-        navigate("/cuenta")
-        return
+        if (!data.message) {
+            navigate("/cuenta")
+            return
+        }
+
+        if (data.message.code === "22P02") {
+            setErrorMessage('Debe de ingresar un número en telefono')
+            return
+        }
+
+        if (data.message.constraint === "clientes_usuario_key") {
+            setErrorMessage('Nombre de usuario ya registrado')
+            return
+        }
+
+        if (data.message.constraint === "clientes_correo_key") {
+            setErrorMessage('Correo electrónico ya registrado')
+            return
+        }
+
+
 
     }
 
     const handleClick = () => {
         setErrorMessage("");
-      }
+    }
 
     const ErrorComponent = ({ errorMessage }) => {
         return (
@@ -102,6 +120,7 @@ export default function ModifyInformation() {
             </Grid>
         );
     };
+
     return (
         <>
             {errorMessage && <ErrorComponent errorMessage={errorMessage} />}

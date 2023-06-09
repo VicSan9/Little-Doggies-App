@@ -7,6 +7,8 @@ export default function ModifyInformation() {
 
     const [user, setUser] = useState([])
 
+    const [errorMessage, setErrorMessage] = useState("");
+
     const navigate = useNavigate()
 
     const loadUser = async () => {
@@ -22,11 +24,7 @@ export default function ModifyInformation() {
         const data = await res.json();
 
         setUser(data)
-        
-    }
 
-    const handleClick = () => {
-        navigate('/cuenta')
     }
 
     useEffect(() => {
@@ -41,9 +39,72 @@ export default function ModifyInformation() {
     }
 
 
+    const handleSubmit = async (e) => {
+        e.preventDefault();
 
+        if (user.correo.trim() === '' || user.direccion.trim() === '' || user.telefono.trim() === '' || user.usuario.trim() === '' || user.contraseña.trim() === '') {
+            setErrorMessage("Ingrese todos los datos primero");
+            return
+        }
+
+        const id = sessionStorage.getItem('id')
+
+        const res = await fetch(`http://localhost:4000/clients/${id}`, {
+            method: 'PUT',
+            body: JSON.stringify(user),
+            headers: { "content-Type": "application/json" }
+        });
+
+        const data = res.json()
+
+        console.log(data)
+
+        navigate("/cuenta")
+        return
+
+    }
+
+    const handleClick = () => {
+        setErrorMessage("");
+      }
+
+    const ErrorComponent = ({ errorMessage }) => {
+        return (
+            <Grid container
+                zIndex='2'
+                width='100vw'
+                height='100vh'
+                position='absolute'
+                alignItems='center'
+                textAlign='center'
+                justifyContent='center'
+                sx={{ backgroundColor: 'rgba(0,0,0,.2)', backdropFilter: 'blur(5px)', }}>
+                <Box
+                    width='300px'
+                    height='200px'
+                    borderRadius='20px'
+                    border='1px solid #BABBBF'
+                    sx={{ backgroundColor: '#ffffff' }}>
+                    <Typography color='#CD0227' mt='20px' variant="h5" fontWeight='bold'>Error</Typography>
+                    <p>{errorMessage}</p>
+                    <Button variant="outlined"
+                        size='medium'
+                        onClick={handleClick}
+                        sx={{
+                            color: '#0265CD',
+                            mt: '30px',
+                            borderColor: '#0265CD',
+                            borderRadius: '50px',
+                            textTransform: 'none'
+                        }}> Volver
+                    </Button>
+                </Box>
+            </Grid>
+        );
+    };
     return (
         <>
+            {errorMessage && <ErrorComponent errorMessage={errorMessage} />}
             <Navbar></Navbar>
             <Container maxWidth='lg' fixed>
                 <Box height='11vh'></Box>
@@ -91,9 +152,9 @@ export default function ModifyInformation() {
                                 variant='body1'>
                                 Modifica los datos que quieres actualizar
                             </Typography>
-                            <Grid container direction='column'>
+                            <Grid container direction='column' component={'form'} onSubmit={handleSubmit}>
                                 <Grid container direction='row' >
-                                    <Grid item container direction='column' xs={6}>
+                                    <Grid item container direction='column' xs={6} >
                                         <TextField
                                             name="nombres"
                                             variant="outlined"
@@ -147,7 +208,6 @@ export default function ModifyInformation() {
                                 <Button variant="outlined"
                                     size='large'
                                     type="submit"
-                                    onClik={handleClick}
                                     sx={{
                                         color: '#0265CD',
                                         ml: '150px',
@@ -178,7 +238,7 @@ export default function ModifyInformation() {
                         variant='body1'>
                         Modifica los datos que quieres actualizar
                     </Typography>
-                    <Grid container direction='column' >
+                    <Grid container direction='column' component={'form'} onSubmit={handleSubmit}>
                         <TextField
                             name="nombres"
                             variant="outlined"
@@ -225,7 +285,6 @@ export default function ModifyInformation() {
                         <Button variant="outlined"
                             size='large'
                             type="submit"
-                            onClick={handleClick}
                             sx={{
                                 color: '#0265CD',
                                 ml: '60px',

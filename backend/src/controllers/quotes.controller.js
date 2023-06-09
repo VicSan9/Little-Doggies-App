@@ -40,6 +40,21 @@ const getQuotes2 = async (req, res, next) => {
     }
 }
 
+const getQuotes3 = async (req, res, next) => {
+    try {
+        const { id } = req.body;
+        const result = await pool.query
+            ('SELECT * FROM infoQuotes WHERE clid = $1', [id]);
+        if (result.rows.length === 0)
+            return res.status(404).json({
+                message: "Aún no tienes citas programadas",
+            });
+        res.json(result.rows);
+    } catch (error) {
+        next(error);
+    }
+}
+
 const createQuotes = async (req, res, next) => {
     const { clid, mcid, fecha, hora} = req.body;
     try {
@@ -90,5 +105,6 @@ module.exports = {
     createQuotes,
     deleteQuotes,
     updateQuotes,
-    getQuotes2
+    getQuotes2,
+    getQuotes3
 }

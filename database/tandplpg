@@ -5,6 +5,19 @@ FROM productos AS P
 JOIN pedidosproductos AS PP 
 ON pp.prid = p.prid;
 
+--Vista para ver la información de una cita
+CREATE VIEW infoQuotes AS
+SELECT C.ctsid, C.clid, C.fecha, C.hora , M.nombre, string_agg(S.nombre, ' ● ') AS servicios
+FROM citas AS C
+JOIN citasServicios AS CS
+ON CS.ctsid = C.ctsid
+JOIN servicios AS S
+ON CS.svid = S.svid
+JOIN mascotas AS M
+ON C.mcid = M.mcid
+GROUP BY C.ctsid, M.nombre
+ORDER BY C.ctsid;
+
 --Vista para ver el id del pedido y la suma total a pagar por pedido
 CREATE VIEW order_value AS
 SELECT PD.pdid AS id_pedido, SUM(P.precio) AS valor_total_pedido

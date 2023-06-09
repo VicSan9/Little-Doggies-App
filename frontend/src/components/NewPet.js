@@ -38,8 +38,6 @@ export default function NewPet() {
 
         const data = await res.json()
 
-        console.log(data)
-
         if (!data.menssage) {
             setPet({ clid: '', nombre: '', raza: '', edad: '', sexo: '', condicion: '' })
             navigate('/citas')

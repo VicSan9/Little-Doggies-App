@@ -18,9 +18,11 @@ export default function ModifyInformation() {
             headers: { "content-Type": "application/json" }
         })
 
+
         const data = await res.json();
 
         setUser(data)
+        
     }
 
     const handleClick = () => {
@@ -30,15 +32,16 @@ export default function ModifyInformation() {
     useEffect(() => {
         loadUser();
     }, []);
-    
+
     const handleChange = e => {
         setUser({
-          ...user,
-          [e.target.name]: e.target.value
+            ...user,
+            [e.target.name]: e.target.value
         })
-      }
+    }
 
-   
+
+
     return (
         <>
             <Navbar></Navbar>
@@ -93,7 +96,6 @@ export default function ModifyInformation() {
                                     <Grid item container direction='column' xs={6}>
                                         <TextField
                                             name="nombres"
-                                            label="Nombres"
                                             variant="outlined"
                                             value={user.nombres}
                                             onChange={handleChange}
@@ -102,43 +104,42 @@ export default function ModifyInformation() {
                                         <TextField
                                             name="telefono"
                                             type="tel"
-                                            label="Número de telefono"
                                             variant="outlined"
-                                            value={user.apellidos}
+                                            value={user.telefono}
                                             onChange={handleChange}
                                             sx={{ ml: '25px', mr: '10px', mt: '30px' }} />
                                         <TextField
                                             name="usuario"
-                                            label="Usuario"
                                             variant="outlined"
+                                            value={user.usuario}
                                             onChange={handleChange}
                                             sx={{ ml: '25px', mr: '10px', mt: '30px' }} />
                                         <TextField
                                             name="direccion"
-                                            label="Dirección"
                                             variant="outlined"
+                                            value={user.direccion}
                                             onChange={handleChange}
                                             sx={{ ml: '25px', mr: '10px', mt: '30px' }} />
                                     </Grid>
                                     <Grid item container direction='column' xs={6}>
                                         <TextField
                                             name="apellidos"
-                                            label="Apellidos"
                                             variant="outlined"
+                                            value={user.apellidos}
                                             onChange={handleChange}
                                             sx={{ ml: '10px', mr: '25px', mt: '30px' }} />
                                         <TextField
                                             name="correo"
-                                            label="Correo Electrónico"
                                             type="email"
                                             variant="outlined"
+                                            value={user.correo}
                                             onChange={handleChange}
                                             sx={{ ml: '10px', mr: '25px', mt: '30px' }} />
                                         <TextField
                                             name="contraseña"
                                             type="password"
-                                            label="Contraseña"
                                             variant="outlined"
+                                            value={user.contraseña}
                                             onChange={handleChange}
                                             sx={{ ml: '10px', mr: '25px', mt: '30px' }} />
                                     </Grid>
@@ -159,6 +160,82 @@ export default function ModifyInformation() {
                                 </Button>
                             </Grid>
                         </Grid>
+                    </Grid>
+                </Grid>
+                <Grid container
+                    minWidth='280px'
+                    mb='50px'
+                    sx={{ display: { xl: 'none', lg: 'none' } }}
+                    direction='column'>
+                    <Typography textAlign='center'
+                        mt='10px'
+                        variant='h5'
+                        fontWeight='bold'>
+                        Modifica tu información
+                    </Typography>
+                    <Typography textAlign='center'
+                        mt='20px'
+                        variant='body1'>
+                        Modifica los datos que quieres actualizar
+                    </Typography>
+                    <Grid container direction='column' >
+                        <TextField
+                            name="nombres"
+                            variant="outlined"
+                            value={user.nombres}
+                            onChange={handleChange}
+                            sx={{ ml: '10px', mr: '10px', mt: '30px' }} />
+                        <TextField
+                            name="apellidos"
+                            variant="outlined"
+                            value={user.apellidos}
+                            onChange={handleChange}
+                            sx={{ ml: '10px', mr: '10px', mt: '30px' }} />
+                        <TextField
+                            name="correo"
+                            variant="outlined"
+                            value={user.correo}
+                            onChange={handleChange}
+                            sx={{ ml: '10px', mr: '10px', mt: '30px' }} />
+                        <TextField
+                            name="telefono"
+                            variant="outlined"
+                            value={user.telefono}
+                            onChange={handleChange}
+                            sx={{ ml: '10px', mr: '10px', mt: '30px' }} />
+                        <TextField
+                            name="usuario"
+                            variant="outlined"
+                            value={user.usuario}
+                            onChange={handleChange}
+                            sx={{ ml: '10px', mr: '10px', mt: '30px' }} />
+                        <TextField
+                            name="contraseña"
+                            type="password"
+                            variant="outlined"
+                            value={user.contraseña}
+                            onChange={handleChange}
+                            sx={{ ml: '10px', mr: '10px', mt: '30px' }} />
+                        <TextField
+                            name="direccion"
+                            variant="outlined"
+                            value={user.direccion}
+                            onChange={handleChange}
+                            sx={{ ml: '10px', mr: '10px', mt: '30px' }} />
+                        <Button variant="outlined"
+                            size='large'
+                            type="submit"
+                            onClick={handleClick}
+                            sx={{
+                                color: '#0265CD',
+                                ml: '60px',
+                                mr: '60px',
+                                mt: '40px',
+                                borderColor: '#0265CD',
+                                borderRadius: '50px',
+                                textTransform: 'none'
+                            }}> Guardar
+                        </Button>
                     </Grid>
                 </Grid>
             </Container >

@@ -9,8 +9,10 @@ const RouteController = ({ componet: Componet, ...rest }) => {
     const auth = sessionStorage.getItem('auth')
     const user = sessionStorage.getItem('usuario')
     const password = sessionStorage.getItem('contraseña')
+    const id = sessionStorage.getItem('id')
+    const rol = sessionStorage.getItem('rol')
 
-    const login = { usuario: user, contraseña: password }
+    const login = { usuario: user, contraseña: password, id: id, rol: rol }
 
     async function init() {
         const res = await fetch('http://localhost:4000/login', {
@@ -20,7 +22,7 @@ const RouteController = ({ componet: Componet, ...rest }) => {
         })
 
         if (res.status === 200) {
-            if (auth === 'yes' && user === login.usuario && password === login.contraseña) {
+            if (auth === 'yes' && user === login.usuario && password === login.contraseña && id === login.id) {
                 setIsAuth(true)
                 return
 

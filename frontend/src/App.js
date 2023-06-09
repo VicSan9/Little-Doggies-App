@@ -43,8 +43,8 @@ export default function App({ children }) {
           <Route exact path='/mis-mascotas' element={<RouteControler1 componet={UserPets} />} />
           <Route exact path='/mis-citas' element={<RouteControler1 componet={UserQuotes} />} />
           <Route path='*' element={<NotFound />} />
-          <Route path='/cuenta' element={<PersonalInformation />} />
-          <Route path='/editar-cuenta' element={<ModifyInformation />} />
+          <Route path='/cuenta' element={<RouteControler1 componet={PersonalInformation} />} />
+          <Route path='/editar-cuenta' element={<RouteControler1 componet={ModifyInformation} />} />
         </Routes>
       </BrowserRouter>
     </>

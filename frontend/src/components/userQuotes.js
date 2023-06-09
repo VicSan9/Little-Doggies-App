@@ -100,7 +100,7 @@ export default function UserQuotes() {
                       mr='20px'
                       ml='20px'
                       height='60px'
-                      width='900px'>
+                      width='45vw'>
                       <Grid
                         container
                         height='60px'

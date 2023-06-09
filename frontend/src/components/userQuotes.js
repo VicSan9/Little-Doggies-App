@@ -88,25 +88,25 @@ export default function UserQuotes() {
                     alignItems='start'
                     justifyContent='center'
                     direction='column'>
-                    <Typography ml='20px' mt='20px'>
-                      {quote.fecha}
+                    <Typography ml='20px' mt='20px' fontWeight='bold'>
+                      Fecha: {quote.fecha}
                     </Typography>
                     <Grid
                       alignItems='center'
                       justifyContent='start'
                       border='1px solid #BABBBF'
                       borderRadius='15px'
-                      mt='20px'
+                      mt='5px'
                       mr='20px'
                       ml='20px'
-                      height='60px'
                       width='45vw'>
                       <Grid
                         container
-                        height='60px'
                         direction='row'
                         alignItems='center'
-                        justifyContent='flex-start'>
+                        justifyContent='flex-start'
+                        mt='5px'
+                        mb='5px'>
                         <Grid
                           item xs={2} sm={2} lg={2} md={2} xl={2}>
                           <Typography ml='10px'>
@@ -135,6 +135,8 @@ export default function UserQuotes() {
                           </Typography>
                         </Grid>
                         <Grid
+                          container
+                          direction='row-reverse'
                           item xs={2} sm={2} lg={2} md={2} xl={2}>
                           <Typography>
                             Acciones

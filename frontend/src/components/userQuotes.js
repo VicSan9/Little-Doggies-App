@@ -1,6 +1,9 @@
 import { Container, Grid, Typography } from "@mui/material";
 import Navbar from "./UserNavbar";
 import { useEffect, useState } from "react";
+import EditIcon from '@mui/icons-material/Edit';
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
+
 
 export default function UserQuotes() {
 
@@ -138,9 +141,8 @@ export default function UserQuotes() {
                           container
                           direction='row-reverse'
                           item xs={2} sm={2} lg={2} md={2} xl={2}>
-                          <Typography>
-                            Acciones
-                          </Typography>
+                          <HighlightOffIcon sx={{mr:'20px'}}></HighlightOffIcon>
+                          <EditIcon sx={{mr:'20px'}}></EditIcon>
                         </Grid>
                       </Grid>
                     </Grid>

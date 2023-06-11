@@ -403,7 +403,7 @@ export default function Calendar() {
                                     <Button
                                         sx={{ mt: '20px', borderRadius: '20px' }}
                                         fullWidth
-                                        disabled={isDisable}
+                                        disabled={isDisable2}
                                         variant="outlined"
                                         onClick={handleClick}
                                     >{'Confirmar ➦'}
@@ -474,7 +474,7 @@ export default function Calendar() {
                                     disabled={isDisable}
                                     variant="outlined"
                                     onClick={onClick}
-                                >{'Agendar cita'}
+                                >{'Agendar cita ✔'}
                                 </Button>
                             </Grid>
                         </Grid>

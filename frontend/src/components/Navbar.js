@@ -56,14 +56,15 @@ export default function Navbar() {
             sx={{
                 backgroundColor: 'transparent',
                 boxShadow: 'none',
-                position:'fixed',
-                zIndex:'1'
+                position: 'fixed',
+                zIndex: '1'
             }}>
             <Container maxWidth='xl'
                 fixed >
                 <Grid container position='absulute'
                     sx={{
-                        backgroundColor: '#ffffff',
+                        backgroundColor: 'rgba(255, 255, 255, 0.7)',
+                        backdropFilter: 'blur(50px)',
                         borderRadius: '10px',
                         borderBottom: '2px solid #0265CD'
                     }}
@@ -85,7 +86,7 @@ export default function Navbar() {
                             cursor: 'pointer',
                             color: '#000000',
                             textTransform: 'none',
-                            backgroundColor: '#ffffff',
+                            backgroundColor: 'transparent',
                             '&:hover': {
                                 backgroundColor: 'primary.main',
                                 color: '#ffffff'
@@ -101,7 +102,7 @@ export default function Navbar() {
                             cursor: 'pointer',
                             color: '#000000',
                             textTransform: 'none',
-                            backgroundColor: '#ffffff',
+                            backgroundColor: 'transparent',
                             '&:hover': {
                                 backgroundColor: 'primary.main',
                                 color: '#ffffff'
@@ -117,7 +118,7 @@ export default function Navbar() {
                             cursor: 'pointer',
                             color: '#000000',
                             textTransform: 'none',
-                            backgroundColor: '#ffffff',
+                            backgroundColor: 'transparent',
                             '&:hover': {
                                 backgroundColor: 'primary.main',
                                 color: '#ffffff'
@@ -134,7 +135,7 @@ export default function Navbar() {
                             justifyContent='flex-end'
                             alignItems='center'>
                             <Grid item xs={4} sm={6} lg={5} md={4} xl={6}>
-                                <Button 
+                                <Button
                                     variant="outlined"
                                     size='small'
                                     onClick={handleClick2}

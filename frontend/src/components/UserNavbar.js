@@ -87,7 +87,8 @@ export default function Navbar() {
                 fixed >
                 <Grid container
                     sx={{
-                        backgroundColor: '#ffffff',
+                        backgroundColor: 'rgba(255, 255, 255, 0.7)',
+                        backdropFilter: 'blur(50px)',
                         borderRadius: '10px',
                         borderBottom: '2px solid #0265CD'
                     }}
@@ -109,7 +110,7 @@ export default function Navbar() {
                             cursor: 'pointer',
                             color: '#000000',
                             textTransform: 'none',
-                            backgroundColor: '#ffffff',
+                            backgroundColor: 'transparent',
                             '&:hover': {
                                 backgroundColor: 'primary.main',
                                 color: '#ffffff'
@@ -125,7 +126,7 @@ export default function Navbar() {
                             cursor: 'pointer',
                             color: '#000000',
                             textTransform: 'none',
-                            backgroundColor: '#ffffff',
+                            backgroundColor: 'transparent',
                             '&:hover': {
                                 backgroundColor: 'primary.main',
                                 color: '#ffffff'
@@ -141,7 +142,7 @@ export default function Navbar() {
                             cursor: 'pointer',
                             color: '#000000',
                             textTransform: 'none',
-                            backgroundColor: '#ffffff',
+                            backgroundColor: 'transparent',
                             '&:hover': {
                                 backgroundColor: 'primary.main',
                                 color: '#ffffff'

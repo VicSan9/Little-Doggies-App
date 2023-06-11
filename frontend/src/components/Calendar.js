@@ -338,16 +338,16 @@ export default function Calendar() {
     }
 
     const checkMascota = () => {
-        if(localStorage.getItem('idMascota') === null){
+        if (localStorage.getItem('idMascota') === null) {
             navigate('/citas')
         }
     }
 
     React.useEffect(() => {
-      checkMascota()
-      return
+        checkMascota()
+        return
     },)
-    
+
 
     return (
         <>
@@ -401,11 +401,12 @@ export default function Calendar() {
                                         </DemoContainer>
                                     </LocalizationProvider>
                                     <Button
+                                        sx={{ mt: '20px', borderRadius: '20px' }}
                                         fullWidth
-                                        disabled={isDisable2}
-                                        variant="text"
+                                        disabled={isDisable}
+                                        variant="outlined"
                                         onClick={handleClick}
-                                    >{'Confirmar ->'}
+                                    >{'Confirmar ➦'}
                                     </Button>
                                 </Grid>
                             </Grid>
@@ -460,15 +461,15 @@ export default function Calendar() {
                                     <FormHelperText>Escoge uno o varios servicios, si ya no quieres un servicio solo dale click de nuevo para quitarlo</FormHelperText>
                                 </FormControl>
                                 <Button
-                                    sx={{ mt: '40px' }}
+                                    sx={{ mt: '40px', borderRadius: '20px' }}
                                     fullWidth
                                     disabled={isDisable}
-                                    variant="text"
+                                    variant="outlined"
                                     onClick={handleClick2}
-                                >{' <- Cambiar fecha'}
+                                >{'⮪ Cambiar fecha'}
                                 </Button>
                                 <Button
-                                    sx={{ mt: '40px', borderRadius: '20px' }}
+                                    sx={{ mt: '20px', borderRadius: '20px' }}
                                     fullWidth
                                     disabled={isDisable}
                                     variant="outlined"

@@ -235,7 +235,7 @@ export default function UserQuotes() {
               borderColor: '#0265CD',
               borderRadius: '50px',
               textTransform: 'none'
-            }}> Cancelar
+            }}> Volver
           </Button>
           <Button variant="outlined"
             size='medium'
@@ -537,9 +537,9 @@ export default function UserQuotes() {
                 <div hidden={isHidden}>
                   <Grid container direction='row'>
                     <Typography ml='20px' mt='20px'>
-                      Aún no tienes citas programas.
+                      Aún no tienes citas programadas.
                     </Typography>
-                    <Typography component={Link} style={{marginTop:'20px', marginLeft:'5px'}} to='/citas'>{'Programa una cita ahora'}</Typography>
+                    <Typography component={Link} color='#0265CD' style={{marginTop:'20px', marginLeft:'5px'}} to='/citas'>{'Programa una cita ahora'}</Typography>
                   </Grid>
                 </div>
                 {quotes.map((quote) => (

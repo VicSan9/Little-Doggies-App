@@ -10,7 +10,7 @@ CREATE VIEW infoQuotes AS
 SELECT C.ctsid, C.clid, C.fecha, C.hora , M.nombre, string_agg(S.nombre, ' ● ') AS servicios
 FROM citas AS C
 JOIN citasServicios AS CS
-ON CS.ctsid = C.ctsid
+ON CS.ctsid = C.ctsid AND C.estado = 'Espera'
 JOIN servicios AS S
 ON CS.svid = S.svid
 JOIN mascotas AS M

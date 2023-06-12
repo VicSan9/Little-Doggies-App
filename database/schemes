@@ -69,7 +69,7 @@ CREATE TABLE IF NOT EXISTS citas(
 	mcid INTEGER NOT NULL,
 	fecha VARCHAR(10) NOT NULL,
 	hora TIME NOT NULL,
-	estador VARCHAR(50) NOT NULL, 
+	estado VARCHAR(50) NOT NULL, 
 	PRIMARY KEY (ctsid),
 	FOREIGN KEY (clid) REFERENCES clientes (clid),
 	FOREIGN KEY (mcid) REFERENCES mascotas (mcid)

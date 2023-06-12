@@ -244,7 +244,7 @@ export default function UserQuotes() {
               width: '80px',
               color: '#0265CD',
               mt: '20px',
-              ml: '10px',
+              ml: '20px',
               borderColor: '#0265CD',
               borderRadius: '50px',
               textTransform: 'none'
@@ -559,7 +559,7 @@ export default function UserQuotes() {
                       mt='5px'
                       mr='20px'
                       ml='20px'
-                      width='48vw'
+                      width='95%'
                       sx={{
                         '&:hover': {
                           color: 'white',

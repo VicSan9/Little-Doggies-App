@@ -298,6 +298,7 @@ export default function Calendar() {
             'mcid': localStorage.getItem('idMascota'),
             'fecha': formattedDate,
             'hora': horario,
+            'estado': 'Espera',
         }
 
         var id = []

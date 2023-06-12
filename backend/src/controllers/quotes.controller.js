@@ -29,7 +29,7 @@ const getQuotes2 = async (req, res, next) => {
     try {
         const { fecha } = req.body;
         const result = await pool.query
-            ('SELECT * FROM citas WHERE fecha = $1', [fecha]);
+            ('SELECT * FROM citas WHERE fecha = $1 AND estado = $2', [fecha, 'Espera']);
         if (result.rows.length === 0)
             return res.status(404).json({
                 message: "No hay citas",
@@ -56,11 +56,11 @@ const getQuotes3 = async (req, res, next) => {
 }
 
 const createQuotes = async (req, res, next) => {
-    const { clid, mcid, fecha, hora} = req.body;
+    const { clid, mcid, fecha, hora, estado} = req.body;
     try {
         const result = await pool.query
-            ('INSERT INTO citas (clid, mcid, fecha, hora) VALUES ($1, $2, $3, $4) RETURNING *',
-                [clid, mcid, fecha, hora]);                                 
+            ('INSERT INTO citas (clid, mcid, fecha, hora, estado) VALUES ($1, $2, $3, $4, $5) RETURNING *',
+                [clid, mcid, fecha, hora, estado]);                                 
         res.json(result.rows[0]);
     } catch (error){
         next(error);
@@ -84,11 +84,11 @@ const deleteQuotes = async (req, res, next) => {
 
 const updateQuotes = async (req, res, next) => {
     const { id } = req.params;
-    const { clid, mcid, fecha, hora } = req.body;
+    const { clid, mcid, fecha, hora, estado } = req.body;
     try {
         const result = await pool.query(
-            'UPDATE citas SET clid = $1,  mcid = $2, fecha = $3, hora = $4 WHERE ctsid = $5 RETURNING *',
-            [clid, mcid, fecha, hora, id]);
+            'UPDATE citas SET clid = $1,  mcid = $2, fecha = $3, hora = $4, estado = $5 WHERE ctsid = $6 RETURNING *',
+            [clid, mcid, fecha, hora, estado, id]);
         if (result.rows.length === 0)
             return res.status(404).json({
                 message: "cita no encontrada",

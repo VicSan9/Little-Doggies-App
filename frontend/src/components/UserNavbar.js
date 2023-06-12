@@ -55,6 +55,10 @@ export default function Navbar() {
         navigate('/mis-citas')
     };
 
+    const handleClick4 = () => {
+        navigate('/historial-de-compras')
+    };
+
     const handleClickInicio = () => {
         navigate('/home')
     };
@@ -74,6 +78,7 @@ export default function Navbar() {
     const handleClickInfo = () => {
         navigate('/cuenta')
     };
+
 
     return (
         <AppBar position="fixed"
@@ -281,7 +286,7 @@ export default function Navbar() {
                                             <Grid container
                                                 height='45px'
                                                 component={Button}
-                                                onClick={handleClose}
+                                                onClick={handleClick4}
                                                 borderRadius='0px'
                                                 sx={{
                                                     textTransform: 'none',

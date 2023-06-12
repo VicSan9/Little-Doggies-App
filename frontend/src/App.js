@@ -19,6 +19,7 @@ import PersonalInformation from './components/personalInformation'
 import UserPets from './components/userPets'
 import UserQuotes from './components/userQuotes'
 import ModifyInformation from './components/ModifyInformation'
+import Shoppinghistory from './components/Shoppinghistory'
 
 export default function App({ children }) {
   return (
@@ -45,6 +46,7 @@ export default function App({ children }) {
           <Route path='*' element={<NotFound />} />
           <Route path='/cuenta' element={<RouteControler1 componet={PersonalInformation} />} />
           <Route path='/editar-cuenta' element={<RouteControler1 componet={ModifyInformation} />} />
+          <Route path='/historial-de-compras' element={<RouteControler1 componet={Shoppinghistory} />} />
         </Routes>
       </BrowserRouter>
     </>

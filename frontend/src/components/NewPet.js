@@ -40,7 +40,7 @@ export default function NewPet() {
 
         if (!data.menssage) {
             setPet({ clid: '', nombre: '', raza: '', edad: '', sexo: '', condicion: '' })
-            navigate('/citas')
+            navigate('/mis-mascotas')
         }
     }
 

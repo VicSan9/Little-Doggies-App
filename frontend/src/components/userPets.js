@@ -192,7 +192,7 @@ export default function UserPets() {
                       container
                       height='80%'
                       width='50%'
-                      sx={{ borderRight: '1px solid #000000' }}>
+                      sx={{ borderRight: '1px solid #BABBBF' }}>
                       <Grid
                         container
                         width='50%'
@@ -225,7 +225,7 @@ export default function UserPets() {
                         width='50%'
                         height='90%'
                         direction='column'>
-                        <Typography height='90px' ml='20px' fontWeight='bold'>¿Presenta alguna condicion especial o alergia?</Typography>
+                        <Typography mt='20px' height='70px' ml='20px' fontWeight='bold'>¿Presenta alguna condicion especial o alergia?</Typography>
                         <Typography ml='20px' fontWeight='bold'>Foto</Typography>
                       </Grid>
                       <Grid
@@ -233,22 +233,32 @@ export default function UserPets() {
                         width='50%'
                         height='90%'
                         direction='column'>
-                        <Typography height='90px' ml='20px'>{pet.condicion}</Typography>
-                        <Avatar sx={{ width: '50%', height: '50%' }}>M</Avatar>
+                        <Typography height='70px' mt='20px' ml='20px'>{pet.condicion}</Typography>
+                        <Avatar sx={{ mt:'5px', ml: '20px', width: '50%', height: '50%' }}>M</Avatar>
                       </Grid>
                     </Grid>
                   </Grid>
                 </Grid>
                 <Grid
                   container
-                  height='50%'>
-                  <Typography
-                    textAlign='start'
-                    mb='10px'
-                    variant="h5"
-                    fontWeight='bold'>
-                    Historial de servicios
-                  </Typography>
+                  height='50%'
+                  width='100%'>
+                  <Grid container direction='row'>
+                    <Typography
+                      textAlign='start'
+                      variant="h5"
+                      fontWeight='bold'
+                      height='15%'
+                      width='100%'>
+                      Historial de servicios
+                    </Typography>
+                    <Grid
+                      container
+                      height='80%'
+                      width='50%'
+                      sx={{ borderRight: '1px solid #000000' }}>
+                    </Grid>
+                  </Grid>
                 </Grid>
               </div>
             </Grid>

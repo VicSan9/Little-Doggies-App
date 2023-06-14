@@ -386,7 +386,9 @@ export default function UserQuotes() {
     const month = (dayjs(date).month())
     const year = (dayjs(date).year())
 
-    const formattedDate = `${day}/${month + 1}/${year}`
+    const monthName = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+
+    const formattedDate = `${day} de ${monthName[month]} del ${year}`
 
     setValue(newValue)
 
@@ -436,7 +438,9 @@ export default function UserQuotes() {
     const month = (dayjs(value).month())
     const year = (dayjs(value).year())
 
-    const formattedDate = `${day}/${month + 1}/${year}`
+    const monthName = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+
+    const formattedDate = `${day} de ${monthName[month]} del ${year}`
 
     const body1 = {
       'clid': quote.clid,
@@ -539,7 +543,7 @@ export default function UserQuotes() {
                     <Typography ml='20px' mt='20px'>
                       Aún no tienes citas programadas.
                     </Typography>
-                    <Typography component={Link} color='#0265CD' style={{marginTop:'20px', marginLeft:'5px'}} to='/citas'>{'Programa una cita ahora'}</Typography>
+                    <Typography component={Link} color='#0265CD' style={{ marginTop: '20px', marginLeft: '5px' }} to='/citas'>{'Programa una cita ahora'}</Typography>
                   </Grid>
                 </div>
                 {quotes.map((quote) => (

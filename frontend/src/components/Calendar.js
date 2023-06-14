@@ -241,7 +241,9 @@ export default function Calendar() {
         const month = (dayjs(date).month())
         const year = (dayjs(date).year())
 
-        const formattedDate = `${day}/${month + 1}/${year}`
+        const monthName = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+
+        const formattedDate = `${day} de ${monthName[month]} del ${year}`
 
         setValue(newValue)
 
@@ -291,7 +293,9 @@ export default function Calendar() {
         const month = (dayjs(value).month())
         const year = (dayjs(value).year())
 
-        const formattedDate = `${day}/${month + 1}/${year}`
+        const monthName = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+
+        const formattedDate = `${day} de ${monthName[month]} del ${year}`
 
         const body = {
             'clid': sessionStorage.getItem('id'),

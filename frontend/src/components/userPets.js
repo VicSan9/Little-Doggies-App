@@ -11,6 +11,8 @@ export default function UserPets() {
 
   const [pet, setPet] = useState([])
 
+  const [reports, setReports] = useState([])
+
   const [isHidden, setIsHidden] = useState(false)
 
   const loadPets = async () => {
@@ -55,6 +57,28 @@ export default function UserPets() {
     const data = await res.json()
 
     setPet(data)
+
+    const body = {
+      clid: sessionStorage.getItem('id'),
+      mcid: id
+    }
+
+    const res2 = await fetch(`http://localhost:4000/reports2`, {
+      method: 'POST',
+      body: JSON.stringify(body),
+      headers: { "content-Type": "application/json" }
+    })
+
+    const data2 = await res2.json()
+
+    console.log(data2)
+
+    if(res2.status === 404){
+      setReports([])
+      return
+    }
+
+    setReports(data2)
   }
 
   const handleClick2 = () => {
@@ -74,6 +98,7 @@ export default function UserPets() {
             alignItems='center'
             justifyContent='center'
             height='82vh'
+            maxHeight='900px'
             item xs={3} sm={3} lg={3} md={3} xl={3}
             borderRight='2px solid #BABBBF'>
             <Grid
@@ -156,6 +181,7 @@ export default function UserPets() {
             alignItems='center'
             justifyContent='center'
             height='82vh'
+            maxHeight='900px'
             item xs={9} sm={9} lg={9} md={9} xl={9}>
             <Grid
               container
@@ -234,7 +260,7 @@ export default function UserPets() {
                         height='90%'
                         direction='column'>
                         <Typography height='70px' mt='20px' ml='20px'>{pet.condicion}</Typography>
-                        <Avatar sx={{ mt:'5px', ml: '20px', width: '50%', height: '50%' }}>M</Avatar>
+                        <Avatar sx={{ mt: '5px', ml: '20px', width: '50%', height: '50%' }}>M</Avatar>
                       </Grid>
                     </Grid>
                   </Grid>
@@ -243,21 +269,53 @@ export default function UserPets() {
                   container
                   height='50%'
                   width='100%'>
-                  <Grid container direction='row'>
+                  <Grid container direction='column'>
                     <Typography
                       textAlign='start'
                       variant="h5"
                       fontWeight='bold'
-                      height='15%'
+                      height='10%'
                       width='100%'>
-                      Historial de servicios
+                      Historial de citas
                     </Typography>
                     <Grid
                       container
-                      height='80%'
-                      width='50%'
-                      sx={{ borderRight: '1px solid #000000' }}>
+                      width='100%'
+                      borderBottom='1px solid #BABBBF'
+                      mb='20px'>
+                      <Grid item xs={2} sm={2} lg={2} md={2} xl={3}>
+                        <Typography fontWeight='bold'>Fecha</Typography>
+                      </Grid>
+                      <Grid item xs={2} sm={2} lg={2} md={2} xl={3}>
+                        <Typography fontWeight='bold'>Servicios</Typography>
+                      </Grid>
+                      <Grid item xs={2} sm={2} lg={2} md={2} xl={3}>
+                        <Typography fontWeight='bold'>Nota</Typography>
+                      </Grid>
+                      <Grid item xs={2} sm={2} lg={2} md={2} xl={3}>
+                        <Typography fontWeight='bold'>Atendido por</Typography>
+                      </Grid>
                     </Grid>
+                    {reports.map((report) => (
+                      <Grid
+                      container
+                      width='100%'
+                      borderBottom='1px solid #BABBBF'
+                      key={report.ifid}>
+                      <Grid item xs={2} sm={2} lg={2} md={2} xl={3}>
+                        <Typography>{report.fecha}</Typography>
+                      </Grid>
+                      <Grid item xs={2} sm={2} lg={2} md={2} xl={3}>
+                        <Typography>{report.servicios}</Typography>
+                      </Grid>
+                      <Grid item xs={2} sm={2} lg={2} md={2} xl={3}>
+                        <Typography>{report.nota}</Typography>
+                      </Grid>
+                      <Grid item xs={2} sm={2} lg={2} md={2} xl={3}>
+                        <Typography>{report.nombres + " " + report.apellidos}</Typography>
+                      </Grid>
+                    </Grid>
+                    ))}
                   </Grid>
                 </Grid>
               </div>

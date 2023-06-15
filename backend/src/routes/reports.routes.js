@@ -1,11 +1,13 @@
 const { Router } = require('express');
-const { getAllReports, getReports, createReports, deleteReports, updateReports } = require('../controllers/reports.controller')
+const { getAllReports, getReports, createReports, deleteReports, updateReports, getReports2 } = require('../controllers/reports.controller')
 
 const router = Router();
 
 router.get('/reports', getAllReports)
 
 router.get('/reports/:id', getReports)
+
+router.post('/reports2', getReports2)
 
 router.post('/reports', createReports)
 

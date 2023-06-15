@@ -78,9 +78,11 @@ CREATE TABLE IF NOT EXISTS citas(
 CREATE TABLE IF NOT EXISTS informes(
 	ifid INTEGER UNIQUE DEFAULT NEXTVAL('ifid_seq'),
 	ctsid INTEGER NOT NULL,
+	mbid INTEGER NOT NULL,
 	nota VARCHAR (200) NOT NULL,
 	PRIMARY KEY (ifid),
-	FOREIGN KEY (ctsid) REFERENCES citas (ctsid)
+	FOREIGN KEY (ctsid) REFERENCES citas (ctsid),
+	FOREIGN KEY (mbid) REFERENCES miembros (mbid)
 );
 --Tabla de servicios
 CREATE TABLE IF NOT EXISTS servicios(

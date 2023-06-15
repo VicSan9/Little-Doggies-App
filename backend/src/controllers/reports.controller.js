@@ -10,6 +10,21 @@ const getAllReports = async (req, res, next) => {
     }
 }
 
+const getReports2 = async (req, res, next) => {
+    try {
+        const { clid, mcid } = req.body;
+        const result = await pool.query
+            ('SELECT * FROM informs WHERE clid = $1 AND mcid =$2', [clid, mcid]);
+        if (result.rows.length === 0)
+            return res.status(404).json({
+                message: "informe no encontrado",
+            });
+        res.json(result.rows);
+    } catch (error) {
+        next(error);
+    }
+}
+
 const getReports = async (req, res, next) => {
     try {
         const { id } = req.params;
@@ -72,6 +87,7 @@ const updateReports = async (req, res, next) => {
 module.exports = {
     getAllReports,
     getReports,
+    getReports2,
     createReports,
     deleteReports,
     updateReports

@@ -1,7 +1,7 @@
 --Insertar miembros
 INSERT INTO miembros (usuario, contraseña, correo, nombres, apellidos, telefono, direccion, rol, foto)
 VALUES 	('userAdmin', '1234asdf', 'correoadmin1234@gmail.com', 'Christian', 'Salazar', 12345678, 'Pradera#-Cr', 'Administrador', 'link'),
-		('userMiembro1', 'asdf1234', 'correomiembro1234@gmail.com', 'Nombres', 'Apellidos', 11124145, 'Pradera#-Cr', 'Trabajador', 'link');
+		('userMiembro1', 'asdf1234', 'correomiembro1234@gmail.com', 'Víctor', 'Sánchez', 11124145, 'Pradera#-Cr', 'Trabajador', 'link');
 --Insertar servicios
 INSERT INTO servicios (nombre, categoria, descripcion)
 VALUES 	('Corte corto', 'Peluqueria', 'Descripción del servicio'),
@@ -24,12 +24,14 @@ VALUES 	(1002, 'Tony', 'Bulldog', '2 años', 'Macho', 'Ninguna'),
 INSERT INTO citas (clid, mcid, fecha, hora, estado)
 VALUES	(1002, 1, '7 de Junio del 2023', '8:30', 'Espera'),
 		(1001, 2, '10 de Junio del 2023', '10:00', 'Espera'),
-		(1002, 3, '5 de Junio del 2023', '13:00', 'Cancelada'),
+		(1001, 3, '5 de Junio del 2023', '13:00', 'Cancelada'),
 		(1002, 1, '6 de Junio del 2023', '7:00', 'Espera');
 --Insertar informes
-INSERT INTO informes (ctsid, nota)
-VALUES 	(1, 'Se aplico una inyección extra'),
-		(2, 'Sin notas');
+INSERT INTO informes (ctsid, mbid, nota)
+VALUES 	(1, 1,'Se aplico una inyección extra'),
+		(2, 2,'Sin nota'),
+		(3, 1,'Sin nota'),
+		(4, 2,'Lavado extra');
 --Insertar pedidos
 INSERT INTO pedidos (clid, mbid)
 VALUES 	(1001, 2),
@@ -46,7 +48,10 @@ INSERT INTO informesServicios (ifid, svid)
 VALUES 	(1, 1),
 		(1, 2),
 		(1, 3),
-		(2, 1);
+		(2, 1),
+		(3, 1),
+		(3, 2),
+		(4, 3);
 --Insertar miembrosServicios
 INSERT INTO miembrosServicios (mbid, svid)
 VALUES 	(1, 1),

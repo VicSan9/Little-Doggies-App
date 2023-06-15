@@ -5,6 +5,21 @@ FROM productos AS P
 JOIN pedidosproductos AS PP 
 ON pp.prid = p.prid;
 
+--Vista para ver informes
+CREATE VIEW informs AS
+SELECT I.ifid, I.ctsid, C.clid, C.mcid, C.fecha, M.nombres, M.apellidos, I.nota, string_agg(S.nombre, ' ● ') AS servicios
+FROM informes AS I
+JOIN citas AS C
+ON C.ctsid = I.ctsid
+JOIN miembros AS M
+ON M.mbid = I.mbid
+JOIN informesServicios AS INF
+ON INF.ifid = I.ifid
+JOIN servicios AS S
+ON INF.svid = S.svid
+GROUP BY I.ifid, M.nombres, M.apellidos, C.fecha, C.clid, C.mcid
+ORDER BY I.ifid;
+
 --Vista para ver la información de una cita
 CREATE VIEW infoQuotes AS
 SELECT C.ctsid, C.clid, C.fecha, C.hora , M.nombre, string_agg(S.nombre, ' ● ') AS servicios

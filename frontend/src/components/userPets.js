@@ -283,16 +283,16 @@ export default function UserPets() {
                       width='100%'
                       borderBottom='1px solid #BABBBF'
                       mb='20px'>
-                      <Grid item xs={2} sm={2} lg={2} md={2} xl={3}>
+                      <Grid item xs={3} sm={3} lg={3} md={3} xl={3}>
                         <Typography fontWeight='bold'>Fecha</Typography>
                       </Grid>
-                      <Grid item xs={2} sm={2} lg={2} md={2} xl={3}>
+                      <Grid item xs={3} sm={3} lg={3} md={3} xl={3}>
                         <Typography fontWeight='bold'>Servicios</Typography>
                       </Grid>
-                      <Grid item xs={2} sm={2} lg={2} md={2} xl={3}>
+                      <Grid item xs={3} sm={3} lg={3} md={3} xl={3}>
                         <Typography fontWeight='bold'>Nota</Typography>
                       </Grid>
-                      <Grid item xs={2} sm={2} lg={2} md={2} xl={3}>
+                      <Grid item xs={3} sm={3} lg={3} md={3} xl={3}>
                         <Typography fontWeight='bold'>Atendido por</Typography>
                       </Grid>
                     </Grid>
@@ -301,17 +301,18 @@ export default function UserPets() {
                       container
                       width='100%'
                       borderBottom='1px solid #BABBBF'
+                      mb='10px'
                       key={report.ifid}>
-                      <Grid item xs={2} sm={2} lg={2} md={2} xl={3}>
+                      <Grid item xs={3} sm={3} lg={3} md={3} xl={3}>
                         <Typography>{report.fecha}</Typography>
                       </Grid>
-                      <Grid item xs={2} sm={2} lg={2} md={2} xl={3}>
+                      <Grid item xs={3} sm={3} lg={3} md={3} xl={3}>
                         <Typography>{report.servicios}</Typography>
                       </Grid>
-                      <Grid item xs={2} sm={2} lg={2} md={2} xl={3}>
+                      <Grid item xs={3} sm={3} lg={3} md={3} xl={3}>
                         <Typography>{report.nota}</Typography>
                       </Grid>
-                      <Grid item xs={2} sm={2} lg={2} md={2} xl={3}>
+                      <Grid item xs={3} sm={3} lg={3} md={3} xl={3}>
                         <Typography>{report.nombres + " " + report.apellidos}</Typography>
                       </Grid>
                     </Grid>

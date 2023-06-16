@@ -16,10 +16,10 @@ INSERT INTO productos (nombre, tipo, precio, cantidad)
 VALUES 	('Collar negro', 'Collar', 10500, 15),
 		('Collar rosado', 'Collar', 12000, 5);
 --Insertar mascotas
-INSERT INTO mascotas (clid, nombre, raza, edad, sexo, condicion)
-VALUES 	(1002, 'Tony', 'Bulldog', '2 años', 'Macho', 'Ninguna'),
-		(1001, 'Luna', 'Pastor aleman', '4 años', 'Hembra', 'Alergia en la piel'),
-		(1001, 'Pelusa', 'Akita', '6 meses', 'Macho', 'Ninguna');
+INSERT INTO mascotas (clid, nombre, raza, edad, sexo, condicion, estado)
+VALUES 	(1002, 'Tony', 'Bulldog', '2 años', 'Macho', 'Ninguna', 'Activo'),
+		(1001, 'Luna', 'Pastor aleman', '4 años', 'Hembra', 'Alergia en la piel', 'Activo'),
+		(1001, 'Pelusa', 'Akita', '6 meses', 'Macho', 'Ninguna', 'Activo');
 --Insertar citas
 INSERT INTO citas (clid, mcid, fecha, hora, estado)
 VALUES	(1002, 1, '7 de Junio del 2023', '8:30', 'Espera'),

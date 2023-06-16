@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function NewPet() {
 
-    const [pet, setPet] = useState({ clid: '', nombre: '', raza: '', edad: '', sexo: '', condicion: '' })
+    const [pet, setPet] = useState({ clid: '', nombre: '', raza: '', edad: '', sexo: '', condicion: '', estado: 'Activo' })
 
     const [condicion, setCondicion] = useState('')
 
@@ -20,7 +20,7 @@ export default function NewPet() {
 
         if (pet.nombre.trim() === '' || pet.raza.trim() === '' || pet.edad.trim() === '' || pet.sexo.trim() === '') {
             setErrorMessage("Ingrese todos los datos primero");
-            setPet({ clid: '', nombre: '', raza: '', edad: '', sexo: '', condicion: '' })
+            setPet({ clid: '', nombre: '', raza: '', edad: '', sexo: '', condicion: '', estado: 'Activo' })
             return
         }
 
@@ -39,7 +39,7 @@ export default function NewPet() {
         const data = await res.json()
 
         if (!data.menssage) {
-            setPet({ clid: '', nombre: '', raza: '', edad: '', sexo: '', condicion: '' })
+            setPet({ clid: '', nombre: '', raza: '', edad: '', sexo: '', condicion: '', estado: 'Activo' })
             navigate('/mis-mascotas')
         }
     }

@@ -88,7 +88,7 @@ export default function Navbar() {
                             textTransform: 'none',
                             backgroundColor: 'transparent',
                             '&:hover': {
-                                backgroundColor: 'primary.main',
+                                backgroundColor: '#0265CD',
                                 color: '#ffffff'
                             }
                         }}>
@@ -104,7 +104,7 @@ export default function Navbar() {
                             textTransform: 'none',
                             backgroundColor: 'transparent',
                             '&:hover': {
-                                backgroundColor: 'primary.main',
+                                backgroundColor: '#0265CD',
                                 color: '#ffffff'
                             }
                         }}>
@@ -120,7 +120,7 @@ export default function Navbar() {
                             textTransform: 'none',
                             backgroundColor: 'transparent',
                             '&:hover': {
-                                backgroundColor: 'primary.main',
+                                backgroundColor: '#0265CD',
                                 color: '#ffffff'
                             }
                         }}>

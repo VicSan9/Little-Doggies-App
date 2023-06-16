@@ -4,8 +4,8 @@ const getAllPets = async (req, res, next) => {
     const { id } = req.body;
     try {
         const result = await pool.query
-            ('SELECT * FROM mascotas WHERE clid = $1', 
-            [id]);
+            ('SELECT * FROM mascotas WHERE clid = $1 AND estado = $2', 
+            [id, 'Activo']);
         if (result.rows.length === 0)
             return res.status(404).json({
                 message: "Sin mascotas registradas",
@@ -32,11 +32,11 @@ const getPets = async (req, res, next) => {
 }
 
 const createPets = async (req, res, next) => {
-    const { clid, nombre, raza, edad, sexo, condicion } = req.body;
+    const { clid, nombre, raza, edad, sexo, condicion, estado } = req.body;
     try {
         const result = await pool.query
-            ('INSERT INTO mascotas (clid, nombre, raza, edad, sexo, condicion) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
-                [clid, nombre, raza, edad, sexo, condicion]);
+            ('INSERT INTO mascotas (clid, nombre, raza, edad, sexo, condicion, estado) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
+                [clid, nombre, raza, edad, sexo, condicion, estado]);
         res.json(result.rows[0]);
     } catch (error) {
         next(error);
@@ -60,11 +60,11 @@ const deletePets = async (req, res, next) => {
 
 const updatePets = async (req, res, next) => {
     const { id } = req.params;
-    const { clid, nombre, raza, edad, sexo, condicion } = req.body;
+    const { clid, nombre, raza, edad, sexo, condicion, estado  } = req.body;
     try {
         const result = await pool.query(
-            'UPDATE mascotas SET clid = $1, nombre = $2, raza = $3,  edad = $4, sexo = $5, condiciokion = $6 WHERE mcid = $7 RETURNING *',
-            [clid, nombre, raza, edad, sexo, condicion, id]);
+            'UPDATE mascotas SET clid = $1, nombre = $2, raza = $3,  edad = $4, sexo = $5, condicion = $6, estado = $7 WHERE mcid = $8 RETURNING *',
+            [clid, nombre, raza, edad, sexo, condicion, estado, id]);
         if (result.rows.length === 0)
             return res.status(404).json({
                 message: "Mascota no encontrada",

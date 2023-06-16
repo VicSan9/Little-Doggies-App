@@ -1,7 +1,9 @@
-import { Avatar, Button, Card, CardContent, Container, Grid, Typography } from "@mui/material";
+import { Avatar, Box, Button, Card, CardContent, Container, FormControl, FormHelperText, Grid, IconButton, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material";
 import Navbar from "./UserNavbar";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 export default function UserPets() {
 
@@ -11,9 +13,175 @@ export default function UserPets() {
 
   const [pet, setPet] = useState([])
 
+  const [pet2, setPet2] = useState({ clid: '', nombre: '', raza: '', edad: '', sexo: '', condicion: '', estado: 'Activo' })
+
   const [reports, setReports] = useState([])
 
   const [isHidden, setIsHidden] = useState(false)
+
+  const [isHidden2, setIsHidden2] = useState(false)
+
+  const [condicion, setCondicion] = useState('')
+
+  const [isDisabled, setIsDisabled] = useState(true)
+
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const [advertenceMenssage, setAdvertenceMenssage] = useState("");
+
+  const AdvertenceComponent = ({ advertenceMenssage }) => {
+    return (
+      <Grid container
+        zIndex='2'
+        width='100vw'
+        height='100vh'
+        position='absolute'
+        alignItems='center'
+        textAlign='center'
+        justifyContent='center'
+        sx={{ backgroundColor: 'rgba(0,0,0,.2)', backdropFilter: 'blur(5px)', }}>
+        <Box
+          width='300px'
+          height='200px'
+          borderRadius='20px'
+          border='1px solid #BABBBF'
+          sx={{ backgroundColor: '#ffffff' }}>
+          <Typography color='#000000' mt='20px' variant="h5" fontWeight='bold'>Advertencia</Typography>
+          <p>{advertenceMenssage}</p>
+          <Button variant="outlined"
+            size='medium'
+            onClick={handleClickAV2Can}
+            sx={{
+              color: '#0265CD',
+              width: '80px',
+              mt: '20px',
+              borderColor: '#0265CD',
+              borderRadius: '50px',
+              textTransform: 'none'
+            }}> Volver
+          </Button>
+          <Button variant="outlined"
+            size='medium'
+            onClick={handleClickAVConf}
+            sx={{
+              width: '80px',
+              color: '#0265CD',
+              mt: '20px',
+              ml: '20px',
+              borderColor: '#0265CD',
+              borderRadius: '50px',
+              textTransform: 'none'
+            }}> Confirmar
+          </Button>
+        </Box>
+      </Grid>
+    );
+  };
+
+  const ErrorComponent = ({ errorMessage }) => {
+    return (
+      <Grid container
+        zIndex='2'
+        width='100vw'
+        height='100vh'
+        position='absolute'
+        alignItems='center'
+        textAlign='center'
+        justifyContent='center'
+        sx={{ backgroundColor: 'rgba(0,0,0,.2)', backdropFilter: 'blur(5px)', }}>
+        <Box
+          width='300px'
+          height='200px'
+          borderRadius='20px'
+          border='1px solid #BABBBF'
+          sx={{ backgroundColor: '#ffffff' }}>
+          <Typography color='#CD0227' mt='20px' variant="h5" fontWeight='bold'>Error</Typography>
+          <p>{errorMessage}</p>
+          <Button variant="outlined"
+            size='medium'
+            onClick={handleClick}
+            sx={{
+              color: '#0265CD',
+              mt: '30px',
+              borderColor: '#0265CD',
+              borderRadius: '50px',
+              textTransform: 'none'
+            }}> Volver
+          </Button>
+        </Box>
+      </Grid>
+    );
+  };
+
+  const handleClickAV2Can = () => {
+    setAdvertenceMenssage("");
+  }
+
+  const handleClickAVConf = async () => {
+
+    const body = { clid: pet2.clid, nombre: pet2.nombre, raza: pet2.raza, edad: pet2.edad, sexo: pet2.sexo, condicion: pet2.condicion, estado: 'Eliminada' }
+
+    await fetch(`http://localhost:4000/pets/${pet.mcid}`, {
+      method: 'PUT',
+      body: JSON.stringify(body),
+      headers: { "content-Type": "application/json" }
+    })
+
+    setAdvertenceMenssage("");
+
+    window.location.reload()
+  }
+
+  const handleClick = () => {
+    setErrorMessage("");
+  }
+
+  const handleChange = e => {
+    setPet2({
+      ...pet2,
+      [e.target.name]: e.target.value
+    })
+  }
+
+  const handleChange2 = (event) => {
+    setCondicion(event.target.value);
+    if (event.target.value === 'Si') {
+      setIsDisabled(false)
+    } else {
+      setIsDisabled(true)
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (pet2.nombre.trim() === '' || pet2.raza.trim() === '' || pet2.edad.trim() === '' || pet2.sexo.trim() === '') {
+      setErrorMessage("Ingrese todos los datos primero");
+      setPet2({ clid: '', nombre: '', raza: '', edad: '', sexo: '', condicion: '' })
+      return
+    }
+
+    pet2.clid = sessionStorage.getItem('id')
+
+    if (pet2.condicion.trim() === '') {
+      pet2.condicion = 'Ninguna'
+    }
+
+    const res = await fetch(`http://localhost:4000/pets/${pet.mcid}`, {
+      method: 'PUT',
+      body: JSON.stringify(pet2),
+      headers: { "content-Type": "application/json" }
+    })
+
+    const data = await res.json()
+
+    console.log(data)
+
+    if (!data.menssage) {
+      setPet2({ clid: '', nombre: '', raza: '', edad: '', sexo: '', condicion: '' })
+      window.location.reload()
+    }
+  }
 
   const loadPets = async () => {
 
@@ -45,6 +213,7 @@ export default function UserPets() {
 
   const handleFocus = async (event) => {
     const id = event.target.value;
+
     localStorage.setItem('idMascota', id)
 
     setIsHidden(true)
@@ -57,6 +226,7 @@ export default function UserPets() {
     const data = await res.json()
 
     setPet(data)
+    setPet2(data)
 
     const body = {
       clid: sessionStorage.getItem('id'),
@@ -71,9 +241,7 @@ export default function UserPets() {
 
     const data2 = await res2.json()
 
-    console.log(data2)
-
-    if(res2.status === 404){
+    if (res2.status === 404) {
       setReports([])
       return
     }
@@ -85,244 +253,373 @@ export default function UserPets() {
     navigate('/nueva-mascota')
   }
 
+  const handleClicEdit = () => {
+    setIsHidden2(true)
+  }
+
+  const handleClicDelete = () => {
+    setAdvertenceMenssage('¿Estás seguro que quieres eliminar esta mascota mascota?')
+  }
+
   return (
     <>
+      {errorMessage && <ErrorComponent errorMessage={errorMessage} />}
+      {advertenceMenssage && <AdvertenceComponent advertenceMenssage={advertenceMenssage} />}
       <Navbar></Navbar>
       <Container maxWidth='xl' fixed>
-        <Grid
-          container
-          alignItems='center'
-          height='100vh'>
+        <div hidden={isHidden2}>
           <Grid
-            mt='5vh'
+            container
             alignItems='center'
-            justifyContent='center'
-            height='82vh'
-            maxHeight='900px'
-            item xs={3} sm={3} lg={3} md={3} xl={3}
-            borderRight='2px solid #BABBBF'>
+            height='100vh'>
             <Grid
-              container
-              direction='column'
-              alignItems='star'
-              justifyContent='start'>
-              <Typography
-                textAlign='start'
-                ml='20px'
-                mt='20px'
-                mb='10px'
-                variant="h5"
-                fontWeight='bold'>
-                Tus mascotas
-              </Typography>
-              {pets.map((pet) => (
-                <Card
-                  component={Button}
-                  onFocus={handleFocus}
-                  key={pet.mcid}
-                  value={pet.mcid}
-                  sx={{
-                    '&:focus': {
-                      color: 'white',
-                      backgroundColor: '#0265CD',
-                    },
-                    border: '1px solid #BABBBF',
-                    borderRadius: '10px',
-                    textTransform: 'none',
-                    mt: '15px',
-                    ml: '20px',
-                    mr: '20px',
-                    height: '85px',
-                    width: '85%',
-                    boxShadow: 'none'
-                  }}>
-                  <CardContent sx={{ width: '100%', padding: '0px' }}>
-                    <Grid container direction='row' >
-                      <Grid item xs={3}>
-                        <Avatar sx={{ ml: '5px', width: 50, height: 50 }}>M</Avatar>
-                      </Grid>
-                      <Grid item xs={9} container direction='column' textAlign='start'>
-                        <Typography fontWeight='bold'>
-                          {pet.nombre}
-                        </Typography>
-                        <Typography>
-                          {pet.raza}
-                        </Typography>
-                      </Grid>
-                    </Grid>
-                  </CardContent>
-                </Card>
-              ))}
-              <Card
-                component={Button}
-                onClick={handleClick2}
-                sx={{
-                  color: '#0265CD',
-                  border: '1px solid #BABBBF',
-                  borderRadius: '60px',
-                  textTransform: 'none',
-                  mb: '25px',
-                  mt: '15px',
-                  ml: '20px',
-                  height: '65px',
-                  width: '65px',
-                  boxShadow: 'none'
-                }}>
-                <CardContent sx={{ padding: '0px' }}>
-                  <Typography fontSize='25px'>
-                    +
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Grid>
-          </Grid>
-          <Grid
-            mt='5vh'
-            alignItems='center'
-            justifyContent='center'
-            height='82vh'
-            maxHeight='900px'
-            item xs={9} sm={9} lg={9} md={9} xl={9}>
-            <Grid
-              container
-              direction='column'
-              alignItems='star'
-              justifyContent='start'
-              ml='20px'
-              mt='20px'
-              width='95%'
-              height='95%'>
-              <div hidden={isHidden}>
+              mt='5vh'
+              alignItems='center'
+              justifyContent='center'
+              height='82vh'
+              maxHeight='900px'
+              item xs={3} sm={3} lg={3} md={3} xl={3}
+              borderRight='2px solid #BABBBF'>
+              <Grid
+                container
+                direction='column'
+                alignItems='star'
+                justifyContent='start'>
                 <Typography
                   textAlign='start'
+                  ml='20px'
+                  mt='20px'
                   mb='10px'
-                  variant="body1">
-                  Seleciona una de tus mascotas para ver su información.
+                  variant="h5"
+                  fontWeight='bold'>
+                  Tus mascotas
                 </Typography>
-              </div>
-              <div hidden={!isHidden} style={{ height: '100%', width: '100%' }}>
-                <Grid
-                  container
-                  height='50%'
-                  width='100%'>
-                  <Grid container direction='row'>
-                    <Typography
-                      textAlign='start'
-                      variant="h5"
-                      fontWeight='bold'
-                      height='15%'
-                      width='100%'>
-                      Datos de tu mascota
+                {pets.map((pet) => (
+                  <Card
+                    component={Button}
+                    onFocus={handleFocus}
+                    key={pet.mcid}
+                    value={pet.mcid}
+                    sx={{
+                      '&:focus': {
+                        color: 'white',
+                        backgroundColor: '#0265CD',
+                      },
+                      border: '1px solid #BABBBF',
+                      borderRadius: '10px',
+                      textTransform: 'none',
+                      mt: '15px',
+                      ml: '20px',
+                      mr: '20px',
+                      height: '85px',
+                      width: '85%',
+                      boxShadow: 'none'
+                    }}>
+                    <CardContent sx={{ width: '100%', padding: '0px' }}>
+                      <Grid container direction='row' >
+                        <Grid item xs={3}>
+                          <Avatar sx={{ ml: '5px', width: 50, height: 50 }}>M</Avatar>
+                        </Grid>
+                        <Grid item xs={9} container direction='column' textAlign='start'>
+                          <Typography fontWeight='bold'>
+                            {pet.nombre}
+                          </Typography>
+                          <Typography>
+                            {pet.raza}
+                          </Typography>
+                        </Grid>
+                      </Grid>
+                    </CardContent>
+                  </Card>
+                ))}
+                <Card
+                  component={Button}
+                  onClick={handleClick2}
+                  sx={{
+                    color: '#0265CD',
+                    border: '1px solid #BABBBF',
+                    borderRadius: '60px',
+                    textTransform: 'none',
+                    mb: '25px',
+                    mt: '15px',
+                    ml: '20px',
+                    height: '65px',
+                    width: '65px',
+                    boxShadow: 'none'
+                  }}>
+                  <CardContent sx={{ padding: '0px' }}>
+                    <Typography fontSize='25px'>
+                      +
                     </Typography>
-                    <Grid
-                      container
-                      height='80%'
-                      width='50%'
-                      sx={{ borderRight: '1px solid #BABBBF' }}>
+                  </CardContent>
+                </Card>
+              </Grid>
+            </Grid>
+            <Grid
+              mt='5vh'
+              alignItems='center'
+              justifyContent='center'
+              height='82vh'
+              maxHeight='900px'
+              item xs={9} sm={9} lg={9} md={9} xl={9}>
+              <Grid
+                container
+                direction='column'
+                alignItems='star'
+                justifyContent='start'
+                ml='20px'
+                mt='20px'
+                width='95%'
+                height='95%'>
+                <div hidden={isHidden}>
+                  <Typography
+                    textAlign='start'
+                    mb='10px'
+                    variant="body1">
+                    Seleciona una de tus mascotas para ver su información.
+                  </Typography>
+                </div>
+                <div hidden={!isHidden} style={{ height: '100%', width: '100%' }}>
+                  <Grid
+                    container
+                    height='50%'
+                    width='100%'>
+                    <Grid container direction='row'>
+                      <Typography
+                        textAlign='start'
+                        variant="h5"
+                        fontWeight='bold'
+                        height='15%'
+                        width='100%'>
+                        Datos de tu mascota
+                        <IconButton onClick={handleClicEdit} sx={{ ml: '33px', mr: '5px' }}>
+                          <EditIcon sx={{ fontSize: 27 }}></EditIcon>
+                        </IconButton>
+                        <IconButton onClick={handleClicDelete} sx={{ mr: '5px' }}>
+                          <DeleteIcon sx={{ fontSize: 27 }}></DeleteIcon>
+                        </IconButton>
+                      </Typography>
                       <Grid
                         container
+                        height='80%'
                         width='50%'
-                        height='90%'
-                        direction='column'
-                        justifyContent='space-around'>
-                        <Typography fontWeight='bold'>Nombre</Typography>
-                        <Typography fontWeight='bold'>Raza</Typography>
-                        <Typography fontWeight='bold'>Edad</Typography>
-                        <Typography fontWeight='bold'>Sexo</Typography>
+                        sx={{ borderRight: '1px solid #BABBBF' }}>
+                        <Grid
+                          container
+                          width='50%'
+                          height='90%'
+                          direction='column'
+                          justifyContent='space-around'>
+                          <Typography fontWeight='bold'>Nombre</Typography>
+                          <Typography fontWeight='bold'>Raza</Typography>
+                          <Typography fontWeight='bold'>Edad</Typography>
+                          <Typography fontWeight='bold'>Sexo</Typography>
+                        </Grid>
+                        <Grid
+                          container
+                          width='50%'
+                          height='90%'
+                          direction='column'
+                          justifyContent='space-around'>
+                          <Typography>{pet.nombre}</Typography>
+                          <Typography>{pet.raza}</Typography>
+                          <Typography>{pet.edad}</Typography>
+                          <Typography>{pet.sexo}</Typography>
+                        </Grid>
                       </Grid>
                       <Grid
                         container
-                        width='50%'
-                        height='90%'
-                        direction='column'
-                        justifyContent='space-around'>
-                        <Typography>{pet.nombre}</Typography>
-                        <Typography>{pet.raza}</Typography>
-                        <Typography>{pet.edad}</Typography>
-                        <Typography>{pet.sexo}</Typography>
-                      </Grid>
-                    </Grid>
-                    <Grid
-                      container
-                      height='80%'
-                      width='50%'>
-                      <Grid
-                        container
-                        width='50%'
-                        height='90%'
-                        direction='column'>
-                        <Typography mt='20px' height='70px' ml='20px' fontWeight='bold'>¿Presenta alguna condicion especial o alergia?</Typography>
-                        <Typography ml='20px' fontWeight='bold'>Foto</Typography>
-                      </Grid>
-                      <Grid
-                        container
-                        width='50%'
-                        height='90%'
-                        direction='column'>
-                        <Typography height='70px' mt='20px' ml='20px'>{pet.condicion}</Typography>
-                        <Avatar sx={{ mt: '5px', ml: '20px', width: '50%', height: '50%' }}>M</Avatar>
+                        height='80%'
+                        width='50%'>
+                        <Grid
+                          container
+                          width='50%'
+                          height='90%'
+                          direction='column'>
+                          <Typography mt='20px' height='70px' ml='20px' fontWeight='bold'>¿Presenta alguna condicion especial o alergia?</Typography>
+                          <Typography ml='20px' fontWeight='bold'>Foto</Typography>
+                        </Grid>
+                        <Grid
+                          container
+                          width='50%'
+                          height='90%'
+                          direction='column'>
+                          <Typography height='70px' mt='20px' ml='20px'>{pet.condicion}</Typography>
+                          <Avatar sx={{ mt: '5px', ml: '20px', width: '50%', height: '50%' }}>M</Avatar>
+                        </Grid>
                       </Grid>
                     </Grid>
                   </Grid>
-                </Grid>
-                <Grid
-                  container
-                  height='50%'
-                  width='100%'>
-                  <Grid container direction='column'>
-                    <Typography
-                      textAlign='start'
-                      variant="h5"
-                      fontWeight='bold'
-                      height='10%'
-                      width='100%'>
-                      Historial de citas
-                    </Typography>
-                    <Grid
-                      container
-                      width='100%'
-                      borderBottom='1px solid #BABBBF'
-                      mb='20px'>
-                      <Grid item xs={3} sm={3} lg={3} md={3} xl={3}>
-                        <Typography fontWeight='bold'>Fecha</Typography>
-                      </Grid>
-                      <Grid item xs={3} sm={3} lg={3} md={3} xl={3}>
-                        <Typography fontWeight='bold'>Servicios</Typography>
-                      </Grid>
-                      <Grid item xs={3} sm={3} lg={3} md={3} xl={3}>
-                        <Typography fontWeight='bold'>Nota</Typography>
-                      </Grid>
-                      <Grid item xs={3} sm={3} lg={3} md={3} xl={3}>
-                        <Typography fontWeight='bold'>Atendido por</Typography>
-                      </Grid>
-                    </Grid>
-                    {reports.map((report) => (
+                  <Grid
+                    container
+                    height='50%'
+                    width='100%'>
+                    <Grid container direction='column'>
+                      <Typography
+                        textAlign='start'
+                        variant="h5"
+                        fontWeight='bold'
+                        height='10%'
+                        width='100%'>
+                        Historial de citas
+                      </Typography>
                       <Grid
-                      container
-                      width='100%'
-                      borderBottom='1px solid #BABBBF'
-                      mb='10px'
-                      key={report.ifid}>
-                      <Grid item xs={3} sm={3} lg={3} md={3} xl={3}>
-                        <Typography>{report.fecha}</Typography>
+                        container
+                        width='100%'
+                        borderBottom='1px solid #BABBBF'
+                        mb='20px'>
+                        <Grid item xs={3} sm={3} lg={3} md={3} xl={3}>
+                          <Typography fontWeight='bold'>Fecha</Typography>
+                        </Grid>
+                        <Grid item xs={3} sm={3} lg={3} md={3} xl={3}>
+                          <Typography fontWeight='bold'>Servicios</Typography>
+                        </Grid>
+                        <Grid item xs={3} sm={3} lg={3} md={3} xl={3}>
+                          <Typography fontWeight='bold'>Nota</Typography>
+                        </Grid>
+                        <Grid item xs={3} sm={3} lg={3} md={3} xl={3}>
+                          <Typography fontWeight='bold'>Atendido por</Typography>
+                        </Grid>
                       </Grid>
-                      <Grid item xs={3} sm={3} lg={3} md={3} xl={3}>
-                        <Typography>{report.servicios}</Typography>
-                      </Grid>
-                      <Grid item xs={3} sm={3} lg={3} md={3} xl={3}>
-                        <Typography>{report.nota}</Typography>
-                      </Grid>
-                      <Grid item xs={3} sm={3} lg={3} md={3} xl={3}>
-                        <Typography>{report.nombres + " " + report.apellidos}</Typography>
-                      </Grid>
+                      {reports.map((report) => (
+                        <Grid
+                          container
+                          width='100%'
+                          borderBottom='1px solid #BABBBF'
+                          mb='10px'
+                          key={report.ifid}>
+                          <Grid item xs={3} sm={3} lg={3} md={3} xl={3}>
+                            <Typography>{report.fecha}</Typography>
+                          </Grid>
+                          <Grid item xs={3} sm={3} lg={3} md={3} xl={3}>
+                            <Typography>{report.servicios}</Typography>
+                          </Grid>
+                          <Grid item xs={3} sm={3} lg={3} md={3} xl={3}>
+                            <Typography>{report.nota}</Typography>
+                          </Grid>
+                          <Grid item xs={3} sm={3} lg={3} md={3} xl={3}>
+                            <Typography>{report.nombres + " " + report.apellidos}</Typography>
+                          </Grid>
+                        </Grid>
+                      ))}
                     </Grid>
-                    ))}
                   </Grid>
-                </Grid>
-              </div>
+                </div>
+              </Grid>
             </Grid>
           </Grid>
-        </Grid>
+        </div>
+        <div hidden={!isHidden2}>
+          <Grid
+            container
+            justifyContent='center'
+            alignItems='center'
+            height='100vh'>
+            <Grid
+              component={'form'}
+              onSubmit={handleSubmit}
+              container
+              border='1px solid #BABBBF'
+              borderRadius='20px'
+              direction='column'
+              justifyContent='center'
+              alignItems='center'
+              maxWidth='780px'
+              mr='60px'
+              ml='60px'>
+              <Typography variant="h5" fontWeight='bold' mt='20px'>Registra tu mascota</Typography>
+              <Typography mt='30px'>Registra tu mascota con toda su información</Typography>
+              <Grid
+                container
+                justifyContent='space-evenly'
+                alignItems='center'
+                direction='row'
+                mt='30px'>
+                <TextField
+                  sx={{ width: '320px' }}
+                  name="nombre"
+                  label="Nombre de la mascota"
+                  variant="outlined"
+                  value={pet2.nombre}
+                  onChange={handleChange}>
+                </TextField>
+                <TextField
+                  sx={{ width: '320px' }}
+                  name="raza"
+                  label="Raza"
+                  variant="outlined"
+                  value={pet2.raza}
+                  onChange={handleChange}>
+                </TextField>
+              </Grid>
+              <Grid
+                container
+                justifyContent='space-evenly'
+                alignItems='center'
+                direction='row'
+                mt='30px'>
+                <TextField
+                  sx={{ width: '320px' }}
+                  name="edad"
+                  label="Edad"
+                  variant="outlined"
+                  value={pet2.edad}
+                  onChange={handleChange}>
+                </TextField>
+                <FormControl sx={{ width: '320px' }}>
+                  <InputLabel id="demo-simple-select-label2">Sexo</InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label2"
+                    id="demo-simple-select2"
+                    name="sexo"
+                    label="Sexo"
+                    onChange={handleChange}
+                    value={pet2.sexo}>
+                    <MenuItem value={'Macho'}>Macho</MenuItem>
+                    <MenuItem value={'Hembra'}>Hembra</MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Grid
+                container
+                justifyContent='space-evenly'
+                alignItems='center'
+                direction='row'
+                mt='30px'
+                mb='40px'>
+                <FormControl sx={{ width: '320px' }}>
+                  <InputLabel id="demo-simple-select-label2">¿Presenta alguna condición?</InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label2"
+                    id="demo-simple-select2"
+                    label="¿Presenta alguna condición?"
+                    onChange={handleChange2}
+                    value={condicion}>
+                    <MenuItem value={'Si'}>Si</MenuItem>
+                    <MenuItem value={'No'}>No</MenuItem>
+                  </Select>
+                  <FormHelperText>Si tu mascota tiene alguna enfermedad o condicion especial marca "Si"</FormHelperText>
+                </FormControl>
+                <TextField
+                  disabled={isDisabled}
+                  sx={{ width: '320px' }}
+                  name="condicion"
+                  label="Descripción de la condición"
+                  variant="outlined"
+                  value={pet2.condicion}
+                  onChange={handleChange}
+                  helperText='Si escogiste "No" en la condición esta casilla no estará habilitada'>
+                </TextField>
+              </Grid>
+              <Button
+                variant="outlined"
+                type="submit"
+                sx={{ width: '380px', mb: '30px', borderRadius: '20px' }}>
+                Registrar
+              </Button>
+            </Grid>
+          </Grid>
+        </div>
       </Container >
     </>
   )

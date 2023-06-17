@@ -267,17 +267,18 @@ export default function UserPets() {
       {advertenceMenssage && <AdvertenceComponent advertenceMenssage={advertenceMenssage} />}
       <Navbar></Navbar>
       <Container maxWidth='xl' fixed>
+        <Box height='70px'></Box>
         <div hidden={isHidden2}>
           <Grid
             container
             alignItems='center'
-            height='100vh'>
+            height='90vh'>
             <Grid
-              mt='5vh'
               alignItems='center'
               justifyContent='center'
               height='82vh'
               maxHeight='900px'
+              minHeight='700px'
               item xs={3} sm={3} lg={3} md={3} xl={3}
               borderRight='2px solid #BABBBF'>
               <Grid
@@ -356,11 +357,11 @@ export default function UserPets() {
               </Grid>
             </Grid>
             <Grid
-              mt='5vh'
               alignItems='center'
               justifyContent='center'
               height='82vh'
               maxHeight='900px'
+              minHeight='700px'
               item xs={9} sm={9} lg={9} md={9} xl={9}>
               <Grid
                 container
@@ -368,7 +369,7 @@ export default function UserPets() {
                 alignItems='star'
                 justifyContent='start'
                 ml='20px'
-                mt='20px'
+                mt='17px'
                 width='95%'
                 height='95%'>
                 <div hidden={isHidden}>

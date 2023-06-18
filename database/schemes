@@ -110,6 +110,7 @@ CREATE TABLE IF NOT EXISTS productos(
 	tipo VARCHAR (50) NOT NULL,
 	precio INTEGER NOT NULL,
 	cantidad INTEGER NOT NULL,
+	foto VARCHAR (100) NOT NULL,
 	PRIMARY KEY (prid)
 );
 --Tabla de PedidiosProductos

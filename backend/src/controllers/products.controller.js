@@ -4,7 +4,7 @@ const getAllProducts = async (req, res, next) => {
     try {
         const allProducts = await pool.query
             ('SELECT * FROM productos');
-        res.json(allProducts);
+        res.json(allProducts.rows);
     } catch (error) {
         next(error);
     }

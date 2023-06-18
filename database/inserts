@@ -12,9 +12,15 @@ INSERT INTO clientes (nombres, apellidos, correo, direccion, telefono, usuario, 
 VALUES 	('Nombre cliente 1', 'Apellidos cliente 1', 'correocliente1@gmail.com', 'Pradera#-Cr', '12345512', 'userCliente1', '321dsa', 'link'),
 		('Nombre cliente 2', 'Apellidos cliente 2', 'correocliente2@gmail.com', 'Pradera#-Cr', '41252155', 'userCliente2', '321asd', 'link');
 --Insertar productos
-INSERT INTO productos (nombre, tipo, precio, cantidad)
-VALUES 	('Collar negro', 'Collar', 10500, 15),
-		('Collar rosado', 'Collar', 12000, 5);
+INSERT INTO productos (nombre, tipo, precio, cantidad, foto)
+VALUES 	('Collar negro', 'Collares', 12321, 6, '1-product.jpg'),
+		('Collar blanco', 'Collares', 2155, 7, '2-product.jpg'),
+		('Shampoo 1', 'Shampoos', 5477, 10, '3-product.jpg'),
+		('Shampoo 2', 'Shampoos', 23442, 15, '4-product.jpg'),
+		('Shampoo 3', 'Shampoos', 4636, 5, '5-product.jpg'),
+		('Enjuague 1', 'Enjuages', 8798, 9, '6-product.jpg'),
+		('Enjuague 2', 'Enjuages', 7587, 12, '7-product.jpg'),
+		('Collar rosado', 'Collar', 12000, 2, '8-product.jpg');
 --Insertar mascotas
 INSERT INTO mascotas (clid, nombre, raza, edad, sexo, condicion, estado)
 VALUES 	(1002, 'Tony', 'Bulldog', '2 años', 'Macho', 'Ninguna', 'Activo'),
@@ -37,7 +43,8 @@ VALUES 	(1, 1,'Se aplico una inyección extra'),
 --Insertar pedidos
 INSERT INTO pedidos (clid, mbid, fecha)
 VALUES 	(1001, 2, '12 de mayo 2023' ),
-		(1002, 2, '15 de mayo 2023' );
+		(1002, 2, '15 de mayo 2023' ),
+		(1001, 2, '20 de mayo 2023' );
 --Insertar citasServicios
 INSERT INTO citasServicios (ctsid, svid)
 VALUES 	(1, 1),
@@ -65,3 +72,5 @@ INSERT INTO pedidosProductos (pdid, prid) VALUES (1, 1);
 INSERT INTO pedidosProductos (pdid, prid) VALUES (1, 1);
 INSERT INTO pedidosProductos (pdid, prid) VALUES (1, 2);
 INSERT INTO pedidosProductos (pdid, prid) VALUES (2, 1);
+INSERT INTO pedidosProductos (pdid, prid) VALUES (3, 1);
+INSERT INTO pedidosProductos (pdid, prid) VALUES (3, 3);

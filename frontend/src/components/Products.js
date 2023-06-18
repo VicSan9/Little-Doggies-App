@@ -109,7 +109,7 @@ export default function Products() {
       <Container maxWidth='xl' fixed>
         <Typography mt='63px'></Typography>
         <Box sx={{ flexGrow: 1, bgcolor: '#F9F9F9' }}>
-          <Typography paddingTop='20px' ml='70px' height='40px' fontWeight='bold' variant='h6'>Categoria</Typography>
+          <Typography paddingTop='20px' ml='70px' height='40px' fontWeight='bold' variant='h6'>Higiene</Typography>
           <Grid container width='100%' direction='row' alignItems='center' justifyContent='center'>
             {products.filter(product => product.tipo === 'Limpieza').slice(activeStep1, activeStep1 + 4).map((product) => (
               <Grid key={product.prid} container width='340px' direction='column'>
@@ -186,7 +186,7 @@ export default function Products() {
           />
         </Box>
         <Box sx={{ flexGrow: 1, bgcolor: '#F9F9F9' }}>
-          <Typography paddingTop='20px' ml='70px' height='40px' fontWeight='bold' variant='h6'>Categoria</Typography>
+          <Typography paddingTop='20px' ml='70px' height='40px' fontWeight='bold' variant='h6'>Medicamentos</Typography>
           <Grid container width='100%' direction='row' alignItems='center' justifyContent='center'>
             {products.filter(product => product.tipo === 'Medicamento').slice(activeStep2, activeStep2 + 4).map((product) => (
               <Grid key={product.prid} container width='340px' direction='column'>
@@ -263,7 +263,7 @@ export default function Products() {
           />
         </Box>
         <Box sx={{ flexGrow: 1, bgcolor: '#F9F9F9' }}>
-          <Typography paddingTop='20px' ml='70px' height='40px' fontWeight='bold' variant='h6'>Categoria</Typography>
+          <Typography paddingTop='20px' ml='70px' height='40px' fontWeight='bold' variant='h6'>Accesorios</Typography>
           <Grid container width='100%' direction='row' alignItems='center' justifyContent='center'>
             {products.filter(product => product.tipo === 'Accesorio').slice(activeStep3, activeStep3 + 4).map((product) => (
               <Grid key={product.prid} container width='340px' direction='column'>

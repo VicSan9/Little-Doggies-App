@@ -44,7 +44,6 @@ export default function Products() {
     }
 
     if (products.length != 0) {
-      
       const maxSteps1 = products.filter(product => product.tipo === 'Limpieza').length
       setMaxSteps1(maxSteps1)
 
@@ -54,8 +53,6 @@ export default function Products() {
       const maxSteps3 = products.filter(product => product.tipo === 'Accesorio').length
       setMaxSteps3(maxSteps3)
     }
-
-    console.log(products)
   }
 
   useEffect(() => {
@@ -108,8 +105,8 @@ export default function Products() {
       <Navbar></Navbar>
       <Container maxWidth='xl' fixed>
         <Typography mt='63px'></Typography>
-        <Box sx={{ flexGrow: 1, bgcolor: '#F9F9F9' }}>
-          <Typography paddingTop='20px' ml='70px' height='40px' fontWeight='bold' variant='h6'>Higiene</Typography>
+        <Box sx={{ flexGrow: 1, bgcolor: '#ffffff' }}>
+          <Typography paddingTop='20px' ml='75px' mr='90px' borderBottom='1px solid #BABBBF' height='40px' fontWeight='bold' variant='h6'>Higiene</Typography>
           <Grid container width='100%' direction='row' alignItems='center' justifyContent='center'>
             {products.filter(product => product.tipo === 'Limpieza').slice(activeStep1, activeStep1 + 4).map((product) => (
               <Grid key={product.prid} container width='340px' direction='column'>
@@ -125,9 +122,12 @@ export default function Products() {
                     width: '320px',
                     display: 'flex',
                     alignItems: 'center',
-                    height: 500,
+                    height: 520,
                     pl: 0,
                     bgcolor: '#FFFFFF',
+                    '&:hover': {
+                      backgroundColor: '#F5F5F5'
+                    }
                   }}>
                   <Box textAlign='center' sx={{ height: 405, maxWidth: 300, width: '100%', p: 0 }}>
                     <Link id={product.foto} onClick={handleClick}>
@@ -158,7 +158,7 @@ export default function Products() {
             steps={maxSteps1}
             position="static"
             activeStep={activeStep1}
-            sx={{ bgcolor: '#F9F9F9', ml: '50px', mr: '70px', paddingTop: '20px', paddingBottom: '20px' }}
+            sx={{ bgcolor: '#ffffff', ml: '50px', mr: '70px', paddingTop: '20px', paddingBottom: '20px' }}
             nextButton={
               <Button
                 size="small"
@@ -185,8 +185,8 @@ export default function Products() {
             }
           />
         </Box>
-        <Box sx={{ flexGrow: 1, bgcolor: '#F9F9F9' }}>
-          <Typography paddingTop='20px' ml='70px' height='40px' fontWeight='bold' variant='h6'>Medicamentos</Typography>
+        <Box sx={{ flexGrow: 1, bgcolor: '#ffffff' }}>
+          <Typography paddingTop='20px' ml='75px' mr='90px' borderBottom='1px solid #BABBBF' height='40px' fontWeight='bold' variant='h6'>Medicamentos</Typography>
           <Grid container width='100%' direction='row' alignItems='center' justifyContent='center'>
             {products.filter(product => product.tipo === 'Medicamento').slice(activeStep2, activeStep2 + 4).map((product) => (
               <Grid key={product.prid} container width='340px' direction='column'>
@@ -202,9 +202,12 @@ export default function Products() {
                     width: '320px',
                     display: 'flex',
                     alignItems: 'center',
-                    height: 500,
+                    height: 520,
                     pl: 0,
                     bgcolor: '#FFFFFF',
+                    '&:hover': {
+                      backgroundColor: '#F5F5F5'
+                    }
                   }}>
                   <Box textAlign='center' sx={{ height: 405, maxWidth: 300, width: '100%', p: 0 }}>
                     <Link id={product.foto} onClick={handleClick}>
@@ -235,7 +238,7 @@ export default function Products() {
             steps={maxSteps2}
             position="static"
             activeStep={activeStep2}
-            sx={{ bgcolor: '#F9F9F9', ml: '50px', mr: '70px', paddingTop: '20px', paddingBottom: '20px' }}
+            sx={{ bgcolor: '#ffffff', ml: '50px', mr: '70px', paddingTop: '20px', paddingBottom: '20px' }}
             nextButton={
               <Button
                 size="small"
@@ -262,8 +265,8 @@ export default function Products() {
             }
           />
         </Box>
-        <Box sx={{ flexGrow: 1, bgcolor: '#F9F9F9' }}>
-          <Typography paddingTop='20px' ml='70px' height='40px' fontWeight='bold' variant='h6'>Accesorios</Typography>
+        <Box sx={{ flexGrow: 1, bgcolor: '#ffffff' }}>
+          <Typography paddingTop='20px' ml='75px' mr='90px' borderBottom='1px solid #BABBBF' height='40px' fontWeight='bold' variant='h6'>Accesorios</Typography>
           <Grid container width='100%' direction='row' alignItems='center' justifyContent='center'>
             {products.filter(product => product.tipo === 'Accesorio').slice(activeStep3, activeStep3 + 4).map((product) => (
               <Grid key={product.prid} container width='340px' direction='column'>
@@ -279,9 +282,12 @@ export default function Products() {
                     width: '320px',
                     display: 'flex',
                     alignItems: 'center',
-                    height: 500,
+                    height: 520,
                     pl: 0,
                     bgcolor: '#FFFFFF',
+                    '&:hover': {
+                      backgroundColor: '#F5F5F5'
+                    }
                   }}>
                   <Box textAlign='center' sx={{ height: 405, maxWidth: 300, width: '100%', p: 0 }}>
                     <Link id={product.foto} onClick={handleClick}>
@@ -312,7 +318,7 @@ export default function Products() {
             steps={maxSteps3}
             position="static"
             activeStep={activeStep3}
-            sx={{ bgcolor: '#F9F9F9', ml: '50px', mr: '70px', paddingTop: '20px', paddingBottom: '20px' }}
+            sx={{ bgcolor: '#ffffff', ml: '50px', mr: '70px', paddingTop: '20px', paddingBottom: '20px' }}
             nextButton={
               <Button
                 size="small"

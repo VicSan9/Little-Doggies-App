@@ -140,6 +140,7 @@ export default function Products() {
     const product = e.currentTarget.id
     productList.push(product)
     setShoppingCart(productList.length)
+    localStorage.setItem('productList', productList)
   }
 
   return (
@@ -158,7 +159,8 @@ export default function Products() {
       <Navbar></Navbar>
       <AppBar
         sx={{
-          mt: '63px',
+          borderTop:'1px solid #ffffff',
+          mt: '62.5px',
           backgroundColor: 'transparent',
           boxShadow: 'none',
           position: 'fixed',

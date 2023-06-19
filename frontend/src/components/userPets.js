@@ -515,7 +515,7 @@ export default function UserPets() {
             container
             justifyContent='center'
             alignItems='center'
-            height='100vh'>
+            height='85vh'>
             <Grid
               component={'form'}
               onSubmit={handleSubmit}
@@ -528,8 +528,8 @@ export default function UserPets() {
               maxWidth='780px'
               mr='60px'
               ml='60px'>
-              <Typography variant="h5" fontWeight='bold' mt='20px'>Registra tu mascota</Typography>
-              <Typography mt='30px'>Registra tu mascota con toda su información</Typography>
+              <Typography variant="h5" fontWeight='bold' mt='20px'>Cambiar información de tu mascota</Typography>
+              <Typography mt='30px'>Modifica la información que desees de tu mascota</Typography>
               <Grid
                 container
                 justifyContent='space-evenly'

@@ -4,46 +4,33 @@ import Navbar from "./UserNavbar";
 
 export default function Shoppinghistory() {
 
-    const [ordersProducts, setOrdersProducts] = useState([])
-
-    const [products, setProducts] = useState([])
+    const [orders, setOrders] = useState([])
 
     const loadOrders = async () => {
 
         const id = sessionStorage.getItem('id')
 
-        const res = await fetch(`http://localhost:4000/ordersProducts/${1}`, {
-            method: 'GET',
+        const body = {
+            "id": id
+        }
+
+        const res = await fetch(`http://localhost:4000/orders2`, {
+            method: 'POST',
+            body: JSON.stringify(body),
             headers: { "content-Type": "application/json" }
         })
 
         const data = await res.json();
 
-        setOrdersProducts(data)
+        if (res.status === 404) {
+            setOrders([])
+            return
+        }
+        console.log(data)
     }
-
     useEffect(() => {
         loadOrders();
     }, []);
-
-    const loadProducts = async () => {
-
-        const res = await fetch(`http://localhost:4000/products/${1}`, {
-            method: 'GET',
-            headers: { "content-Type": "application/json" }
-        })
-
-        const data = await res.json();
-
-        setProducts(data)
-
-    }
-    useEffect(() => {
-        loadProducts();
-    }, []);
-
-
-
 
     return (
         <>
@@ -87,7 +74,7 @@ export default function Shoppinghistory() {
                                 justifyContent='center'
                                 direction='column'>
                                 <Typography ml='20px' mt='20px' fontWeight='bold'>
-                                    Fecha: {ordersProducts.fecha}
+                                    Fecha:
                                 </Typography>
                                 <Grid
                                     component={Box}
@@ -126,7 +113,6 @@ export default function Shoppinghistory() {
                                                 Referencia:
                                             </Typography>
                                             <Typography>
-                                                {ordersProducts.pdid}
                                             </Typography>
                                         </Grid>
                                         <Grid
@@ -135,7 +121,6 @@ export default function Shoppinghistory() {
                                                 Nombre del producto:
                                             </Typography>
                                             <Typography>
-                                                {products.nombre}
                                             </Typography>
                                         </Grid>
                                         <Grid
@@ -143,7 +128,6 @@ export default function Shoppinghistory() {
                                             <Typography>
                                                 Total:
                                             </Typography>
-                                            {products.precio}
                                             <Typography>
                                             </Typography>
                                         </Grid>

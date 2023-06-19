@@ -35,13 +35,13 @@ ORDER BY C.ctsid;
 
 --Vista para ver el id del pedido y la suma total a pagar por pedido
 CREATE VIEW order_value AS
-SELECT PD.clid, PD.pdid AS id_pedido, string_agg(P.nombre, ' ● '), SUM(P.precio) AS valor_total_pedido
+SELECT PD.clid, PD.fecha, PD.pdid AS id_pedido, string_agg(P.nombre, ' ● '), SUM(P.precio) AS valor_total_pedido
 FROM productos AS P
 JOIN pedidosProductos AS PP
 ON PP.prid = p.prid
 JOIN pedidos AS PD
 ON PD.pdid = PP.pdid
-GROUP BY id_pedido, PD.clid
+GROUP BY id_pedido, PD.clid, PD.fecha
 ORDER BY id_pedido ASC;
 
 --Vista para ver todos los usuarios

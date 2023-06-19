@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function Quotes() {
 
-  var id = localStorage.clear()
+  var id = localStorage.removeItem('idMascota')
 
   const navigate = useNavigate()
 

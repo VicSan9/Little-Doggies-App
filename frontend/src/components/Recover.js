@@ -10,10 +10,10 @@ export default function Recover() {
   const navigate = useNavigate()
 
   var aleatorio = Math.round(Math.random() * 999999);
-  
-  const [recover, setRecover] = useState({ userEmail: '', emailTitle: 'Correo de recuperación', emailDetails: aleatorio, to_name: '' });
 
   const [user, setUser] = useState([])
+  
+  const [recover, setRecover] = useState({ userEmail: '', emailTitle: 'Correo de recuperación', emailDetails: aleatorio, to_name: user.nombres + " " + user.apellidos });
 
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -61,7 +61,7 @@ export default function Recover() {
 
     emailjs.send(
       "service_y2xbs55", "template_52cw0cs", {
-      to_name: user.nombres + " " + user.apellidos,
+      to_name: recover.to_name,
       from_name: "Little Doggies",
       message: recover.emailDetails,
       userEmail: recover.userEmail,

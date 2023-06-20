@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, Card, CardContent, Container, FormControl, FormHelperText, Grid, IconButton, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material";
+import { Avatar, Box, Button, Card, CardContent, Container, FormControl, FormHelperText, Grid, IconButton, InputLabel, MenuItem, Select, TextField, Tooltip, Typography } from "@mui/material";
 import Navbar from "./UserNavbar";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -333,27 +333,29 @@ export default function UserPets() {
                     </CardContent>
                   </Card>
                 ))}
-                <Card
-                  component={Button}
-                  onClick={handleClick2}
-                  sx={{
-                    color: '#0265CD',
-                    border: '1px solid #BABBBF',
-                    borderRadius: '60px',
-                    textTransform: 'none',
-                    mb: '25px',
-                    mt: '15px',
-                    ml: '20px',
-                    height: '65px',
-                    width: '65px',
-                    boxShadow: 'none'
-                  }}>
-                  <CardContent sx={{ padding: '0px' }}>
-                    <Typography fontSize='25px'>
-                      +
-                    </Typography>
-                  </CardContent>
-                </Card>
+                <Tooltip title='Nueva mascota'>
+                  <Card
+                    component={Button}
+                    onClick={handleClick2}
+                    sx={{
+                      color: '#0265CD',
+                      border: '1px solid #BABBBF',
+                      borderRadius: '60px',
+                      textTransform: 'none',
+                      mb: '25px',
+                      mt: '15px',
+                      ml: '20px',
+                      height: '65px',
+                      width: '65px',
+                      boxShadow: 'none'
+                    }}>
+                    <CardContent sx={{ padding: '0px' }}>
+                      <Typography fontSize='25px'>
+                        +
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Tooltip>
               </Grid>
             </Grid>
             <Grid
@@ -393,12 +395,18 @@ export default function UserPets() {
                         height='15%'
                         width='100%'>
                         Datos de tu mascota
-                        <IconButton onClick={handleClicEdit} sx={{ ml: '33px', mr: '5px' }}>
-                          <EditIcon sx={{ fontSize: 27 }}></EditIcon>
-                        </IconButton>
-                        <IconButton onClick={handleClicDelete} sx={{ mr: '5px' }}>
-                          <DeleteIcon sx={{ fontSize: 27 }}></DeleteIcon>
-                        </IconButton>
+                        <Tooltip title='Editar datos de tu mascota'>
+                          <IconButton
+                            onClick={handleClicEdit}
+                            sx={{ ml: '33px', mr: '5px', '&:hover': { color: '#0265CD' } }}>
+                            <EditIcon sx={{ fontSize: 27 }}></EditIcon>
+                          </IconButton>
+                        </Tooltip>
+                        <Tooltip title='Eliminar mascota'>
+                          <IconButton onClick={handleClicDelete} sx={{ mr: '5px', '&:hover': { color: '#CD0227' } }}>
+                            <DeleteIcon sx={{ fontSize: 27 }}></DeleteIcon>
+                          </IconButton>
+                        </Tooltip>
                       </Typography>
                       <Grid
                         container

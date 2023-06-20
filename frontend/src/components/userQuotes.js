@@ -1,4 +1,4 @@
-import { Chip, FormHelperText, Button, Box, Container, Grid, IconButton, Typography } from "@mui/material";
+import { Chip, FormHelperText, Button, Box, Container, Grid, IconButton, Typography, Tooltip } from "@mui/material";
 import Navbar from "./UserNavbar";
 import { useEffect, useState } from "react";
 import EditIcon from '@mui/icons-material/Edit';
@@ -612,12 +612,16 @@ export default function UserQuotes() {
                           direction='row-reverse'
                           id={quote.ctsid}
                           item xs={2} sm={2} lg={2} md={2} xl={2}>
-                          <IconButton id={quote.ctsid} onClick={handleClickDelete} sx={{ mr: '5px', ":hover": { color: "white" } }}>
-                            <HighlightOffIcon></HighlightOffIcon>
-                          </IconButton>
-                          <IconButton id={quote.ctsid} onClick={handleClickEdit} sx={{ mr: '5px', ":hover": { color: "white" } }}>
-                            <EditIcon></EditIcon>
-                          </IconButton>
+                          <Tooltip title='Cancelar cita'>
+                            <IconButton id={quote.ctsid} onClick={handleClickDelete} sx={{ mr: '5px', ":hover": { color: "white" } }}>
+                              <HighlightOffIcon></HighlightOffIcon>
+                            </IconButton>
+                          </Tooltip>
+                          <Tooltip title='Modificar cita'>
+                            <IconButton id={quote.ctsid} onClick={handleClickEdit} sx={{ mr: '5px', ":hover": { color: "white" } }}>
+                              <EditIcon></EditIcon>
+                            </IconButton>
+                          </Tooltip>
                         </Grid>
                       </Grid>
                     </Grid>

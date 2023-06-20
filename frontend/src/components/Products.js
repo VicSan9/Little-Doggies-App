@@ -278,9 +278,11 @@ export default function Products() {
                         <Typography mt='5px'>{'$' + product.precio}</Typography>
                       </Grid>
                       <Grid container alignContent='center' item xl={1}>
-                        <IconButton id={product.prid} onClick={handleClickAdd} sx={{ mt: '10px' }}>
-                          <AddShoppingCartIcon></AddShoppingCartIcon>
-                        </IconButton>
+                        <Tooltip title='Agregar al carrito de compras'>
+                          <IconButton id={product.prid} onClick={handleClickAdd} sx={{ mt: '10px', '&:hover': { color: '#0265CD' } }}>
+                            <AddShoppingCartIcon></AddShoppingCartIcon>
+                          </IconButton>
+                        </Tooltip>
                       </Grid>
                     </Grid>
                   </Paper>
@@ -358,9 +360,11 @@ export default function Products() {
                         <Typography mt='5px'>{'$' + product.precio}</Typography>
                       </Grid>
                       <Grid container alignContent='center' item xl={1}>
-                        <IconButton id={product.prid} onClick={handleClickAdd} sx={{ mt: '10px' }}>
-                          <AddShoppingCartIcon></AddShoppingCartIcon>
-                        </IconButton>
+                        <Tooltip title='Agregar al carrito de compras'>
+                          <IconButton id={product.prid} onClick={handleClickAdd} sx={{ mt: '10px', '&:hover': { color: '#0265CD' } }}>
+                            <AddShoppingCartIcon></AddShoppingCartIcon>
+                          </IconButton>
+                        </Tooltip>
                       </Grid>
                     </Grid>
                   </Paper>
@@ -438,9 +442,11 @@ export default function Products() {
                         <Typography mt='5px'>{'$' + product.precio}</Typography>
                       </Grid>
                       <Grid container alignContent='center' item xl={1}>
-                        <IconButton id={product.prid} onClick={handleClickAdd} sx={{ mt: '10px' }}>
-                          <AddShoppingCartIcon></AddShoppingCartIcon>
-                        </IconButton>
+                        <Tooltip title='Agregar al carrito de compras'>
+                          <IconButton id={product.prid} onClick={handleClickAdd} sx={{ mt: '10px', '&:hover': { color: '#0265CD' } }}>
+                            <AddShoppingCartIcon></AddShoppingCartIcon>
+                          </IconButton>
+                        </Tooltip>
                       </Grid>
                     </Grid>
                   </Paper>
@@ -521,9 +527,11 @@ export default function Products() {
                         <Typography mt='5px'>{'$' + product.precio}</Typography>
                       </Grid>
                       <Grid container alignContent='center' item xl={1}>
-                        <IconButton id={product.prid} onClick={handleClickAdd} sx={{ mt: '10px' }}>
-                          <AddShoppingCartIcon></AddShoppingCartIcon>
-                        </IconButton>
+                        <Tooltip title='Agregar al carrito de compras'>
+                          <IconButton id={product.prid} onClick={handleClickAdd} sx={{ mt: '10px', '&:hover': { color: '#0265CD' } }}>
+                            <AddShoppingCartIcon></AddShoppingCartIcon>
+                          </IconButton>
+                        </Tooltip>
                       </Grid>
                     </Grid>
                   </Paper>

@@ -25,6 +25,21 @@ const getClients = async (req, res, next) => {
     }
 }
 
+const getClients1 = async (req, res, next) => {
+    try {
+        const { correo } = req.body;
+        const result = await pool.query
+            ('SELECT * FROM users WHERE correo = $1', [correo]);
+        if (result.rows.length === 0)
+            return res.status(404).json({
+                message: "Cliente no encontrado",
+            });
+        res.json(result.rows[0]);
+    } catch (error) {
+        next(error);
+    }
+}
+
 const  createClients = async (req, res, next) => {
     const { usuario, contraseña, correo, nombres, apellidos, telefono, direccion, foto } = req.body;
     try {
@@ -74,5 +89,6 @@ module.exports = {
     getClients,
     createClients,
     deleteClients,
-    updateClients
+    updateClients,
+    getClients1
 }

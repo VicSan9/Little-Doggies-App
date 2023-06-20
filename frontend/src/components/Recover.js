@@ -1,6 +1,6 @@
 import { Container, Grid, Typography, TextField, Button, Box } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "./Navbar";
 import emailjs from "@emailjs/browser";
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -9,11 +9,44 @@ export default function Recover() {
 
   const navigate = useNavigate()
 
-  const [recover, setRecover] = useState({ userEmail: '', emailTitle: 'Correo de recuperación', emailDetails: ':D', to_name: '' });
+  var aleatorio = Math.round(Math.random() * 999999);
+  
+  const [recover, setRecover] = useState({ userEmail: '', emailTitle: 'Correo de recuperación', emailDetails: aleatorio, to_name: '' });
+
+  const [user, setUser] = useState([])
 
   const [errorMessage, setErrorMessage] = useState("");
 
   const [isHidden, setIsHidden] = useState(false)
+
+  const loadUser = async () => {
+
+    const correo = recover.userEmail
+
+    const body = { 'correo': correo }
+
+    const res = await fetch(`http://localhost:4000/clients1`, {
+      method: 'POST',
+      body: JSON.stringify(body),
+      headers: { "content-Type": "application/json" }
+    })
+
+    const data = await res.json();
+
+    if (res.status === 404) {
+      setUser([])
+      return
+    }
+
+    setUser(data)
+
+    console.log(user)
+  }
+
+  useEffect(() => {
+    loadUser();
+  }, []);
+
 
   const handleChange = e => {
     setRecover({
@@ -28,7 +61,7 @@ export default function Recover() {
 
     emailjs.send(
       "service_y2xbs55", "template_52cw0cs", {
-      to_name: "Nombre del usuario",
+      to_name: user.nombres + " " + user.apellidos,
       from_name: "Little Doggies",
       message: recover.emailDetails,
       userEmail: recover.userEmail,
@@ -44,7 +77,7 @@ export default function Recover() {
     );
     setIsHidden(true)
   }
-
+  
   if (recover.correo === '') {
     setErrorMessage("Ingrese todos los datos primero");
     return
@@ -202,7 +235,7 @@ export default function Recover() {
                   <Button
                     type="submit"
                     variant="contained"
-                    sx={{ borderRadius: '50px', width: '130px', ml: '25vw' }}>Continuar
+                    sx={{ borderRadius: '50px', width: '130px', ml: '20vw' }}>Continuar
                   </Button>
                 </Grid>
               </Grid>
@@ -210,7 +243,90 @@ export default function Recover() {
           </Grid>
         </div>
         <div hidden={!isHidden}>
-          <Typography mt='100px'>Nueva componente</Typography>
+          <Navbar></Navbar>
+          <Container maxWidth='lg' fixed>
+            <Grid container
+              height='100vh'
+              alignItems='center'
+              justifyContent='center'
+              minHeight='700px' >
+              <Grid component={'form'} onSubmit={handleSubmit}
+                container
+                direction='column'
+                alignItems='center'
+                justifyContent='center'
+                border='1px solid #BABBBF'
+                borderRadius='20px'
+                height='350px'
+                width='450px'
+                sx={{ display: { xs: 'none', sm: 'none', md: 'flex' } }}>
+                <Typography
+                  variant="h5"
+                  fontWeight='bold'>Escribe tu código
+                </Typography>
+                <Typography
+                  mt='30px'
+                  mb='30px'
+                  textAlign='center'
+                  variant="body1">Te hemos enviado un código de recuperación al correo
+                </Typography>
+                <TextField
+                  name="codigo"
+                  label="codigo de verificación"
+                  variant="outlined"
+                  onChange={handleChange}
+                  sx={{ width: '400px' }}>
+                </TextField>
+                <Grid container mt='30px' direction='row' alignItems='center' justifyContent='center'>
+                  <Button
+                    variant="contained"
+                    sx={{ backgroundColor: "#BABBBF", borderRadius: '50px', width: '130px' }}>Cancelar
+                  </Button>
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    sx={{ ml: '20px', borderRadius: '50px', width: '130px' }}>Continuar
+                  </Button>
+                </Grid>
+              </Grid>
+              <Grid
+                container
+                direction='column'
+                alignItems='center'
+                justifyContent='center'
+                borderRadius='20px'
+                sx={{ display: { xs: 'flex', sm: 'flex', md: 'none', lg: 'none', sx: 'none' } }}>
+                <Typography
+                  textAlign='center'
+                  variant="h5"
+                  fontWeight='bold'>Escribe tu código
+                </Typography>
+                <Typography
+                  mt='30px'
+                  mb='30px'
+                  textAlign='center'
+                  variant="body1">Te hemos enviado un código de recuperación al correo
+                </Typography>
+                <TextField
+                  name="Código"
+                  label="Código de verificación"
+                  variant="outlined"
+                  sx={{ width: '80vw', maxWidth: '400px' }}>
+                </TextField>
+                <Grid container mt='30px' direction='row' alignItems='center' justifyContent='center'>
+                  <Button
+                    variant="contained"
+                    sx={{ backgroundColor: "#BABBBF", borderRadius: '50px', width: '130px' }}>Cancelar
+                  </Button>
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    sx={{ ml: '20px', borderRadius: '50px', width: '130px' }}>Continuar
+                  </Button>
+                </Grid>
+              </Grid>
+            </Grid>
+          </Container>
         </div>
       </Container>
     </>

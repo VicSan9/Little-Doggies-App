@@ -9,7 +9,7 @@ VALUES 	('Corte corto', 'Peluqueria', 'Descripción del servicio'),
 		('Secado especial', 'Peluqueria', 'Descripción del servicio');
 --Insertar clientes 
 INSERT INTO clientes (nombres, apellidos, correo, direccion, telefono, usuario, contraseña, foto)
-VALUES 	('Nombre cliente 1', 'Apellidos cliente 1', 'correocliente1@gmail.com', 'Pradera#-Cr', '12345512', 'userCliente1', '321dsa', 'link'),
+VALUES 	('Nombre cliente 1', 'Apellidos cliente 1', 'merxicc@gmail.com', 'Pradera#-Cr', '12345512', 'userCliente1', '321dsa', 'link'),
 		('Nombre cliente 2', 'Apellidos cliente 2', 'correocliente2@gmail.com', 'Pradera#-Cr', '41252155', 'userCliente2', '321asd', 'link');
 --Insertar productos
 INSERT INTO productos (nombre, tipo, precio, cantidad, foto)

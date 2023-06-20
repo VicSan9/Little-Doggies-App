@@ -9,7 +9,6 @@ import Shop from './components/Shop'
 import RouteControler1 from './components/RouteController1'
 import Recover from './components/Recover'
 import Calendar from './components/Calendar'
-import Code from './components/Code'
 import Password from './components/Password'
 import NotFound from './components/NotFound'
 import { LocalizationProvider } from '@mui/x-date-pickers'
@@ -30,7 +29,6 @@ export default function App({ children }) {
       </LocalizationProvider>
       <BrowserRouter>
         <Routes>
-          <Route exact path='/codigo' element={<Code />} />
           <Route exact path='/contraseña' element={<Password />} />
           <Route exact path='/' element={<Home />} />
           <Route exact path='/productos' element={<Products />} />

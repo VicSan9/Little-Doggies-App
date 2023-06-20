@@ -8,13 +8,14 @@ import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import Navbar from "./Navbar";
 import { Container } from '@mui/system';
-import { AppBar, Backdrop, Grid, IconButton, TextField } from '@mui/material';
+import { AppBar, Backdrop, Grid, IconButton, TextField, Tooltip } from '@mui/material';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import Badge from '@mui/material/Badge';
 import { styled } from '@mui/material/styles';
+import RemoveShoppingCartIcon from '@mui/icons-material/RemoveShoppingCart';
 import Info from './Info';
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
@@ -49,6 +50,8 @@ export default function Products() {
   const handleClose = () => {
     setOpen(false);
   };
+
+  const navitate = useNavigate()
 
   const loadPorducts = async () => {
     const res = await fetch('http://localhost:4000/products', {
@@ -143,6 +146,16 @@ export default function Products() {
     localStorage.setItem('productList', productList)
   }
 
+  const handleClickShoppCard = () => {
+    navitate('/carrito')
+  }
+
+  const handleClickDelete = () => {
+    setShoppingCart(0)
+    setProductList([])
+    localStorage.removeItem('productList')
+  }
+
   return (
     <>
       <Backdrop
@@ -159,7 +172,7 @@ export default function Products() {
       <Navbar></Navbar>
       <AppBar
         sx={{
-          borderTop:'1px solid #ffffff',
+          borderTop: '1px solid #ffffff',
           mt: '62.5px',
           backgroundColor: 'transparent',
           boxShadow: 'none',
@@ -187,16 +200,39 @@ export default function Products() {
               InputProps={{ sx: { borderRadius: '20px', height: '50px' } }}
               variant='outlined'
               sx={{
-                mr:'15px',
+                mr: '15px',
                 outline: '1000',
                 width: '35%',
               }}>
             </TextField>
-            <IconButton aria-label="Carrito de compras">
-              <StyledBadge badgeContent={shoppingCart} color='primary'>
-                <ShoppingCartIcon sx={{fontSize:'33px'}} />
-              </StyledBadge>
-            </IconButton>
+            <Tooltip title='Carrito de compras'>
+              <IconButton
+                onClick={handleClickShoppCard}
+                aria-label="Carrito de compras"
+                sx={{
+                  mr: '10px',
+                  '&:hover': {
+                    color: '#0265CD'
+                  }
+                }}>
+                <StyledBadge
+                  badgeContent={shoppingCart} color='primary'>
+                  <ShoppingCartIcon sx={{ fontSize: '30px' }} />
+                </StyledBadge>
+              </IconButton>
+            </Tooltip>
+            <Tooltip title='Limpiar carrito de compras'>
+              <IconButton
+                onClick={handleClickDelete}
+                aria-label="Carrito de compras"
+                sx={{
+                  '&:hover': {
+                    color: '#CD0227'
+                  }
+                }}>
+                <RemoveShoppingCartIcon sx={{ fontSize: '30px' }} />
+              </IconButton>
+            </Tooltip>
           </Grid>
         </Container>
       </AppBar>
@@ -402,8 +438,8 @@ export default function Products() {
                         <Typography mt='5px'>{'$' + product.precio}</Typography>
                       </Grid>
                       <Grid container alignContent='center' item xl={1}>
-                        <IconButton sx={{ mt: '10px' }}>
-                          <AddShoppingCartIcon id={product.prid} onClick={handleClickAdd}></AddShoppingCartIcon>
+                        <IconButton id={product.prid} onClick={handleClickAdd} sx={{ mt: '10px' }}>
+                          <AddShoppingCartIcon></AddShoppingCartIcon>
                         </IconButton>
                       </Grid>
                     </Grid>

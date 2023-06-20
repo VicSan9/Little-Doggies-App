@@ -139,11 +139,28 @@ export default function Products() {
     }
   }
 
+  const loadNumProduct = () => {
+    const list = [localStorage.getItem('productList')]
+    const num = localStorage.getItem('numProductList')
+
+    if(num != null && list != null){
+      setShoppingCart(num)
+      setProductList(list)
+    }
+  }
+
+  useEffect(() => {
+    loadNumProduct();
+  },[]);
+
   const handleClickAdd = (e) => {
     const product = e.currentTarget.id
     productList.push(product)
+    console.log(productList)
     setShoppingCart(productList.length)
+    console.log(productList.length)
     localStorage.setItem('productList', productList)
+    localStorage.setItem('numProductList', shoppingCart)
   }
 
   const handleClickShoppCard = () => {
@@ -154,6 +171,7 @@ export default function Products() {
     setShoppingCart(0)
     setProductList([])
     localStorage.removeItem('productList')
+    localStorage.removeItem('numProductList')
   }
 
   return (
@@ -263,15 +281,17 @@ export default function Products() {
                         backgroundColor: '#F5F5F5'
                       }
                     }}>
-                    <Box textAlign='center' sx={{ height: 405, maxWidth: 300, width: '100%', p: 0 }}>
-                      <Link id={product.foto} onClick={handleClick}>
-                        <img
-                          src={process.env.PUBLIC_URL + "/" + product.foto}
-                          width='300px'
-                          alt="foto">
-                        </img>
-                      </Link>
-                    </Box>
+                    <Tooltip title='Ver foto' placement="right">
+                      <Box textAlign='center' sx={{ height: 405, maxWidth: 300, width: '100%', p: 0 }}>
+                        <Link id={product.foto} onClick={handleClick}>
+                          <img
+                            src={process.env.PUBLIC_URL + "/" + product.foto}
+                            width='300px'
+                            alt="foto">
+                          </img>
+                        </Link>
+                      </Box>
+                    </Tooltip>
                     <Grid container>
                       <Grid item xl={9} ml='25px'>
                         <Typography fontWeight='bold' mt='10px'>{product.nombre}</Typography>
@@ -345,15 +365,17 @@ export default function Products() {
                         backgroundColor: '#F5F5F5'
                       }
                     }}>
-                    <Box textAlign='center' sx={{ height: 405, maxWidth: 300, width: '100%', p: 0 }}>
-                      <Link id={product.foto} onClick={handleClick}>
-                        <img
-                          src={process.env.PUBLIC_URL + "/" + product.foto}
-                          width='300px'
-                          alt="foto">
-                        </img>
-                      </Link>
-                    </Box>
+                    <Tooltip title='Ver foto' placement="right">
+                      <Box textAlign='center' sx={{ height: 405, maxWidth: 300, width: '100%', p: 0 }}>
+                        <Link id={product.foto} onClick={handleClick}>
+                          <img
+                            src={process.env.PUBLIC_URL + "/" + product.foto}
+                            width='300px'
+                            alt="foto">
+                          </img>
+                        </Link>
+                      </Box>
+                    </Tooltip>
                     <Grid container>
                       <Grid item xl={9} ml='25px'>
                         <Typography fontWeight='bold' mt='10px'>{product.nombre}</Typography>
@@ -427,15 +449,17 @@ export default function Products() {
                         backgroundColor: '#F5F5F5'
                       }
                     }}>
-                    <Box textAlign='center' sx={{ height: 405, maxWidth: 300, width: '100%', p: 0 }}>
-                      <Link id={product.foto} onClick={handleClick}>
-                        <img
-                          src={process.env.PUBLIC_URL + "/" + product.foto}
-                          width='300px'
-                          alt="foto">
-                        </img>
-                      </Link>
-                    </Box>
+                    <Tooltip title='Ver foto' placement="right">
+                      <Box textAlign='center' sx={{ height: 405, maxWidth: 300, width: '100%', p: 0 }}>
+                        <Link id={product.foto} onClick={handleClick}>
+                          <img
+                            src={process.env.PUBLIC_URL + "/" + product.foto}
+                            width='300px'
+                            alt="foto">
+                          </img>
+                        </Link>
+                      </Box>
+                    </Tooltip>
                     <Grid container>
                       <Grid item xl={9} ml='25px'>
                         <Typography fontWeight='bold' mt='10px'>{product.nombre}</Typography>
@@ -512,15 +536,17 @@ export default function Products() {
                         backgroundColor: '#F5F5F5'
                       }
                     }}>
-                    <Box textAlign='center' sx={{ height: 405, maxWidth: 300, width: '100%', p: 0 }}>
-                      <Link id={product.foto} onClick={handleClick}>
-                        <img
-                          src={process.env.PUBLIC_URL + "/" + product.foto}
-                          width='300px'
-                          alt="foto">
-                        </img>
-                      </Link>
-                    </Box>
+                    <Tooltip title='Ver foto' placement="right">
+                      <Box textAlign='center' sx={{ height: 405, maxWidth: 300, width: '100%', p: 0 }}>
+                        <Link id={product.foto} onClick={handleClick}>
+                          <img
+                            src={process.env.PUBLIC_URL + "/" + product.foto}
+                            width='300px'
+                            alt="foto">
+                          </img>
+                        </Link>
+                      </Box>
+                    </Tooltip>
                     <Grid container>
                       <Grid item xl={9} ml='25px'>
                         <Typography fontWeight='bold' mt='10px'>{product.nombre}</Typography>

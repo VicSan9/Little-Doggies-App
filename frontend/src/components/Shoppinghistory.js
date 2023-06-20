@@ -8,11 +8,13 @@ export default function Shoppinghistory() {
 
     const loadOrders = async () => {
 
-        const id = sessionStorage.getItem('id')
+        const id = sessionStorage.getItem('id')  
+
+        const body = { 'id': id }
 
         const res = await fetch(`http://localhost:4000/orders2`, {
             method: 'POST',
-            body: JSON.stringify(id),
+            body: JSON.stringify(body),
             headers: { "content-Type": "application/json" }
         })
 
@@ -22,8 +24,10 @@ export default function Shoppinghistory() {
             setOrders([])
             return
         }
-        console.log(data)
+
+        setOrders(data)
     }
+
     useEffect(() => {
         loadOrders();
     }, []);
@@ -98,37 +102,30 @@ export default function Shoppinghistory() {
                                         mt='5px'
                                         mb='5px'>
                                         <Grid
-                                            item xs={1} sm={1} lg={1} md={1} xl={1}>
-                                            <Typography ml='10px'>
-                                            </Typography>
-                                            <Typography ml='10px'>
-                                            </Typography>
-                                        </Grid>
-                                        <Grid
-                                            item xs={3} sm={3} lg={3} md={3} xl={3}>
-                                            <Typography>
+                                            item xs={2} sm={2} lg={2} md={2} xl={2}>
+                                            <Typography ml='20px'>
                                                 Referencia:
                                             </Typography>
-                                            <Typography>
-                                                {order.referencia}
+                                            <Typography ml='20px'>
+                                                {order.id_pedido}
                                             </Typography>
                                         </Grid>
                                         <Grid
-                                            item xs={4} sm={4} lg={4} md={4} xl={4}>
+                                            item xs={8} sm={8} lg={8} md={8} xl={8}>
                                             <Typography>
                                                 Nombre del producto:
                                             </Typography>
                                             <Typography>
-                                                {order.nombre}
+                                                {order.string_agg}
                                             </Typography>
                                         </Grid>
                                         <Grid
-                                            item xs={4} sm={4} lg={4} md={4} xl={4}>
+                                            item xs={2} sm={2} lg={2} md={2} xl={2}>
                                             <Typography>
                                                 Total:
                                             </Typography>
                                             <Typography>
-                                                {order.total}
+                                                {order.valor_total_pedido}
                                             </Typography>
                                         </Grid>
                                     </Grid>

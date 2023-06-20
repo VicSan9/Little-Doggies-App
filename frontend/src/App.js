@@ -20,6 +20,7 @@ import UserPets from './components/userPets'
 import UserQuotes from './components/userQuotes'
 import ModifyInformation from './components/ModifyInformation'
 import Shoppinghistory from './components/Shoppinghistory'
+import ShoppingCart from './components/ShoppingCard'
 
 export default function App({ children }) {
   return (
@@ -33,6 +34,7 @@ export default function App({ children }) {
           <Route exact path='/contraseña' element={<Password />} />
           <Route exact path='/' element={<Home />} />
           <Route exact path='/productos' element={<Products />} />
+          <Route exact path='/carrito' element={<ShoppingCart />} />
           <Route exact path='/registrarse' element={<CheckIn />} />
           <Route exact path='/login' element={<Login />} />
           <Route exact path='/recuperar' element={<Recover />} />

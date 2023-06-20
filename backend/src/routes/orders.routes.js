@@ -7,7 +7,7 @@ router.get('/orders', getAllOrders)
 
 router.get('/orders/:id', getOrder)
 
-router.get('/orders2', getOrder2)
+router.post('/orders2', getOrder2)
 
 router.post('/orders', createOrder)
 

@@ -29,7 +29,7 @@ const getOrder2 = async (req, res, next) => {
     try {
         const { id } = req.body;
         const result = await pool.query
-            ('SELECT * FROM order_value WHERE clid = $1', [id]);
+            ('SELECT * FROM ordervalue WHERE clid = $1', [id]);
         if (result.rows.length === 0)
             return res.status(404).json({
                 message: "Pedido no encontrado",

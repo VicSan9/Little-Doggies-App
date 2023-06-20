@@ -10,13 +10,9 @@ export default function Shoppinghistory() {
 
         const id = sessionStorage.getItem('id')
 
-        const body = {
-            "id": id
-        }
-
         const res = await fetch(`http://localhost:4000/orders2`, {
             method: 'POST',
-            body: JSON.stringify(body),
+            body: JSON.stringify(id),
             headers: { "content-Type": "application/json" }
         })
 
@@ -68,13 +64,14 @@ export default function Shoppinghistory() {
                             height='82vh'
                             direction='column'
                             item xs={8} sm={8} lg={8} md={8} xl={8}>
+                            {orders.map((order) => (
                             <Grid
                                 container
                                 alignItems='start'
                                 justifyContent='center'
                                 direction='column'>
                                 <Typography ml='20px' mt='20px' fontWeight='bold'>
-                                    Fecha:
+                                    Fecha: {order.fecha}
                                 </Typography>
                                 <Grid
                                     component={Box}
@@ -113,6 +110,7 @@ export default function Shoppinghistory() {
                                                 Referencia:
                                             </Typography>
                                             <Typography>
+                                                {order.referencia}
                                             </Typography>
                                         </Grid>
                                         <Grid
@@ -121,6 +119,7 @@ export default function Shoppinghistory() {
                                                 Nombre del producto:
                                             </Typography>
                                             <Typography>
+                                                {order.nombre}
                                             </Typography>
                                         </Grid>
                                         <Grid
@@ -129,11 +128,13 @@ export default function Shoppinghistory() {
                                                 Total:
                                             </Typography>
                                             <Typography>
+                                                {order.total}
                                             </Typography>
                                         </Grid>
                                     </Grid>
                                 </Grid>
                             </Grid>
+                            ))}
                         </Grid>
                     </Grid>
                 </Grid>

@@ -1,4 +1,4 @@
-import { Button, Box, Card, CardContent, CircularProgress, Container, Grid, Typography, Avatar } from "@mui/material";
+import { Button, Box, Card, CardContent, CircularProgress, Container, Grid, Typography, Avatar, Tooltip } from "@mui/material";
 import UserNavbar from "./UserNavbar";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -27,7 +27,7 @@ export default function Quotes() {
 
     const data = await res.json();
 
-    if(res.status === 404){
+    if (res.status === 404) {
       setPets([])
       return
     }
@@ -193,26 +193,28 @@ export default function Quotes() {
                   </CardContent>
                 </Card>
               ))}
-              <Card
-                component={Button}
-                onClick={handleClickNuevo}
-                sx={{
-                  color: '#0265CD',
-                  border: '1px solid #BABBBF',
-                  borderRadius: '60px',
-                  textTransform: 'none',
-                  mb: '25px',
-                  mt: '5px',
-                  height: '65px',
-                  width: '65px',
-                  boxShadow: 'none'
-                }}>
-                <CardContent sx={{ padding: '0px' }}>
-                  <Typography fontSize='25px'>
-                    +
-                  </Typography>
-                </CardContent>
-              </Card>
+              <Tooltip title='Nueva mascota'>
+                <Card
+                  component={Button}
+                  onClick={handleClickNuevo}
+                  sx={{
+                    color: '#0265CD',
+                    border: '1px solid #BABBBF',
+                    borderRadius: '60px',
+                    textTransform: 'none',
+                    mb: '25px',
+                    mt: '5px',
+                    height: '65px',
+                    width: '65px',
+                    boxShadow: 'none'
+                  }}>
+                  <CardContent sx={{ padding: '0px' }}>
+                    <Typography fontSize='25px'>
+                      +
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Tooltip>
             </Grid>
             <Box height='30px'></Box>
             <Button

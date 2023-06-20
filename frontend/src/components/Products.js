@@ -140,7 +140,7 @@ export default function Products() {
   }
 
   const loadNumProduct = () => {
-    const list = [localStorage.getItem('productList')]
+    const list = JSON.parse(localStorage.getItem('productList'))
     const num = localStorage.getItem('numProductList')
 
     if(num != null && list != null){
@@ -156,11 +156,9 @@ export default function Products() {
   const handleClickAdd = (e) => {
     const product = e.currentTarget.id
     productList.push(product)
-    console.log(productList)
     setShoppingCart(productList.length)
-    console.log(productList.length)
-    localStorage.setItem('productList', productList)
-    localStorage.setItem('numProductList', shoppingCart)
+    localStorage.setItem('productList', JSON.stringify(productList))
+    localStorage.setItem('numProductList', shoppingCart + 1)
   }
 
   const handleClickShoppCard = () => {

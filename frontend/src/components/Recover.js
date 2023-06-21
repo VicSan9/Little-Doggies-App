@@ -12,7 +12,9 @@ export default function Recover() {
   var aleatorio = Math.round(Math.random() * 999999);
 
   const [user, setUser] = useState([])
-  
+
+  const [code, setCode] = useState({ codigo: ' ' })
+
   const [recover, setRecover] = useState({ userEmail: '', emailTitle: 'Correo de recuperación', emailDetails: aleatorio, to_name: user.nombres + " " + user.apellidos });
 
   const [errorMessage, setErrorMessage] = useState("");
@@ -39,8 +41,6 @@ export default function Recover() {
     }
 
     setUser(data)
-
-    console.log(user)
   }
 
   useEffect(() => {
@@ -77,11 +77,6 @@ export default function Recover() {
     );
     setIsHidden(true)
   }
-  
-  if (recover.correo === '') {
-    setErrorMessage("Ingrese todos los datos primero");
-    return
-  }
 
   const handleClick = () => {
     setErrorMessage("");
@@ -90,6 +85,19 @@ export default function Recover() {
   const handleCancel = () => {
     navigate('/login')
   }
+
+  const handleCancel2 = () => {
+    setIsHidden(false)
+  }
+
+  const handleContinue = () => {
+    if (recover.aleatorio === code.codigo) {
+      navigate('/contraseña')
+    } else {
+      setErrorMessage("Codigo incorrecto")
+    }
+  };
+
 
   const ErrorComponent = ({ errorMessage }) => {
     return (
@@ -215,7 +223,7 @@ export default function Recover() {
                   type="email"
                   label="Correo"
                   variant="outlined"
-                  value={recover.correo}
+                  value={recover.userEmail}
                   onChange={handleChange}
                   sx={{ width: '80vw', maxWidth: '480px' }}>
                 </TextField>
@@ -279,12 +287,15 @@ export default function Recover() {
                 </TextField>
                 <Grid container mt='30px' direction='row' alignItems='center' justifyContent='center'>
                   <Button
+                    onClick={handleCancel2}
                     variant="contained"
                     sx={{ backgroundColor: "#BABBBF", borderRadius: '50px', width: '130px' }}>Cancelar
                   </Button>
                   <Button
+                    onClick={handleContinue}
                     type="submit"
                     variant="contained"
+                    value={code.codigo}
                     sx={{ ml: '20px', borderRadius: '50px', width: '130px' }}>Continuar
                   </Button>
                 </Grid>
@@ -315,12 +326,15 @@ export default function Recover() {
                 </TextField>
                 <Grid container mt='30px' direction='row' alignItems='center' justifyContent='center'>
                   <Button
+                    onClick={handleCancel2}
                     variant="contained"
                     sx={{ backgroundColor: "#BABBBF", borderRadius: '50px', width: '130px' }}>Cancelar
                   </Button>
                   <Button
+                    onClick={handleContinue}
                     type="submit"
                     variant="contained"
+                    value={code.codigo}
                     sx={{ ml: '20px', borderRadius: '50px', width: '130px' }}>Continuar
                   </Button>
                 </Grid>

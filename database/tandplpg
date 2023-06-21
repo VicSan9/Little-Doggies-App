@@ -46,10 +46,10 @@ ORDER BY id_pedido ASC;
 
 --Vista para ver todos los usuarios
 CREATE VIEW users AS
-SELECT M.mbid AS id, M.usuario, M.contraseña, M.apellidos, M.nombres, M.rol, M.correo
+SELECT M.mbid AS id, M.usuario, M.contraseña, M.nombres, M.apellidos, M.rol, M.correo
 FROM miembros AS M
 UNION ALL
-SELECT C.clid AS id, C.usuario, C.contraseña, C.apellidos, C.nombres, 'Cliente' AS rol, C.correo
+SELECT C.clid AS id, C.usuario, C.contraseña, C.nombres, C.apellidos, 'Cliente' AS rol, C.correo
 FROM clientes AS C;
 
 --Funcion para ver los productos disponibles

@@ -1,12 +1,14 @@
 import { Box, Button, Container, Grid, Typography } from "@mui/material";
 import Navbar from "./Navbar";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function ShoppingCart() {
 
   const [products, setProducts] = useState([])
   const [isHidden, setIsHidden] = useState(false)
+
+  const navigate = useNavigate()
 
   const loadProducts = async () => {
 
@@ -94,6 +96,27 @@ export default function ShoppingCart() {
     totalPayable += product.precio * product.count;
   }
 
+  const handleClickPedido = () => {
+    navigate('/login');
+  }
+
+  const handleClickDelete = (e) => {
+    const id = e.target.id
+    const newProducts = products.filter((product) => product.prid !== Number(id));
+    setProducts(newProducts);
+
+    const productList = []
+
+    for (let i = 0; i < newProducts.length; i++) {
+      for (let j = 0; j < newProducts[i].count; j++) {
+        productList.push(newProducts[i].prid)
+      }
+    }
+
+    localStorage.setItem('productList', JSON.stringify(productList))
+    localStorage.setItem('numProductList', productList.length)
+  }
+
   return (
     <>
       <Navbar></Navbar>
@@ -120,17 +143,17 @@ export default function ShoppingCart() {
                 width='100%'
                 borderBottom='1px solid #BABBBF'>
                 <Grid container justifyContent='start' item xs={6} sm={6} lg={6} md={6} xl={6}>
-                  <Typography ml='30px' fontWeight='bold'>Productos</Typography>
+                  <Typography mb='10px' ml='30px' fontWeight='bold'>Productos</Typography>
                 </Grid>
                 <Grid container justifyContent='end' item xs={6} sm={6} lg={6} md={6} xl={6}>
-                  <Typography mr='30px' fontWeight='bold'>Subtotal</Typography>
+                  <Typography mb='10px' mr='30px' fontWeight='bold'>Subtotal</Typography>
                 </Grid>
               </Grid>
               <Grid
                 container
                 alignItems='start'
                 width='100%'
-                height='80%'
+                height='63%'
                 overflow='scroll'
                 direction='column'
                 display='block'
@@ -214,6 +237,18 @@ export default function ShoppingCart() {
                               borderRadius: '0px',
                             }}> +
                           </Box>
+                          <Button
+                            id={product.prid}
+                            onClick={handleClickDelete}
+                            variant="outlined"
+                            color= 'error'
+                            sx={{
+                              ml: '10px',
+                              borderRadius: '20px',
+                              borderColor: '#CD0227',
+                              textTransform: 'none',
+                            }}>Eliminar
+                          </Button>
                         </Grid>
                       </Grid>
                     </Grid>
@@ -229,11 +264,14 @@ export default function ShoppingCart() {
                 width='100%'
                 borderTop='1px solid #BABBBF'>
                 <Grid container justifyContent='start' item xs={6} sm={6} lg={6} md={6} xl={6}>
-                  <Typography ml='30px' fontWeight='bold'>Total a pagar</Typography>
+                  <Typography mt='10px' ml='30px' fontWeight='bold'>Total a pagar</Typography>
                 </Grid>
                 <Grid container justifyContent='end' item xs={6} sm={6} lg={6} md={6} xl={6}>
-                  <Typography mr='30px' fontWeight='bold'>{totalPayable}</Typography>
+                  <Typography mt='10px' mr='30px' fontWeight='bold'>{'$' + totalPayable}</Typography>
                 </Grid>
+              </Grid>
+              <Grid container justifyContent='flex-end'>
+                <Button variant="outlined" onClick={handleClickPedido} sx={{ mt: '20px', borderRadius: '20px', textTransform: 'none', width: '200px' }}>Realizar pedido</Button>
               </Grid>
             </Grid>
           </Grid>
@@ -244,9 +282,9 @@ export default function ShoppingCart() {
             justifyContent='center'
             alignContent='center'
             height='100vh'>
-              <Typography>Aun no has agregado ningun producto a tu carrito.
+            <Typography>Aun no has agregado ningun producto a tu carrito.
               <Typography component={Link} color='#0265CD' to='/productos'>{' Ir a comprar'}</Typography>
-              </Typography>
+            </Typography>
           </Grid>
         </div>
       </Container >

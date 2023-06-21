@@ -20,6 +20,7 @@ import UserQuotes from './components/userQuotes'
 import ModifyInformation from './components/ModifyInformation'
 import Shoppinghistory from './components/Shoppinghistory'
 import ShoppingCart from './components/ShoppingCard'
+import UserShoppingCart from './components/userShoppingCard'
 
 export default function App({ children }) {
   return (
@@ -37,6 +38,7 @@ export default function App({ children }) {
           <Route exact path='/login' element={<Login />} />
           <Route exact path='/recuperar' element={<Recover />} />
           <Route exact path='/shop' element={<RouteControler1 componet={Shop} />} />
+          <Route exact path='/carrito-de-compras' element={<RouteControler1 componet={UserShoppingCart} />} />
           <Route exact path='/citas' element={<RouteControler1 componet={Quotes} />} />
           <Route exact path='/nueva-cita' element={<RouteControler1 componet={Calendar} />} />
           <Route exact path='/home' element={<RouteControler1 componet={HomeUser} />} />

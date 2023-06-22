@@ -1,11 +1,11 @@
 const pool = require('../db');
 
 const login = async (req, res, next) => {
-    const { usuario, contraseña, id } = req.body
+    const { usuario, contraseña, id, rol } = req.body
     try {
         const result = await pool.query
-            ('SELECT * FROM users WHERE usuario = $1 AND contraseña = $2 AND id = $3',
-            [usuario, contraseña, id]);
+            ('SELECT * FROM users WHERE usuario = $1 AND contraseña = $2 AND id = $3 AND rol = $4',
+            [usuario, contraseña, id, rol]);
         if (result.rows.length === 0)
             return res.status(404).json({
                 message: "Usuario o contraseña incorrecta",

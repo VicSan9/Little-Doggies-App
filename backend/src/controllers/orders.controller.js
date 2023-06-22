@@ -41,11 +41,11 @@ const getOrder2 = async (req, res, next) => {
 }
 
 const  createOrder = async (req, res, next) => {
-    const { clid, mbid } = req.body;
+    const { clid, fecha } = req.body;
     try {
         const result = await pool.query
-            ('INSERT INTO pedidos (clid, mbid) VALUES ($1, $2) RETURNING *',
-                [clid, mbid]);                                 
+            ('INSERT INTO pedidos (clid, fecha) VALUES ($1, $2) RETURNING *',
+                [clid, fecha]);                                 
         res.json(result.rows[0]);
     } catch (error){
         next(error);
@@ -69,11 +69,11 @@ const deleteOrder = async (req, res, next) => {
 
 const updateOrder = async (req, res, next) => {
     const { id } = req.params;
-    const { clid, mbid } = req.body;
+    const { clid, fecha } = req.body;
     try {
         const result = await pool.query(
-            'UPDATE pedidos SET clid = $1, mbid = $2 WHERE pdid = $3 RETURNING *',
-            [clid, mbid, id]);
+            'UPDATE pedidos SET clid = $1, fecha = $2 WHERE pdid = $3 RETURNING *',
+            [clid, fecha, id]);
         if (result.rows.length === 0)
             return res.status(404).json({
                 message: "Pedido no encontrado",

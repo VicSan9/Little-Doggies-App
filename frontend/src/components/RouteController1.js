@@ -1,6 +1,7 @@
 import { Box, CircularProgress } from '@mui/material'
-import React, { useState, useEffect } from 'react'
-import { Navigate, useNavigate } from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import { Navigate } from 'react-router-dom'
+import { useNavigate } from "react-router-dom"
 
 const RouteController = ({ componet: Componet, ...rest }) => {
 
@@ -15,7 +16,8 @@ const RouteController = ({ componet: Componet, ...rest }) => {
 
     const login = { usuario: user, contraseña: password, id: id, rol: rol }
 
-    async function init() {
+    const init = async () => {
+        
         const res = await fetch('http://localhost:4000/login', {
             method: 'POST',
             body: JSON.stringify(login),
@@ -62,8 +64,8 @@ const RouteController = ({ componet: Componet, ...rest }) => {
     }
 
     useEffect(() => {
-        init();
-    });
+        init()
+    }, [])
 
     return (
         <div hidden={false}>

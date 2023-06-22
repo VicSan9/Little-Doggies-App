@@ -1,27 +1,29 @@
 import { Container, Grid, Typography, TextField, Button, Box } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState} from "react";
 import Navbar from "./Navbar";
 import emailjs from "@emailjs/browser";
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+
+
+
+const codigo = Math.floor(100000 + Math.random() * 900000);
 
 export default function Recover() {
 
   const navigate = useNavigate()
 
-  var aleatorio = Math.round(Math.random() * 999999);
-
   const [user, setUser] = useState([])
 
-  const [code, setCode] = useState({ codigo: ' ' })
+  const [code, setCode] = useState("")
 
-  const [recover, setRecover] = useState({ userEmail: '', emailTitle: 'Correo de recuperación', emailDetails: aleatorio });
+  const [recover, setRecover] = useState({ userEmail: '', emailTitle: 'Correo de recuperación', emailDetails: codigo });
 
   const [errorMessage, setErrorMessage] = useState("");
 
-  const [isHidden, setIsHidden] = useState(false)
+  const [successMessage, setSuccessMessage] = useState("");
 
-  setCode(aleatorio)
+  const [isHidden, setIsHidden] = useState(false)
 
   const loadUser = async () => {
 
@@ -42,7 +44,7 @@ export default function Recover() {
       return
     }
 
-    setUser(data)
+    setUser(data[0])
   }
 
   const handleChange = e => {
@@ -50,11 +52,18 @@ export default function Recover() {
       ...recover,
       [e.target.name]: e.target.value
     })
-    console.log(recover)
+    loadUser();
   }
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (recover.userEmail.trim() === '') {
+      setErrorMessage("Ingrese el correo");
+      setRecover({ userEmail: '', })
+      return
+    }
 
     emailjs.send(
       "service_y2xbs55", "template_52cw0cs", {
@@ -65,9 +74,37 @@ export default function Recover() {
       reply_to: "doggieslittle0@gmail.com",
     }, "6r2SOp-a0vpthnTN_")
 
-    loadUser();
+    setSuccessMessage("Envio exitoso")
     setIsHidden(true)
+
+
+    setCode(codigo)
+
   }
+
+  const handleClick1 = () => {
+    setSuccessMessage("");
+  }
+
+  const handleChange1 = e => {
+    setCode({
+      ...code,
+      [e.target.name]: e.target.value,
+    })
+  }
+
+  const handleSubmit1 = async (e) => {
+    e.preventDefault();
+
+    if (codigo === recover.emailDetails) {
+      setSuccessMessage('Código correcto');
+      navigate('/contraseña');
+    } else {
+      setErrorMessage('Código incorrecto');
+    }
+  };
+
+  console.log(codigo)
 
   const handleClick = () => {
     setErrorMessage("");
@@ -80,15 +117,6 @@ export default function Recover() {
   const handleCancel2 = () => {
     setIsHidden(false)
   }
-
-  const handleContinue = () => {
-    if (recover.aleatorio === code.codigo) {
-      navigate('/contraseña')
-    } else {
-      setErrorMessage("Codigo incorrecto")
-    }
-  };
-
 
   const ErrorComponent = ({ errorMessage }) => {
     return (
@@ -125,9 +153,46 @@ export default function Recover() {
     );
   };
 
+  const SuccessComponent1 = ({ successMessage }) => {
+    return (
+      <Grid container
+        zIndex='2'
+        width='100vw'
+        height='100vh'
+        position='absolute'
+        alignItems='center'
+        textAlign='center'
+        justifyContent='center'
+        sx={{ backgroundColor: 'rgba(0,0,0,.2)', backdropFilter: 'blur(5px)', }}>
+        <Box
+          width='300px'
+          height='200px'
+          borderRadius='20px'
+          border='1px solid #BABBBF'
+          sx={{ backgroundColor: '#ffffff' }}>
+          <Typography color='#22E94E' mt='20px' variant="h5" fontWeight='bold'>Mensaje</Typography>
+          <p>{successMessage}</p>
+          <Button variant="outlined"
+            size='medium'
+            onClick={handleClick1}
+            sx={{
+              color: '#0265CD',
+              mt: '30px',
+              borderColor: '#0265CD',
+              borderRadius: '50px',
+              textTransform: 'none'
+            }}> OK
+          </Button>
+        </Box>
+      </Grid>
+    );
+  };
+
+
   return (
     <>
       {errorMessage && <ErrorComponent errorMessage={errorMessage} />}
+      {successMessage && <SuccessComponent1 successMessage={successMessage} />}
       <Navbar></Navbar>
       <Container maxWidth='lg' fixed>
         <div hidden={isHidden}>
@@ -167,6 +232,7 @@ export default function Recover() {
                   variant="outlined"
                   value={recover.userEmail}
                   onChange={handleChange}
+                  maxLength={6}
                   sx={{ width: '400px' }}
                 >
                 </TextField>
@@ -206,11 +272,11 @@ export default function Recover() {
                 mr='10px'
                 ml='10px'
                 mb='30px'
-                variant="body1">Ingresa tu correo y te enviaremos un código de recuperación.
+                variant="body1">Ingresa tu correo y te enviaremos tu contraseña.
               </Typography>
               <Grid component={'form'} onSubmit={handleSubmit}>
                 <TextField
-                  name="correo"
+                  name="userEmail"
                   type="email"
                   label="Correo"
                   variant="outlined"
@@ -242,14 +308,13 @@ export default function Recover() {
           </Grid>
         </div>
         <div hidden={!isHidden}>
-          <Navbar></Navbar>
           <Container maxWidth='lg' fixed>
             <Grid container
               height='100vh'
               alignItems='center'
               justifyContent='center'
               minHeight='700px' >
-              <Grid component={'form'} onSubmit={handleSubmit}
+              <Grid component={'form'} onSubmit={handleSubmit1}
                 container
                 direction='column'
                 alignItems='center'
@@ -273,7 +338,8 @@ export default function Recover() {
                   name="codigo"
                   label="codigo de verificación"
                   variant="outlined"
-                  onChange={handleChange}
+                  onChange={handleChange1}
+                  value={code.codigo}
                   sx={{ width: '400px' }}>
                 </TextField>
                 <Grid container mt='30px' direction='row' alignItems='center' justifyContent='center'>
@@ -283,15 +349,13 @@ export default function Recover() {
                     sx={{ backgroundColor: "#BABBBF", borderRadius: '50px', width: '130px' }}>Cancelar
                   </Button>
                   <Button
-                    onClick={handleContinue}
                     type="submit"
                     variant="contained"
-                    value={recover.aleatorio}
                     sx={{ ml: '20px', borderRadius: '50px', width: '130px' }}>Continuar
                   </Button>
                 </Grid>
               </Grid>
-              <Grid
+              <Grid component={'form'} onSubmit={handleSubmit1}
                 container
                 direction='column'
                 alignItems='center'
@@ -310,9 +374,11 @@ export default function Recover() {
                   variant="body1">Te hemos enviado un código de recuperación al correo
                 </Typography>
                 <TextField
-                  name="Código"
-                  label="Código de verificación"
+                  name="Codigo"
+                  label="Codigo de verificación"
                   variant="outlined"
+                  value={code.codigo}
+                  onChange={handleChange1}
                   sx={{ width: '80vw', maxWidth: '400px' }}>
                 </TextField>
                 <Grid container mt='30px' direction='row' alignItems='center' justifyContent='center'>
@@ -322,10 +388,8 @@ export default function Recover() {
                     sx={{ backgroundColor: "#BABBBF", borderRadius: '50px', width: '130px' }}>Cancelar
                   </Button>
                   <Button
-                    onClick={handleContinue}
                     type="submit"
                     variant="contained"
-                    value={recover.aleatorio}
                     sx={{ ml: '20px', borderRadius: '50px', width: '130px' }}>Continuar
                   </Button>
                 </Grid>

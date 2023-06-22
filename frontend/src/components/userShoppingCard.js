@@ -2,6 +2,7 @@ import { Backdrop, Box, Button, Container, Grid, Typography } from "@mui/materia
 import Navbar from "./UserNavbar";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import dayjs from "dayjs";
 
 export default function UserShoppingCart() {
 
@@ -126,7 +127,57 @@ export default function UserShoppingCart() {
     }
 
     const handleClickAVConf = async () => {
-        window.location.reload()
+
+        const clid = sessionStorage.getItem('id')
+        const fecha = Date.now()
+        const date = new Date(fecha)
+
+        const day = (dayjs(date).date())
+        const month = (dayjs(date).month())
+        const year = (dayjs(date).year())
+
+        const monthName = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+
+        const formattedDate = `${day} de ${monthName[month]} del ${year}`
+
+        const body = {
+            clid: clid,
+            fecha: formattedDate,
+        }
+
+        const res = await fetch('http://localhost:4000/orders', {
+            method: 'POST',
+            body: JSON.stringify(body),
+            headers: { "content-Type": "application/json" }
+        })
+
+        const data = await res.json()
+
+        const orderId = data.pdid
+
+        for (let i = 0; i < products.length; i++) {
+            for (let j = 0; j < products[i].count; j++) {
+
+                const body2 = {
+                    pdid: orderId,
+                    prid: products[i].prid,
+                }
+
+                const res2 = await fetch('http://localhost:4000/ordersProducts', {
+                    method: 'POST',
+                    body: JSON.stringify(body2),
+                    headers: { "content-Type": "application/json" }
+                })
+
+                const data2 = await res2.json()
+
+                console.log(data2)
+            }
+        }
+
+        localStorage.clear()
+
+        navigate('/historial-de-compras')
     }
 
     return (
@@ -340,7 +391,7 @@ export default function UserShoppingCart() {
                         alignContent='center'
                         height='100vh'>
                         <Typography>Aun no has agregado ningun producto a tu carrito.
-                            <Typography component={Link} color='#0265CD' to='/productos'>{' Ir a comprar'}</Typography>
+                            <Typography component={Link} color='#0265CD' to='/shop'>{' Ir a comprar'}</Typography>
                         </Typography>
                     </Grid>
                 </div>

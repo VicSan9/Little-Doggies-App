@@ -70,6 +70,7 @@ export default function Shoppinghistory() {
                             item xs={8} sm={8} lg={8} md={8} xl={8}>
                             {orders.map((order) => (
                             <Grid
+                                key={order.id_pedido}
                                 container
                                 alignItems='start'
                                 justifyContent='center'

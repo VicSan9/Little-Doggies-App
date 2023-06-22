@@ -1,10 +1,11 @@
 import { Box, CircularProgress } from '@mui/material'
 import React, { useState, useEffect } from 'react'
-import { Navigate } from 'react-router-dom'
+import { Navigate, useNavigate } from 'react-router-dom'
 
 const RouteController = ({ componet: Componet, ...rest }) => {
 
     const [isAuth, setIsAuth] = useState(true)
+    const navigate = useNavigate()
 
     const auth = sessionStorage.getItem('auth')
     const user = sessionStorage.getItem('usuario')
@@ -22,8 +23,12 @@ const RouteController = ({ componet: Componet, ...rest }) => {
         })
 
         if (res.status === 200) {
-            if (auth === 'yes' && user === login.usuario && password === login.contraseña && id === login.id) {
+            if (auth === 'yes' && user === login.usuario && password === login.contraseña && id === login.id && rol === login.rol) {
                 setIsAuth(true)
+                if(login.rol === 'Administrador'){
+                    navigate('/admin')
+                    return
+                }
                 return
 
             } else {
@@ -46,6 +51,11 @@ const RouteController = ({ componet: Componet, ...rest }) => {
         }
 
         if (password === null) {
+            setIsAuth(false)
+            return
+        }
+
+        if (rol === null) {
             setIsAuth(false)
             return
         }

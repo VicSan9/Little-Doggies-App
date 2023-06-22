@@ -1,6 +1,6 @@
 import { Container, Grid, Typography, TextField, Button, Box } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Navbar from "./Navbar";
 import emailjs from "@emailjs/browser";
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -15,11 +15,13 @@ export default function Recover() {
 
   const [code, setCode] = useState({ codigo: ' ' })
 
-  const [recover, setRecover] = useState({ userEmail: '', emailTitle: 'Correo de recuperación', emailDetails: aleatorio, to_name: user.nombres + " " + user.apellidos });
+  const [recover, setRecover] = useState({ userEmail: '', emailTitle: 'Correo de recuperación', emailDetails: aleatorio });
 
   const [errorMessage, setErrorMessage] = useState("");
 
   const [isHidden, setIsHidden] = useState(false)
+
+  setCode(aleatorio)
 
   const loadUser = async () => {
 
@@ -43,11 +45,6 @@ export default function Recover() {
     setUser(data)
   }
 
-  useEffect(() => {
-    loadUser();
-  }, []);
-
-
   const handleChange = e => {
     setRecover({
       ...recover,
@@ -61,20 +58,14 @@ export default function Recover() {
 
     emailjs.send(
       "service_y2xbs55", "template_52cw0cs", {
-      to_name: recover.to_name,
+      to_name: user.nombres + " " + user.apellidos,
       from_name: "Little Doggies",
       message: recover.emailDetails,
       userEmail: recover.userEmail,
       reply_to: "doggieslittle0@gmail.com",
-    }, "6r2SOp-a0vpthnTN_").then(
-      (result) => {
-        console.log(result.text);
-      },
-      (error) => {
-        console.log(error.text);
-        return
-      }
-    );
+    }, "6r2SOp-a0vpthnTN_")
+
+    loadUser();
     setIsHidden(true)
   }
 
@@ -295,7 +286,7 @@ export default function Recover() {
                     onClick={handleContinue}
                     type="submit"
                     variant="contained"
-                    value={code.codigo}
+                    value={recover.aleatorio}
                     sx={{ ml: '20px', borderRadius: '50px', width: '130px' }}>Continuar
                   </Button>
                 </Grid>
@@ -334,7 +325,7 @@ export default function Recover() {
                     onClick={handleContinue}
                     type="submit"
                     variant="contained"
-                    value={code.codigo}
+                    value={recover.aleatorio}
                     sx={{ ml: '20px', borderRadius: '50px', width: '130px' }}>Continuar
                   </Button>
                 </Grid>

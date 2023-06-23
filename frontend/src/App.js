@@ -26,6 +26,7 @@ import AdminProduct from './components/AdminProduct'
 import AdminStaff from './components/AdminStaff'
 import AdminClient from './components/AdminClient'
 import AdminServices from './components/AdminServices'
+import AdminProfile from './components/AdminProfile'
 
 export default function App({ children }) {
   return (
@@ -59,6 +60,7 @@ export default function App({ children }) {
           <Route path='/admin/personal' element={<RouteControler1 componet={AdminStaff} />} />
           <Route path='/admin/clientes' element={<RouteControler1 componet={AdminClient} />} />
           <Route path='/admin/servicios' element={<RouteControler1 componet={AdminServices} />} />
+          <Route path='/admin/perfil' element={<RouteControler1 componet={AdminProfile} />} />
         </Routes>
       </BrowserRouter>
     </>

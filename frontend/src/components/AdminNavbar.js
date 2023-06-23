@@ -266,7 +266,7 @@ export default function AdminNavbar() {
                                 },
                                 padding: '0px',
                             }}>
-                            <PersonIcon sx={{ fontSize: '200%' }}></PersonIcon>
+                            <PersonIcon sx={{ fontSize: '250%' }}></PersonIcon>
                         </Grid>
                     </Tooltip>
                     <Grid

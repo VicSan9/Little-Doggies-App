@@ -22,6 +22,10 @@ import Shoppinghistory from './components/Shoppinghistory'
 import ShoppingCart from './components/ShoppingCard'
 import UserShoppingCart from './components/userShoppingCard'
 import AdminQuotes from './components/AdminQuotes'
+import AdminProduct from './components/AdminProduct'
+import AdminStaff from './components/AdminStaff'
+import AdminClient from './components/AdminClient'
+import AdminServices from './components/AdminServices'
 
 export default function App({ children }) {
   return (
@@ -51,6 +55,10 @@ export default function App({ children }) {
           <Route path='/editar-cuenta' element={<RouteControler1 componet={ModifyInformation} />} />
           <Route path='/historial-de-compras' element={<RouteControler1 componet={Shoppinghistory} />} />
           <Route path='/admin' element={<RouteControler1 componet={AdminQuotes} />} />
+          <Route path='/admin/productos' element={<RouteControler1 componet={AdminProduct} />} />
+          <Route path='/admin/personal' element={<RouteControler1 componet={AdminStaff} />} />
+          <Route path='/admin/clientes' element={<RouteControler1 componet={AdminClient} />} />
+          <Route path='/admin/servicios' element={<RouteControler1 componet={AdminServices} />} />
         </Routes>
       </BrowserRouter>
     </>

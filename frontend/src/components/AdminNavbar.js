@@ -1,10 +1,12 @@
-import { Button, Grid, Tooltip } from '@mui/material'
+import { Button, Grid, IconButton, Tooltip } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import GroupsIcon from '@mui/icons-material/Groups';
 import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
 import InventoryIcon from '@mui/icons-material/Inventory';
+import PersonIcon from '@mui/icons-material/Person';
+import Logout from '@mui/icons-material/Logout';
 import { useNavigate } from 'react-router-dom';
 
 export default function AdminNavbar() {
@@ -13,8 +15,15 @@ export default function AdminNavbar() {
     const [colorClient, setColorClient] = useState({ color1: '#000000', color2: '#ffffff' })
     const [colorStaff, setColorStaff] = useState({ color1: '#000000', color2: '#ffffff' })
     const [colorProducts, setColorProcolorProducts] = useState({ color1: '#000000', color2: '#ffffff' })
+    const [colorProfile, setColorProcolorProfile] = useState({ color1: '#000000', color2: '#ffffff' })
 
     const navigate = useNavigate()
+
+    const colorProfileFun = () => {
+        if (window.location.href.toString() === 'http://localhost:3000/admin/perfil') {
+            setColorProcolorProfile({ color1: '#ffffff', color2: '#0265CD' })
+        }
+    }
 
     const colorProductsFun = () => {
         if (window.location.href.toString() === 'http://localhost:3000/admin/productos') {
@@ -45,6 +54,10 @@ export default function AdminNavbar() {
             setColorServices({ color1: '#ffffff', color2: '#0265CD' })
         }
     }
+
+    useEffect(() => {
+        colorProfileFun()
+    }, [])
 
     useEffect(() => {
         colorCalendarFun()
@@ -84,6 +97,15 @@ export default function AdminNavbar() {
 
     const handleClickProducts = () => {
         navigate('/admin/productos')
+    }
+
+    const handleClickProfile = () => {
+        navigate('/admin/perfil')
+    }
+
+    const handleClickLogout = () => {
+        navigate('/login')
+        sessionStorage.clear()
     }
 
     return (
@@ -126,7 +148,7 @@ export default function AdminNavbar() {
                         bgcolor={colorCalendar.color2}
                         color={colorCalendar.color1}
                         sx={{
-                            minWidth:'50px',
+                            minWidth: '50px',
                             borderRadius: '0px',
                             '&:hover': {
                                 bgcolor: '#0265CD'
@@ -147,7 +169,7 @@ export default function AdminNavbar() {
                         bgcolor={colorServices.color2}
                         color={colorServices.color1}
                         sx={{
-                            minWidth:'50px',
+                            minWidth: '50px',
                             borderRadius: '0px',
                             '&:hover': {
                                 bgcolor: '#0265CD'
@@ -168,7 +190,7 @@ export default function AdminNavbar() {
                         bgcolor={colorClient.color2}
                         color={colorClient.color1}
                         sx={{
-                            minWidth:'50px',
+                            minWidth: '50px',
                             borderRadius: '0px',
                             '&:hover': {
                                 bgcolor: '#0265CD'
@@ -189,7 +211,7 @@ export default function AdminNavbar() {
                         bgcolor={colorStaff.color2}
                         color={colorStaff.color1}
                         sx={{
-                            minWidth:'50px',
+                            minWidth: '50px',
                             borderRadius: '0px',
                             '&:hover': {
                                 bgcolor: '#0265CD'
@@ -209,8 +231,8 @@ export default function AdminNavbar() {
                         item xs={1} sm={1} lg={1} md={1} xl={1}
                         bgcolor={colorProducts.color2}
                         color={colorProducts.color1}
-                        sx={{ 
-                            minWidth:'50px',
+                        sx={{
+                            minWidth: '50px',
                             borderRadius: '0px',
                             '&:hover': {
                                 bgcolor: '#0265CD'
@@ -220,6 +242,45 @@ export default function AdminNavbar() {
                         <InventoryIcon sx={{ fontSize: '200%' }}></InventoryIcon>
                     </Grid>
                 </Tooltip>
+                <Grid
+                    container
+                    alignContent='center'
+                    justifyContent='end'
+                    direction='column'
+                    item xs={6} sm={6} lg={6} md={6} xl={6}>
+                    <Tooltip title="Perfil" placement="right">
+                        <Grid
+                            component={Button}
+                            onClick={handleClickProfile}
+                            container
+                            alignContent='center'
+                            justifyContent='center'
+                            item xs={2} sm={2} lg={2} md={2} xl={2}
+                            bgcolor={colorProfile.color2}
+                            color={colorProfile.color1}
+                            sx={{
+                                minWidth: '50px',
+                                borderRadius: '0px',
+                                '&:hover': {
+                                    bgcolor: '#0265CD'
+                                },
+                                padding: '0px',
+                            }}>
+                            <PersonIcon sx={{ fontSize: '200%' }}></PersonIcon>
+                        </Grid>
+                    </Tooltip>
+                    <Grid
+                        container
+                        alignContent='center'
+                        justifyContent='center'
+                        item xs={2} sm={2} lg={2} md={2} xl={2}>
+                        <Tooltip title="Cerrar Sesión" placement="right">
+                            <IconButton onClick={handleClickLogout} sx={{'&:hover':{color:'#CD0227'}}}>
+                                <Logout sx={{ fontSize: '100%' }}></Logout>
+                            </IconButton>
+                        </Tooltip>
+                    </Grid>
+                </Grid>
             </Grid>
         </Grid>
     )

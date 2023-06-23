@@ -1,6 +1,6 @@
 import { Container, Grid, Typography, TextField, Button, Box } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { useState} from "react";
+import { useState, useEffect } from "react";
 import Navbar from "./Navbar";
 import emailjs from "@emailjs/browser";
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -13,9 +13,9 @@ export default function Recover() {
 
   const navigate = useNavigate()
 
-  const [user, setUser] = useState([])
+  const [user, setUser] = useState({nombres: '', apellidos: ''});
 
-  const [code, setCode] = useState("")
+  const [enteredcode, setEnteredCode] = useState({ code: '' });
 
   const [recover, setRecover] = useState({ userEmail: '', emailTitle: 'Correo de recuperación', emailDetails: codigo });
 
@@ -24,6 +24,7 @@ export default function Recover() {
   const [successMessage, setSuccessMessage] = useState("");
 
   const [isHidden, setIsHidden] = useState(false)
+
 
   const loadUser = async () => {
 
@@ -44,7 +45,8 @@ export default function Recover() {
       return
     }
 
-    setUser(data[0])
+    setUser(data)
+
   }
 
   const handleChange = e => {
@@ -52,33 +54,30 @@ export default function Recover() {
       ...recover,
       [e.target.name]: e.target.value
     })
-    loadUser();
   }
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    loadUser();
+
     if (recover.userEmail.trim() === '') {
       setErrorMessage("Ingrese el correo");
-      setRecover({ userEmail: '', })
+      setRecover({ userEmail: '', emailDetails: codigo })
       return
     }
 
     emailjs.send(
-      "service_y2xbs55", "template_52cw0cs", {
+      "service_jb9suue", "template_1tuc8ub", {
       to_name: user.nombres + " " + user.apellidos,
       from_name: "Little Doggies",
       message: recover.emailDetails,
       userEmail: recover.userEmail,
       reply_to: "doggieslittle0@gmail.com",
-    }, "6r2SOp-a0vpthnTN_")
+    }, "3hGSO4pkI3GrvsU97")
 
     setSuccessMessage("Envio exitoso")
     setIsHidden(true)
-
-
-    setCode(codigo)
 
   }
 
@@ -86,25 +85,25 @@ export default function Recover() {
     setSuccessMessage("");
   }
 
-  const handleChange1 = e => {
-    setCode({
-      ...code,
-      [e.target.name]: e.target.value,
+  const handleChange3 = e => {
+    setEnteredCode({
+      ...enteredcode,
+      [e.target.name]: e.target.value
     })
   }
 
   const handleSubmit1 = async (e) => {
     e.preventDefault();
 
-    if (codigo === recover.emailDetails) {
+    if (parseInt(recover.emailDetails) === parseInt(enteredcode.code)) {
       setSuccessMessage('Código correcto');
       navigate('/contraseña');
     } else {
       setErrorMessage('Código incorrecto');
     }
-  };
+  }
 
-  console.log(codigo)
+  console.log(user)
 
   const handleClick = () => {
     setErrorMessage("");
@@ -335,11 +334,11 @@ export default function Recover() {
                   variant="body1">Te hemos enviado un código de recuperación al correo
                 </Typography>
                 <TextField
-                  name="codigo"
+                  name="code"
                   label="codigo de verificación"
                   variant="outlined"
-                  onChange={handleChange1}
-                  value={code.codigo}
+                  onChange={handleChange3}
+                  value={enteredcode.code}
                   sx={{ width: '400px' }}>
                 </TextField>
                 <Grid container mt='30px' direction='row' alignItems='center' justifyContent='center'>
@@ -374,11 +373,11 @@ export default function Recover() {
                   variant="body1">Te hemos enviado un código de recuperación al correo
                 </Typography>
                 <TextField
-                  name="Codigo"
+                  name="Code"
                   label="Codigo de verificación"
                   variant="outlined"
-                  value={code.codigo}
-                  onChange={handleChange1}
+                  value={enteredcode.code}
+                  onChange={handleChange3}
                   sx={{ width: '80vw', maxWidth: '400px' }}>
                 </TextField>
                 <Grid container mt='30px' direction='row' alignItems='center' justifyContent='center'>
@@ -401,3 +400,4 @@ export default function Recover() {
     </>
   )
 }
+

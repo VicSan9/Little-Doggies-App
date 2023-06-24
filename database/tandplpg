@@ -46,7 +46,7 @@ ON C.mcid = M.mcid
 JOIN clientes AS CL
 ON C.clid = CL.clid
 GROUP BY C.ctsid, M.nombre, CL.nombres, CL.apellidos, CL.correo, CL.telefono, CL.direccion, M.raza, M.edad, M.sexo, M.condicion
-ORDER BY C.ctsid;
+ORDER BY C.hora, C.fecha DESC;
 
 --Vista para ver el id del pedido y la suma total a pagar por pedido
 CREATE VIEW ordervalue AS

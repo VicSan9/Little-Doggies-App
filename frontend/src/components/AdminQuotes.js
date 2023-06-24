@@ -221,10 +221,10 @@ export default function AdminQuotes() {
                                                 <Typography>{quote1.hora}</Typography>
                                                 <Typography>{quote1.nombres}</Typography>
                                                 <Grid>
-                                                    <IconButton sx={{ width: '30px', height: '30px', ":hover": { color: "white" } }}>
+                                                    <IconButton disabled={!isDisabled} sx={{ width: '30px', height: '30px', ":hover": { color: "white" } }}>
                                                         <EditIcon></EditIcon>
                                                     </IconButton>
-                                                    <IconButton sx={{ width: '30px', height: '30px', ":hover": { color: "white" } }}>
+                                                    <IconButton disabled={!isDisabled} sx={{ width: '30px', height: '30px', ":hover": { color: "white" } }}>
                                                         <HighlightOffIcon></HighlightOffIcon>
                                                     </IconButton>
                                                 </Grid>

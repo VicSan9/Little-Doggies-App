@@ -9,8 +9,8 @@ VALUES 	('Corte corto', 'Peluqueria', 'Descripción del servicio'),
 		('Secado especial', 'Peluqueria', 'Descripción del servicio');
 --Insertar clientes 
 INSERT INTO clientes (nombres, apellidos, correo, direccion, telefono, usuario, contraseña, foto)
-VALUES 	('Nombre cliente 1', 'Apellidos cliente 1', 'merxicc@gmail.com', 'Pradera#-Cr', '12345512', 'userCliente1', '321dsa', 'link'),
-		('Nombre cliente 2', 'Apellidos cliente 2', 'correocliente2@gmail.com', 'Pradera#-Cr', '41252155', 'userCliente2', '321asd', 'link');
+VALUES 	('Mercy', 'Castro Romero', 'merxicc@gmail.com', 'Pradera#-Cr', '12345512', 'userCliente1', '321dsa', 'link'),
+		('Jhonatan Esteban', 'Castrillón Perez', 'correocliente2@gmail.com', 'Pradera#-Cr', '41252155', 'userCliente2', '321asd', 'link');
 --Insertar productos
 INSERT INTO productos (nombre, tipo, precio, cantidad, foto)
 VALUES 	('Collar negro', 'Accesorio', 12321, 6, '1-product.jpg'),
@@ -49,7 +49,7 @@ VALUES	(1002, 1, '7 de Junio del 2023', '8:30', 'Espera'),
 		(1001, 2, '10 de Junio del 2023', '10:00', 'Espera'),
 		(1001, 3, '5 de Junio del 2023', '13:00', 'Cancelada'),
 		(1001, 3, '20 de Junio del 2023', '17:00', 'Atendido'),
-		(1002, 1, '6 de Junio del 2023', '7:00', 'Espera');
+		(1002, 1, '24 de Junio del 2023', '7:00', 'Espera');
 --Insertar informes
 INSERT INTO informes (ctsid, mbid, nota)
 VALUES 	(1, 1,'Se aplico una inyección extra'),
@@ -68,7 +68,9 @@ VALUES 	(1, 1),
 		(1, 2),
 		(2, 1),
 		(3, 1),
-		(4, 3);
+		(4, 3),
+		(5, 1),
+		(5, 2);
 --Insertar informesServicios
 INSERT INTO informesServicios (ifid, svid)
 VALUES 	(1, 1),

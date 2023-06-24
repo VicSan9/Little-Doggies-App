@@ -1,6 +1,6 @@
 import { Container, Grid, Typography, TextField, Button, Box } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Navbar from "./Navbar";
 import emailjs from "@emailjs/browser";
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -13,8 +13,6 @@ export default function Recover() {
 
   const navigate = useNavigate()
 
-  const [user, setUser] = useState({nombres: '', apellidos: ''});
-
   const [enteredcode, setEnteredCode] = useState({ code: '' });
 
   const [recover, setRecover] = useState({ userEmail: '', emailTitle: 'Correo de recuperación', emailDetails: codigo });
@@ -25,8 +23,21 @@ export default function Recover() {
 
   const [isHidden, setIsHidden] = useState(false)
 
+  const handleChange = e => {
+    setRecover({
+      ...recover,
+      [e.target.name]: e.target.value
+    })
+  }
 
-  const loadUser = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (recover.userEmail.trim() === '') {
+      setErrorMessage("Ingrese el correo");
+      setRecover({ userEmail: '', emailDetails: codigo })
+      return
+    }
 
     const correo = recover.userEmail
 
@@ -41,43 +52,23 @@ export default function Recover() {
     const data = await res.json();
 
     if (res.status === 404) {
-      setUser([])
-      return
-    }
-
-    setUser(data)
-
-  }
-
-  const handleChange = e => {
-    setRecover({
-      ...recover,
-      [e.target.name]: e.target.value
-    })
-  }
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    loadUser();
-
-    if (recover.userEmail.trim() === '') {
-      setErrorMessage("Ingrese el correo");
-      setRecover({ userEmail: '', emailDetails: codigo })
+      setErrorMessage("Correo no registrado")
       return
     }
 
     emailjs.send(
-      "service_jb9suue", "template_1tuc8ub", {
-      to_name: user.nombres + " " + user.apellidos,
+      "service_y2xbs55", "template_52cw0cs", {
+      to_name: data.nombres + " " + data.apellidos,
       from_name: "Little Doggies",
       message: recover.emailDetails,
       userEmail: recover.userEmail,
       reply_to: "doggieslittle0@gmail.com",
-    }, "3hGSO4pkI3GrvsU97")
+    }, "dhoSbwqhpg2i0FpUo")
 
     setSuccessMessage("Envio exitoso")
     setIsHidden(true)
+
+    console.log(data)
 
   }
 
@@ -102,8 +93,6 @@ export default function Recover() {
       setErrorMessage('Código incorrecto');
     }
   }
-
-  console.log(user)
 
   const handleClick = () => {
     setErrorMessage("");
@@ -249,7 +238,7 @@ export default function Recover() {
                 </Grid>
               </Grid>
             </Grid>
-            <Grid
+            <Grid component={'form'} onSubmit={handleSubmit}
               container
               direction='column'
               alignItems='center'
@@ -273,35 +262,33 @@ export default function Recover() {
                 mb='30px'
                 variant="body1">Ingresa tu correo y te enviaremos tu contraseña.
               </Typography>
-              <Grid component={'form'} onSubmit={handleSubmit}>
-                <TextField
-                  name="userEmail"
-                  type="email"
-                  label="Correo"
-                  variant="outlined"
-                  value={recover.userEmail}
-                  onChange={handleChange}
-                  sx={{ width: '80vw', maxWidth: '480px' }}>
-                </TextField>
+              <TextField
+                name="userEmail"
+                type="email"
+                label="Correo"
+                variant="outlined"
+                value={recover.userEmail}
+                onChange={handleChange}
+                sx={{ width: '80vw', maxWidth: '480px' }}>
+              </TextField>
+              <Box sx={{ height: '30px', width: '30px' }}></Box>
+              <Grid
+                container
+                direction='column'
+                alignItems='center'
+                justifyContent='center'
+                sx={{ display: { xs: 'contents', sm: ' flex' } }}>
+                <Button
+                  onClick={handleCancel}
+                  variant="contained"
+                  sx={{ backgroundColor: "#BABBBF", borderRadius: '50px', width: '130px' }}>Cancelar
+                </Button>
                 <Box sx={{ height: '30px', width: '30px' }}></Box>
-                <Grid
-                  container
-                  direction='row'
-                  alignItems='center'
-                  justifyContent='center'
-                  sx={{ display: { xs: 'contents', sm: ' flex' } }}>
-                  <Button
-                    onClick={handleCancel}
-                    variant="contained"
-                    sx={{ backgroundColor: "#BABBBF", borderRadius: '50px', width: '130px', ml: '20vw' }}>Cancelar
-                  </Button>
-                  <Box sx={{ height: '30px', width: '30px' }}></Box>
-                  <Button
-                    type="submit"
-                    variant="contained"
-                    sx={{ borderRadius: '50px', width: '130px', ml: '20vw' }}>Continuar
-                  </Button>
-                </Grid>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  sx={{ borderRadius: '50px', width: '130px' }}>Continuar
+                </Button>
               </Grid>
             </Grid>
           </Grid>

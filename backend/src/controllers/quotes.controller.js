@@ -55,6 +55,20 @@ const getQuotes3 = async (req, res, next) => {
     }
 }
 
+const getQuotes4 = async (req, res, next) => {
+    try {
+        const result = await pool.query
+            ('SELECT * FROM adminQuote')
+        if (result.rows.length === 0)
+            return res.status(404).json({
+                message: "No hay citas programadas",
+            });
+        res.json(result.rows);
+    } catch (error) {
+        next(error);
+    }
+}
+
 const createQuotes = async (req, res, next) => {
     const { clid, mcid, fecha, hora, estado} = req.body;
     try {
@@ -106,5 +120,6 @@ module.exports = {
     deleteQuotes,
     updateQuotes,
     getQuotes2,
-    getQuotes3
+    getQuotes3,
+    getQuotes4
 }

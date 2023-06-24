@@ -9,8 +9,12 @@ import CheckIcon from '@mui/icons-material/Check';
 export default function AdminQuotes() {
     const [expanded, setExpanded] = useState(false);
     const [quotes, setQuotes] = useState([])
+    const [quotes1, setQuotes1] = useState([])
+    const [quotes2, setQuotes2] = useState([])
+    const [quotes3, setQuotes3] = useState([])
     const [selectQuote, setSelectQuote] = useState([])
     const [isHidden, setIsHidden] = useState(false)
+    const [isDisabled, setIsDisabled] = useState(true)
 
     const handleChange = (panel) => (event, isExpanded) => {
         setExpanded(isExpanded ? panel : false);
@@ -27,6 +31,50 @@ export default function AdminQuotes() {
         const data = await res.json()
 
         setQuotes(data)
+
+        const yesterday = new Date();
+        yesterday.setDate(yesterday.getDate() - 1);
+
+        const today = new Date();
+
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+
+        console.log(yesterday)
+        console.log(today)
+        console.log(tomorrow)
+
+        const yesterdayList = [];
+        const todayList = [];
+        const tomorrowList = [];
+
+        for (let i = 0; i < data.length; i++) {
+            const dateString = data[i].fecha;
+
+            const dateDiv = dateString.split(' ')
+
+            const day = dateDiv[0]
+            const month = dateDiv[2]
+            const year = dateDiv[4]
+
+            const monthName = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+
+            const dateFormat = `${year}/${monthName.indexOf(month) + 1}/${day}`
+
+            const date = new Date(dateFormat)
+
+            if (date < yesterday) {
+                yesterdayList.push(data[i]);
+            } else if (date > today) {
+                tomorrowList.push(data[i]);
+            } else {
+                todayList.push(data[i]);
+            }
+
+        }
+        setQuotes1(yesterdayList)
+        setQuotes2(todayList)
+        setQuotes3(tomorrowList)
     }
 
     useEffect(() => {
@@ -39,6 +87,14 @@ export default function AdminQuotes() {
         for (let i = 0; i < quotes.length; i++) {
             if (quotes[i].ctsid === id) {
                 setSelectQuote(quotes[i])
+            }
+        }
+        for (let i = 0; i < quotes1.length; i++) {
+            if (quotes1[i].ctsid === id) {
+                setIsDisabled(false)
+                return
+            } else {
+                setIsDisabled(true)
             }
         }
     }
@@ -109,58 +165,7 @@ export default function AdminQuotes() {
                                     id="panel1a-header"
                                     sx={{ paddingRight: '5px', paddingLeft: '5px' }}
                                 >
-                                    <Typography>Citas pendientes de realizar informe</Typography>
-                                </AccordionSummary>
-                                <AccordionDetails sx={{ paddingRight: '10px', paddingLeft: '10px' }}>
-                                    <Grid
-                                        container
-                                        height='45vh'
-                                        overflow='scroll'
-                                        alignItems='center'
-                                        justifyContent='start'
-                                        sx={{
-                                            '&::-webkit-scrollbar': {
-                                                width: '8px',
-                                                height: '8px',
-                                            },
-                                            '&::-webkit-scrollbar-thumb': {
-                                                backgroundColor: 'rgba(0, 0, 0, 0.1)',
-                                                borderRadius: '10px',
-                                                '&:hover': {
-                                                    backgroundColor: 'rgba(0, 0, 0, 0.3)',
-                                                },
-                                            },
-                                            '&::-webkit-scrollbar: horizontal': {
-                                                display: 'none',
-                                            },
-                                        }}>
-                                        <Typography>
-                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-                                            malesuada lacus ex, sit amet blandit leo lobortis eget.
-                                        </Typography>
-                                        <Typography>
-                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-                                            malesuada lacus ex, sit amet blandit leo lobortis eget.
-                                        </Typography>
-                                        <Typography>
-                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-                                            malesuada lacus ex, sit amet blandit leo lobortis eget.
-                                        </Typography>
-                                        <Typography>
-                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-                                            malesuada lacus ex, sit amet blandit leo lobortis eget.
-                                        </Typography>
-                                    </Grid>
-                                </AccordionDetails>
-                            </Accordion>
-                            <Accordion expanded={expanded === 'panel2'} onChange={handleChange('panel2')} sx={{ boxShadow: 'none', '&:hover': { bgcolor: '#F5F5F5', borderRadius: '20px', } }}>
-                                <AccordionSummary
-                                    expandIcon={<ExpandMoreIcon />}
-                                    aria-controls="panel1a-content"
-                                    id="panel1a-header"
-                                    sx={{ paddingRight: '5px', paddingLeft: '5px' }}
-                                >
-                                    <Typography>Citas del día</Typography>
+                                    <Typography>{'Citas pendientes de realizar informe (' + quotes1.length + ')' }</Typography>
                                 </AccordionSummary>
                                 <AccordionDetails sx={{ paddingRight: '10px', paddingLeft: '10px' }}>
                                     <Grid
@@ -187,11 +192,11 @@ export default function AdminQuotes() {
                                                 display: 'none',
                                             },
                                         }}>
-                                        {quotes.map((quote) => (
+                                        {quotes1.map((quote1) => (
                                             <Grid
                                                 component={Card}
-                                                key={quote.ctsid}
-                                                id={quote.ctsid}
+                                                key={quote1.ctsid}
+                                                id={quote1.ctsid}
                                                 onClick={handleClickQuote}
                                                 container
                                                 justifyContent='space-between'
@@ -203,8 +208,8 @@ export default function AdminQuotes() {
                                                 paddingRight='8px'
                                                 paddingLeft='8px'
                                                 boxShadow='none'
-                                                bgcolor={colorFun(quote.ctsid)}
-                                                color={colorFun2(quote.ctsid)}
+                                                bgcolor={colorFun(quote1.ctsid)}
+                                                color={colorFun2(quote1.ctsid)}
                                                 sx={{
                                                     height: '60px',
                                                     '&:hover': {
@@ -213,8 +218,83 @@ export default function AdminQuotes() {
                                                         cursor: 'pointer'
                                                     }
                                                 }}>
-                                                <Typography>{quote.hora}</Typography>
-                                                <Typography>{quote.nombres}</Typography>
+                                                <Typography>{quote1.hora}</Typography>
+                                                <Typography>{quote1.nombres}</Typography>
+                                                <Grid>
+                                                    <IconButton sx={{ width: '30px', height: '30px', ":hover": { color: "white" } }}>
+                                                        <EditIcon></EditIcon>
+                                                    </IconButton>
+                                                    <IconButton sx={{ width: '30px', height: '30px', ":hover": { color: "white" } }}>
+                                                        <HighlightOffIcon></HighlightOffIcon>
+                                                    </IconButton>
+                                                </Grid>
+                                            </Grid>
+                                        ))}
+                                    </Grid>
+                                </AccordionDetails>
+                            </Accordion>
+                            <Accordion expanded={expanded === 'panel2'} onChange={handleChange('panel2')} sx={{ boxShadow: 'none', '&:hover': { bgcolor: '#F5F5F5', borderRadius: '20px', } }}>
+                                <AccordionSummary
+                                    expandIcon={<ExpandMoreIcon />}
+                                    aria-controls="panel1a-content"
+                                    id="panel1a-header"
+                                    sx={{ paddingRight: '5px', paddingLeft: '5px' }}
+                                >
+                                    <Typography>{'Citas del día (' + quotes2.length + ')' }</Typography>
+                                </AccordionSummary>
+                                <AccordionDetails sx={{ paddingRight: '10px', paddingLeft: '10px' }}>
+                                    <Grid
+                                        container
+                                        height='45vh'
+                                        overflow='scroll'
+                                        alignItems='center'
+                                        justifyContent='start'
+                                        display='block'
+                                        direction='column'
+                                        sx={{
+                                            '&::-webkit-scrollbar': {
+                                                width: '8px',
+                                                height: '8px',
+                                            },
+                                            '&::-webkit-scrollbar-thumb': {
+                                                backgroundColor: 'rgba(0, 0, 0, 0.1)',
+                                                borderRadius: '10px',
+                                                '&:hover': {
+                                                    backgroundColor: 'rgba(0, 0, 0, 0.3)',
+                                                },
+                                            },
+                                            '&::-webkit-scrollbar: horizontal': {
+                                                display: 'none',
+                                            },
+                                        }}>
+                                        {quotes2.map((quote2) => (
+                                            <Grid
+                                                component={Card}
+                                                key={quote2.ctsid}
+                                                id={quote2.ctsid}
+                                                onClick={handleClickQuote}
+                                                container
+                                                justifyContent='space-between'
+                                                alignItems='center'
+                                                width='98%'
+                                                border='1px solid #0265CD'
+                                                borderRadius='20px'
+                                                mb='10px'
+                                                paddingRight='8px'
+                                                paddingLeft='8px'
+                                                boxShadow='none'
+                                                bgcolor={colorFun(quote2.ctsid)}
+                                                color={colorFun2(quote2.ctsid)}
+                                                sx={{
+                                                    height: '60px',
+                                                    '&:hover': {
+                                                        backgroundColor: '#0265CD',
+                                                        color: '#ffffff',
+                                                        cursor: 'pointer'
+                                                    }
+                                                }}>
+                                                <Typography>{quote2.hora}</Typography>
+                                                <Typography>{quote2.nombres}</Typography>
                                                 <Grid>
                                                     <IconButton sx={{ width: '30px', height: '30px', ":hover": { color: "white" } }}>
                                                         <EditIcon></EditIcon>
@@ -235,7 +315,7 @@ export default function AdminQuotes() {
                                     id="panel1a-header"
                                     sx={{ paddingRight: '5px', paddingLeft: '5px' }}
                                 >
-                                    <Typography>Resto de citas</Typography>
+                                    <Typography>{'Resto de citas (' + quotes3.length + ')' }</Typography>
                                 </AccordionSummary>
                                 <AccordionDetails sx={{ paddingRight: '10px', paddingLeft: '10px' }}>
                                     <Grid
@@ -244,6 +324,8 @@ export default function AdminQuotes() {
                                         overflow='scroll'
                                         alignItems='center'
                                         justifyContent='start'
+                                        display='block'
+                                        direction='column'
                                         sx={{
                                             '&::-webkit-scrollbar': {
                                                 width: '8px',
@@ -260,22 +342,44 @@ export default function AdminQuotes() {
                                                 display: 'none',
                                             },
                                         }}>
-                                        <Typography>
-                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-                                            malesuada lacus ex, sit amet blandit leo lobortis eget.
-                                        </Typography>
-                                        <Typography>
-                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-                                            malesuada lacus ex, sit amet blandit leo lobortis eget.
-                                        </Typography>
-                                        <Typography>
-                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-                                            malesuada lacus ex, sit amet blandit leo lobortis eget.
-                                        </Typography>
-                                        <Typography>
-                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-                                            malesuada lacus ex, sit amet blandit leo lobortis eget.
-                                        </Typography>
+                                        {quotes3.map((quote3) => (
+                                            <Grid
+                                                component={Card}
+                                                key={quote3.ctsid}
+                                                id={quote3.ctsid}
+                                                onClick={handleClickQuote}
+                                                container
+                                                justifyContent='space-between'
+                                                alignItems='center'
+                                                width='98%'
+                                                border='1px solid #0265CD'
+                                                borderRadius='20px'
+                                                mb='10px'
+                                                paddingRight='8px'
+                                                paddingLeft='8px'
+                                                boxShadow='none'
+                                                bgcolor={colorFun(quote3.ctsid)}
+                                                color={colorFun2(quote3.ctsid)}
+                                                sx={{
+                                                    height: '60px',
+                                                    '&:hover': {
+                                                        backgroundColor: '#0265CD',
+                                                        color: '#ffffff',
+                                                        cursor: 'pointer'
+                                                    }
+                                                }}>
+                                                <Typography>{quote3.hora}</Typography>
+                                                <Typography>{quote3.nombres}</Typography>
+                                                <Grid>
+                                                    <IconButton sx={{ width: '30px', height: '30px', ":hover": { color: "white" } }}>
+                                                        <EditIcon></EditIcon>
+                                                    </IconButton>
+                                                    <IconButton sx={{ width: '30px', height: '30px', ":hover": { color: "white" } }}>
+                                                        <HighlightOffIcon></HighlightOffIcon>
+                                                    </IconButton>
+                                                </Grid>
+                                            </Grid>
+                                        ))}
                                     </Grid>
                                 </AccordionDetails>
                             </Accordion>
@@ -359,15 +463,16 @@ export default function AdminQuotes() {
                             </Typography>
                             <Box sx={{ '& > :not(style)': { m: 1 } }}>
                                 <Fab
+                                    disabled={isDisabled}
                                     variant="extended"
                                     sx={{
-                                        color:'#0265CD',
+                                        color: '#0265CD',
                                         position: 'absolute',
                                         bottom: 40,
                                         right: 40,
-                                        textTransform:'none',
+                                        textTransform: 'none',
                                     }}>
-                                    <CheckIcon sx={{mr:1,}} />
+                                    <CheckIcon sx={{ mr: 1, }} />
                                     Realizar informe
                                 </Fab>
                             </Box>

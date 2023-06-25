@@ -4,6 +4,7 @@ import { useState } from "react";
 import Navbar from "./Navbar";
 import emailjs from "@emailjs/browser";
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import Password from "./Password";
 
 
 
@@ -67,9 +68,6 @@ export default function Recover() {
 
     setSuccessMessage("Envio exitoso")
     setIsHidden(true)
-
-    console.log(data)
-
   }
 
   const handleClick1 = () => {
@@ -89,6 +87,7 @@ export default function Recover() {
     if (parseInt(recover.emailDetails) === parseInt(enteredcode.code)) {
       setSuccessMessage('Código correcto');
       navigate('/contraseña');
+      return <Password correo={recover.userEmail} />
     } else {
       setErrorMessage('Código incorrecto');
     }

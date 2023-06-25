@@ -84,11 +84,28 @@ const updateClients = async (req, res, next) => {
     }
 }
 
+const updateClients1 = async (req, res, next) => {
+    const { correo } = req.body;
+    try {
+        const result = await pool.query(
+            'UPDATE clientes SET contraseña = $1 WHERE correo = $2 RETURNING *',
+            [correo]);
+        if (result.rows.length === 0)
+            return res.status(404).json({
+                message: "Cliente no encontrado",
+            });
+        return res.json(result.rows[0]);
+    } catch (error) {
+        next(error);
+    }
+}
+
 module.exports = {
     getAllClients,
     getClients,
     createClients,
     deleteClients,
     updateClients,
-    getClients1
+    getClients1,
+    updateClients1
 }

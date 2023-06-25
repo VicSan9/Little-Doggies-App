@@ -47,9 +47,9 @@ VALUES 	(1002, 'Tony', 'Bulldog', '2 años', 'Macho', 'Ninguna', 'Activo'),
 INSERT INTO citas (clid, mcid, fecha, hora, estado)
 VALUES	(1002, 1, '7 de Junio del 2023', '8:30', 'Espera'),
 		(1001, 2, '10 de Junio del 2023', '10:00', 'Espera'),
-		(1001, 3, '5 de Junio del 2023', '13:00', 'Cancelada'),
-		(1001, 3, '20 de Junio del 2023', '17:00', 'Atendido'),
-		(1002, 1, '24 de Junio del 2023', '7:00', 'Espera');
+		(1001, 3, '25 de Junio del 2023', '13:00', 'Espera'),
+		(1001, 3, '27 de Junio del 2023', '10:00', 'Espera'),
+		(1002, 1, '26 de Junio del 2023', '7:00', 'Espera');
 --Insertar informes
 INSERT INTO informes (ctsid, mbid, nota)
 VALUES 	(1, 1,'Se aplico una inyección extra'),

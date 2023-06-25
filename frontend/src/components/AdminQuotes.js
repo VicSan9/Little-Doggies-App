@@ -14,7 +14,6 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import PersonIcon from '@mui/icons-material/Person';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -518,7 +517,7 @@ export default function AdminQuotes() {
         const data = await res.json()
 
         SetQuote(data)
-        
+
         for (let i = 0; i < quotes0.length; i++) {
             if (quotes0[i].ctsid === id) {
                 setSelectQuote(quotes0[i])
@@ -610,6 +609,10 @@ export default function AdminQuotes() {
             body: JSON.stringify(body),
             headers: { "content-Type": "application/json" }
         })
+
+        if(res.status === 404){
+            return
+        }
 
         const data = await res.json();
 
@@ -894,9 +897,7 @@ export default function AdminQuotes() {
                                                             color: '#FFFFFF',
                                                         },
                                                     }}>
-                                                    <Box ml='10px' width='60px' height='60px' border='1px solid #000000' borderRadius='90px' textAlign='center'>
-                                                        <PersonIcon sx={{ mt: '10px', color: '#000000', fontSize: 40 }}></PersonIcon>
-                                                    </Box>
+                                                    <Avatar sx={{ ml:'10px', color: '#000000', width:55, height:55 }}></Avatar>
                                                     <Typography mr='10px' overflow='hidden'>{client.nombres + ' ' + client.apellidos}</Typography>
                                                 </Grid>
                                             ))}

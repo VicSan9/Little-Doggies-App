@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import AdminNavbar from './AdminNavbar'
-import { Accordion, AccordionDetails, AccordionSummary, Avatar, Backdrop, Box, Button, Card, Chip, Divider, Fab, FormHelperText, Grid, IconButton, TextField, Typography } from "@mui/material";
+import { Accordion, AccordionDetails, AccordionSummary, Avatar, Backdrop, Box, Button, Card, CardContent, Chip, Divider, Fab, FormHelperText, Grid, IconButton, TextField, Typography } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import EditIcon from '@mui/icons-material/Edit';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
@@ -38,9 +38,11 @@ export default function AdminQuotes() {
     const [isDisabled, setIsDisabled] = useState(true)
     const [open, setOpen] = React.useState(false);
     const [clients, setClients] = useState([])
+    const [idCliente, setIdCliente] = useState('')
+    const [petId, setPetId] = useState('')
+    const [pets, setPets] = useState([])
 
     const [quote, SetQuote] = useState([])
-    const [id, setID] = useState('')
     const [isHidden, setIsHidden] = useState(true)
     //const [isHidden2, setIsHidden2] = useState(false)
     const [value, setValue] = useState(null);
@@ -56,6 +58,7 @@ export default function AdminQuotes() {
     const [isLoggedIn6, setIsLoggedIn6] = useState(false);
     const [isDisable, setIsDisable] = useState(true)
     const [isDisable2, setIsDisable2] = useState(false)
+    const [isDisable3, setIsDisable3] = useState(false)
     const [errorMessage, setErrorMessage] = useState("");
     const [advertenceMenssage, setAdvertenceMenssage] = useState("");
     const [search, setSearch] = useState({ search: '' })
@@ -67,18 +70,13 @@ export default function AdminQuotes() {
     const hora5 = '14:30:00'
     const hora6 = '16:00:00'
 
-    /*
     const handleClickEdit = e => {
-        const id = e.currentTarget.id
-        setID(id)
+
     }
 
     const handleClickDelete = e => {
-        const id = e.currentTarget.id
-        setID(id)
         setAdvertenceMenssage('¿Estás seguro que quieres cancelar esta cita?')
     }
-    */
 
     const handleClange = e => {
         const value = e.target.value
@@ -125,7 +123,7 @@ export default function AdminQuotes() {
 
         setAdvertenceMenssage("");
 
-        window.location.reload()
+        window.location.reload();
     }
 
     const ErrorComponent = ({ errorMessage }) => {
@@ -400,9 +398,9 @@ export default function AdminQuotes() {
         const formattedDate = `${day} de ${monthName[month]} del ${year}`
 
         const body = {
-            'clid': sessionStorage.getItem('id'),
+            'clid': idCliente,
             'estado': 'Espera',
-            'mcid': quote.mcid,
+            'mcid': petId,
             'fecha': formattedDate,
             'hora': horario,
         }
@@ -414,6 +412,8 @@ export default function AdminQuotes() {
         })
 
         const data = await res.json();
+
+        console.log(data)
 
         var id = []
 
@@ -482,10 +482,14 @@ export default function AdminQuotes() {
             const dateFormat = `${year}/${monthName.indexOf(month) + 1}/${day}`
 
             const date = new Date(dateFormat)
+            const hora = data[i].hora
+            const horadiv = hora.split(':')
+            const hora2 = Number(horadiv[0])
+            date.setHours(hora2, 0, 0, 0);
 
-            if (date < yesterday) {
+            if (date < today) {
                 yesterdayList.push(data[i]);
-            } else if (date > today) {
+            } else if (date > tomorrow) {
                 tomorrowList.push(data[i]);
             } else {
                 todayList.push(data[i]);
@@ -502,8 +506,19 @@ export default function AdminQuotes() {
     }, [])
 
     const handleClickQuote = async (e) => {
+
         const id = Number(e.currentTarget.id)
         setIsHidden1(true)
+
+        const res = await fetch(`http://localhost:4000/quotes/${id}`, {
+            method: 'GET',
+            headers: { "content-Type": "application/json" }
+        })
+
+        const data = await res.json()
+
+        SetQuote(data)
+        
         for (let i = 0; i < quotes0.length; i++) {
             if (quotes0[i].ctsid === id) {
                 setSelectQuote(quotes0[i])
@@ -517,15 +532,6 @@ export default function AdminQuotes() {
                 setIsDisabled(true)
             }
         }
-
-        const res = await fetch(`http://localhost:4000/quotes/${id}`, {
-            method: 'GET',
-            headers: { "content-Type": "application/json" }
-        })
-
-        const data = await res.json()
-
-        SetQuote(data)
     }
 
     const colorFun = (id) => {
@@ -544,7 +550,27 @@ export default function AdminQuotes() {
         }
     }
 
+    const clienteColor1 = (id) => {
+        if (Number(id) === idCliente) {
+            return '#0265CD'
+        } else {
+            return 'transparent'
+        }
+    }
+
+    const clienteColor2 = (id) => {
+        if (Number(id) === idCliente) {
+            return '#FFFFFF'
+        } else {
+            return '#000000'
+        }
+    }
+
     const handleClicNewQuote = async () => {
+        setExpanded(false)
+        setSelectQuote([])
+        setIsHidden1(false)
+        setIsDisable3(false)
         setOpen(true)
 
         const res = await fetch(`http://localhost:4000/clients`, {
@@ -559,6 +585,8 @@ export default function AdminQuotes() {
 
     const handleClose = () => {
         setOpen(false);
+        setPetId('')
+        setIsHidden(true)
     };
 
     const onClickVolver = () => {
@@ -567,6 +595,31 @@ export default function AdminQuotes() {
 
     const onClickSiguiente = () => {
         setIsHidden(false)
+    }
+
+    const handleClickClient = async (e) => {
+        setPetId('')
+        setIsDisable3(false)
+        const id = Number(e.currentTarget.id)
+        setIdCliente(id)
+
+        const body = { 'id': id }
+
+        const res = await fetch('http://localhost:4000/pets', {
+            method: 'POST',
+            body: JSON.stringify(body),
+            headers: { "content-Type": "application/json" }
+        })
+
+        const data = await res.json();
+
+        setPets(data)
+    }
+
+    const handleFocus = (event) => {
+        const id = Number(event.target.value)
+        setPetId(id)
+        setIsDisable3(true)
     }
 
     return (
@@ -816,7 +869,9 @@ export default function AdminQuotes() {
                                             {clients.filter(client => client.nombres.toLowerCase().includes(search.search.toLowerCase().trim()) === true || client.apellidos.toLowerCase().includes(search.search.toLowerCase().trim()) === true).map((client) => (
                                                 <Grid
                                                     key={client.clid}
+                                                    id={client.clid}
                                                     component={Button}
+                                                    onClick={handleClickClient}
                                                     container
                                                     width='100%'
                                                     height='70px'
@@ -825,14 +880,19 @@ export default function AdminQuotes() {
                                                     alignItems='center'
                                                     justifyContent='space-between'
                                                     mt='15px'
+                                                    backgroundColor={clienteColor1(client.clid)}
+                                                    color={clienteColor2(client.clid)}
                                                     sx={{
-                                                        p:'0px',
-                                                        color:'#000000',
-                                                        textTransform:'none',
+                                                        p: '0px',
+                                                        textTransform: 'none',
                                                         '&:hover': {
                                                             backgroundColor: '#0265CD',
                                                             color: '#FFFFFF',
-                                                        }
+                                                        },
+                                                        '&:focus': {
+                                                            backgroundColor: '#0265CD',
+                                                            color: '#FFFFFF',
+                                                        },
                                                     }}>
                                                     <Box ml='10px' width='60px' height='60px' border='1px solid #000000' borderRadius='90px' textAlign='center'>
                                                         <PersonIcon sx={{ mt: '10px', color: '#000000', fontSize: 40 }}></PersonIcon>
@@ -847,8 +907,70 @@ export default function AdminQuotes() {
                             <Grid
                                 height='100%'
                                 item xs={6} sm={6} lg={6} md={6} xl={6}>
-                                <Grid container ml='20px' mr='20px' width='auto'>
-                                    <Typography>Seleciona la mascota</Typography>
+                                <Typography ml='20px' width='100%' textAlign='start'>Seleciona la mascota</Typography>
+                                <Grid
+                                    container
+                                    ml='20px'
+                                    mr='20px'
+                                    width='95%'
+                                    height='100%'
+                                    justifyContent='center'
+                                    overflow='scroll'
+                                    display='block'
+                                    sx={{
+                                        '&::-webkit-scrollbar': {
+                                            width: '8px',
+                                            height: '8px',
+                                        },
+                                        '&::-webkit-scrollbar-thumb': {
+                                            backgroundColor: 'rgba(0, 0, 0, 0.1)',
+                                            borderRadius: '10px',
+                                            '&:hover': {
+                                                backgroundColor: 'rgba(0, 0, 0, 0.3)',
+                                            },
+                                        },
+                                        '&::-webkit-scrollbar: horizontal': {
+                                            display: 'none',
+                                        },
+                                    }}>
+                                    {pets.map((pet) => (
+                                        <Card
+                                            component={Button}
+                                            onFocus={handleFocus}
+                                            key={pet.mcid}
+                                            value={pet.mcid}
+                                            sx={{
+                                                '&:focus': {
+                                                    color: 'white',
+                                                    backgroundColor: '#0265CD',
+                                                },
+                                                border: '1px solid #BABBBF',
+                                                borderRadius: '10px',
+                                                textTransform: 'none',
+                                                mb: '10px',
+                                                mt: '5px',
+                                                mr: '10px',
+                                                height: '85px',
+                                                width: '263px',
+                                                boxShadow: 'none'
+                                            }}>
+                                            <CardContent sx={{ width: '230px', padding: '0px' }}>
+                                                <Grid container direction='row'>
+                                                    <Grid item xs={4}>
+                                                        <Avatar sx={{ ml: '5px', width: 50, height: 50 }}>M</Avatar>
+                                                    </Grid>
+                                                    <Grid item xs={8} container direction='column' textAlign='start'>
+                                                        <Typography fontWeight='bold'>
+                                                            {pet.nombre}
+                                                        </Typography>
+                                                        <Typography>
+                                                            {pet.raza}
+                                                        </Typography>
+                                                    </Grid>
+                                                </Grid>
+                                            </CardContent>
+                                        </Card>
+                                    ))}
                                 </Grid>
                             </Grid>
                         </Grid>
@@ -857,13 +979,13 @@ export default function AdminQuotes() {
                             width='100%'
                             direction='row'
                             justifyContent='end'>
-                            <IconButton onClick={onClickSiguiente} sx={{ borderRadius: '20px', '&:hover': { color: '#0265CD', bgcolor: '#FFFFFF' } }}>
+                            <IconButton onClick={onClickSiguiente} disabled={!isDisable3} sx={{ borderRadius: '20px', '&:hover': { color: '#0265CD', bgcolor: '#FFFFFF' } }}>
                                 <Typography>{'Siguiente ➦'}</Typography>
                             </IconButton>
                         </Grid>
                     </div>
-                </Grid>
-            </Backdrop>
+                </Grid >
+            </Backdrop >
             <Grid
                 container
                 direction='row'
@@ -968,10 +1090,10 @@ export default function AdminQuotes() {
                                                 <Typography>{quote1.hora}</Typography>
                                                 <Typography>{quote1.nombres}</Typography>
                                                 <Grid>
-                                                    <IconButton sx={{ width: '30px', height: '30px', ":hover": { color: "white" } }}>
+                                                    <IconButton onClick={handleClickEdit} sx={{ width: '30px', height: '30px', ":hover": { color: "white" } }}>
                                                         <EditIcon></EditIcon>
                                                     </IconButton>
-                                                    <IconButton sx={{ width: '30px', height: '30px', ":hover": { color: "white" } }}>
+                                                    <IconButton onClick={handleClickDelete} sx={{ width: '30px', height: '30px', ":hover": { color: "white" } }}>
                                                         <HighlightOffIcon></HighlightOffIcon>
                                                     </IconButton>
                                                 </Grid>
@@ -1043,10 +1165,10 @@ export default function AdminQuotes() {
                                                 <Typography>{quote2.hora}</Typography>
                                                 <Typography>{quote2.nombres}</Typography>
                                                 <Grid>
-                                                    <IconButton sx={{ width: '30px', height: '30px', ":hover": { color: "white" } }}>
+                                                    <IconButton onClick={handleClickEdit} sx={{ width: '30px', height: '30px', ":hover": { color: "white" } }}>
                                                         <EditIcon></EditIcon>
                                                     </IconButton>
-                                                    <IconButton sx={{ width: '30px', height: '30px', ":hover": { color: "white" } }}>
+                                                    <IconButton onClick={handleClickDelete} sx={{ width: '30px', height: '30px', ":hover": { color: "white" } }}>
                                                         <HighlightOffIcon></HighlightOffIcon>
                                                     </IconButton>
                                                 </Grid>
@@ -1118,10 +1240,10 @@ export default function AdminQuotes() {
                                                 <Typography>{quote3.hora}</Typography>
                                                 <Typography>{quote3.nombres}</Typography>
                                                 <Grid>
-                                                    <IconButton sx={{ width: '30px', height: '30px', ":hover": { color: "white" } }}>
+                                                    <IconButton onClick={handleClickEdit} sx={{ width: '30px', height: '30px', ":hover": { color: "white" } }}>
                                                         <EditIcon></EditIcon>
                                                     </IconButton>
-                                                    <IconButton sx={{ width: '30px', height: '30px', ":hover": { color: "white" } }}>
+                                                    <IconButton onClick={handleClickDelete} sx={{ width: '30px', height: '30px', ":hover": { color: "white" } }}>
                                                         <HighlightOffIcon></HighlightOffIcon>
                                                     </IconButton>
                                                 </Grid>

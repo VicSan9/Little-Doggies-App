@@ -36,14 +36,13 @@ export default function AdminQuotes() {
     const [isHidden1, setIsHidden1] = useState(false)
     const [isDisabled, setIsDisabled] = useState(true)
     const [open, setOpen] = React.useState(false);
+    const [open1, setOpen1] = React.useState(false);
     const [clients, setClients] = useState([])
     const [idCliente, setIdCliente] = useState('')
     const [petId, setPetId] = useState('')
     const [pets, setPets] = useState([])
-
     const [quote, SetQuote] = useState([])
     const [isHidden, setIsHidden] = useState(true)
-    //const [isHidden2, setIsHidden2] = useState(false)
     const [value, setValue] = useState(null);
     const [fecha, setFecha] = useState({ fecha: '' })
     const [servicios, setServicios] = useState([])
@@ -70,7 +69,10 @@ export default function AdminQuotes() {
     const hora6 = '16:00:00'
 
     const handleClickEdit = e => {
-
+        setExpanded(false)
+        setSelectQuote([])
+        setIsHidden1(false)
+        setOpen1(true)
     }
 
     const handleClickDelete = e => {
@@ -439,6 +441,82 @@ export default function AdminQuotes() {
         window.location.reload()
     }
 
+    const onClick2 = async () => {
+        if (sessionStorage.getItem('id') === null) {
+            return
+        }
+        if (horario === '') {
+            setErrorMessage('Por favor selecciona un horario primero')
+            return
+        }
+        if (servicio2.length === 0) {
+            setErrorMessage('Por favor selecciona los servicios primero')
+            return
+        }
+
+        const day = (dayjs(value).date())
+        const month = (dayjs(value).month())
+        const year = (dayjs(value).year())
+
+        const monthName = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+
+        const formattedDate = `${day} de ${monthName[month]} del ${year}`
+
+        const body1 = {
+            'clid': quote.clid,
+            'mcid': quote.mcid,
+            'fecha': quote.fecha,
+            'hora': quote.hora,
+            'estado': 'Cancelada'
+        }
+
+        await fetch(`http://localhost:4000/quotes/${quote.ctsid}`, {
+            method: 'PUT',
+            body: JSON.stringify(body1),
+            headers: { "content-Type": "application/json" }
+        })
+
+        const body = {
+            'clid': quote.clid,
+            'estado': 'Espera',
+            'mcid': quote.mcid,
+            'fecha': formattedDate,
+            'hora': horario,
+        }
+
+        const res = await fetch('http://localhost:4000/quotes', {
+            method: 'POST',
+            body: JSON.stringify(body),
+            headers: { "content-Type": "application/json" }
+        })
+
+        const data = await res.json();
+
+        var id = []
+
+        for (let i = 0; i < servicio2.length; i++) {
+            for (let j = 0; j < servicios.length; j++) {
+                if (servicio2[i] === servicios[j].nombre) {
+                    id.push(servicios[j].svid)
+                }
+            }
+        }
+
+        for (let i = 0; i < id.length; i++) {
+            var body2 = {
+                'ctsid': data.ctsid,
+                'svid': id[i]
+            }
+            await fetch('http://localhost:4000/quotesServices', {
+                method: 'POST',
+                body: JSON.stringify(body2),
+                headers: { "content-Type": "application/json" }
+            })
+        }
+
+        window.location.reload()
+    }
+
     const handleChange2 = (panel) => (event, isExpanded) => {
         setExpanded(isExpanded ? panel : false);
         setSelectQuote([])
@@ -507,6 +585,7 @@ export default function AdminQuotes() {
     const handleClickQuote = async (e) => {
 
         const id = Number(e.currentTarget.id)
+
         setIsHidden1(true)
 
         const res = await fetch(`http://localhost:4000/quotes/${id}`, {
@@ -584,6 +663,7 @@ export default function AdminQuotes() {
 
     const handleClose = () => {
         setOpen(false);
+        setOpen1(false);
         setPetId('')
         setIsHidden(true)
     };
@@ -610,7 +690,7 @@ export default function AdminQuotes() {
             headers: { "content-Type": "application/json" }
         })
 
-        if(res.status === 404){
+        if (res.status === 404) {
             return
         }
 
@@ -625,10 +705,172 @@ export default function AdminQuotes() {
         setIsDisable3(true)
     }
 
+    const handleClickReaInf = () => {
+        
+    }
+
     return (
         <>
             {errorMessage && <ErrorComponent errorMessage={errorMessage} />}
             {advertenceMenssage && <AdvertenceComponent advertenceMenssage={advertenceMenssage} />}
+            <Backdrop
+                sx={{ color: 'rgba(0,0,0,.2)', backdropFilter: 'blur(5px)', zIndex: 1 }}
+                open={open1}>
+                <Grid
+                    container
+                    alignItems='start'
+                    height='80vh'
+                    width='80vw'
+                    bgcolor='#ffffff'
+                    borderRadius='20px'
+                    paddingRight='15px'
+                    paddingLeft='25px'
+                    sx={{ color: '#000000', zIndex: (theme) => theme.zIndex.drawer + 1 }}>
+                    <Grid
+                        container
+                        direction='row'
+                        width='100%'
+                        justifyContent='end'>
+                        <IconButton sx={{ mt: '10px', width: 25, height: 25, '&:hover': { color: '#CD0227', bgcolor: '#FFFFFF' } }} onClick={handleClose}>
+                            <Typography fontWeight='bold'>X</Typography>
+                        </IconButton>
+                    </Grid>
+                    <Grid
+                        container
+                        height='75vh'>
+                        <Grid
+                            alignItems='start'
+                            justifyContent='center'
+                            height='68vh'
+                            item xs={6} sm={6} lg={6} md={6} xl={6}
+                            borderRight='1px solid #BABBBF'
+                            overflow='scroll'
+                            sx={{
+                                '&::-webkit-scrollbar': {
+                                    width: '8px',
+                                    height: '8px',
+                                },
+                                '&::-webkit-scrollbar-thumb': {
+                                    backgroundColor: 'rgba(0, 0, 0, 0.1)',
+                                    borderRadius: '10px',
+                                    '&:hover': {
+                                        backgroundColor: 'rgba(0, 0, 0, 0.3)',
+                                    },
+                                },
+                                '&::-webkit-scrollbar: horizontal': {
+                                    display: 'none',
+                                },
+                            }}>
+                            <Grid
+                                container
+                                alignItems='star'
+                                justifyContent='start'>
+                                <Typography textAlign='start' variant="h6" fontWeight='bold'>Reprogramar citas</Typography>
+                                <Typography textAlign='start' mr='40px' mt='10px' mb='10px' variant="body1">
+                                    Aquí podrás reprogramar citas para tus clientes, por favor asegúrate de
+                                    escoger el día en el calendario, darle click en confirmar y luego seleccionar el
+                                    horario, por último escoge los servicios que necesitara el cliente.
+                                </Typography>
+                                <Grid
+                                    container
+                                    justifyContent='center'
+                                    alignItems='center'
+                                    direction='column'
+                                    mr='20px'>
+                                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                        <DemoContainer components={['DateCalendar', 'DateCalendar']}>
+                                            <DemoItem>
+                                                <DateCalendar
+                                                    disabled={isDisable2}
+                                                    disablePast={true}
+                                                    value={value}
+                                                    onChange={onChange}
+                                                    shouldDisableDate={shouldDisableDate}
+                                                    sx={{ margin: '0px' }} />
+                                            </DemoItem>
+                                        </DemoContainer>
+                                    </LocalizationProvider>
+                                    <Button
+                                        sx={{ mb: '20px', borderRadius: '20px' }}
+                                        fullWidth
+                                        disabled={isDisable2}
+                                        variant="outlined"
+                                        onClick={handleClick}
+                                    >{'Confirmar ➦'}
+                                    </Button>
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                        <Grid
+                            height='85vh'
+                            item xs={6} sm={6} lg={6} md={6} xl={6}>
+                            <Grid container mt='20px' ml='20px' mr='20px' width='auto'>
+                                <FormControl fullWidth>
+                                    <InputLabel id="demo-simple-select-label">Horario</InputLabel>
+                                    <Select
+                                        disabled={isDisable}
+                                        labelId="demo-simple-select-label"
+                                        id="demo-simple-select"
+                                        value={horario}
+                                        label="Horario"
+                                        onChange={handleChange}>
+                                        <MenuItem disabled={isLoggedIn1} value={hora1}>7:00 A.M</MenuItem>
+                                        <MenuItem disabled={isLoggedIn2} value={hora2}>8:30 A.M</MenuItem>
+                                        <MenuItem disabled={isLoggedIn3} value={hora3}>10:00 A.M</MenuItem>
+                                        <MenuItem disabled={isLoggedIn4} value={hora4}>1:00 P.M</MenuItem>
+                                        <MenuItem disabled={isLoggedIn5} value={hora5}>2:30 P.M</MenuItem>
+                                        <MenuItem disabled={isLoggedIn6} value={hora6}>4:00 P.M</MenuItem>
+                                    </Select>
+                                </FormControl>
+                                <FormControl fullWidth sx={{ mt: '20px' }}>
+                                    <InputLabel id="demo-simple-select-label2">Servicios</InputLabel>
+                                    <Select
+                                        multiple
+                                        disabled={isDisable}
+                                        labelId="demo-simple-select-label2"
+                                        id="demo-simple-select2"
+                                        value={servicio2}
+                                        label="Servicios"
+                                        onChange={handleChange5}
+                                        renderValue={(selected) => (
+                                            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                                                {selected.map((value) => (
+                                                    <Chip key={value} label={value} />
+                                                ))}
+                                            </Box>
+                                        )}
+                                        MenuProps={MenuProps}>
+                                        {servicios.map((servicio) => (
+                                            <MenuItem
+                                                key={servicio.svid}
+                                                value={servicio.nombre}>
+                                                {servicio.nombre}
+                                            </MenuItem>
+                                        ))}
+                                    </Select>
+                                    <FormHelperText>Escoge uno o varios servicios, si ya no quieres un servicio solo dale click de nuevo para quitarlo</FormHelperText>
+                                </FormControl>
+                                <Button
+                                    sx={{ mt: '40px', borderRadius: '20px' }}
+                                    fullWidth
+                                    disabled={isDisable}
+                                    variant="outlined"
+                                    onClick={handleClick2}
+                                >{'⮪ Cambiar fecha'}
+                                </Button>
+                                <Button
+                                    sx={{ mt: '20px', borderRadius: '20px' }}
+                                    fullWidth
+                                    disabled={isDisable}
+                                    variant="outlined"
+                                    onClick={onClick2}
+                                >{'Reprogramar cita ✔'}
+                                </Button>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                </Grid >
+            </Backdrop >
             <Backdrop
                 sx={{ color: 'rgba(0,0,0,.2)', backdropFilter: 'blur(5px)', zIndex: 1 }}
                 open={open}>
@@ -897,7 +1139,7 @@ export default function AdminQuotes() {
                                                             color: '#FFFFFF',
                                                         },
                                                     }}>
-                                                    <Avatar sx={{ ml:'10px', color: '#000000', width:55, height:55 }}></Avatar>
+                                                    <Avatar sx={{ ml: '10px', color: '#000000', width: 55, height: 55 }}></Avatar>
                                                     <Typography mr='10px' overflow='hidden'>{client.nombres + ' ' + client.apellidos}</Typography>
                                                 </Grid>
                                             ))}
@@ -1091,7 +1333,7 @@ export default function AdminQuotes() {
                                                 <Typography>{quote1.hora}</Typography>
                                                 <Typography>{quote1.nombres}</Typography>
                                                 <Grid>
-                                                    <IconButton onClick={handleClickEdit} sx={{ width: '30px', height: '30px', ":hover": { color: "white" } }}>
+                                                    <IconButton id={quote1.ctsid} onClick={handleClickEdit} sx={{ width: '30px', height: '30px', ":hover": { color: "white" } }}>
                                                         <EditIcon></EditIcon>
                                                     </IconButton>
                                                     <IconButton onClick={handleClickDelete} sx={{ width: '30px', height: '30px', ":hover": { color: "white" } }}>
@@ -1166,7 +1408,7 @@ export default function AdminQuotes() {
                                                 <Typography>{quote2.hora}</Typography>
                                                 <Typography>{quote2.nombres}</Typography>
                                                 <Grid>
-                                                    <IconButton onClick={handleClickEdit} sx={{ width: '30px', height: '30px', ":hover": { color: "white" } }}>
+                                                    <IconButton id={quote2.ctsid} onClick={handleClickEdit} sx={{ width: '30px', height: '30px', ":hover": { color: "white" } }}>
                                                         <EditIcon></EditIcon>
                                                     </IconButton>
                                                     <IconButton onClick={handleClickDelete} sx={{ width: '30px', height: '30px', ":hover": { color: "white" } }}>
@@ -1241,7 +1483,7 @@ export default function AdminQuotes() {
                                                 <Typography>{quote3.hora}</Typography>
                                                 <Typography>{quote3.nombres}</Typography>
                                                 <Grid>
-                                                    <IconButton onClick={handleClickEdit} sx={{ width: '30px', height: '30px', ":hover": { color: "white" } }}>
+                                                    <IconButton id={quote3.ctsid} onClick={handleClickEdit} sx={{ width: '30px', height: '30px', ":hover": { color: "white" } }}>
                                                         <EditIcon></EditIcon>
                                                     </IconButton>
                                                     <IconButton onClick={handleClickDelete} sx={{ width: '30px', height: '30px', ":hover": { color: "white" } }}>
@@ -1334,6 +1576,7 @@ export default function AdminQuotes() {
                             <Box sx={{ '& > :not(style)': { m: 1 } }}>
                                 <Fab
                                     disabled={isDisabled}
+                                    onClick={handleClickReaInf}
                                     variant="extended"
                                     sx={{
                                         color: '#0265CD',

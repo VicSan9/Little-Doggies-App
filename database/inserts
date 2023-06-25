@@ -9,8 +9,14 @@ VALUES 	('Corte corto', 'Peluqueria', 'Descripción del servicio'),
 		('Secado especial', 'Peluqueria', 'Descripción del servicio');
 --Insertar clientes 
 INSERT INTO clientes (nombres, apellidos, correo, direccion, telefono, usuario, contraseña, foto)
-VALUES 	('Mercy', 'Castro Romero', 'merxicc@gmail.com', 'Pradera#-Cr', '12345512', 'userCliente1', '321dsa', 'link'),
-		('Jhonatan Esteban', 'Castrillón Perez', 'correocliente2@gmail.com', 'Pradera#-Cr', '41252155', 'userCliente2', '321asd', 'link');
+VALUES 	('Mercy', 'Castro Romero', 'merxicc@gmail.com', '270 Superior Lane', '12345512', 'userCliente1', '321dsa', 'link'),
+		('Torie Jethro', 'Leftly Booler', 'lbaunton6@gmail.com', '1966 Hanover Pass', '41252155', 'userCliente2', '321asd', 'link'),
+		('Davide', 'Ost Merrell', 'eanstiss4@gmail.com', '8 Browning Hill', '41252155', 'jkorejs1', '321asd', 'link'),
+		('Hailee Paige', 'Tresvina Turbat', 'jbaudryl@gmail.com', '9609 Sachs Plaza', '41252155', 'lkliesl2', '321asd', 'link'),
+		('Erin', 'Gomes Baudry', 'mmilesopm@gmail.com', '93 Sutherland Pass', '41252155', 'csurcomb3', '321asd', 'link'),
+		('Killie Jameson', 'Burchess Schirak', 'kflinn5@gmail.com', '35895 Clyde Gallagher Avenue', '41252155', 'amyrtle5', '321asd', 'link'),
+		('Laina Gweneth', 'Merrell Baunton', 'kbroinlich11@gmail.com', '6 Montana Parkway', '41252155', 'tguerrieri6', '321asd', 'link'),
+		('Jhonatan Esteban', 'Castrillón Perez', 'mnotonx@gmail.com', 'Pradera#-Cr', '41252155', 'dantonescu9', '321asd', 'link');
 --Insertar productos
 INSERT INTO productos (nombre, tipo, precio, cantidad, foto)
 VALUES 	('Collar negro', 'Accesorio', 12321, 6, '1-product.jpg'),

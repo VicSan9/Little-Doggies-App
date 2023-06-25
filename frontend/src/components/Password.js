@@ -2,8 +2,11 @@ import { Typography, Container, Grid, TextField, Button, Box } from "@mui/materi
 import Navbar from "./Navbar";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import React from 'react';
 
-export default function Password() {
+export default function Password (props) {
+
+    const {email} = props;
 
     const navigate = useNavigate();
 
@@ -37,19 +40,29 @@ export default function Password() {
             return
         }
 
-        if (password.toString === newpassword.toString) {
+        if (password === newpassword) {
             navigate('/login')
         } else {
             setErrorMessage("Las contraseñas no coinciden")
         }
+
+        const body = {contraseña: password.contraseña}
+
+        const res = await fetch(`http://localhost:4000/clients/${email}`, {
+            method: 'PUT',
+            body: JSON.stringify(body),
+            headers: { "content-Type": "application/json" }
+        })
+
+        const data = await res.json();
+
+        console.log(data)
 
     }
 
     const handleClick = () => {
         setErrorMessage("");
     }
-
-
 
     const ErrorComponent = ({ errorMessage }) => {
         return (

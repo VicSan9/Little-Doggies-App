@@ -37,6 +37,7 @@ export default function AdminQuotes() {
     const [isDisabled, setIsDisabled] = useState(true)
     const [open, setOpen] = React.useState(false);
     const [open1, setOpen1] = React.useState(false);
+    const [open2, setOpen2] = React.useState(false);
     const [clients, setClients] = useState([])
     const [idCliente, setIdCliente] = useState('')
     const [petId, setPetId] = useState('')
@@ -664,6 +665,7 @@ export default function AdminQuotes() {
     const handleClose = () => {
         setOpen(false);
         setOpen1(false);
+        setOpen2(false);
         setPetId('')
         setIsHidden(true)
     };
@@ -707,13 +709,45 @@ export default function AdminQuotes() {
     }
 
     const handleClickReaInf = () => {
-        console.log(':D')
+        setExpanded(false)
+        setSelectQuote([])
+        setIsHidden1(false)
+        setOpen2(true)
     }
 
     return (
         <>
             {errorMessage && <ErrorComponent errorMessage={errorMessage} />}
             {advertenceMenssage && <AdvertenceComponent advertenceMenssage={advertenceMenssage} />}
+            <Backdrop
+                sx={{ color: 'rgba(0,0,0,.2)', backdropFilter: 'blur(5px)', zIndex: 1 }}
+                open={open2}>
+                <Grid
+                    container
+                    alignItems='start'
+                    height='80vh'
+                    width='80vw'
+                    bgcolor='#ffffff'
+                    borderRadius='20px'
+                    paddingRight='15px'
+                    paddingLeft='25px'
+                    sx={{ color: '#000000', zIndex: (theme) => theme.zIndex.drawer + 1 }}>
+                    <Grid
+                        container
+                        direction='row'
+                        width='100%'
+                        justifyContent='end'>
+                        <IconButton sx={{ mt: '10px', width: 25, height: 25, '&:hover': { color: '#CD0227', bgcolor: '#FFFFFF' } }} onClick={handleClose}>
+                            <Typography fontWeight='bold'>X</Typography>
+                        </IconButton>
+                    </Grid>
+                    <Grid
+                        container
+                        height='75vh'>
+                        <Typography textAlign='start' variant="h6" fontWeight='bold'>Realizar informe</Typography>
+                    </Grid>
+                </Grid >
+            </Backdrop >
             <Backdrop
                 sx={{ color: 'rgba(0,0,0,.2)', backdropFilter: 'blur(5px)', zIndex: 1 }}
                 open={open1}>

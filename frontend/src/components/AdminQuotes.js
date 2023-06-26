@@ -677,6 +677,7 @@ export default function AdminQuotes() {
     }
 
     const handleClickClient = async (e) => {
+        setPets([])
         setPetId('')
         setIsDisable3(false)
         const id = Number(e.currentTarget.id)
@@ -706,7 +707,7 @@ export default function AdminQuotes() {
     }
 
     const handleClickReaInf = () => {
-        
+        console.log(':D')
     }
 
     return (
@@ -1062,7 +1063,7 @@ export default function AdminQuotes() {
                                     <Grid
                                         container
                                         direction='column'
-                                        width='90%'
+                                        width='95%'
                                         height='80%'
                                         borderRadius='20px'
                                         backgroundColor='#F5F5F5'
@@ -1081,6 +1082,7 @@ export default function AdminQuotes() {
                                                 value={search.search}
                                                 InputProps={{ sx: { borderRadius: '20px', height: '50px' } }}
                                                 sx={{
+                                                    mb: '10px',
                                                     width: '80%',
                                                 }}>
                                             </TextField>
@@ -1090,11 +1092,12 @@ export default function AdminQuotes() {
                                             direction='column'
                                             display='block'
                                             overflow='scroll'
-                                            height='78%'
+                                            height='75%'
                                             alignItems='center'
                                             justifyContent='center'
                                             paddingLeft='20px'
                                             paddingRight='10px'
+                                            width='100%'
                                             sx={{
                                                 '&::-webkit-scrollbar': {
                                                     width: '8px',

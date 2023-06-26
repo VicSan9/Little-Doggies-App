@@ -35,6 +35,7 @@ export default function AdminQuotes() {
     const [selectQuote, setSelectQuote] = useState([])
     const [isHidden1, setIsHidden1] = useState(false)
     const [isDisabled, setIsDisabled] = useState(true)
+    const [isDisabled2, setIsDisabled2] = useState(true)
     const [open, setOpen] = React.useState(false);
     const [open1, setOpen1] = React.useState(false);
     const [open2, setOpen2] = React.useState(false);
@@ -61,6 +62,7 @@ export default function AdminQuotes() {
     const [errorMessage, setErrorMessage] = useState("");
     const [advertenceMenssage, setAdvertenceMenssage] = useState("");
     const [search, setSearch] = useState({ search: '' })
+    const [nota, setNota] = useState({ pregunta: 'No', nota: '' })
 
     const hora1 = '07:00:00'
     const hora2 = '08:30:00'
@@ -666,6 +668,8 @@ export default function AdminQuotes() {
         setOpen(false);
         setOpen1(false);
         setOpen2(false);
+        setIsDisabled2(true)
+        setServicio2([])
         setPetId('')
         setIsHidden(true)
     };
@@ -709,10 +713,94 @@ export default function AdminQuotes() {
     }
 
     const handleClickReaInf = () => {
+        setNota({ pregunta: 'No', nota: 'Ninguna' })
         setExpanded(false)
         setSelectQuote([])
         setIsHidden1(false)
         setOpen2(true)
+    }
+
+    const handleChange3 = (event) => {
+        const value = event.target.value
+        const name = event.target.name
+
+        if (value === 'No') {
+            setIsDisabled2(true)
+            nota.nota = 'Ninguna'
+
+        } else {
+            setIsDisabled2(false)
+            nota.nota = ''
+        }
+
+        setNota({
+            ...nota,
+            [name]: value
+        });
+    };
+
+    const handleClickGuardarInfo = async () => {
+
+        if (servicio2.length === 0) {
+            setErrorMessage('Por favor selecciona los servicios primero')
+            return
+        }
+
+        const body1 = {
+            'clid': quote.clid,
+            'mcid': quote.mcid,
+            'fecha': quote.fecha,
+            'hora': quote.hora,
+            'estado': 'Atendido'
+        }
+
+        await fetch(`http://localhost:4000/quotes/${quote.ctsid}`, {
+            method: 'PUT',
+            body: JSON.stringify(body1),
+            headers: { "content-Type": "application/json" }
+        })
+
+        const idMiembro = Number(sessionStorage.getItem('id'));
+        const notaBody = nota.nota;
+        const idCita = quote.ctsid;
+
+        const body = {
+            'mbid': idMiembro,
+            'nota': notaBody,
+            'ctsid': idCita
+        }
+
+        const res = await fetch('http://localhost:4000/reports', {
+            method: 'POST',
+            body: JSON.stringify(body),
+            headers: { "content-Type": "application/json" }
+        })
+
+        const data = await res.json();
+
+        var id = []
+
+        for (let i = 0; i < servicio2.length; i++) {
+            for (let j = 0; j < servicios.length; j++) {
+                if (servicio2[i] === servicios[j].nombre) {
+                    id.push(servicios[j].svid)
+                }
+            }
+        }
+
+        for (let i = 0; i < id.length; i++) {
+            var body2 = {
+                'ifid': data.ifid,
+                'svid': id[i]
+            }
+            await fetch('http://localhost:4000/reportsServices', {
+                method: 'POST',
+                body: JSON.stringify(body2),
+                headers: { "content-Type": "application/json" }
+            })
+        }
+        
+        window.location.reload()
     }
 
     return (
@@ -724,8 +812,9 @@ export default function AdminQuotes() {
                 open={open2}>
                 <Grid
                     container
-                    alignItems='start'
-                    height='80vh'
+                    alignContent='start'
+                    justifyContent='start'
+                    height='65vh'
                     width='80vw'
                     bgcolor='#ffffff'
                     borderRadius='20px'
@@ -743,10 +832,107 @@ export default function AdminQuotes() {
                     </Grid>
                     <Grid
                         container
-                        height='75vh'>
+                        height='80%'
+                        width='99%'
+                        direction='column'>
                         <Typography textAlign='start' variant="h6" fontWeight='bold'>Realizar informe</Typography>
-                        
+                        <Grid
+                            container
+                            mt='15px'
+                            width='100%'
+                            direction='row'
+                            justifyContent='start'>
+                            <Grid item xs={6} sm={6} lg={6} md={6} xl={6}>
+                                <Typography>¿Deseas agregar alguna nota sobre la cita?</Typography>
+                            </Grid>
+                            <Grid item xs={6} sm={6} lg={6} md={6} xl={6}>
+                                <Typography></Typography>
+                            </Grid>
+                        </Grid>
+                        <Grid
+                            container
+                            mt='15px'
+                            width='100%'
+                            direction='row'
+                            justifyContent='start'>
+                            <Grid container paddingRight='10px' item xs={6} sm={6} lg={6} md={6} xl={6}>
+                                <FormControl fullWidth>
+                                    <InputLabel id="demo-simple-select-label">Horario</InputLabel>
+                                    <Select
+                                        labelId="demo-simple-select-label"
+                                        id="demo-simple-select"
+                                        value={nota.pregunta}
+                                        name='pregunta'
+                                        label="Horario"
+                                        onChange={handleChange3}>
+                                        <MenuItem value='Si'>Si</MenuItem>
+                                        <MenuItem value='No'>No</MenuItem>
+                                    </Select>
+                                </FormControl>
+                            </Grid>
+                            <Grid container paddingLeft='10px' item xs={6} sm={6} lg={6} md={6} xl={6}>
+                                <TextField
+                                    label='Nota'
+                                    fullWidth
+                                    disabled={isDisabled2}
+                                    name='nota'
+                                    value={nota.nota}
+                                    onChange={handleChange3}>
+
+                                </TextField>
+                            </Grid>
+                        </Grid>
+                        <Grid
+                            container
+                            mt='15px'
+                            width='100%'
+                            direction='row'
+                            justifyContent='start'>
+                            <Grid item xs={6} sm={6} lg={6} md={6} xl={6}>
+                                <Typography>¿Qué servicios prestaste en la cita?</Typography>
+                            </Grid>
+                            <Grid item xs={6} sm={6} lg={6} md={6} xl={6}>
+                                <Typography></Typography>
+                            </Grid>
+                        </Grid>
+                        <Grid
+                            container
+                            mt='15px'
+                            width='100%'
+                            direction='row'
+                            justifyContent='start'>
+                            <Grid container paddingRight='10px' item xs={6} sm={6} lg={6} md={6} xl={6}>
+                                <FormControl fullWidth>
+                                    <InputLabel id="demo-simple-select-label2">Servicios</InputLabel>
+                                    <Select
+                                        multiple
+                                        labelId="demo-simple-select-label2"
+                                        id="demo-simple-select2"
+                                        value={servicio2}
+                                        label="Servicios"
+                                        onChange={handleChange5}
+                                        renderValue={(selected) => (
+                                            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                                                {selected.map((value) => (
+                                                    <Chip key={value} label={value} />
+                                                ))}
+                                            </Box>
+                                        )}
+                                        MenuProps={MenuProps}>
+                                        {servicios.map((servicio) => (
+                                            <MenuItem
+                                                key={servicio.svid}
+                                                value={servicio.nombre}>
+                                                {servicio.nombre}
+                                            </MenuItem>
+                                        ))}
+                                    </Select>
+                                    <FormHelperText>Escoge uno o varios servicios, si ya no quieres un servicio solo dale click de nuevo para quitarlo</FormHelperText>
+                                </FormControl>
+                            </Grid>
+                        </Grid>
                     </Grid>
+                    <Button onClick={handleClickGuardarInfo} variant='outlined' sx={{ borderRadius: '20px' }}>Guardar informe</Button>
                 </Grid >
             </Backdrop >
             <Backdrop

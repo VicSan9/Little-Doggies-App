@@ -745,6 +745,7 @@ export default function AdminQuotes() {
                         container
                         height='75vh'>
                         <Typography textAlign='start' variant="h6" fontWeight='bold'>Realizar informe</Typography>
+                        
                     </Grid>
                 </Grid >
             </Backdrop >

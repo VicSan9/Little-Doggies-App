@@ -5,7 +5,7 @@ const getAllMembersServices = async (req, res, next) => {
         const result = await pool.query
             ('SELECT * FROM miembrosServicios');
         res.json(result);
-    } catch (error){
+    } catch (error) {
         next(error);
     }
 }
@@ -14,7 +14,7 @@ const getMemberService = async (req, res, next) => {
     try {
         const { id } = req.params;
         const result = await pool.query
-            ('SELECT * FROM miembrosServicios WHERE msid = $1', [id]);
+            ('SELECT * FROM miembrosServicios WHERE mbid = $1', [id]);
         if (result.rows.length === 0)
             return res.status(404).json({
                 message: "Miembro - Servicio no encontrado",
@@ -25,14 +25,29 @@ const getMemberService = async (req, res, next) => {
     }
 }
 
-const  createMemberService = async (req, res, next) => {
+const getMemberService1 = async (req, res, next) => {
+    try {
+        const { id } = req.body;
+        const result = await pool.query
+            ('SELECT * FROM infoservicios WHERE mbid = $1', [id]);
+        if (result.rows.length === 0)
+            return res.status(404).json({
+                message: "Miembro - Servicio no encontrado",
+            });
+        res.json(result.rows);
+    } catch (error) {
+        next(error);
+    }
+}
+
+const createMemberService = async (req, res, next) => {
     const { mbid, svid } = req.body;
     try {
         const result = await pool.query
             ('INSERT INTO miembrosServicios (mbid, svid) VALUES ($1, $2) RETURNING *',
-                [mbid, svid]);                                 
+                [mbid, svid]);
         res.json(result.rows[0]);
-    } catch (error){
+    } catch (error) {
         next(error);
     }
 }
@@ -74,5 +89,6 @@ module.exports = {
     getMemberService,
     createMemberService,
     deleteMemberService,
-    updateMemberService
+    updateMemberService,
+    getMemberService1
 }

@@ -67,6 +67,14 @@ UNION ALL
 SELECT C.clid AS id, C.usuario, C.contraseña, C.nombres, C.apellidos, 'Cliente' AS rol, C.correo
 FROM clientes AS C;
 
+CREATE VIEW infoservicios AS
+SELECT M.mbid, M.nombres, M.apellidos, S.svid, S.nombre, S.categoria, S.descripcion
+FROM miembrosServicios AS MS
+JOIN servicios AS S
+ON S.svid = MS.svid
+JOIN miembros AS M
+ON MS.mbid = M.mbid;
+
 --Funcion para ver los productos disponibles
 CREATE OR REPLACE FUNCTION function_products_available()
 RETURNS TRIGGER AS $function_products_available$	

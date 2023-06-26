@@ -35,7 +35,11 @@ export default function Login() {
       sessionStorage.setItem('correo', data.correo)
       sessionStorage.setItem('id', data.id)
       sessionStorage.setItem('auth', 'yes')
-      navigate("/home")
+      if (sessionStorage.getItem('rol') === 'Administrador') {
+        navigate('/admin')
+      } else {
+        navigate("/home")
+      }
     }
     else {
       setErrorMessage("Usuario o contraseña incorrecto");
@@ -126,7 +130,7 @@ export default function Login() {
               <img
                 src={process.env.PUBLIC_URL + "/pexels-anna-shvets-4587987.png"}
                 alt="collage"
-                style={{ height: '88vh',minHeight:'650px', maxHeight: '700px' }}>
+                style={{ height: '88vh', minHeight: '650px', maxHeight: '700px' }}>
               </img>
             </Grid>
             <Grid item xs={7} sm={7} lg={7} md={7} xl={7}

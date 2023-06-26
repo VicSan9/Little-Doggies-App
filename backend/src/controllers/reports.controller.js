@@ -41,11 +41,11 @@ const getReports = async (req, res, next) => {
 }
 
 const createReports = async (req, res, next) => {
-    const { ctsid, nota } = req.body;
+    const { ctsid, nota, mbid } = req.body;
     try {
         const result = await pool.query
-            ('INSERT INTO informes (ctsid, nota) VALUES ($1, $2) RETURNING *',
-                [ctsid, nota]);                                 
+            ('INSERT INTO informes (ctsid, mbid, nota) VALUES ($1, $2, $3) RETURNING *',
+                [ctsid, mbid, nota]);                                 
         res.json(result.rows[0]);
     } catch (error){
         next(error);

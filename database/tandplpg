@@ -10,7 +10,7 @@ CREATE VIEW informs AS
 SELECT I.ifid, I.ctsid, C.clid, C.mcid, C.fecha, M.nombres, M.apellidos, I.nota, string_agg(S.nombre, ' ● ') AS servicios
 FROM informes AS I
 JOIN citas AS C
-ON C.ctsid = I.ctsid
+ON C.ctsid = I.ctsid AND C.estado = 'Atendido'
 JOIN miembros AS M
 ON M.mbid = I.mbid
 JOIN informesServicios AS INF

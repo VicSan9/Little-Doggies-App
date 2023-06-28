@@ -1,60 +1,189 @@
 import { useState, useEffect } from 'react'
 import AdminNavbar from './AdminNavbar'
-import { Grid, Typography, IconButton, Backdrop, Button } from "@mui/material";
+import { Grid, Typography, IconButton, Backdrop, Button, Box, Card } from "@mui/material";
+import EditIcon from '@mui/icons-material/Edit';
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 
 export default function AdminClient() {
 
     const [open, setOpen] = useState(false);
     const [open1, setOpen1] = useState(false);
-    const [open2, setOpen2] = useState(false);
     const [isHidden1, setIsHidden1] = useState(false)
+    const [clients, setClients] = useState([])
+    const [client, setClient] = useState([])
+    const [errorMessage, setErrorMessage] = useState("");
+    const [advertenceMenssage, setAdvertenceMenssage] = useState("");
 
     const handleClose = () => {
         setOpen(false);
         setOpen1(false);
-        setOpen2(false);
     };
 
     const handleClicNewService = async () => {
         setOpen(true)
     }
 
+    const handleClickEdit = e => {
+        setOpen1(true)
+    }
+
+    const handleClickDelete = e => {
+        setAdvertenceMenssage('¿Estás seguro que quieres cancelar esta cita?')
+    }
+
+    const handleClickAV2Can = () => {
+        setAdvertenceMenssage("");
+    }
+
+    const handleClickAVConf = async () => {
+
+        setAdvertenceMenssage("");
+
+        //window.location.reload();
+    }
+
+    const handleClick3 = () => {
+        setErrorMessage("");
+    }
+
+    const colorFun = (id) => {
+        if (Number(id) === client.clid) {
+            return '#0265CD'
+        } else {
+            return 'transparent'
+        }
+    }
+
+    const colorFun2 = (id) => {
+        if (Number(id) === client.clid) {
+            return '#FFFFFF'
+        } else {
+            return '#000000'
+        }
+    }
+
+    const loadClients = async () => {
+
+        const res = await fetch(`http://localhost:4000/clients`, {
+            method: 'GET',
+            headers: { "content-Type": "application/json" }
+        })
+
+        const data = await res.json()
+
+        setClients(data)
+    }
+
+    useEffect(() => {
+        loadClients();
+    }, []);
+
+    const handleClickClient = async (e) => {
+
+        const id = Number(e.currentTarget.id)
+
+        setIsHidden1(true)
+
+        const res = await fetch(`http://localhost:4000/clients/${id}`, {
+            method: 'GET',
+            headers: { "content-Type": "application/json" }
+        })
+
+        const data = await res.json()
+
+        setClient(data)
+
+        console.log(data)
+    }
+
+    const ErrorComponent = ({ errorMessage }) => {
+        return (
+            <Grid container
+                zIndex='2'
+                width='100vw'
+                height='100vh'
+                position='absolute'
+                alignItems='center'
+                textAlign='center'
+                justifyContent='center'
+                sx={{ backgroundColor: 'rgba(0,0,0,.2)', backdropFilter: 'blur(5px)', }}>
+                <Box
+                    width='300px'
+                    height='200px'
+                    borderRadius='20px'
+                    border='1px solid #BABBBF'
+                    sx={{ backgroundColor: '#ffffff' }}>
+                    <Typography color='#CD0227' mt='20px' variant="h5" fontWeight='bold'>Error</Typography>
+                    <p>{errorMessage}</p>
+                    <Button variant="outlined"
+                        size='medium'
+                        onClick={handleClick3}
+                        sx={{
+                            color: '#0265CD',
+                            mt: '30px',
+                            borderColor: '#0265CD',
+                            borderRadius: '50px',
+                            textTransform: 'none'
+                        }}> Volver
+                    </Button>
+                </Box>
+            </Grid>
+        );
+    };
+
+    const AdvertenceComponent = ({ advertenceMenssage }) => {
+        return (
+            <Grid container
+                zIndex='2'
+                width='100vw'
+                height='100vh'
+                position='absolute'
+                alignItems='center'
+                textAlign='center'
+                justifyContent='center'
+                sx={{ backgroundColor: 'rgba(0,0,0,.2)', backdropFilter: 'blur(5px)', }}>
+                <Box
+                    width='300px'
+                    height='200px'
+                    borderRadius='20px'
+                    border='1px solid #BABBBF'
+                    sx={{ backgroundColor: '#ffffff' }}>
+                    <Typography color='#000000' mt='20px' variant="h5" fontWeight='bold'>Advertencia</Typography>
+                    <p>{advertenceMenssage}</p>
+                    <Button variant="outlined"
+                        size='medium'
+                        onClick={handleClickAV2Can}
+                        sx={{
+                            color: '#0265CD',
+                            width: '80px',
+                            mt: '20px',
+                            borderColor: '#0265CD',
+                            borderRadius: '50px',
+                            textTransform: 'none'
+                        }}> Volver
+                    </Button>
+                    <Button variant="outlined"
+                        size='medium'
+                        onClick={handleClickAVConf}
+                        sx={{
+                            width: '80px',
+                            color: '#0265CD',
+                            mt: '20px',
+                            ml: '20px',
+                            borderColor: '#0265CD',
+                            borderRadius: '50px',
+                            textTransform: 'none'
+                        }}> Confirmar
+                    </Button>
+                </Box>
+            </Grid>
+        );
+    };
+
     return (
         <>
-            <Backdrop
-                sx={{ color: 'rgba(0,0,0,.2)', backdropFilter: 'blur(5px)', zIndex: 1 }}
-                open={open2}>
-                <Grid
-                    container
-                    alignContent='start'
-                    justifyContent='start'
-                    height='65vh'
-                    width='80vw'
-                    bgcolor='#ffffff'
-                    borderRadius='20px'
-                    paddingRight='15px'
-                    paddingLeft='25px'
-                    sx={{ color: '#000000', zIndex: (theme) => theme.zIndex.drawer + 1 }}>
-                    <Grid
-                        container
-                        direction='row'
-                        width='100%'
-                        justifyContent='end'>
-                        <IconButton sx={{ mt: '10px', width: 25, height: 25, '&:hover': { color: '#CD0227', bgcolor: '#FFFFFF' } }} onClick={handleClose}>
-                            <Typography fontWeight='bold'>X</Typography>
-                        </IconButton>
-                    </Grid>
-                    <Grid
-                        container
-                        height='80%'
-                        width='99%'
-                        direction='column'>
-                        <Typography textAlign='start' variant="h6" fontWeight='bold'>Realizar informe</Typography>
-
-                    </Grid>
-                    <Button variant='outlined' sx={{ borderRadius: '20px' }}>Guardar informe</Button>
-                </Grid >
-            </Backdrop >
+            {errorMessage && <ErrorComponent errorMessage={errorMessage} />}
+            {advertenceMenssage && <AdvertenceComponent advertenceMenssage={advertenceMenssage} />}
             <Backdrop
                 sx={{ color: 'rgba(0,0,0,.2)', backdropFilter: 'blur(5px)', zIndex: 1 }}
                 open={open1}>
@@ -136,8 +265,10 @@ export default function AdminClient() {
                         sx={{ borderRight: '1px solid #BABBBF' }}>
                         <Grid
                             container
-                            width='93%'
+                            width='100%'
                             height='100%'
+                            paddingRight='8px'
+                            paddingLeft='16px'
                             direction='column'>
                             <Grid
                                 container
@@ -148,11 +279,72 @@ export default function AdminClient() {
                                 mb='10px'
                             >
                                 <Typography variant='h6' fontSize='bold'>Clientes</Typography>
-                                <IconButton onClick={handleClicNewService} sx={{ width: 40, height: 40, bgcolor: '#F5F5F5', '&:hover': { bgcolor: '#BABBBF' } }}>
+                                <IconButton onClick={handleClicNewService} sx={{ mr: '8px', width: 40, height: 40, bgcolor: '#F5F5F5', '&:hover': { bgcolor: '#BABBBF' } }}>
                                     <Typography>+</Typography>
                                 </IconButton>
                             </Grid>
-
+                            <Grid
+                                container
+                                height='90%'
+                                overflow='scroll'
+                                alignItems='center'
+                                justifyContent='start'
+                                display='block'
+                                direction='column'
+                                sx={{
+                                    '&::-webkit-scrollbar': {
+                                        width: '8px',
+                                        height: '8px',
+                                    },
+                                    '&::-webkit-scrollbar-thumb': {
+                                        backgroundColor: 'rgba(0, 0, 0, 0.1)',
+                                        borderRadius: '10px',
+                                        '&:hover': {
+                                            backgroundColor: 'rgba(0, 0, 0, 0.3)',
+                                        },
+                                    },
+                                    '&::-webkit-scrollbar: horizontal': {
+                                        display: 'none',
+                                    },
+                                }}>
+                                {clients.map((client) => (
+                                    <Grid
+                                        component={Card}
+                                        key={client.clid}
+                                        id={client.clid}
+                                        onClick={handleClickClient}
+                                        container
+                                        justifyContent='space-between'
+                                        alignItems='center'
+                                        width='100%'
+                                        border='1px solid #0265CD'
+                                        borderRadius='20px'
+                                        mb='10px'
+                                        paddingRight='8px'
+                                        paddingLeft='8px'
+                                        boxShadow='none'
+                                        bgcolor={colorFun(client.clid)}
+                                        color={colorFun2(client.clid)}
+                                        sx={{
+                                            height: '60px',
+                                            '&:hover': {
+                                                backgroundColor: '#0265CD',
+                                                color: '#ffffff',
+                                                cursor: 'pointer'
+                                            }
+                                        }}>
+                                        <Typography>{client.nombres}</Typography>
+                                        <Grid>
+                                            <IconButton id={client.clid} onClick={handleClickEdit} sx={{ width: '30px', height: '30px', ":hover": { color: "white" } }}>
+                                                <EditIcon></EditIcon>
+                                            </IconButton>
+                                            <IconButton onClick={handleClickDelete} sx={{ width: '30px', height: '30px', ":hover": { color: "white" } }}>
+                                                <HighlightOffIcon></HighlightOffIcon>
+                                            </IconButton>
+                                        </Grid>
+                                    </Grid>
+                                ))}
+                            </Grid>
                         </Grid>
                     </Grid>
                     <Grid

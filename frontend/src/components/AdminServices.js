@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import AdminNavbar from './AdminNavbar'
-import { Grid, Typography, IconButton, Backdrop, Button, Card, Box } from "@mui/material";
+import { Grid, Typography, IconButton, Backdrop, Button, Card, Box, Divider, Avatar } from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 
@@ -13,6 +13,7 @@ export default function AdminServices() {
     const [services, setServices] = useState([])
     const [errorMessage, setErrorMessage] = useState("");
     const [advertenceMenssage, setAdvertenceMenssage] = useState("");
+    const [members, setMembers] = useState([])
 
     const handleClose = () => {
         setOpen(false);
@@ -176,6 +177,36 @@ export default function AdminServices() {
         const data = await res.json()
 
         setService(data)
+
+        const res2 = await fetch(`http://localhost:4000/membersServices`, {
+            method: 'GET',
+            headers: { "content-Type": "application/json" }
+        })
+
+        const data2 = await res2.json()
+
+        const ids = []
+
+        for (let i = 0; i < data2.length; i++) {
+            if (data2[i].svid === data.svid) {
+                ids.push(data2[i].mbid)
+            }
+        }
+
+        const members = []
+
+        for (let i = 0; i < ids.length; i++) {
+            const res3 = await fetch(`http://localhost:4000/members/${ids[i]}`, {
+                method: 'GET',
+                headers: { "content-Type": "application/json" }
+            })
+
+            const data3 = await res3.json();
+
+            members.push(data3)
+        }
+
+        setMembers(members)
     }
 
     return (
@@ -359,6 +390,38 @@ export default function AdminServices() {
                         </div>
                         <div hidden={!isHidden1} style={{ width: '100%' }}>
                             <Typography variant='h6'>Información del servicio</Typography>
+                            <Typography mb='15px' mt='15px' ml='10px' variant='h6' width='98%' sx={{ fontSize: '18px' }}>Información del cliente
+                                <Grid
+                                    container
+                                    alignItems='start'
+                                    justifyContent='center'>
+                                    <Grid item xs={4} sm={4} lg={4} md={4} xl={4}>
+                                        <Typography ml='15px' mt='8px' variant='body1' fontWeight='500'>Nombre</Typography>
+                                        <Typography ml='15px' mt='8px' variant='body1' fontWeight='500'>Categoria</Typography>
+                                        <Typography ml='15px' mt='8px' variant='body1' fontWeight='500'>Descripción</Typography>
+                                    </Grid>
+                                    <Grid item xs={8} sm={8} lg={8} md={8} xl={8}>
+                                        <Typography mt='8px' variant='body1'>{service.nombre}</Typography>
+                                        <Typography mt='8px' variant='body1'>{service.categoria}</Typography>
+                                        <Typography mt='8px' variant='body1'>{service.descripcion}</Typography>
+                                    </Grid>
+                                </Grid>
+                            </Typography>
+                            <Divider></Divider>
+                            <Typography mb='15px' mt='15px' ml='10px' variant='h6' width='98%' sx={{ fontSize: '18px' }}>Encargados
+                                {members.map(member =>(
+                                    <Grid
+                                        key={member.mbid}
+                                        container
+                                        direction='row'
+                                        alignItems='center'
+                                        ml='15px' mt='8px'
+                                        >
+                                        <Avatar sx={{width:60, height:60}}></Avatar>
+                                        <Typography ml='15px' fontWeight='bold'>{member.nombres + ' ' + member.apellidos}</Typography>
+                                    </Grid>
+                                ))}
+                            </Typography>
                         </div>
                     </Grid>
                 </Grid>

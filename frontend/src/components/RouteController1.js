@@ -17,7 +17,7 @@ const RouteController = ({ componet: Componet, ...rest }) => {
     const login = { usuario: user, contraseña: password, id: id, rol: rol }
 
     const init = async () => {
-        
+
         const res = await fetch('http://localhost:4000/login', {
             method: 'POST',
             body: JSON.stringify(login),
@@ -27,9 +27,17 @@ const RouteController = ({ componet: Componet, ...rest }) => {
         if (res.status === 200) {
             if (auth === 'yes' && user === login.usuario && password === login.contraseña && id === login.id && rol === login.rol) {
                 setIsAuth(true)
-                if(login.rol === 'Administrador'){
-                    navigate('/admin')
-                    return
+                if (login.rol === 'Administrador') {
+                    const ruta = window.location.toString()
+                    const ruta2 = ruta.split('/')
+                    if (ruta2[3].toLowerCase() === 'admin'){
+                        window.history.forward()
+                        return
+                    } else {
+                        navigate('/admin')
+                        return
+                    }
+                    
                 }
                 return
 

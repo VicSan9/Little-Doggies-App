@@ -277,7 +277,7 @@ export default function AdminServices() {
                                 mb='10px'
                             >
                                 <Typography variant='h6' fontSize='bold'>Servicios</Typography>
-                                <IconButton onClick={handleClicNewService} sx={{ mr: '10px', width: 40, height: 40, bgcolor: '#F5F5F5', '&:hover': { bgcolor: '#BABBBF' } }}>
+                                <IconButton onClick={handleClicNewService} sx={{ mr: '8px', width: 40, height: 40, bgcolor: '#F5F5F5', '&:hover': { bgcolor: '#BABBBF' } }}>
                                     <Typography>+</Typography>
                                 </IconButton>
                             </Grid>
@@ -355,7 +355,7 @@ export default function AdminServices() {
                         paddingLeft='16px'
                         item xs={8} sm={8} lg={8} md={8} xl={8}>
                         <div hidden={isHidden1}>
-                            <Typography mt='8px' mb='8px'>Seleciona uno de los servicios para ver su información</Typography>
+                            <Typography mt='8px' mb='8px'>Seleciona uno de los servicios para ver su información.</Typography>
                         </div>
                         <div hidden={!isHidden1} style={{ width: '100%' }}>
                             <Typography variant='h6'>Información del servicio</Typography>

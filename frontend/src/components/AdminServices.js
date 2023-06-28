@@ -1,8 +1,15 @@
 import { useState, useEffect } from 'react'
 import AdminNavbar from './AdminNavbar'
-import { Grid, Typography, IconButton, Backdrop, Button, Card, Box, Divider, Avatar } from "@mui/material";
+import * as React from 'react';
+import { Grid, Typography, IconButton, Backdrop, Button, Card, Box, Divider, Avatar, TextField, Chip } from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import { useNavigate } from "react-router-dom";
+
 
 export default function AdminServices() {
 
@@ -14,6 +21,22 @@ export default function AdminServices() {
     const [errorMessage, setErrorMessage] = useState("");
     const [advertenceMenssage, setAdvertenceMenssage] = useState("");
     const [members, setMembers] = useState([])
+    const [incharge, setIncharge] = useState([])
+    const [incharge2, setIncharge2] = useState([])
+    const [create, setCreate] = useState({ nombre: '', categoria: '', descripcion: '', encargado: '' })
+
+    const navigate = useNavigate()
+
+    const ITEM_HEIGHT = 48;
+    const ITEM_PADDING_TOP = 8;
+    const MenuProps = {
+        PaperProps: {
+            style: {
+                maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+                width: 250,
+            },
+        },
+    };
 
     const handleClose = () => {
         setOpen(false);
@@ -29,7 +52,7 @@ export default function AdminServices() {
     }
 
     const handleClickDelete = e => {
-        setAdvertenceMenssage('¿Estás seguro que quieres cancelar esta cita?')
+        setAdvertenceMenssage('¿Estás seguro que quieres eliminar este servicio?')
     }
 
     const handleClickAV2Can = () => {
@@ -38,9 +61,22 @@ export default function AdminServices() {
 
     const handleClickAVConf = async () => {
 
+        const body1 = {
+            'nombre': service.nombre,
+            'categoria': service.categoria,
+            'descripcion': service.descripcion,
+            'encargado': incharge.nombres + " " + incharge.apellidos
+        }
+
+        await fetch(`http://localhost:4000/services/${service.svid}`, {
+            method: 'PUT',
+            body: JSON.stringify(body1),
+            headers: { "content-Type": "application/json" }
+        })
+
         setAdvertenceMenssage("");
 
-        //window.location.reload();
+        window.location.reload();
     }
 
     const handleClick3 = () => {
@@ -62,6 +98,7 @@ export default function AdminServices() {
             return '#000000'
         }
     }
+
 
     const ErrorComponent = ({ errorMessage }) => {
         return (
@@ -157,6 +194,8 @@ export default function AdminServices() {
         const data = await res.json()
 
         setServices(data)
+
+        console.log(data)
     }
 
     useEffect(() => {
@@ -209,6 +248,80 @@ export default function AdminServices() {
         setMembers(members)
     }
 
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        if (create.nombre.trim() === '' || create.categoria.trim() === '' || create.descripcion.trim() === '') {
+            setErrorMessage("Ingrese todos los datos primero");
+            setCreate({ nombre: '', categoria: '', descripcion: '' })
+            return
+        }
+
+
+        const res4 = await fetch('http://localhost:4000/services', {
+            method: 'POST',
+            body: JSON.stringify(create),
+            headers: { "content-Type": "application/json" }
+        })
+
+        if (res4.status === 404) {
+            return
+        }
+
+        const data4 = await res4.json();
+
+        setCreate(data4)
+
+        navigate('/admin/servicios')
+    }
+
+
+    const handleChange = e => {
+        setCreate({
+            ...create,
+            [e.target.name]: e.target.value
+        })
+    }
+
+    const handleChange1 = (event) => {
+        const {
+            target: { value },
+        } = event;
+        setIncharge2(
+            // On autofill we get a stringified value.
+            typeof value === 'string' ? value.split(',') : value,
+        );
+    };
+
+    const loadIncharge = async () => {
+
+        const res5 = await fetch(`http://localhost:4000/members`, {
+            method: 'GET',
+            headers: { "content-Type": "application/json" }
+        })
+
+        const data5 = await res5.json()
+
+        setIncharge(data5)
+
+    }
+
+    useEffect(() => {
+        loadIncharge();
+    }, []);
+
+
+    const onClick = async () => {
+        if (sessionStorage.getItem('id') === null) {
+            return
+        }
+        if (incharge2.length === 0) {
+            setErrorMessage('Por favor selecciona a uno de los encargados')
+            return
+        }
+
+    }
+
     return (
         <>
             {errorMessage && <ErrorComponent errorMessage={errorMessage} />}
@@ -234,6 +347,100 @@ export default function AdminServices() {
                         <IconButton sx={{ mt: '10px', width: 25, height: 25, '&:hover': { color: '#CD0227', bgcolor: '#FFFFFF' } }} onClick={handleClose}>
                             <Typography fontWeight='bold'>X</Typography>
                         </IconButton>
+                    </Grid>
+                    <Grid component={'form'} onSubmit={handleSubmit}
+                        container
+                        height='80vh'
+                        alignItems='center'
+                        justifyContent='center'
+                        item xs={12} sm={12} lg={12} md={12} xl={12}>
+                        <Typography textAlign='start' variant="h6" fontWeight='bold' mr='25px'>Edita un servicio</Typography>
+                        <TextField
+                            name="nombre"
+                            label="Nombre del servicio"
+                            variant="outlined"
+                            value={create.nombre}
+                            onChange={handleChange}
+                            sx={{ ml: '25px', mr: '25px', width: '80%', mt: '25px' }} />
+                        <TextField
+                            name="categoria"
+                            label="Categoria"
+                            variant="outlined"
+                            value={create.categoria}
+                            onChange={handleChange}
+                            sx={{ ml: '25px', mr: '25px', width: '80%', mt: '25px' }} />
+                        <TextField
+                            name="descripcion"
+                            label="Descripción"
+                            variant="outlined"
+                            value={create.descripcion}
+                            onChange={handleChange}
+                            sx={{ ml: '25px', mr: '25px', width: '80%', mt: '25px' }} />
+                        <FormControl sx={{ ml: '25px', mr: '25px', width: '80%', mt: '25px' }}>
+                            <InputLabel id="demo-simple-select-label">Encargado</InputLabel>
+                            <Select
+                                multiple
+                                labelId="demo-simple-select-label2"
+                                id="demo-simple-select2"
+                                value={incharge2}
+                                label="Encargado"
+                                onChange={handleChange1}
+                                renderValue={(selected) => (
+                                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                                        {selected.map((value) => (
+                                            <Chip key={value} label={value} />
+                                        ))}
+                                    </Box>
+                                )}
+                                MenuProps={MenuProps}>
+                                {incharge.map((encargado) => (
+                                    <MenuItem
+                                        key={encargado.mbid}
+                                        value={encargado.nombres + " " + encargado.apellidos}>
+                                        {encargado.nombres + " " + encargado.apellidos}
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+                        <Grid
+                            container
+                            direction='row'
+                            alignItems='end'
+                            justifyContent='end'
+                            sx={{ display: { xs: 'contents', sm: ' flex' } }}>
+                            <Button
+                                type='submit'
+                                variant="contained"
+                                onClick={onClick}
+                                sx={{ mr: '30px', mt: '50px', borderRadius: '50px', width: '130px' }}>Guardar
+                            </Button>
+                        </Grid>
+                        <Grid
+                            container
+                            ml='20px'
+                            mr='20px'
+                            width='95%'
+                            height='100%'
+                            justifyContent='center'
+                            overflow='scroll'
+                            display='block'
+                            sx={{
+                                '&::-webkit-scrollbar': {
+                                    width: '8px',
+                                    height: '8px',
+                                },
+                                '&::-webkit-scrollbar-thumb': {
+                                    backgroundColor: 'rgba(0, 0, 0, 0.1)',
+                                    borderRadius: '10px',
+                                    '&:hover': {
+                                        backgroundColor: 'rgba(0, 0, 0, 0.3)',
+                                    },
+                                },
+                                '&::-webkit-scrollbar: horizontal': {
+                                    display: 'none',
+                                },
+                            }}>
+                        </Grid>
                     </Grid>
                     <Grid
                         container
@@ -262,6 +469,100 @@ export default function AdminServices() {
                         <IconButton sx={{ mt: '10px', width: 25, height: 25, '&:hover': { color: '#CD0227', bgcolor: '#FFFFFF' } }} onClick={handleClose}>
                             <Typography fontWeight='bold'>X</Typography>
                         </IconButton>
+                    </Grid>
+                    <Grid component={'form'} onSubmit={handleSubmit}
+                        container
+                        height='80vh'
+                        alignItems='center'
+                        justifyContent='center'
+                        item xs={12} sm={12} lg={12} md={12} xl={12}>
+                        <Typography textAlign='start' variant="h6" fontWeight='bold' mr='25px'>Crea un nuevo servicio</Typography>
+                        <TextField
+                            name="nombre"
+                            label="Nombre del servicio"
+                            variant="outlined"
+                            value={create.nombre}
+                            onChange={handleChange}
+                            sx={{ ml: '25px', mr: '25px', width: '80%', mt: '25px' }} />
+                        <TextField
+                            name="categoria"
+                            label="Categoria"
+                            variant="outlined"
+                            value={create.categoria}
+                            onChange={handleChange}
+                            sx={{ ml: '25px', mr: '25px', width: '80%', mt: '25px' }} />
+                        <TextField
+                            name="descripcion"
+                            label="Descripción"
+                            variant="outlined"
+                            value={create.descripcion}
+                            onChange={handleChange}
+                            sx={{ ml: '25px', mr: '25px', width: '80%', mt: '25px' }} />
+                        <FormControl sx={{ ml: '25px', mr: '25px', width: '80%', mt: '25px' }}>
+                            <InputLabel id="demo-simple-select-label">Encargado</InputLabel>
+                            <Select
+                                multiple
+                                labelId="demo-simple-select-label2"
+                                id="demo-simple-select2"
+                                value={incharge2}
+                                label="Encargado"
+                                onChange={handleChange1}
+                                renderValue={(selected) => (
+                                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                                        {selected.map((value) => (
+                                            <Chip key={value} label={value} />
+                                        ))}
+                                    </Box>
+                                )}
+                                MenuProps={MenuProps}>
+                                {incharge.map((encargado) => (
+                                    <MenuItem
+                                        key={encargado.mbid}
+                                        value={encargado.nombres + " " + encargado.apellidos}>
+                                        {encargado.nombres + " " + encargado.apellidos}
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+                        <Grid
+                            container
+                            direction='row'
+                            alignItems='end'
+                            justifyContent='end'
+                            sx={{ display: { xs: 'contents', sm: ' flex' } }}>
+                            <Button
+                                type='submit'
+                                variant="contained"
+                                onClick={onClick}
+                                sx={{ mr: '30px', mt: '50px', borderRadius: '50px', width: '130px' }}>Guardar
+                            </Button>
+                        </Grid>
+                        <Grid
+                            container
+                            ml='20px'
+                            mr='20px'
+                            width='95%'
+                            height='100%'
+                            justifyContent='center'
+                            overflow='scroll'
+                            display='block'
+                            sx={{
+                                '&::-webkit-scrollbar': {
+                                    width: '8px',
+                                    height: '8px',
+                                },
+                                '&::-webkit-scrollbar-thumb': {
+                                    backgroundColor: 'rgba(0, 0, 0, 0.1)',
+                                    borderRadius: '10px',
+                                    '&:hover': {
+                                        backgroundColor: 'rgba(0, 0, 0, 0.3)',
+                                    },
+                                },
+                                '&::-webkit-scrollbar: horizontal': {
+                                    display: 'none',
+                                },
+                            }}>
+                        </Grid>
                     </Grid>
                     <Grid
                         container
@@ -409,15 +710,15 @@ export default function AdminServices() {
                             </Typography>
                             <Divider></Divider>
                             <Typography mb='15px' mt='15px' ml='10px' variant='h6' width='98%' sx={{ fontSize: '18px' }}>Encargados
-                                {members.map(member =>(
+                                {members.map(member => (
                                     <Grid
                                         key={member.mbid}
                                         container
                                         direction='row'
                                         alignItems='center'
                                         ml='15px' mt='8px'
-                                        >
-                                        <Avatar sx={{width:60, height:60}}></Avatar>
+                                    >
+                                        <Avatar sx={{ width: 60, height: 60 }}></Avatar>
                                         <Typography ml='15px' fontWeight='bold'>{member.nombres + ' ' + member.apellidos}</Typography>
                                     </Grid>
                                 ))}

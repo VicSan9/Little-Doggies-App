@@ -4,8 +4,8 @@ const getAllMembers = async (req, res, next) => {
     try {
         const AllMembers = await pool.query
             ('SELECT * FROM miembros');
-        res.json(AllMembers);
-    } catch (error){
+        res.json(AllMembers.rows);
+    } catch (error){ 
         next(error);
     }
 }

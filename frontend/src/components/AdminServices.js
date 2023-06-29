@@ -60,15 +60,16 @@ export default function AdminServices() {
     }
 
     const handleClickAVConf = async () => {
-
         const body1 = {
+
             'nombre': service.nombre,
             'categoria': service.categoria,
             'descripcion': service.descripcion,
-            'encargado': incharge.nombres + " " + incharge.apellidos
+            'encargado': incharge.nombres + " " + incharge.apellidos,
+            'estado': 'Eliminado'
         }
 
-        await fetch(`http://localhost:4000/services/${service.svid}`, {
+        await fetch(`http://localhost:4000/quotes/${service.svid}`, {
             method: 'PUT',
             body: JSON.stringify(body1),
             headers: { "content-Type": "application/json" }
@@ -194,8 +195,6 @@ export default function AdminServices() {
         const data = await res.json()
 
         setServices(data)
-
-        console.log(data)
     }
 
     useEffect(() => {

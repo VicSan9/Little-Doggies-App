@@ -3,7 +3,7 @@ const pool = require ('../db');
 const getAllServices = async (req, res, next) => {
     try {
         const allServices = await pool.query
-            ('SELECT * FROM servicios');
+            ('SELECT * FROM servicios WHERE estado =$1', ['Activo']);
         res.json(allServices.rows);
     } catch (error) {
         next(error);

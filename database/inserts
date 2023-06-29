@@ -3,10 +3,13 @@ INSERT INTO miembros (usuario, contraseña, correo, nombres, apellidos, telefono
 VALUES 	('userAdmin', '1234asdf', 'correoadmin1234@gmail.com', 'Christian', 'Salazar', 12345678, 'Pradera#-Cr', 'Administrador', 'link'),
 		('userMiembro1', 'asdf1234', 'correomiembro1234@gmail.com', 'Víctor', 'Sánchez', 11124145, 'Pradera#-Cr', 'Trabajador', 'link');
 --Insertar servicios
-INSERT INTO servicios (nombre, categoria, descripcion)
-VALUES 	('Corte corto', 'Peluqueria', 'Descripción del servicio'),
-		('Corte largo', 'Peluqueria', 'Descripción del servicio'),
-		('Secado especial', 'Peluqueria', 'Descripción del servicio');
+INSERT INTO servicios (nombre, categoria, descripcion, estado)
+VALUES 	('Corte corto', 'Peluqueria', 'Descripción del servicio', 'Activo'),
+		('Corte largo', 'Peluqueria', 'Descripción del servicio', 'Activo'),
+		('Secado especial', 'Peluqueria', 'Descripción del servicio', 'Activo'),
+		('vacunacion', 'Medicación', 'Descripción del servicio', 'Eliminado'),
+		('Baño, secado y cepillado', 'Peluqueria', 'Descripción del servicio', 'Eliminado');
+
 --Insertar clientes 
 INSERT INTO clientes (nombres, apellidos, correo, direccion, telefono, usuario, contraseña, foto)
 VALUES 	('Mercy', 'Castro Romero', 'merxicc@gmail.com', '270 Superior Lane', '12345512', 'userCliente1', '321dsa', 'link'),
@@ -90,7 +93,9 @@ INSERT INTO miembrosServicios (mbid, svid)
 VALUES 	(1, 1),
 		(1, 2),
 		(1, 3),
-		(2, 3);
+		(2, 3),
+		(1, 4),
+		(2, 5);
 --Insertar pedidiosProductos
 INSERT INTO pedidosProductos (pdid, prid) VALUES (1, 1);
 INSERT INTO pedidosProductos (pdid, prid) VALUES (1, 1);

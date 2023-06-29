@@ -91,6 +91,7 @@ CREATE TABLE IF NOT EXISTS servicios(
 	nombre VARCHAR (50) NOT NULL,
 	categoria VARCHAR (50) NOT NULL,
 	descripcion VARCHAR (200) NOT NULL,
+	estado VARCHAR(50) NOT NULL, 
 	PRIMARY KEY (svid)
 );
 --Tabla de pedidos

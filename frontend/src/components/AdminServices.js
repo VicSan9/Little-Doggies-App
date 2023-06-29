@@ -332,8 +332,8 @@ export default function AdminServices() {
                 <Grid
                     container
                     alignItems='start'
-                    height='80vh'
-                    width='80vw'
+                    height='75vh'
+                    width='60vw'
                     bgcolor='#ffffff'
                     borderRadius='20px'
                     paddingRight='15px'
@@ -350,7 +350,8 @@ export default function AdminServices() {
                     </Grid>
                     <Grid component={'form'} onSubmit={handleSubmit}
                         container
-                        height='80vh'
+                        direction='column'
+                        height='70vh'
                         alignItems='center'
                         justifyContent='center'
                         item xs={12} sm={12} lg={12} md={12} xl={12}>
@@ -412,7 +413,7 @@ export default function AdminServices() {
                                 type='submit'
                                 variant="contained"
                                 onClick={onClick}
-                                sx={{ mr: '30px', mt: '50px', borderRadius: '50px', width: '130px' }}>Guardar
+                                sx={{ mr: '30px', mt: '30px', borderRadius: '50px', width: '130px' }}>Guardar
                             </Button>
                         </Grid>
                         <Grid
@@ -454,8 +455,8 @@ export default function AdminServices() {
                 <Grid
                     container
                     alignItems='start'
-                    height='80vh'
-                    width='80vw'
+                    height='75vh'
+                    width='60vw'
                     bgcolor='#ffffff'
                     borderRadius='20px'
                     paddingRight='15px'
@@ -472,7 +473,8 @@ export default function AdminServices() {
                     </Grid>
                     <Grid component={'form'} onSubmit={handleSubmit}
                         container
-                        height='80vh'
+                        direction='column'
+                        height='70vh'
                         alignItems='center'
                         justifyContent='center'
                         item xs={12} sm={12} lg={12} md={12} xl={12}>
@@ -534,7 +536,7 @@ export default function AdminServices() {
                                 type='submit'
                                 variant="contained"
                                 onClick={onClick}
-                                sx={{ mr: '30px', mt: '50px', borderRadius: '50px', width: '130px' }}>Guardar
+                                sx={{ mr: '30px', mt: '30px', borderRadius: '50px', width: '130px' }}>Guardar
                             </Button>
                         </Grid>
                         <Grid

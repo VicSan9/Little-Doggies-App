@@ -24,6 +24,7 @@ export default function AdminServices() {
     const [incharge, setIncharge] = useState([])
     const [incharge2, setIncharge2] = useState([])
     const [create, setCreate] = useState({ nombre: '', categoria: '', descripcion: '', encargado: '' })
+    const [info, setInfo] = useState([])
 
     const navigate = useNavigate()
 
@@ -47,9 +48,38 @@ export default function AdminServices() {
         setOpen(true)
     }
 
-    const handleClickEdit = e => {
-        setOpen1(true)
+    const handleSubmit1 = async () => {
+
+        await fetch(`http://localhost:4000/services/${service.svid}`, {
+            method: 'PUT',
+            body: JSON.stringify(service),
+            headers: { "content-Type": "application/json" }
+        });
+
+        setAdvertenceMenssage("");
     }
+
+    const handleChange2 = e => {
+        setService({
+            ...service,
+            [e.target.name]: e.target.value
+        })
+    }
+
+    const handleClickEdit = async (e) => {
+        setOpen1(true)
+
+        const res = await fetch(`http://localhost:4000/services/${service.svid}`, {
+            method: 'GET',
+            headers: { "content-Type": "application/json" }
+        })
+
+        const data = await res.json()
+
+        setInfo(data)
+    }
+    
+
 
     const handleClickDelete = e => {
         setAdvertenceMenssage('¿Estás seguro que quieres eliminar este servicio?')
@@ -60,16 +90,17 @@ export default function AdminServices() {
     }
 
     const handleClickAVConf = async () => {
+
         const body1 = {
 
             'nombre': service.nombre,
             'categoria': service.categoria,
             'descripcion': service.descripcion,
-            'encargado': incharge.nombres + " " + incharge.apellidos,
+            'encargado': members.mbid,
             'estado': 'Eliminado'
         }
 
-        await fetch(`http://localhost:4000/quotes/${service.svid}`, {
+        await fetch(`http://localhost:4000/services/${service.svid}`, {
             method: 'PUT',
             body: JSON.stringify(body1),
             headers: { "content-Type": "application/json" }
@@ -347,7 +378,7 @@ export default function AdminServices() {
                             <Typography fontWeight='bold'>X</Typography>
                         </IconButton>
                     </Grid>
-                    <Grid component={'form'} onSubmit={handleSubmit}
+                    <Grid component={'form'} onSubmit={handleSubmit1}
                         container
                         direction='column'
                         height='70vh'
@@ -357,24 +388,21 @@ export default function AdminServices() {
                         <Typography textAlign='start' variant="h6" fontWeight='bold' mr='25px'>Edita un servicio</Typography>
                         <TextField
                             name="nombre"
-                            label="Nombre del servicio"
                             variant="outlined"
-                            value={create.nombre}
-                            onChange={handleChange}
+                            value={info.nombre}
+                            onChange={handleChange2}
                             sx={{ ml: '25px', mr: '25px', width: '80%', mt: '25px' }} />
                         <TextField
                             name="categoria"
-                            label="Categoria"
                             variant="outlined"
-                            value={create.categoria}
-                            onChange={handleChange}
+                            value={info.categoria}
+                            onChange={handleChange2}
                             sx={{ ml: '25px', mr: '25px', width: '80%', mt: '25px' }} />
                         <TextField
                             name="descripcion"
-                            label="Descripción"
                             variant="outlined"
-                            value={create.descripcion}
-                            onChange={handleChange}
+                            value={info.descripcion}
+                            onChange={handleChange2}
                             sx={{ ml: '25px', mr: '25px', width: '80%', mt: '25px' }} />
                         <FormControl sx={{ ml: '25px', mr: '25px', width: '80%', mt: '25px' }}>
                             <InputLabel id="demo-simple-select-label">Encargado</InputLabel>

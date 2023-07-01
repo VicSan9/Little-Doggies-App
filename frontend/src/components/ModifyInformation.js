@@ -76,9 +76,6 @@ export default function ModifyInformation() {
             setErrorMessage('Correo electrónico ya registrado')
             return
         }
-
-
-
     }
 
     const handleClick = () => {

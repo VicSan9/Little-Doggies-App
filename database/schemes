@@ -48,6 +48,7 @@ CREATE TABLE IF NOT EXISTS clientes(
 	telefono BIGINT NOT NULL,
 	direccion VARCHAR NOT NULL,
 	foto TEXT NOT NULL,
+	estado VARCHAR (50) NOT NULL,
 	PRIMARY KEY (clid)
 );
 --Tabla de mascotas

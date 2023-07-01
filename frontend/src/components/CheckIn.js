@@ -21,14 +21,14 @@ export default function Login() {
 
   const [successMessage, setSuccessMessage] = useState("");
 
-  const [checkin, setCheckin] = useState({ nombres: '', apellidos: '', correo: '', direccion: '', telefono: '', usuario: '', contraseña: '', foto: 'foto' })
+  const [checkin, setCheckin] = useState({ nombres: '', apellidos: '', correo: '', direccion: '', telefono: '', usuario: '', contraseña: '', foto: 'foto', estado: 'Activo' })
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (checkin.nombres.trim() === '' || checkin.apellidos.trim() === '' || checkin.correo.trim() === '' || checkin.direccion.trim() === '' || checkin.telefono.trim() === '' || checkin.usuario.trim() === '' || checkin.contraseña.trim() === '') {
       setErrorMessage("Ingrese todos los datos primero");
-      setCheckin({ nombres: '', apellidos: '', correo: '', direccion: '', telefono: '', usuario: '', contraseña: '', foto: 'foto' })
+      setCheckin({ nombres: '', apellidos: '', correo: '', direccion: '', telefono: '', usuario: '', contraseña: '', foto: 'foto', estado: 'Activo' })
       setEnviendCode({ correo: '', emailDetails: codigo })
       return
     }
@@ -58,6 +58,8 @@ export default function Login() {
       })
 
       const data = await res.json()
+
+      console.log(data)
 
       if (!data.message) {
         navigate('/login');

@@ -8,7 +8,6 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import { useNavigate } from "react-router-dom";
 
 
 export default function AdminServices() {
@@ -23,10 +22,8 @@ export default function AdminServices() {
     const [members, setMembers] = useState([])
     const [incharge, setIncharge] = useState([])
     const [incharge2, setIncharge2] = useState([])
-    const [create, setCreate] = useState({ nombre: '', categoria: '', descripcion: '', encargado: '' })
+    const [create, setCreate] = useState({ nombre: '', categoria: '', descripcion: '' })
     const [info, setInfo] = useState([])
-
-    const navigate = useNavigate()
 
     const ITEM_HEIGHT = 48;
     const ITEM_PADDING_TOP = 8;
@@ -48,37 +45,56 @@ export default function AdminServices() {
         setOpen(true)
     }
 
-    const handleSubmit1 = async () => {
+
+    const handleSubmit1 = async (e) => {
+
+        if (info.nombre.trim() === '' || info.categoria.trim() === '' || info.descripcion.trim() === '') {
+            setErrorMessage("Ingrese todos los datos primero");
+            return
+        }
+
+        const body2 = {
+
+            'nombre': info.nombre,
+            'categoria': info.categoria,
+            'descripcion': info.descripcion,
+            'encargado': incharge2.nombre,
+            'estado': 'Activo'
+        }
 
         await fetch(`http://localhost:4000/services/${service.svid}`, {
             method: 'PUT',
-            body: JSON.stringify(service),
+            body: JSON.stringify(body2),
             headers: { "content-Type": "application/json" }
         });
 
         setAdvertenceMenssage("");
     }
 
-    const handleChange2 = e => {
-        setService({
-            ...service,
-            [e.target.name]: e.target.value
-        })
-    }
-
     const handleClickEdit = async (e) => {
         setOpen1(true)
 
-        const res = await fetch(`http://localhost:4000/services/${service.svid}`, {
+        const svid = service.svid
+
+        const res = await fetch(`http://localhost:4000/services/${svid}`, {
             method: 'GET',
             headers: { "content-Type": "application/json" }
         })
 
-        const data = await res.json()
+        const data = await res.json();
 
         setInfo(data)
+
     }
-    
+
+    const handleChange2 = e => {
+        setInfo({
+            ...info,
+            [e.target.name]: e.target.value
+        })
+    }
+
+
 
 
     const handleClickDelete = e => {
@@ -96,7 +112,7 @@ export default function AdminServices() {
             'nombre': service.nombre,
             'categoria': service.categoria,
             'descripcion': service.descripcion,
-            'encargado': members.mbid,
+            'encargado': incharge.mbid,
             'estado': 'Eliminado'
         }
 
@@ -104,7 +120,7 @@ export default function AdminServices() {
             method: 'PUT',
             body: JSON.stringify(body1),
             headers: { "content-Type": "application/json" }
-        })
+        });
 
         setAdvertenceMenssage("");
 
@@ -287,24 +303,51 @@ export default function AdminServices() {
             return
         }
 
+        const nombre = create.nombre;
+        const categoria = create.categoria;
+        const descripcion = create.descripcion;
 
-        const res4 = await fetch('http://localhost:4000/services', {
+        const body3 = {
+
+            'nombre': nombre,
+            'categoria': categoria,
+            'descripcion': descripcion,
+            'estado': 'Activo'
+        }
+
+        const res3 = await fetch('http://localhost:4000/services', {
             method: 'POST',
-            body: JSON.stringify(create),
+            body: JSON.stringify(body3),
             headers: { "content-Type": "application/json" }
         })
 
-        if (res4.status === 404) {
-            return
+        const data3 = await res3.json();
+
+        var id = []
+
+        for (let i = 0; i < incharge2.length; i++) {
+            for (let j = 0; j < incharge.length; j++) {
+                if (incharge2[i] === incharge[j].nombre) {
+                    id.push(incharge[j].mbid)
+                }
+            }
         }
 
-        const data4 = await res4.json();
+        for (let i = 0; i < id.length; i++) {
+            var body4 = {
+                'mbid': id[i],
+                'svid': data3.svid,
+            }
+            await fetch('http://localhost:4000/membersServices', {
+                method: 'POST',
+                body: JSON.stringify(body4),
+                headers: { "content-Type": "application/json" }
+            })
+            console.log(body4)
+        }
 
-        setCreate(data4)
-
-        navigate('/admin/servicios')
+        window.location.reload()
     }
-
 
     const handleChange = e => {
         setCreate({
@@ -312,6 +355,7 @@ export default function AdminServices() {
             [e.target.name]: e.target.value
         })
     }
+
 
     const handleChange1 = (event) => {
         const {
@@ -531,6 +575,7 @@ export default function AdminServices() {
                             <InputLabel id="demo-simple-select-label">Encargado</InputLabel>
                             <Select
                                 multiple
+                                name="encargado"
                                 labelId="demo-simple-select-label2"
                                 id="demo-simple-select2"
                                 value={incharge2}

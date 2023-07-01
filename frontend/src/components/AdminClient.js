@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import AdminNavbar from './AdminNavbar'
-import { Grid, Typography, IconButton, Backdrop, Button, Box, Card, Avatar, Divider, CardContent } from "@mui/material";
+import { Grid, Typography, IconButton, Backdrop, Button, Box, Card, Avatar, Divider, CardContent, TextField } from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 
@@ -15,6 +15,7 @@ export default function AdminClient() {
     const [pets, setPets] = useState([])
     const [errorMessage, setErrorMessage] = useState("");
     const [advertenceMenssage, setAdvertenceMenssage] = useState("");
+    const [checkin, setCheckin] = useState({ nombres: '', apellidos: '', correo: '', direccion: '', telefono: '', usuario: '', contraseña: '', foto: 'foto', estado: 'Activo' })
 
     const handleClose = () => {
         setOpen(false);
@@ -30,7 +31,7 @@ export default function AdminClient() {
     }
 
     const handleClickDelete = e => {
-        setAdvertenceMenssage('¿Estás seguro que quieres cancelar esta cita?')
+        setAdvertenceMenssage('¿Estás seguro que quieres eliminar este cliente?')
     }
 
     const handleClickAV2Can = () => {
@@ -38,6 +39,28 @@ export default function AdminClient() {
     }
 
     const handleClickAVConf = async () => {
+
+        const body = {
+            nombres: client.nombre,
+            apellidos: client.apellidos,
+            correo: client.correo,
+            direccion: client.direccion,
+            telefono: client.telefono,
+            usuario: client.usuario,
+            contraseña: client.contraseña,
+            foto: client.foto,
+            estado: 'Eliminado'
+        }
+
+        const res = await fetch(`http://localhost:4000/clients`, {
+            method: 'PUT',
+            body: JSON.stringify(body),
+            headers: { "content-Type": "application/json" }
+        })
+
+        const data = await res.json()
+
+        console.log(data)
 
         setAdvertenceMenssage("");
 
@@ -64,9 +87,16 @@ export default function AdminClient() {
         }
     }
 
+    const handleChange = e => {
+        setCheckin({
+            ...checkin,
+            [e.target.name]: e.target.value
+        })
+    }
+
     const loadClients = async () => {
 
-        const res = await fetch(`http://localhost:4000/clients`, {
+        const res = await fetch(`http://localhost:4000/clients2`, {
             method: 'GET',
             headers: { "content-Type": "application/json" }
         })
@@ -115,6 +145,44 @@ export default function AdminClient() {
         const data2 = await res2.json()
 
         setPets(data2)
+    }
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        if (checkin.nombres.trim() === '' || checkin.apellidos.trim() === '' || checkin.correo.trim() === '' || checkin.direccion.trim() === '' || checkin.telefono.trim() === '' || checkin.usuario.trim() === '' || checkin.contraseña.trim() === '') {
+            setErrorMessage("Ingrese todos los datos primero");
+            setCheckin({ nombres: '', apellidos: '', correo: '', direccion: '', telefono: '', usuario: '', contraseña: '', foto: 'foto' })
+            return
+        }
+
+        const res = await fetch('http://localhost:4000/clients', {
+            method: 'POST',
+            body: JSON.stringify(checkin),
+            headers: { "content-Type": "application/json" }
+        })
+
+        const data = await res.json()
+
+        if (!data.message) {
+            window.location.reload();
+            return
+        }
+
+        if (data.message.code === "22P02") {
+            setErrorMessage('Debe de ingresar un número en telefono')
+            return
+        }
+
+        if (data.message.constraint === "clientes_usuario_key") {
+            setErrorMessage('Nombre de usuario ya registrado')
+            return
+        }
+
+        if (data.message.constraint === "clientes_correo_key") {
+            setErrorMessage('Correo electrónico ya registrado')
+            return
+        }
     }
 
     const ErrorComponent = ({ errorMessage }) => {
@@ -238,13 +306,15 @@ export default function AdminClient() {
                 open={open}>
                 <Grid
                     container
-                    alignItems='start'
-                    height='80vh'
-                    width='80vw'
+                    alignItems='flex-start'
+                    height='70vh'
+                    width='70vw'
+                    maxWidth='1200px'
+                    maxHeight='600px'
                     bgcolor='#ffffff'
                     borderRadius='20px'
                     paddingRight='15px'
-                    paddingLeft='25px'
+                    paddingLeft='15px'
                     sx={{ color: '#000000', zIndex: (theme) => theme.zIndex.drawer + 1 }}>
                     <Grid
                         container
@@ -257,7 +327,164 @@ export default function AdminClient() {
                     </Grid>
                     <Grid
                         container
-                        height='75vh'>
+                        height='60vh'
+                        maxHeight='550px'
+                        alignItems='start'
+                        component={'form'}
+                        onSubmit={handleSubmit}>
+                        <Grid
+                            container
+                            width='100%'
+                            justifyContent='center'
+                            alignItems='center'
+                            mb='10px'>
+                            <Typography variant='h6'>Registra un nuevo cliente</Typography>
+                        </Grid>
+                        <Grid
+                            container
+                            width='100%'
+                            justifyContent='start'
+                            alignItems='start'
+                            height='70%'>
+                            <Grid
+                                container
+                                alignItems='center'
+                                justifyContent='start'
+                                direction='row'
+                                width='100%'>
+                                <Grid
+                                    container
+                                    paddingLeft='4vw'
+                                    paddingRight='2vw'
+                                    item xs={6} sm={6} lg={6} md={6} xl={6}>
+                                    <TextField
+                                        fullWidth
+                                        name="nombres"
+                                        label="Nombres"
+                                        variant="outlined"
+                                        value={checkin.nombres}
+                                        onChange={handleChange}>
+                                    </TextField>
+                                </Grid>
+                                <Grid
+                                    container
+                                    paddingLeft='2vw'
+                                    paddingRight='4vw'
+                                    item xs={6} sm={6} lg={6} md={6} xl={6}>
+                                    <TextField
+                                        fullWidth
+                                        name="apellidos"
+                                        label="Apellidos"
+                                        variant="outlined"
+                                        value={checkin.apellidos}
+                                        onChange={handleChange}>
+                                    </TextField>
+                                </Grid>
+                            </Grid>
+                            <Grid
+                                container
+                                alignItems='center'
+                                justifyContent='start'
+                                direction='row'
+                                width='100%'>
+                                <Grid
+                                    container
+                                    paddingLeft='4vw'
+                                    paddingRight='2vw'
+                                    item xs={6} sm={6} lg={6} md={6} xl={6}>
+                                    <TextField
+                                        fullWidth
+                                        name="telefono"
+                                        type="tel"
+                                        label="Número de telefono"
+                                        variant="outlined"
+                                        value={checkin.telefono}
+                                        onChange={handleChange}>
+                                    </TextField>
+                                </Grid>
+                                <Grid
+                                    container
+                                    paddingLeft='2vw'
+                                    paddingRight='4vw'
+                                    item xs={6} sm={6} lg={6} md={6} xl={6}>
+                                    <TextField
+                                        fullWidth
+                                        name="correo"
+                                        label="Correo Electrónico"
+                                        type="email"
+                                        variant="outlined"
+                                        value={checkin.correo}
+                                        onChange={handleChange}>
+                                    </TextField>
+                                </Grid>
+                            </Grid>
+                            <Grid
+                                container
+                                alignItems='center'
+                                justifyContent='start'
+                                direction='row'
+                                width='100%'>
+                                <Grid
+                                    container
+                                    paddingLeft='4vw'
+                                    paddingRight='2vw'
+                                    item xs={6} sm={6} lg={6} md={6} xl={6}>
+                                    <TextField
+                                        fullWidth
+                                        name="usuario"
+                                        label="Usuario"
+                                        variant="outlined"
+                                        value={checkin.usuario}
+                                        onChange={handleChange}>
+                                    </TextField>
+                                </Grid>
+                                <Grid
+                                    container
+                                    paddingLeft='2vw'
+                                    paddingRight='4vw'
+                                    item xs={6} sm={6} lg={6} md={6} xl={6}>
+                                    <TextField
+                                        fullWidth
+                                        name="contraseña"
+                                        type="password"
+                                        label="Contraseña"
+                                        variant="outlined"
+                                        value={checkin.contraseña}
+                                        onChange={handleChange}>
+                                    </TextField>
+                                </Grid>
+                            </Grid>
+                            <Grid
+                                container
+                                alignItems='center'
+                                justifyContent='start'
+                                direction='row'
+                                width='100%'>
+                                <Grid
+                                    container
+                                    paddingLeft='4vw'
+                                    paddingRight='2vw'
+                                    item xs={6} sm={6} lg={6} md={6} xl={6}>
+                                    <TextField
+                                        fullWidth
+                                        name="direccion"
+                                        label="Dirección"
+                                        variant="outlined"
+                                        value={checkin.direccion}
+                                        onChange={handleChange}>
+                                    </TextField>
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                        <Grid
+                            container
+                            paddingLeft='4vw'
+                            paddingRight='4vw'
+                            width='100%'
+                            justifyContent='end'
+                            mb='25px'>
+                            <Button type='submit' variant='outlined' sx={{ borderRadius: '20px' }}>Registrar</Button>
+                        </Grid>
                     </Grid>
                 </Grid >
             </Backdrop >
@@ -288,8 +515,8 @@ export default function AdminClient() {
                             container
                             width='100%'
                             height='100%'
-                            paddingRight='8px'
                             paddingLeft='16px'
+                            paddingRight='2px'
                             direction='column'>
                             <Grid
                                 container
@@ -300,7 +527,7 @@ export default function AdminClient() {
                                 mb='10px'
                             >
                                 <Typography variant='h6' fontSize='bold'>Clientes</Typography>
-                                <IconButton onClick={handleClicNewService} sx={{ mr: '8px', width: 40, height: 40, bgcolor: '#F5F5F5', '&:hover': { bgcolor: '#BABBBF' } }}>
+                                <IconButton onClick={handleClicNewService} sx={{ mr: '16px', width: 40, height: 40, bgcolor: '#F5F5F5', '&:hover': { bgcolor: '#BABBBF' } }}>
                                     <Typography>+</Typography>
                                 </IconButton>
                             </Grid>
@@ -337,7 +564,7 @@ export default function AdminClient() {
                                         container
                                         justifyContent='space-between'
                                         alignItems='center'
-                                        width='100%'
+                                        width='98%'
                                         border='1px solid #0265CD'
                                         borderRadius='20px'
                                         mb='10px'
@@ -375,8 +602,8 @@ export default function AdminClient() {
                         justifyContent='start'
                         alignItems='start'
                         direction='column'
-                        paddingRight='16px'
                         paddingLeft='16px'
+                        paddingRight='2px'
                         item xs={8} sm={8} lg={8} md={8} xl={8}>
                         <Grid
                             container
@@ -386,6 +613,7 @@ export default function AdminClient() {
                             justifyContent='start'
                             display='block'
                             direction='column'
+                            paddingRight='10px'
                             sx={{
                                 '&::-webkit-scrollbar': {
                                     width: '8px',

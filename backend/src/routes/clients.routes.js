@@ -1,9 +1,11 @@
 const { Router } = require('express');
-const { getAllClients, getClients, createClients, deleteClients, updateClients, getClients1, updateClients1 } = require('../controllers/clients.controller')
+const { getAllClients, getClients, createClients, deleteClients, updateClients, getClients1, updateClients1, getAllClients2 } = require('../controllers/clients.controller')
 
 const router = Router();
 
 router.get('/clients', getAllClients)
+
+router.get('/clients2', getAllClients2)
 
 router.get('/clients/:id', getClients)
 

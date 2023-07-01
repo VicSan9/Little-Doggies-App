@@ -3,7 +3,7 @@ const pool = require('../db');
 const getAllMembers = async (req, res, next) => {
     try {
         const AllMembers = await pool.query
-            ('SELECT * FROM miembros');
+            ('SELECT * FROM miembros  WHERE rol =$1', ['Trabajador']);
         res.json(AllMembers.rows);
     } catch (error){ 
         next(error);

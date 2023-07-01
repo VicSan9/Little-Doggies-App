@@ -35,6 +35,7 @@ CREATE TABLE IF NOT EXISTS miembros(
 	direccion VARCHAR NOT NULL,
 	rol VARCHAR NOT NULL,
 	foto TEXT NOT NULL,
+	estado VARCHAR (50) NOT NULL,
 	PRIMARY KEY (mbid)
 );
 --Tabla de clientes

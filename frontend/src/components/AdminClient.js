@@ -83,13 +83,11 @@ export default function AdminClient() {
             'estado': 'Eliminado'
         }
 
-        const res = await fetch(`http://localhost:4000/clients/${client.clid}`, {
+        await fetch(`http://localhost:4000/clients/${client.clid}`, {
             method: 'PUT',
             body: JSON.stringify(body),
             headers: { "content-Type": "application/json" }
         })
-
-        const data = await res.json()
 
         setAdvertenceMenssage("");
 

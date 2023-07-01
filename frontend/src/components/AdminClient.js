@@ -3,6 +3,7 @@ import AdminNavbar from './AdminNavbar'
 import { Grid, Typography, IconButton, Backdrop, Button, Box, Card, Avatar, Divider, CardContent, TextField, Tooltip, FormHelperText, MenuItem, Select, InputLabel, FormControl } from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { Link } from 'react-router-dom';
 
 export default function AdminClient() {
@@ -10,12 +11,15 @@ export default function AdminClient() {
     const [open, setOpen] = useState(false);
     const [open1, setOpen1] = useState(false);
     const [open2, setOpen2] = useState(false);
+    const [open3, setOpen3] = useState(false);
     const [isHidden, setIsHidden] = useState(false)
     const [isHidden1, setIsHidden1] = useState(false)
     const [clients, setClients] = useState([])
     const [client, setClient] = useState({ nombres: '', apellidos: '', correo: '', direccion: '', telefono: '', usuario: '', contraseña: '', foto: 'foto', estado: 'Activo' })
     const [pets, setPets] = useState([])
     const [pet, setPet] = useState({ clid: '', nombre: '', raza: '', edad: '', sexo: '', condicion: '', estado: 'Activo' })
+    const [petSelect, setPetSelect] = useState([])
+    const [reports, setReports] = useState([])
     const [errorMessage, setErrorMessage] = useState("");
     const [advertenceMenssage, setAdvertenceMenssage] = useState("");
     const [checkin, setCheckin] = useState({ nombres: '', apellidos: '', correo: '', direccion: '', telefono: '', usuario: '', contraseña: '', foto: 'foto', estado: 'Activo' })
@@ -26,6 +30,7 @@ export default function AdminClient() {
         setOpen(false);
         setOpen1(false);
         setOpen2(false);
+        setOpen3(false);
         setCondicion('')
         setIsDisabled(true)
         setPet({ clid: '', nombre: '', raza: '', edad: '', sexo: '', condicion: '', estado: 'Activo' })
@@ -185,6 +190,45 @@ export default function AdminClient() {
         const data2 = await res2.json()
 
         setPets(data2)
+    }
+
+    const handleClickPet = async (e) => {
+        const idPet = Number(e.currentTarget.value)
+
+        const res = await fetch(`http://localhost:4000/pets/${idPet}`, {
+            method: 'GET',
+            headers: { "content-Type": "application/json" }
+        })
+
+        const data = await res.json()
+
+        setPetSelect(data)
+
+        setOpen3(true)
+
+        const body = {
+            clid: data.clid,
+            mcid: data.mcid
+        }
+
+        const res2 = await fetch(`http://localhost:4000/reports2`, {
+            method: 'POST',
+            body: JSON.stringify(body),
+            headers: { "content-Type": "application/json" }
+        })
+
+        const data2 = await res2.json()
+
+        console.log(body)
+
+        console.log(data2)
+
+        if (res2.status === 404) {
+            setReports([])
+            return
+        }
+
+        setReports(data2)
     }
 
     const handleSubmit = async (e) => {
@@ -378,6 +422,185 @@ export default function AdminClient() {
         <>
             {errorMessage && <ErrorComponent errorMessage={errorMessage} />}
             {advertenceMenssage && <AdvertenceComponent advertenceMenssage={advertenceMenssage} />}
+            <Backdrop
+                sx={{ color: 'rgba(0,0,0,.2)', backdropFilter: 'blur(5px)', zIndex: 1 }}
+                open={open3}>
+                <Grid
+                    container
+                    alignItems='flex-start'
+                    height='80vh'
+                    width='85vw'
+                    maxWidth='1000px'
+                    maxHeight='600px'
+                    bgcolor='#ffffff'
+                    borderRadius='20px'
+                    paddingRight='15px'
+                    paddingLeft='15px'
+                    sx={{ color: '#000000', zIndex: (theme) => theme.zIndex.drawer + 1 }}>
+                    <Grid
+                        container
+                        direction='row'
+                        width='100%'
+                        justifyContent='end'>
+                        <IconButton sx={{ mt: '10px', width: 25, height: 25, '&:hover': { color: '#CD0227', bgcolor: '#FFFFFF' } }} onClick={handleClose}>
+                            <Typography fontWeight='bold'>X</Typography>
+                        </IconButton>
+                    </Grid>
+                    <Grid
+                        container
+                        height='90%'
+                        maxHeight='550px'
+                        alignItems='start'>
+                        <Grid
+                            container
+                            height='60%'
+                            width='100%'>
+                            <Grid container direction='row'>
+                                <Typography
+                                    textAlign='start'
+                                    variant="h6"
+                                    height='15%'
+                                    fontWeight='bold'
+                                    width='100%'>
+                                    Datos de la mascota
+                                    <Tooltip title='Editar datos de tu mascota'>
+                                        <IconButton
+                                            /* onClick={handleClicEdit} */
+                                            sx={{ ml: '33px', mr: '5px', '&:hover': { color: '#0265CD' } }}>
+                                            <EditIcon sx={{ fontSize: 25 }}></EditIcon>
+                                        </IconButton>
+                                    </Tooltip>
+                                    <Tooltip title='Eliminar mascota'>
+                                        <IconButton /* onClick={handleClicDelete} */ sx={{ mr: '5px', '&:hover': { color: '#CD0227' } }}>
+                                            <DeleteIcon sx={{ fontSize: 25 }}></DeleteIcon>
+                                        </IconButton>
+                                    </Tooltip>
+                                </Typography>
+                                <Grid
+                                    container
+                                    height='80%'
+                                    width='50%'
+                                    sx={{ borderRight: '1px solid #BABBBF' }}>
+                                    <Grid
+                                        container
+                                        width='50%'
+                                        height='90%'
+                                        direction='column'
+                                        justifyContent='space-around'>
+                                        <Typography fontWeight='bold'>Nombre</Typography>
+                                        <Typography fontWeight='bold'>Raza</Typography>
+                                        <Typography fontWeight='bold'>Edad</Typography>
+                                        <Typography fontWeight='bold'>Sexo</Typography>
+                                    </Grid>
+                                    <Grid
+                                        container
+                                        width='50%'
+                                        height='90%'
+                                        direction='column'
+                                        justifyContent='space-around'>
+                                        <Typography>{petSelect.nombre}</Typography>
+                                        <Typography>{petSelect.raza}</Typography>
+                                        <Typography>{petSelect.edad}</Typography>
+                                        <Typography>{petSelect.sexo}</Typography>
+                                    </Grid>
+                                </Grid>
+                                <Grid
+                                    container
+                                    height='90%'
+                                    width='50%'>
+                                    <Grid
+                                        container
+                                        width='50%'
+                                        height='90%'
+                                        direction='column'>
+                                        <Typography mt='20px' height='70px' ml='20px' fontWeight='bold'>¿Presenta alguna condicion especial o alergia?</Typography>
+                                        <Typography ml='20px' fontWeight='bold'>Foto</Typography>
+                                    </Grid>
+                                    <Grid
+                                        container
+                                        width='50%'
+                                        height='90%'
+                                        direction='column'>
+                                        <Typography height='70px' width='100%' mt='20px' ml='20px'>{petSelect.condicion}</Typography>
+                                        <Avatar sx={{ mt: '5px', ml: '20px', width: 110, height: 110 }}>M</Avatar>
+                                    </Grid>
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                        <Grid
+                            container
+                            height='40%'
+                            width='100%'
+                            overflow='scroll'
+                            sx={{
+                                '&::-webkit-scrollbar': {
+                                    width: '8px',
+                                    height: '8px',
+                                },
+                                '&::-webkit-scrollbar-thumb': {
+                                    backgroundColor: 'rgba(0, 0, 0, 0.1)',
+                                    borderRadius: '10px',
+                                    '&:hover': {
+                                        backgroundColor: 'rgba(0, 0, 0, 0.3)',
+                                    },
+                                },
+                                '&::-webkit-scrollbar: horizontal': {
+                                    display: 'none',
+                                },
+                            }}>
+                            <Grid container direction='column' display='block' width='99%'>
+                                <Typography
+                                    textAlign='start'
+                                    variant="h6"
+                                    fontWeight='bold'
+                                    height='25%'
+                                    width='100%'>
+                                    Historial de citas
+                                </Typography>
+                                <Grid
+                                    container
+                                    width='100%'
+                                    borderBottom='1px solid #BABBBF'
+                                    mb='20px'>
+                                    <Grid item xs={3} sm={3} lg={3} md={3} xl={3}>
+                                        <Typography fontWeight='bold'>Fecha</Typography>
+                                    </Grid>
+                                    <Grid item xs={3} sm={3} lg={3} md={3} xl={3}>
+                                        <Typography fontWeight='bold'>Servicios</Typography>
+                                    </Grid>
+                                    <Grid item xs={3} sm={3} lg={3} md={3} xl={3}>
+                                        <Typography fontWeight='bold'>Nota</Typography>
+                                    </Grid>
+                                    <Grid item xs={3} sm={3} lg={3} md={3} xl={3}>
+                                        <Typography fontWeight='bold'>Atendido por</Typography>
+                                    </Grid>
+                                </Grid>
+                                {reports.map((report) => (
+                                    <Grid
+                                        container
+                                        width='100%'
+                                        borderBottom='1px solid #BABBBF'
+                                        mb='10px'
+                                        key={report.ifid}>
+                                        <Grid item xs={3} sm={3} lg={3} md={3} xl={3}>
+                                            <Typography>{report.fecha}</Typography>
+                                        </Grid>
+                                        <Grid item xs={3} sm={3} lg={3} md={3} xl={3}>
+                                            <Typography>{report.servicios}</Typography>
+                                        </Grid>
+                                        <Grid item xs={3} sm={3} lg={3} md={3} xl={3}>
+                                            <Typography>{report.nota}</Typography>
+                                        </Grid>
+                                        <Grid item xs={3} sm={3} lg={3} md={3} xl={3}>
+                                            <Typography>{report.nombres + " " + report.apellidos}</Typography>
+                                        </Grid>
+                                    </Grid>
+                                ))}
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </Backdrop >
             <Backdrop
                 sx={{ color: 'rgba(0,0,0,.2)', backdropFilter: 'blur(5px)', zIndex: 1 }}
                 open={open2}>
@@ -966,9 +1189,11 @@ export default function AdminClient() {
                                 mb='10px'
                             >
                                 <Typography variant='h6' fontSize='bold'>Clientes</Typography>
-                                <IconButton onClick={handleClicNewService} sx={{ mr: '16px', width: 40, height: 40, bgcolor: '#F5F5F5', '&:hover': { bgcolor: '#BABBBF' } }}>
-                                    <Typography>+</Typography>
-                                </IconButton>
+                                <Tooltip title='Nuevo cliente'>
+                                    <IconButton onClick={handleClicNewService} sx={{ mr: '16px', width: 40, height: 40, bgcolor: '#F5F5F5', '&:hover': { bgcolor: '#BABBBF' } }}>
+                                        <Typography>+</Typography>
+                                    </IconButton>
+                                </Tooltip>
                             </Grid>
                             <Grid
                                 container
@@ -1023,12 +1248,16 @@ export default function AdminClient() {
                                         <Avatar sx={{ width: 45, height: 45 }}></Avatar>
                                         <Typography textAlign='center' width='62%' overflow='hidden'>{client.nombres + ' ' + client.apellidos}</Typography>
                                         <Grid>
-                                            <IconButton id={client.clid} onClick={handleClickEdit} sx={{ width: '30px', height: '30px', ":hover": { color: "white" } }}>
-                                                <EditIcon></EditIcon>
-                                            </IconButton>
-                                            <IconButton onClick={handleClickDelete} sx={{ width: '30px', height: '30px', ":hover": { color: "white" } }}>
-                                                <HighlightOffIcon></HighlightOffIcon>
-                                            </IconButton>
+                                            <Tooltip title='Editar cliente'>
+                                                <IconButton id={client.clid} onClick={handleClickEdit} sx={{ width: '30px', height: '30px', ":hover": { color: "white" } }}>
+                                                    <EditIcon></EditIcon>
+                                                </IconButton>
+                                            </Tooltip>
+                                            <Tooltip title='Eliminar cliente'>
+                                                <IconButton onClick={handleClickDelete} sx={{ width: '30px', height: '30px', ":hover": { color: "white" } }}>
+                                                    <HighlightOffIcon></HighlightOffIcon>
+                                                </IconButton>
+                                            </Tooltip>
                                         </Grid>
                                     </Grid>
                                 ))}
@@ -1070,7 +1299,7 @@ export default function AdminClient() {
                                 },
                             }}>
                             <div hidden={isHidden1}>
-                                <Typography mt='8px' mb='8px'>Seleciona uno de los clientes para ver su información</Typography>
+                                <Typography mt='8px' mb='8px'>Seleciona uno de los clientes para ver su información.</Typography>
                             </div>
                             <div hidden={!isHidden1} style={{ width: '100%' }}>
                                 <Typography variant='h6'>Información del Cliente</Typography>
@@ -1138,6 +1367,7 @@ export default function AdminClient() {
                                                     component={Button}
                                                     key={pet.mcid}
                                                     value={pet.mcid}
+                                                    onClick={handleClickPet}
                                                     sx={{
                                                         border: '1px solid #BABBBF',
                                                         borderRadius: '10px',

@@ -1,9 +1,13 @@
 import { useState, useEffect } from 'react'
 import React from 'react'
 import AdminNavbar from './AdminNavbar'
-import { Grid, Typography, Divider, Avatar, TextField, Button, IconButton, Box, Backdrop, Card } from "@mui/material";
+import { Grid, Typography, Divider, Avatar, TextField, Button, IconButton, Box, Backdrop, Card, CardContent, Chip } from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
 
 export default function AdminStaff() {
 
@@ -14,6 +18,20 @@ export default function AdminStaff() {
     const [advertenceMenssage, setAdvertenceMenssage] = useState("");
     const [members, setMembers] = useState([])
     const [member, setMember] = useState([])
+    const [services, setServices] = useState([])
+    const [info, setInfo] = useState([])
+    const [service2, setServices2] = useState([])
+
+    const ITEM_HEIGHT = 48;
+    const ITEM_PADDING_TOP = 8;
+    const MenuProps = {
+        PaperProps: {
+            style: {
+                maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+                width: 250,
+            },
+        },
+    };
 
     const handleClose = () => {
         setOpen(false);
@@ -24,8 +42,56 @@ export default function AdminStaff() {
         setOpen(true)
     }
 
+    const handleSubmit1 = async (e) => {
+
+        if (info.nombres.trim() === '' || info.apellidos.trim() === '' || info.correo.trim() === '' || info.telefono.trim() === '' || info.usuario.trim() === '' || info.contraseña.trim() === '' || info.direccion.trim() === '') {
+            setErrorMessage("Ingrese todos los datos primero");
+            return
+        }
+
+        const body2 = {
+
+            'nombres': info.nombres,
+            'apellidos': info.apellidos,
+            'correo': info.correo,
+            'telefono': info.telefono,
+            'usuario': info.usuario,
+            'contraseña': info.contraseña,
+            'direccion': info.direccion,
+            'servicio': service2.nombre,
+            'estado': 'Activo'
+        }
+
+        await fetch(`http://localhost:4000/members/${member.mbid}`, {
+            method: 'PUT',
+            body: JSON.stringify(body2),
+            headers: { "content-Type": "application/json" }
+        });
+
+        setAdvertenceMenssage("");
+    }
+
     const handleClickEdit = async (e) => {
         setOpen1(true)
+
+        const mbid = member.mbid
+
+        const res = await fetch(`http://localhost:4000/members/${mbid}`, {
+            method: 'GET',
+            headers: { "content-Type": "application/json" }
+        })
+
+        const data = await res.json();
+
+        setInfo(data)
+
+    }
+
+    const handleChange2 = e => {
+        setInfo({
+            ...info,
+            [e.target.name]: e.target.value
+        })
     }
 
     const handleClickDelete = e => {
@@ -180,9 +246,60 @@ export default function AdminStaff() {
 
         setMember(data2)
 
+        const res3 = await fetch(`http://localhost:4000/membersServices`, {
+            method: 'GET',
+            headers: { "content-Type": "application/json" }
+        })
 
+        const data3 = await res3.json()
+
+        const ids = []
+
+        for (let i = 0; i < data3.length; i++) {
+            if (data3[i].mbid === data2.mbid) {
+                ids.push(data3[i].svid)
+            }
+        }
+
+        const services = []
+
+        for (let i = 0; i < ids.length; i++) {
+            const res4 = await fetch(`http://localhost:4000/services/${ids[i]}`, {
+                method: 'GET',
+                headers: { "content-Type": "application/json" }
+            })
+
+            const data4 = await res4.json();
+
+            services.push(data4)
+        }
+
+        setServices(services)
+
+        console.log(services)
+    }
+
+    const handleChange1 = (event) => {
+        const {
+            target: { value },
+        } = event;
+        setServices2(
+            // On autofill we get a stringified value.
+            typeof value === 'string' ? value.split(',') : value,
+        );
+    };
+
+    const onClick = async () => {
+        if (sessionStorage.getItem('id') === null) {
+            return
+        }
+        if (service2.length === 0) {
+            setErrorMessage('Por favor selecciona los servicios')
+            return
+        }
 
     }
+
 
 
     return (
@@ -196,11 +313,11 @@ export default function AdminStaff() {
                 <Grid
                     container
                     alignItems='start'
-                    height='75vh'
-                    width='60vw'
+                    height='100vh'
+                    width='30vw'
                     bgcolor='#ffffff'
                     borderRadius='20px'
-                    paddingRight='15px'
+                    paddingRight='5px'
                     paddingLeft='25px'
                     sx={{ color: '#000000', zIndex: (theme) => theme.zIndex.drawer + 1 }}>
                     <Grid
@@ -212,14 +329,89 @@ export default function AdminStaff() {
                             <Typography fontWeight='bold'>X</Typography>
                         </IconButton>
                     </Grid>
-                    <Grid
+                    <Grid component={'form'} onSubmit={handleSubmit1}
                         container
                         direction='column'
-                        height='70vh'
+                        height='90vh'
                         alignItems='center'
                         justifyContent='center'
                         item xs={12} sm={12} lg={12} md={12} xl={12}>
-                        <Typography textAlign='start' variant="h6" fontWeight='bold' mr='25px'>Edita información de un empleado</Typography>
+                        <Typography textAlign='start' variant="h6" fontWeight='bold'>Edita información de un empleado</Typography>
+                        <TextField
+                            name="nombres"
+                            variant="outlined"
+                            value={info.nombres}
+                            onChange={handleChange2}
+                            sx={{ ml: '10px', mr: '20px', width: '80%', mt: '15px' }} />
+                        <TextField
+                            name="apellidos"
+                            variant="outlined"
+                            value={info.apellidos}
+                            onChange={handleChange2}
+                            sx={{ ml: '10px', mr: '20px', width: '80%', mt: '15px' }} />
+                        <TextField
+                            name="correo"
+                            variant="outlined"
+                            value={info.correo}
+                            onChange={handleChange2}
+                            sx={{ ml: '10px', mr: '20px', width: '80%', mt: '15px' }} />
+                        <TextField
+                            name="telefono"
+                            variant="outlined"
+                            value={info.telefono}
+                            onChange={handleChange2}
+                            sx={{ ml: '10px', mr: '20px', width: '80%', mt: '15px' }} />
+                        <TextField
+                            name="usuario"
+                            variant="outlined"
+                            value={info.usuario}
+                            onChange={handleChange2}
+                            sx={{ ml: '10px', mr: '20px', width: '80%', mt: '15px' }} />
+                        <TextField
+                            name="contraseña"
+                            variant="outlined"
+                            value={info.contraseña}
+                            onChange={handleChange2}
+                            sx={{ ml: '10px', mr: '20px', width: '80%', mt: '15px' }} />
+                        <TextField
+                            name="direccion"
+                            variant="outlined"
+                            value={info.direccion}
+                            onChange={handleChange2}
+                            sx={{ ml: '10px', mr: '20px', width: '80%', mt: '15px' }} />
+                        <FormControl sx={{ ml: '25px', mr: '25px', width: '80%', mt: '15px' }}>
+                            <InputLabel id="demo-simple-select-label">Servicios</InputLabel>
+                            <Select
+                                multiple
+                                name="servicios"
+                                labelId="demo-simple-select-label2"
+                                id="demo-simple-select2"
+                                value={service2}
+                                label="Encargado"
+                                onChange={handleChange1}
+                                renderValue={(selected) => (
+                                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                                        {selected.map((value) => (
+                                            <Chip key={value} label={value} />
+                                        ))}
+                                    </Box>
+                                )}
+                                MenuProps={MenuProps}>
+                                {services.map((servicios) => (
+                                    <MenuItem
+                                        key={servicios.svid}
+                                        value={servicios.nombre}>
+                                        {servicios.nombre}
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+                        <Button
+                            type='submit'
+                            variant="contained"
+                            onClick={onClick}
+                            sx={{ mt: '10px', borderRadius: '50px', width: '130px' }}>Guardar
+                        </Button>
                         <Grid
                             container
                             ml='20px'
@@ -491,12 +683,21 @@ export default function AdminStaff() {
                             </Typography>
                             <Divider></Divider>
                             <Typography mb='15px' mt='15px' ml='10px' variant='h6' width='98%' sx={{ fontSize: '18px' }}>Servicios
-                                <Grid
-                                    container
-                                    direction='row'
-                                    alignItems='center'
-                                    ml='15px' mt='8px'>
-                                </Grid>
+                                {services.map(servicio => (
+                                    <Grid
+                                        key={servicio.mbid}
+                                        container
+                                        direction='row'
+                                        ml='15px' mt='8px'>
+                                        <Card sx={{ backgroundColor: '#A9A9A9', width: '300px', height: '50px' }}>
+                                            <CardContent>
+                                                <Typography variant='body1' fontWeight='500'>
+                                                    {servicio.nombre}
+                                                </Typography>
+                                            </CardContent>
+                                        </Card>
+                                    </Grid>
+                                ))}
                             </Typography>
                         </div>
                     </Grid>

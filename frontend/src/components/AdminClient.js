@@ -28,6 +28,7 @@ export default function AdminClient() {
     const [condicion, setCondicion] = useState('')
     const [condicion2, setCondicion2] = useState('')
     const [isDisabled, setIsDisabled] = useState(true)
+    const [search, setSearch] = useState({ search: '' })
 
     const handleClose = () => {
         setOpen(false);
@@ -38,6 +39,10 @@ export default function AdminClient() {
         setCondicion('')
         setIsDisabled(true)
         setPet({ clid: '', nombre: '', raza: '', edad: '', sexo: '', condicion: '', estado: 'Activo' })
+    };
+
+    const handleClose2 = () => {
+        setOpen4(false);
     };
 
     const handleClicNewService = async () => {
@@ -403,7 +408,7 @@ export default function AdminClient() {
         if (!data.menssage) {
             setPetSelect({ clid: '', nombre: '', raza: '', edad: '', sexo: '', condicion: '', estado: '' })
             window.location.reload()
-        } 
+        }
     }
 
     const ErrorComponent = ({ errorMessage }) => {
@@ -539,6 +544,15 @@ export default function AdminClient() {
         );
     };
 
+    const handleClange = e => {
+        const value = e.target.value
+        const name = e.target.name
+
+        setSearch({
+            ...search,
+            [name]: value
+        })
+    }
     return (
         <>
             {errorMessage && <ErrorComponent errorMessage={errorMessage} />}
@@ -564,7 +578,7 @@ export default function AdminClient() {
                         direction='row'
                         width='100%'
                         justifyContent='end'>
-                        <IconButton sx={{ mt: '10px', width: 25, height: 25, '&:hover': { color: '#CD0227', bgcolor: '#FFFFFF' } }} onClick={handleClose}>
+                        <IconButton sx={{ mt: '10px', width: 25, height: 25, '&:hover': { color: '#CD0227', bgcolor: '#FFFFFF' } }} onClick={handleClose2}>
                             <Typography fontWeight='bold'>X</Typography>
                         </IconButton>
                     </Grid>
@@ -581,7 +595,7 @@ export default function AdminClient() {
                             justifyContent='center'
                             alignItems='center'
                             mb='10px'>
-                            <Typography variant='h6'>Registra mascota</Typography>
+                            <Typography variant='h6'>Editar mascota</Typography>
                         </Grid>
                         <Grid
                             container
@@ -760,7 +774,7 @@ export default function AdminClient() {
                                     fontWeight='bold'
                                     width='100%'>
                                     Datos de la mascota
-                                    <Tooltip title='Editar datos de tu mascota'>
+                                    <Tooltip title='Editar datos de mascota'>
                                         <IconButton
                                             onClick={handleClicEdit}
                                             sx={{ ml: '33px', mr: '5px', '&:hover': { color: '#0265CD' } }}>
@@ -1485,7 +1499,7 @@ export default function AdminClient() {
                                 width='100%'
                                 mb='10px'
                             >
-                                <Typography variant='h6' fontSize='bold'>Clientes</Typography>
+                                <Typography variant='h6' fontSize='bold'>{'Clientes (' + clients.length + ')'}</Typography>
                                 <Tooltip title='Nuevo cliente'>
                                     <IconButton onClick={handleClicNewService} sx={{ mr: '16px', width: 40, height: 40, bgcolor: '#F5F5F5', '&:hover': { bgcolor: '#BABBBF' } }}>
                                         <Typography>+</Typography>
@@ -1493,8 +1507,28 @@ export default function AdminClient() {
                                 </Tooltip>
                             </Grid>
                             <Grid
+                                mt='8px'
+                                paddingRight='15px'
                                 container
-                                height='90%'
+                                direction='row'
+                                alignItems='center'
+                                justifyContent='center'
+                                mb='20px'>
+                                <Typography mr='12px'>{'Buscar '}</Typography>
+                                <TextField
+                                    variant='outlined'
+                                    onChange={handleClange}
+                                    name='search'
+                                    value={search.search}
+                                    InputProps={{ sx: { borderRadius: '20px', height: '50px' } }}
+                                    sx={{
+                                        width: '77%',
+                                    }}>
+                                </TextField>
+                            </Grid>
+                            <Grid
+                                container
+                                height='77%'
                                 overflow='scroll'
                                 alignItems='center'
                                 justifyContent='start'
@@ -1516,7 +1550,7 @@ export default function AdminClient() {
                                         display: 'none',
                                     },
                                 }}>
-                                {clients.map((client) => (
+                                {clients.filter(client => client.nombres.toLowerCase().includes(search.search.toLowerCase().trim()) === true || client.apellidos.toLowerCase().includes(search.search.toLowerCase().trim()) === true).map((client) => (
                                     <Grid
                                         component={Card}
                                         key={client.clid}

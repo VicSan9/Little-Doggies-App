@@ -1,5 +1,5 @@
 --Insertar miembros
-INSERT INTO miembros (usuario, contraseña, correo, nombres, apellidos, telefono, direccion, rol, foto)
+INSERT INTO miembros (usuario, contraseña, correo, nombres, apellidos, telefono, direccion, rol, foto, estado)
 VALUES 	('userAdmin', '1234asdf', 'correoadmin1234@gmail.com', 'Christian', 'Salazar', 12345678, 'Pradera#-Cr', 'Administrador', 'link', 'Activo'),
 		('userMiembro1', 'asdf1234', 'correomiembro1234@gmail.com', 'Víctor', 'Sánchez', 11124145, 'Pradera#-Cr', 'Trabajador', 'link', 'Activo');
 --Insertar servicios
@@ -9,7 +9,6 @@ VALUES 	('Corte corto', 'Peluqueria', 'Descripción del servicio', 'Activo'),
 		('Secado especial', 'Peluqueria', 'Descripción del servicio', 'Activo'),
 		('vacunacion', 'Medicación', 'Descripción del servicio', 'Eliminado'),
 		('Baño, secado y cepillado', 'Peluqueria', 'Descripción del servicio', 'Eliminado');
-
 --Insertar clientes 
 INSERT INTO clientes (nombres, apellidos, correo, direccion, telefono, usuario, contraseña, foto, estado)
 VALUES 	('Mercy', 'Castro Romero', 'merxicc@gmail.com', '270 Superior Lane', '12345512', 'userCliente1', '321dsa', 'link', 'Activo'),

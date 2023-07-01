@@ -12,18 +12,21 @@ export default function AdminClient() {
     const [open1, setOpen1] = useState(false);
     const [open2, setOpen2] = useState(false);
     const [open3, setOpen3] = useState(false);
+    const [open4, setOpen4] = useState(false);
     const [isHidden, setIsHidden] = useState(false)
     const [isHidden1, setIsHidden1] = useState(false)
     const [clients, setClients] = useState([])
     const [client, setClient] = useState({ nombres: '', apellidos: '', correo: '', direccion: '', telefono: '', usuario: '', contraseña: '', foto: 'foto', estado: 'Activo' })
     const [pets, setPets] = useState([])
     const [pet, setPet] = useState({ clid: '', nombre: '', raza: '', edad: '', sexo: '', condicion: '', estado: 'Activo' })
-    const [petSelect, setPetSelect] = useState([])
+    const [petSelect, setPetSelect] = useState({ clid: '', nombre: '', raza: '', edad: '', sexo: '', condicion: '', estado: '' })
     const [reports, setReports] = useState([])
     const [errorMessage, setErrorMessage] = useState("");
     const [advertenceMenssage, setAdvertenceMenssage] = useState("");
+    const [advertenceMenssage2, setAdvertenceMenssage2] = useState("");
     const [checkin, setCheckin] = useState({ nombres: '', apellidos: '', correo: '', direccion: '', telefono: '', usuario: '', contraseña: '', foto: 'foto', estado: 'Activo' })
     const [condicion, setCondicion] = useState('')
+    const [condicion2, setCondicion2] = useState('')
     const [isDisabled, setIsDisabled] = useState(true)
 
     const handleClose = () => {
@@ -31,6 +34,7 @@ export default function AdminClient() {
         setOpen1(false);
         setOpen2(false);
         setOpen3(false);
+        setOpen4(false);
         setCondicion('')
         setIsDisabled(true)
         setPet({ clid: '', nombre: '', raza: '', edad: '', sexo: '', condicion: '', estado: 'Activo' })
@@ -54,6 +58,15 @@ export default function AdminClient() {
 
     const handleClickAV2Can = () => {
         setAdvertenceMenssage("");
+        setAdvertenceMenssage2("");
+    }
+
+    const handleClicDelete = () => {
+        setAdvertenceMenssage2('¿Estás seguro que quieres eliminar esta mascota')
+    }
+
+    const handleClicEdit = () => {
+        setOpen4(true)
     }
 
     const handleClickAVConf = async () => {
@@ -70,8 +83,6 @@ export default function AdminClient() {
             'estado': 'Eliminado'
         }
 
-        console.log(body)
-
         const res = await fetch(`http://localhost:4000/clients/${client.clid}`, {
             method: 'PUT',
             body: JSON.stringify(body),
@@ -80,11 +91,32 @@ export default function AdminClient() {
 
         const data = await res.json()
 
-        console.log(data)
-
         setAdvertenceMenssage("");
 
         window.location.reload();
+    }
+
+    const handleClickAVConf2 = async () => {
+
+        const body = {
+            clid: petSelect.clid,
+            nombre: petSelect.nombre,
+            raza: petSelect.raza,
+            edad: petSelect.edad,
+            sexo: petSelect.sexo,
+            condicion: petSelect.condicion,
+            estado: 'Eliminada'
+        }
+
+        await fetch(`http://localhost:4000/pets/${petSelect.mcid}`, {
+            method: 'PUT',
+            body: JSON.stringify(body),
+            headers: { "content-Type": "application/json" }
+        })
+
+        setAdvertenceMenssage("");
+
+        window.location.reload()
     }
 
     const handleClick3 = () => {
@@ -136,6 +168,24 @@ export default function AdminClient() {
         } else {
             setIsDisabled(true)
             pet.condicion = 'Ninguna'
+        }
+    };
+
+    const handleChange5 = (e) => {
+        setPetSelect({
+            ...petSelect,
+            [e.target.name]: e.target.value
+        })
+    };
+
+    const handleChange6 = (event) => {
+        setCondicion2(event.target.value);
+        if (event.target.value === 'Si') {
+            setIsDisabled(false)
+            petSelect.condicion = ''
+        } else {
+            setIsDisabled(true)
+            petSelect.condicion = 'Ninguna'
         }
     };
 
@@ -218,10 +268,6 @@ export default function AdminClient() {
         })
 
         const data2 = await res2.json()
-
-        console.log(body)
-
-        console.log(data2)
 
         if (res2.status === 404) {
             setReports([])
@@ -334,10 +380,38 @@ export default function AdminClient() {
         }
     }
 
+    const handleSubmit4 = async (e) => {
+        e.preventDefault();
+
+        if (petSelect.nombre.trim() === '' || petSelect.raza.trim() === '' || petSelect.edad.trim() === '' || petSelect.sexo.trim() === '') {
+            setErrorMessage("Ingrese todos los datos primero");
+            return
+        }
+
+        petSelect.clid = client.clid
+
+        if (petSelect.condicion.trim() === '') {
+            petSelect.condicion = 'Ninguna'
+        }
+
+        const res = await fetch(`http://localhost:4000/pets/${petSelect.mcid}`, {
+            method: 'PUT',
+            body: JSON.stringify(petSelect),
+            headers: { "content-Type": "application/json" }
+        })
+
+        const data = await res.json()
+
+        if (!data.menssage) {
+            setPetSelect({ clid: '', nombre: '', raza: '', edad: '', sexo: '', condicion: '', estado: '' })
+            window.location.reload()
+        } 
+    }
+
     const ErrorComponent = ({ errorMessage }) => {
         return (
             <Grid container
-                zIndex='2'
+                zIndex='3'
                 width='100vw'
                 height='100vh'
                 position='absolute'
@@ -372,7 +446,7 @@ export default function AdminClient() {
     const AdvertenceComponent = ({ advertenceMenssage }) => {
         return (
             <Grid container
-                zIndex='2'
+                zIndex='3'
                 width='100vw'
                 height='100vh'
                 position='absolute'
@@ -418,10 +492,235 @@ export default function AdminClient() {
         );
     };
 
+    const AdvertenceComponent2 = ({ advertenceMenssage }) => {
+        return (
+            <Grid container
+                zIndex='3'
+                width='100vw'
+                height='100vh'
+                position='absolute'
+                alignItems='center'
+                textAlign='center'
+                justifyContent='center'
+                sx={{ backgroundColor: 'rgba(0,0,0,.2)', backdropFilter: 'blur(5px)', }}>
+                <Box
+                    width='300px'
+                    height='200px'
+                    borderRadius='20px'
+                    border='1px solid #BABBBF'
+                    sx={{ backgroundColor: '#ffffff' }}>
+                    <Typography color='#000000' mt='20px' variant="h5" fontWeight='bold'>Advertencia</Typography>
+                    <p>{advertenceMenssage}</p>
+                    <Button variant="outlined"
+                        size='medium'
+                        onClick={handleClickAV2Can}
+                        sx={{
+                            color: '#0265CD',
+                            width: '80px',
+                            mt: '20px',
+                            borderColor: '#0265CD',
+                            borderRadius: '50px',
+                            textTransform: 'none'
+                        }}> Volver
+                    </Button>
+                    <Button variant="outlined"
+                        size='medium'
+                        onClick={handleClickAVConf2}
+                        sx={{
+                            width: '80px',
+                            color: '#0265CD',
+                            mt: '20px',
+                            ml: '20px',
+                            borderColor: '#0265CD',
+                            borderRadius: '50px',
+                            textTransform: 'none'
+                        }}> Confirmar
+                    </Button>
+                </Box>
+            </Grid>
+        );
+    };
+
     return (
         <>
             {errorMessage && <ErrorComponent errorMessage={errorMessage} />}
             {advertenceMenssage && <AdvertenceComponent advertenceMenssage={advertenceMenssage} />}
+            {advertenceMenssage2 && <AdvertenceComponent2 advertenceMenssage={advertenceMenssage2} />}
+            <Backdrop
+                sx={{ color: 'rgba(0,0,0,.2)', backdropFilter: 'blur(5px)', zIndex: 2 }}
+                open={open4}>
+                <Grid
+                    container
+                    alignItems='flex-start'
+                    height='60vh'
+                    width='60vw'
+                    maxWidth='1000px'
+                    maxHeight='600px'
+                    bgcolor='#ffffff'
+                    borderRadius='20px'
+                    paddingRight='15px'
+                    paddingLeft='15px'
+                    sx={{ color: '#000000', zIndex: (theme) => theme.zIndex.drawer + 1 }}>
+                    <Grid
+                        container
+                        direction='row'
+                        width='100%'
+                        justifyContent='end'>
+                        <IconButton sx={{ mt: '10px', width: 25, height: 25, '&:hover': { color: '#CD0227', bgcolor: '#FFFFFF' } }} onClick={handleClose}>
+                            <Typography fontWeight='bold'>X</Typography>
+                        </IconButton>
+                    </Grid>
+                    <Grid
+                        container
+                        height='55vh'
+                        maxHeight='550px'
+                        alignItems='start'
+                        component={'form'}
+                        onSubmit={handleSubmit4}>
+                        <Grid
+                            container
+                            width='100%'
+                            justifyContent='center'
+                            alignItems='center'
+                            mb='10px'>
+                            <Typography variant='h6'>Registra mascota</Typography>
+                        </Grid>
+                        <Grid
+                            container
+                            width='100%'
+                            justifyContent='start'
+                            alignItems='start'
+                            height='70%'>
+                            <Grid
+                                container
+                                alignItems='center'
+                                justifyContent='start'
+                                direction='row'
+                                width='100%'>
+                                <Grid
+                                    container
+                                    paddingLeft='4vw'
+                                    paddingRight='2vw'
+                                    item xs={6} sm={6} lg={6} md={6} xl={6}>
+                                    <TextField
+                                        fullWidth
+                                        name="nombre"
+                                        label="Nombre de la mascota"
+                                        variant="outlined"
+                                        value={petSelect.nombre}
+                                        onChange={handleChange5}>
+                                    </TextField>
+                                </Grid>
+                                <Grid
+                                    container
+                                    paddingLeft='2vw'
+                                    paddingRight='4vw'
+                                    item xs={6} sm={6} lg={6} md={6} xl={6}>
+                                    <TextField
+                                        fullWidth
+                                        name="raza"
+                                        label="Raza"
+                                        variant="outlined"
+                                        value={petSelect.raza}
+                                        onChange={handleChange5}>
+                                    </TextField>
+                                </Grid>
+                            </Grid>
+                            <Grid
+                                container
+                                alignItems='center'
+                                justifyContent='start'
+                                direction='row'
+                                width='100%'>
+                                <Grid
+                                    container
+                                    paddingLeft='4vw'
+                                    paddingRight='2vw'
+                                    item xs={6} sm={6} lg={6} md={6} xl={6}>
+                                    <TextField
+                                        fullWidth
+                                        name="edad"
+                                        label="Edad"
+                                        variant="outlined"
+                                        value={petSelect.edad}
+                                        onChange={handleChange5}>
+                                    </TextField>
+                                </Grid>
+                                <Grid
+                                    container
+                                    paddingLeft='2vw'
+                                    paddingRight='4vw'
+                                    item xs={6} sm={6} lg={6} md={6} xl={6}>
+                                    <FormControl fullWidth>
+                                        <InputLabel id="demo-simple-select-label2">Sexo</InputLabel>
+                                        <Select
+                                            labelId="demo-simple-select-label2"
+                                            id="demo-simple-select2"
+                                            name="sexo"
+                                            label="Sexo"
+                                            onChange={handleChange5}
+                                            value={petSelect.sexo}>
+                                            <MenuItem value={'Macho'}>Macho</MenuItem>
+                                            <MenuItem value={'Hembra'}>Hembra</MenuItem>
+                                        </Select>
+                                    </FormControl>
+                                </Grid>
+                            </Grid>
+                            <Grid
+                                container
+                                alignItems='center'
+                                justifyContent='start'
+                                direction='row'
+                                width='100%'>
+                                <Grid
+                                    container
+                                    paddingLeft='4vw'
+                                    paddingRight='2vw'
+                                    item xs={6} sm={6} lg={6} md={6} xl={6}>
+                                    <FormControl fullWidth>
+                                        <InputLabel id="demo-simple-select-label2">¿Presenta alguna condición?</InputLabel>
+                                        <Select
+                                            labelId="demo-simple-select-label2"
+                                            id="demo-simple-select2"
+                                            label="¿Presenta alguna condición?"
+                                            onChange={handleChange6}
+                                            value={condicion2}>
+                                            <MenuItem value={'Si'}>Si</MenuItem>
+                                            <MenuItem value={'No'}>No</MenuItem>
+                                        </Select>
+                                        <FormHelperText>Si tu mascota tiene alguna enfermedad o condicion especial marca "Si"</FormHelperText>
+                                    </FormControl>
+                                </Grid>
+                                <Grid
+                                    container
+                                    paddingLeft='2vw'
+                                    paddingRight='4vw'
+                                    item xs={6} sm={6} lg={6} md={6} xl={6}>
+                                    <TextField
+                                        disabled={isDisabled}
+                                        fullWidth
+                                        name="condicion"
+                                        label="Descripción de la condición"
+                                        variant="outlined"
+                                        value={petSelect.condicion}
+                                        onChange={handleChange5}
+                                        helperText='Si escogiste "No" en la condición esta casilla no estará habilitada'>
+                                    </TextField>
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                        <Grid
+                            container
+                            paddingLeft='4vw'
+                            paddingRight='4vw'
+                            width='100%'
+                            justifyContent='end'
+                            mb='25px'>
+                            <Button type='submit' variant='outlined' sx={{ borderRadius: '20px' }}>Guardar</Button>
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </Backdrop>
             <Backdrop
                 sx={{ color: 'rgba(0,0,0,.2)', backdropFilter: 'blur(5px)', zIndex: 1 }}
                 open={open3}>
@@ -465,13 +764,13 @@ export default function AdminClient() {
                                     Datos de la mascota
                                     <Tooltip title='Editar datos de tu mascota'>
                                         <IconButton
-                                            /* onClick={handleClicEdit} */
+                                            onClick={handleClicEdit}
                                             sx={{ ml: '33px', mr: '5px', '&:hover': { color: '#0265CD' } }}>
                                             <EditIcon sx={{ fontSize: 25 }}></EditIcon>
                                         </IconButton>
                                     </Tooltip>
                                     <Tooltip title='Eliminar mascota'>
-                                        <IconButton /* onClick={handleClicDelete} */ sx={{ mr: '5px', '&:hover': { color: '#CD0227' } }}>
+                                        <IconButton onClick={handleClicDelete} sx={{ mr: '5px', '&:hover': { color: '#CD0227' } }}>
                                             <DeleteIcon sx={{ fontSize: 25 }}></DeleteIcon>
                                         </IconButton>
                                     </Tooltip>
@@ -600,7 +899,7 @@ export default function AdminClient() {
                         </Grid>
                     </Grid>
                 </Grid>
-            </Backdrop >
+            </Backdrop>
             <Backdrop
                 sx={{ color: 'rgba(0,0,0,.2)', backdropFilter: 'blur(5px)', zIndex: 1 }}
                 open={open2}>
@@ -775,7 +1074,7 @@ export default function AdminClient() {
                         </Grid>
                     </Grid>
                 </Grid>
-            </Backdrop >
+            </Backdrop>
             <Backdrop
                 sx={{ color: 'rgba(0,0,0,.2)', backdropFilter: 'blur(5px)', zIndex: 1 }}
                 open={open1}>
@@ -962,7 +1261,7 @@ export default function AdminClient() {
                         </Grid>
                     </Grid>
                 </Grid>
-            </Backdrop >
+            </Backdrop>
             <Backdrop
                 sx={{ color: 'rgba(0,0,0,.2)', backdropFilter: 'blur(5px)', zIndex: 1 }}
                 open={open}>
@@ -1149,7 +1448,7 @@ export default function AdminClient() {
                         </Grid>
                     </Grid>
                 </Grid>
-            </Backdrop >
+            </Backdrop>
             <Grid
                 container
                 direction='row'

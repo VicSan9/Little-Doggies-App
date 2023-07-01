@@ -746,7 +746,7 @@ export default function AdminClient() {
                     bgcolor='#ffffff'
                     borderRadius='20px'
                     paddingRight='15px'
-                    paddingLeft='15px'
+                    paddingLeft='25px'
                     sx={{ color: '#000000', zIndex: (theme) => theme.zIndex.drawer + 1 }}>
                     <Grid
                         container

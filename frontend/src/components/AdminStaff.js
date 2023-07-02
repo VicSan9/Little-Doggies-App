@@ -19,8 +19,8 @@ export default function AdminStaff() {
     const [members, setMembers] = useState([])
     const [member, setMember] = useState([])
     const [services, setServices] = useState([])
-    const [info, setInfo] = useState([])
     const [service2, setServices2] = useState([])
+    const [create, setCreate] = useState({usuario: '', contraseña: '', correo: '', nombres: '', apellidos: '', telefono: '', direccion:'', rol: 'Trabajador',  foto: 'foto', estado: 'Activo'})
 
     const ITEM_HEIGHT = 48;
     const ITEM_PADDING_TOP = 8;
@@ -43,30 +43,20 @@ export default function AdminStaff() {
     }
 
     const handleSubmit1 = async (e) => {
+        e.preventDefault();
 
-        if (info.nombres.trim() === '' || info.apellidos.trim() === '' || info.correo.trim() === '' || info.telefono.trim() === '' || info.usuario.trim() === '' || info.contraseña.trim() === '' || info.direccion.trim() === '') {
+        if (member.nombres.trim() === '' || member.apellidos.trim() === '' || member.correo.trim() === '' || member.telefono.trim() === '' || member.usuario.trim() === '' || member.contraseña.trim() === '' || member.direccion.trim() === '') {
             setErrorMessage("Ingrese todos los datos primero");
             return
         }
 
-        const body2 = {
-
-            'nombres': info.nombres,
-            'apellidos': info.apellidos,
-            'correo': info.correo,
-            'telefono': info.telefono,
-            'usuario': info.usuario,
-            'contraseña': info.contraseña,
-            'direccion': info.direccion,
-            'servicio': service2.nombre,
-            'estado': 'Activo'
-        }
-
         await fetch(`http://localhost:4000/members/${member.mbid}`, {
             method: 'PUT',
-            body: JSON.stringify(body2),
+            body: JSON.stringify(member),
             headers: { "content-Type": "application/json" }
         });
+
+        window.location.reload();
 
         setAdvertenceMenssage("");
     }
@@ -74,28 +64,26 @@ export default function AdminStaff() {
     const handleClickEdit = async (e) => {
         setOpen1(true)
 
-        const mbid = member.mbid
-
-        const res = await fetch(`http://localhost:4000/members/${mbid}`, {
+        const res = await fetch(`http://localhost:4000/members/${member.mbid}`, {
             method: 'GET',
             headers: { "content-Type": "application/json" }
         })
 
         const data = await res.json();
 
-        setInfo(data)
+        setMember(data)
 
     }
 
-    const handleChange2 = e => {
-        setInfo({
-            ...info,
+    const handleChange = e => {
+        setMember({
+            ...member,
             [e.target.name]: e.target.value
         })
     }
 
     const handleClickDelete = e => {
-        setAdvertenceMenssage('¿Estás seguro que quieres eliminar este servicio?')
+        setAdvertenceMenssage('¿Estás seguro que quieres eliminar este trabajador?')
     }
 
     const handleClickAV2Can = () => {
@@ -104,9 +92,29 @@ export default function AdminStaff() {
 
     const handleClickAVConf = async () => {
 
+        const body1 = {
+
+            'usuario': member.usuario,
+            'contraseña': member.contraseña,
+            'correo': member.correo,
+            'nombres': member.nombres,
+            'apellidos': member.apellidos,
+            'telefono': member.telefono,
+            'direccion': member.direccion,
+            'rol': 'Trabajador',
+            'foto': 'foto',
+            'estado': 'Eliminado'
+        }
+
+        await fetch(`http://localhost:4000/members/${member.svid}`, {
+            method: 'PUT',
+            body: JSON.stringify(body1),
+            headers: { "content-Type": "application/json" }
+        });
+
         setAdvertenceMenssage("");
 
-        //window.location.reload();
+        window.location.reload();
     }
 
     const handleClick3 = () => {
@@ -129,7 +137,138 @@ export default function AdminStaff() {
         }
     }
 
+    const loadMembers = async () => {
 
+        const res = await fetch(`http://localhost:4000/members2`, {
+            method: 'GET',
+            headers: { "content-Type": "application/json" }
+        })
+
+        const data = await res.json()
+
+        setMembers(data)
+    }
+
+    useEffect(() => {
+        loadMembers();
+    }, []);
+
+    const handleClickPersonal = async (e) => {
+
+        const id = Number(e.currentTarget.id)
+
+        setIsHidden1(true)
+
+        const res2 = await fetch(`http://localhost:4000/members/${id}`, {
+            method: 'GET',
+            headers: { "content-Type": "application/json" }
+        })
+
+        const data2 = await res2.json()
+
+        setMember(data2)
+
+        const res3 = await fetch(`http://localhost:4000/membersServices`, {
+            method: 'GET',
+            headers: { "content-Type": "application/json" }
+        })
+
+        const data3 = await res3.json()
+
+        const ids = []
+
+        for (let i = 0; i < data3.length; i++) {
+            if (data3[i].mbid === data2.mbid) {
+                ids.push(data3[i].svid)
+            }
+        }
+
+        const services = []
+
+        for (let i = 0; i < ids.length; i++) {
+            const res4 = await fetch(`http://localhost:4000/services/${ids[i]}`, {
+                method: 'GET',
+                headers: { "content-Type": "application/json" }
+            })
+
+            const data4 = await res4.json();
+
+            services.push(data4)
+        }
+
+        setServices(services)
+    }
+
+    const handleChange1 = (event) => {
+        const {
+            target: { value },
+        } = event;
+        setServices2(
+            // On autofill we get a stringified value.
+            typeof value === 'string' ? value.split(',') : value,
+        );
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        if (create.nombres.trim() === '' || create.apellidos.trim() === '' || create.correo.trim() === '' || create.telefono.trim() === '' || create.usuario.trim() === '' || create.contraseña.trim() === '' || create.direccion.trim() === '') {
+            setErrorMessage("Ingrese todos los datos primero");
+
+            return
+        }
+
+        const res3 = await fetch('http://localhost:4000/members', {
+            method: 'POST',
+            body: JSON.stringify(create),
+            headers: { "content-Type": "application/json" }
+        })
+
+        const data3 = await res3.json();
+
+        var id = []
+
+        for (let i = 0; i < service2.length; i++) {
+            for (let j = 0; j < services.length; j++) {
+                if (service2[i] === services[j].nombre) {
+                    id.push(services[j].svid)
+                }
+            }
+        }
+
+        for (let i = 0; i < id.length; i++) {
+            var body4 = {
+                'svid': id[i],
+                'mbid': data3.mbid,
+            }
+            await fetch('http://localhost:4000/membersServices', {
+                method: 'POST',
+                body: JSON.stringify(body4),
+                headers: { "content-Type": "application/json" }
+            })
+            console.log(body4)
+        }
+
+        window.location.reload()
+    }
+
+    const handleChange2 = e => {
+        setCreate({
+            ...create,
+            [e.target.name]: e.target.value
+        })
+    }
+
+    const onClick = async () => {
+        if (sessionStorage.getItem('id') === null) {
+            return
+        }
+        if (service2.length === 0) {
+            setErrorMessage('Por favor selecciona los servicios')
+            return
+        }
+
+    }
 
     const ErrorComponent = ({ errorMessage }) => {
         return (
@@ -215,92 +354,6 @@ export default function AdminStaff() {
         );
     };
 
-    const loadMembers = async () => {
-
-        const res = await fetch(`http://localhost:4000/members`, {
-            method: 'GET',
-            headers: { "content-Type": "application/json" }
-        })
-
-        const data = await res.json()
-
-        setMembers(data)
-    }
-
-    useEffect(() => {
-        loadMembers();
-    }, []);
-
-    const handleClickPersonal = async (e) => {
-
-        const id = Number(e.currentTarget.id)
-
-        setIsHidden1(true)
-
-        const res2 = await fetch(`http://localhost:4000/members/${id}`, {
-            method: 'GET',
-            headers: { "content-Type": "application/json" }
-        })
-
-        const data2 = await res2.json()
-
-        setMember(data2)
-
-        const res3 = await fetch(`http://localhost:4000/membersServices`, {
-            method: 'GET',
-            headers: { "content-Type": "application/json" }
-        })
-
-        const data3 = await res3.json()
-
-        const ids = []
-
-        for (let i = 0; i < data3.length; i++) {
-            if (data3[i].mbid === data2.mbid) {
-                ids.push(data3[i].svid)
-            }
-        }
-
-        const services = []
-
-        for (let i = 0; i < ids.length; i++) {
-            const res4 = await fetch(`http://localhost:4000/services/${ids[i]}`, {
-                method: 'GET',
-                headers: { "content-Type": "application/json" }
-            })
-
-            const data4 = await res4.json();
-
-            services.push(data4)
-        }
-
-        setServices(services)
-
-        console.log(services)
-    }
-
-    const handleChange1 = (event) => {
-        const {
-            target: { value },
-        } = event;
-        setServices2(
-            // On autofill we get a stringified value.
-            typeof value === 'string' ? value.split(',') : value,
-        );
-    };
-
-    const onClick = async () => {
-        if (sessionStorage.getItem('id') === null) {
-            return
-        }
-        if (service2.length === 0) {
-            setErrorMessage('Por favor selecciona los servicios')
-            return
-        }
-
-    }
-
-
 
     return (
 
@@ -312,13 +365,15 @@ export default function AdminStaff() {
                 open={open1}>
                 <Grid
                     container
-                    alignItems='start'
-                    height='100vh'
-                    width='30vw'
+                    alignItems='flex-start'
+                    height='70vh'
+                    width='70vw'
+                    maxWidth='1200px'
+                    maxHeight='600px'
                     bgcolor='#ffffff'
                     borderRadius='20px'
-                    paddingRight='5px'
-                    paddingLeft='25px'
+                    paddingRight='15px'
+                    paddingLeft='15px'
                     sx={{ color: '#000000', zIndex: (theme) => theme.zIndex.drawer + 1 }}>
                     <Grid
                         container
@@ -329,89 +384,192 @@ export default function AdminStaff() {
                             <Typography fontWeight='bold'>X</Typography>
                         </IconButton>
                     </Grid>
-                    <Grid component={'form'} onSubmit={handleSubmit1}
+                    <Grid
                         container
-                        direction='column'
-                        height='90vh'
-                        alignItems='center'
-                        justifyContent='center'
-                        item xs={12} sm={12} lg={12} md={12} xl={12}>
-                        <Typography textAlign='start' variant="h6" fontWeight='bold'>Edita información de un empleado</Typography>
-                        <TextField
-                            name="nombres"
-                            variant="outlined"
-                            value={info.nombres}
-                            onChange={handleChange2}
-                            sx={{ ml: '10px', mr: '20px', width: '80%', mt: '15px' }} />
-                        <TextField
-                            name="apellidos"
-                            variant="outlined"
-                            value={info.apellidos}
-                            onChange={handleChange2}
-                            sx={{ ml: '10px', mr: '20px', width: '80%', mt: '15px' }} />
-                        <TextField
-                            name="correo"
-                            variant="outlined"
-                            value={info.correo}
-                            onChange={handleChange2}
-                            sx={{ ml: '10px', mr: '20px', width: '80%', mt: '15px' }} />
-                        <TextField
-                            name="telefono"
-                            variant="outlined"
-                            value={info.telefono}
-                            onChange={handleChange2}
-                            sx={{ ml: '10px', mr: '20px', width: '80%', mt: '15px' }} />
-                        <TextField
-                            name="usuario"
-                            variant="outlined"
-                            value={info.usuario}
-                            onChange={handleChange2}
-                            sx={{ ml: '10px', mr: '20px', width: '80%', mt: '15px' }} />
-                        <TextField
-                            name="contraseña"
-                            variant="outlined"
-                            value={info.contraseña}
-                            onChange={handleChange2}
-                            sx={{ ml: '10px', mr: '20px', width: '80%', mt: '15px' }} />
-                        <TextField
-                            name="direccion"
-                            variant="outlined"
-                            value={info.direccion}
-                            onChange={handleChange2}
-                            sx={{ ml: '10px', mr: '20px', width: '80%', mt: '15px' }} />
-                        <FormControl sx={{ ml: '25px', mr: '25px', width: '80%', mt: '15px' }}>
-                            <InputLabel id="demo-simple-select-label">Servicios</InputLabel>
-                            <Select
-                                multiple
-                                name="servicios"
-                                labelId="demo-simple-select-label2"
-                                id="demo-simple-select2"
-                                value={service2}
-                                label="Encargado"
-                                onChange={handleChange1}
-                                renderValue={(selected) => (
-                                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                                        {selected.map((value) => (
-                                            <Chip key={value} label={value} />
-                                        ))}
-                                    </Box>
-                                )}
-                                MenuProps={MenuProps}>
-                                {services.map((servicios) => (
-                                    <MenuItem
-                                        key={servicios.svid}
-                                        value={servicios.nombre}>
-                                        {servicios.nombre}
-                                    </MenuItem>
-                                ))}
-                            </Select>
-                        </FormControl>
-                        <Button
-                            type='submit'
-                            variant="contained"
-                            onClick={onClick}
-                            sx={{ mt: '10px', borderRadius: '50px', width: '130px' }}>Guardar
-                        </Button>
+                        height='60vh'
+                        maxHeight='550px'
+                        alignItems='start'
+                        component={'form'}
+                        onSubmit={handleSubmit1}>
+                        <Grid
+                            container
+                            width='100%'
+                            justifyContent='center'
+                            alignItems='center'
+                            mb='10px'>
+                            <Typography variant='h6'>Editar información de un trabajador</Typography>
+                        </Grid>
+                        <Grid
+                            container
+                            width='100%'
+                            justifyContent='start'
+                            alignItems='start'
+                            height='70%'>
+                            <Grid
+                                container
+                                alignItems='center'
+                                justifyContent='start'
+                                direction='row'
+                                width='100%'>
+                                <Grid
+                                    container
+                                    paddingLeft='4vw'
+                                    paddingRight='2vw'
+                                    item xs={6} sm={6} lg={6} md={6} xl={6}>
+                                    <TextField
+                                        fullWidth
+                                        name="nombres"
+                                        variant="outlined"
+                                        value={member.nombres}
+                                        onChange={handleChange}>
+                                    </TextField>
+                                </Grid>
+                                <Grid
+                                    container
+                                    paddingLeft='2vw'
+                                    paddingRight='4vw'
+                                    item xs={6} sm={6} lg={6} md={6} xl={6}>
+                                    <TextField
+                                        fullWidth
+                                        name="apellidos"
+                                        variant="outlined"
+                                        value={member.apellidos}
+                                        onChange={handleChange}>
+                                    </TextField>
+                                </Grid>
+                            </Grid>
+                            <Grid
+                                container
+                                alignItems='center'
+                                justifyContent='start'
+                                direction='row'
+                                width='100%'>
+                                <Grid
+                                    container
+                                    paddingLeft='4vw'
+                                    paddingRight='2vw'
+                                    item xs={6} sm={6} lg={6} md={6} xl={6}>
+                                    <TextField
+                                        fullWidth
+                                        name="telefono"
+                                        type="tel"
+                                        variant="outlined"
+                                        value={member.telefono}
+                                        onChange={handleChange}>
+                                    </TextField>
+                                </Grid>
+                                <Grid
+                                    container
+                                    paddingLeft='2vw'
+                                    paddingRight='4vw'
+                                    item xs={6} sm={6} lg={6} md={6} xl={6}>
+                                    <TextField
+                                        fullWidth
+                                        name="correo"
+                                        type="email"
+                                        variant="outlined"
+                                        value={member.correo}
+                                        onChange={handleChange}>
+                                    </TextField>
+                                </Grid>
+                            </Grid>
+                            <Grid
+                                container
+                                alignItems='center'
+                                justifyContent='start'
+                                direction='row'
+                                width='100%'>
+                                <Grid
+                                    container
+                                    paddingLeft='4vw'
+                                    paddingRight='2vw'
+                                    item xs={6} sm={6} lg={6} md={6} xl={6}>
+                                    <TextField
+                                        fullWidth
+                                        name="usuario"
+                                        variant="outlined"
+                                        value={member.usuario}
+                                        onChange={handleChange}>
+                                    </TextField>
+                                </Grid>
+                                <Grid
+                                    container
+                                    paddingLeft='2vw'
+                                    paddingRight='4vw'
+                                    item xs={6} sm={6} lg={6} md={6} xl={6}>
+                                    <TextField
+                                        fullWidth
+                                        name="contraseña"
+                                        type="password"
+                                        variant="outlined"
+                                        value={member.contraseña}
+                                        onChange={handleChange}>
+                                    </TextField>
+                                </Grid>
+                            </Grid>
+                            <Grid
+                                container
+                                alignItems='center'
+                                justifyContent='start'
+                                direction='row'
+                                width='100%'>
+                                <Grid
+                                    container
+                                    paddingLeft='4vw'
+                                    paddingRight='2vw'
+                                    item xs={6} sm={6} lg={6} md={6} xl={6}>
+                                    <TextField
+                                        fullWidth
+                                        name="direccion"
+                                        variant="outlined"
+                                        value={member.direccion}
+                                        onChange={handleChange}>
+                                    </TextField>
+                                </Grid>
+                                <Grid
+                                    container
+                                    paddingLeft='2vw'
+                                    paddingRight='4vw'
+                                    item xs={6} sm={6} lg={6} md={6} xl={6}>
+                                    <FormControl sx={{ width: '100%' }}>
+                                        <InputLabel id="demo-simple-select-label">Servicios</InputLabel>
+                                        <Select
+                                            multiple
+                                            name="servicios"
+                                            labelId="demo-simple-select-label2"
+                                            id="demo-simple-select2"
+                                            value={service2}
+                                            label="Encargado"
+                                            onChange={handleChange1}
+                                            renderValue={(selected) => (
+                                                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                                                    {selected.map((value) => (
+                                                        <Chip key={value} label={value} />
+                                                    ))}
+                                                </Box>
+                                            )}
+                                            MenuProps={MenuProps}>
+                                            {services.map((servicios) => (
+                                                <MenuItem
+                                                    key={servicios.svid}
+                                                    value={servicios.nombre}>
+                                                    {servicios.nombre}
+                                                </MenuItem>
+                                            ))}
+                                        </Select>
+                                    </FormControl>
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                        <Grid
+                            container
+                            paddingLeft='4vw'
+                            paddingRight='4vw'
+                            width='100%'
+                            justifyContent='end'
+                            mb='25px'>
+                            <Button type='submit' variant='outlined' sx={{ borderRadius: '20px' }}>Guardar</Button>
+                        </Grid>
                         <Grid
                             container
                             ml='20px'
@@ -450,13 +608,15 @@ export default function AdminStaff() {
                 open={open}>
                 <Grid
                     container
-                    alignItems='start'
-                    height='75vh'
-                    width='60vw'
+                    alignItems='flex-start'
+                    height='70vh'
+                    width='70vw'
+                    maxWidth='1200px'
+                    maxHeight='600px'
                     bgcolor='#ffffff'
                     borderRadius='20px'
                     paddingRight='15px'
-                    paddingLeft='25px'
+                    paddingLeft='15px'
                     sx={{ color: '#000000', zIndex: (theme) => theme.zIndex.drawer + 1 }}>
                     <Grid
                         container
@@ -466,6 +626,200 @@ export default function AdminStaff() {
                         <IconButton sx={{ mt: '10px', width: 25, height: 25, '&:hover': { color: '#CD0227', bgcolor: '#FFFFFF' } }} onClick={handleClose}>
                             <Typography fontWeight='bold'>X</Typography>
                         </IconButton>
+                    </Grid>
+                    <Grid
+                        container
+                        height='60vh'
+                        maxHeight='550px'
+                        alignItems='start'
+                        component={'form'}
+                        onSubmit={handleSubmit}>
+                        <Grid
+                            container
+                            width='100%'
+                            justifyContent='center'
+                            alignItems='center'
+                            mb='10px'>
+                            <Typography variant='h6'>Registra un nuevo trabajador</Typography>
+                        </Grid>
+                        <Grid
+                            container
+                            width='100%'
+                            justifyContent='start'
+                            alignItems='start'
+                            height='70%'>
+                            <Grid
+                                container
+                                alignItems='center'
+                                justifyContent='start'
+                                direction='row'
+                                width='100%'>
+                                <Grid
+                                    container
+                                    paddingLeft='4vw'
+                                    paddingRight='2vw'
+                                    item xs={6} sm={6} lg={6} md={6} xl={6}>
+                                    <TextField
+                                        fullWidth
+                                        name="nombres"
+                                        variant="outlined"
+                                        label="Nombres"
+                                        value={create.nombres}
+                                        onChange={handleChange2}>
+                                    </TextField>
+                                </Grid>
+                                <Grid
+                                    container
+                                    paddingLeft='2vw'
+                                    paddingRight='4vw'
+                                    item xs={6} sm={6} lg={6} md={6} xl={6}>
+                                    <TextField
+                                        fullWidth
+                                        name="apellidos"
+                                        label="Apellidos"
+                                        variant="outlined"
+                                        value={create.apellidos}
+                                        onChange={handleChange2}>
+                                    </TextField>
+                                </Grid>
+                            </Grid>
+                            <Grid
+                                container
+                                alignItems='center'
+                                justifyContent='start'
+                                direction='row'
+                                width='100%'>
+                                <Grid
+                                    container
+                                    paddingLeft='4vw'
+                                    paddingRight='2vw'
+                                    item xs={6} sm={6} lg={6} md={6} xl={6}>
+                                    <TextField
+                                        fullWidth
+                                        name="telefono"
+                                        label="Celular"
+                                        type="tel"
+                                        variant="outlined"
+                                        value={create.telefono}
+                                        onChange={handleChange2}>
+                                    </TextField>
+                                </Grid>
+                                <Grid
+                                    container
+                                    paddingLeft='2vw'
+                                    paddingRight='4vw'
+                                    item xs={6} sm={6} lg={6} md={6} xl={6}>
+                                    <TextField
+                                        fullWidth
+                                        name="correo"
+                                        label="Correo Electronico"
+                                        type="email"
+                                        variant="outlined"
+                                        value={create.correo}
+                                        onChange={handleChange2}>
+                                    </TextField>
+                                </Grid>
+                            </Grid>
+                            <Grid
+                                container
+                                alignItems='center'
+                                justifyContent='start'
+                                direction='row'
+                                width='100%'>
+                                <Grid
+                                    container
+                                    paddingLeft='4vw'
+                                    paddingRight='2vw'
+                                    item xs={6} sm={6} lg={6} md={6} xl={6}>
+                                    <TextField
+                                        fullWidth
+                                        name="usuario"
+                                        label="Usuario"
+                                        variant="outlined"
+                                        value={create.usuario}
+                                        onChange={handleChange2}>
+                                    </TextField>
+                                </Grid>
+                                <Grid
+                                    container
+                                    paddingLeft='2vw'
+                                    paddingRight='4vw'
+                                    item xs={6} sm={6} lg={6} md={6} xl={6}>
+                                    <TextField
+                                        fullWidth
+                                        name="contraseña"
+                                        label="Contraseña"
+                                        type="password"
+                                        variant="outlined"
+                                        value={create.contraseña}
+                                        onChange={handleChange2}>
+                                    </TextField>
+                                </Grid>
+                            </Grid>
+                            <Grid
+                                container
+                                alignItems='center'
+                                justifyContent='start'
+                                direction='row'
+                                width='100%'>
+                                <Grid
+                                    container
+                                    paddingLeft='4vw'
+                                    paddingRight='2vw'
+                                    item xs={6} sm={6} lg={6} md={6} xl={6}>
+                                    <TextField
+                                        fullWidth
+                                        name="direccion"
+                                        label="Dirección"
+                                        variant="outlined"
+                                        value={create.direccion}
+                                        onChange={handleChange2}>
+                                    </TextField>
+                                </Grid>
+                                <Grid
+                                    container
+                                    paddingLeft='2vw'
+                                    paddingRight='4vw'
+                                    item xs={6} sm={6} lg={6} md={6} xl={6}>
+                                    <FormControl sx={{ width: '100%' }}>
+                                        <InputLabel id="demo-simple-select-label">Servicios</InputLabel>
+                                        <Select
+                                            multiple
+                                            name="servicios"
+                                            labelId="demo-simple-select-label2"
+                                            id="demo-simple-select2"
+                                            value={service2}
+                                            label="Encargado"
+                                            onChange={handleChange1}
+                                            renderValue={(selected) => (
+                                                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                                                    {selected.map((value) => (
+                                                        <Chip key={value} label={value} />
+                                                    ))}
+                                                </Box>
+                                            )}
+                                            MenuProps={MenuProps}>
+                                            {services.map((servicios) => (
+                                                <MenuItem
+                                                    key={servicios.svid}
+                                                    value={servicios.nombre}>
+                                                    {servicios.nombre}
+                                                </MenuItem>
+                                            ))}
+                                        </Select>
+                                    </FormControl>
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                        <Grid
+                            container
+                            paddingLeft='4vw'
+                            paddingRight='4vw'
+                            width='100%'
+                            justifyContent='end'
+                            mb='25px'>
+                            <Button type='submit' variant='outlined' sx={{ borderRadius: '20px' }}>Registrar</Button>
+                        </Grid>
                     </Grid>
                     <Grid
                         container
@@ -591,8 +945,8 @@ export default function AdminStaff() {
                                         paddingRight='8px'
                                         paddingLeft='8px'
                                         boxShadow='none'
-                                        bgcolor={colorFun(member.mbid)}
-                                        color={colorFun2(member.mbid)}
+                                        bgcolor={colorFun(miembros.mbid)}
+                                        color={colorFun2(miembros.mbid)}
                                         sx={{
                                             height: '60px',
                                             '&:hover': {

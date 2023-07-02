@@ -22,7 +22,7 @@ export default function AdminServices() {
     const [members, setMembers] = useState([])
     const [incharge, setIncharge] = useState([])
     const [incharge2, setIncharge2] = useState([])
-    const [create, setCreate] = useState({ nombre: '', categoria: '', descripcion: ''})
+    const [create, setCreate] = useState({ nombre: '', categoria: '', descripcion: '', estado: 'Activo'})
 
     const ITEM_HEIGHT = 48;
     const ITEM_PADDING_TOP = 8;
@@ -188,14 +188,7 @@ export default function AdminServices() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const body3 = {
-
-            'nombre': create.nombre,
-            'categoria': create.categoria,
-            'descripcion': create.descripcion,
-            'estado': 'Activo'
-        }
-
+    
         if (create.nombre.trim() === '' || create.categoria.trim() === '' || create.descripcion.trim() === '') {
             setErrorMessage("Ingrese todos los datos primero");
             setCreate({ nombre: '', categoria: '', descripcion: '' })
@@ -204,15 +197,11 @@ export default function AdminServices() {
 
         const res3 = await fetch('http://localhost:4000/services', {
             method: 'POST',
-            body: JSON.stringify(body3),
+            body: JSON.stringify(create),
             headers: { "content-Type": "application/json" }
         })
 
         const data3 = await res3.json();
-
-        setCreate(data3)
-
-
 
         if (incharge2.length === 0) {
             setErrorMessage('Por favor selecciona a uno de los encargados')

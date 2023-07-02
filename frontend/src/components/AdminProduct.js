@@ -5,7 +5,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Link } from 'react-router-dom';
-import { ImagePicker } from 'react-image-picker';
+//import { ImagePicker } from 'react-image-picker';
 
 export default function AdminClient() {
     const [open, setOpen] = useState(false);

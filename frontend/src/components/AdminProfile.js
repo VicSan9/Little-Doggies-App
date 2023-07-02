@@ -140,7 +140,7 @@ export default function AdminProfile() {
                             justifyContent='center'
                             alignItems='center'
                             mb='10px'>
-                            <Typography variant='h6'>Editar información de un trabajador</Typography>
+                            <Typography variant='h6'>Modifica tu información personal</Typography>
                         </Grid>
                         <Grid
                             container
@@ -250,69 +250,39 @@ export default function AdminProfile() {
                                     </TextField>
                                 </Grid>
                             </Grid>
+                            <Grid
+                                container
+                                alignItems='center'
+                                justifyContent='start'
+                                direction='row'
+                                width='100%'>
+                                <Grid
+                                    container
+                                    paddingLeft='4vw'
+                                    paddingRight='2vw'
+                                    item xs={6} sm={6} lg={6} md={6} xl={6}>
+                                    <TextField
+                                        fullWidth
+                                        name="direccion"
+                                        variant="outlined"
+                                        value={user.direccion}
+                                        onChange={handleChange}>
+                                    </TextField>
+                                </Grid>
+                            </Grid>
                         </Grid>
                         <Grid
                             container
-                            alignItems='center'
-                            justifyContent='start'
-                            direction='row'
-                            width='100%'>
-                            <Grid
-                                container
-                                paddingLeft='4vw'
-                                paddingRight='2vw'
-                                item xs={6} sm={6} lg={6} md={6} xl={6}>
-                                <TextField
-                                    fullWidth
-                                    name="direccion"
-                                    variant="outlined"
-                                    value={user.direccion}
-                                    onChange={handleChange}>
-                                </TextField>
-                            </Grid>
-                            <Grid
-                                container
-                                paddingLeft='4vw'
-                                paddingRight='4vw'
-                                width='100%'
-                                justifyContent='end'
-                                mb='25px'>
-                                <Button type='submit' variant='outlined' sx={{ borderRadius: '20px' }}>Guardar</Button>
-                            </Grid>
-                            <Grid
-                                container
-                                ml='20px'
-                                mr='20px'
-                                width='95%'
-                                height='100%'
-                                justifyContent='center'
-                                overflow='scroll'
-                                display='block'
-                                sx={{
-                                    '&::-webkit-scrollbar': {
-                                        width: '8px',
-                                        height: '8px',
-                                    },
-                                    '&::-webkit-scrollbar-thumb': {
-                                        backgroundColor: 'rgba(0, 0, 0, 0.1)',
-                                        borderRadius: '10px',
-                                        '&:hover': {
-                                            backgroundColor: 'rgba(0, 0, 0, 0.3)',
-                                        },
-                                    },
-                                    '&::-webkit-scrollbar: horizontal': {
-                                        display: 'none',
-                                    },
-                                }}>
-                            </Grid>
+                            paddingLeft='4vw'
+                            paddingRight='4vw'
+                            width='100%'
+                            justifyContent='end'
+                            mb='25px'>
+                            <Button type='submit' variant='outlined' sx={{ borderRadius: '20px' }}>Guardar</Button>
                         </Grid>
                     </Grid>
-                    <Grid
-                        container
-                        height='75vh'>
-                    </Grid>
-                </Grid >
-            </Backdrop >
+                </Grid>
+            </Backdrop>
             <Grid
                 container
                 direction='row'

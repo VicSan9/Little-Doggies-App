@@ -20,7 +20,6 @@ export default function AdminStaff() {
     const [member, setMember] = useState([])
     const [services, setServices] = useState([])
     const [service2, setServices2] = useState([])
-    const [services4, setServices4] = useState([])
     const [create, setCreate] = useState({usuario: '', contraseña: '', correo: '', nombres: '', apellidos: '', telefono: '', direccion:'', rol: 'Trabajador',  foto: 'foto', estado: 'Activo'})
 
     const ITEM_HEIGHT = 48;
@@ -152,22 +151,6 @@ export default function AdminStaff() {
 
     useEffect(() => {
         loadMembers();
-    }, []);
-
-    const loadServices = async () => {
-
-        const res = await fetch(`http://localhost:4000/services`, {
-            method: 'GET',
-            headers: { "content-Type": "application/json" }
-        })
-
-        const data = await res.json()
-
-        setServices4(data)
-    }
-
-    useEffect(() => {
-        loadServices();
     }, []);
 
     const handleClickPersonal = async (e) => {

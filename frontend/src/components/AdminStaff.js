@@ -20,6 +20,7 @@ export default function AdminStaff() {
     const [member, setMember] = useState([])
     const [services, setServices] = useState([])
     const [service2, setServices2] = useState([])
+    const [services4, setServices4] = useState([])
     const [create, setCreate] = useState({usuario: '', contraseña: '', correo: '', nombres: '', apellidos: '', telefono: '', direccion:'', rol: 'Trabajador',  foto: 'foto', estado: 'Activo'})
 
     const ITEM_HEIGHT = 48;
@@ -106,7 +107,7 @@ export default function AdminStaff() {
             'estado': 'Eliminado'
         }
 
-        await fetch(`http://localhost:4000/members/${member.svid}`, {
+        await fetch(`http://localhost:4000/members/${member.mbid}`, {
             method: 'PUT',
             body: JSON.stringify(body1),
             headers: { "content-Type": "application/json" }
@@ -151,6 +152,22 @@ export default function AdminStaff() {
 
     useEffect(() => {
         loadMembers();
+    }, []);
+
+    const loadServices = async () => {
+
+        const res = await fetch(`http://localhost:4000/services`, {
+            method: 'GET',
+            headers: { "content-Type": "application/json" }
+        })
+
+        const data = await res.json()
+
+        setServices4(data)
+    }
+
+    useEffect(() => {
+        loadServices();
     }, []);
 
     const handleClickPersonal = async (e) => {
@@ -214,7 +231,14 @@ export default function AdminStaff() {
 
         if (create.nombres.trim() === '' || create.apellidos.trim() === '' || create.correo.trim() === '' || create.telefono.trim() === '' || create.usuario.trim() === '' || create.contraseña.trim() === '' || create.direccion.trim() === '') {
             setErrorMessage("Ingrese todos los datos primero");
+            return
+        }
 
+        if (sessionStorage.getItem('id') === null) {
+            return
+        }
+        if (service2.length === 0) {
+            setErrorMessage('Por favor selecciona los servicios')
             return
         }
 
@@ -257,17 +281,6 @@ export default function AdminStaff() {
             ...create,
             [e.target.name]: e.target.value
         })
-    }
-
-    const onClick = async () => {
-        if (sessionStorage.getItem('id') === null) {
-            return
-        }
-        if (service2.length === 0) {
-            setErrorMessage('Por favor selecciona los servicios')
-            return
-        }
-
     }
 
     const ErrorComponent = ({ errorMessage }) => {

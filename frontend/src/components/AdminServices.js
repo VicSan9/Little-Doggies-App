@@ -22,8 +22,7 @@ export default function AdminServices() {
     const [members, setMembers] = useState([])
     const [incharge, setIncharge] = useState([])
     const [incharge2, setIncharge2] = useState([])
-    const [create, setCreate] = useState({ nombre: '', categoria: '', descripcion: '' })
-    const [info, setInfo] = useState([])
+    const [create, setCreate] = useState({ nombre: '', categoria: '', descripcion: '', encargado: '' })
 
     const ITEM_HEIGHT = 48;
     const ITEM_PADDING_TOP = 8;
@@ -45,57 +44,10 @@ export default function AdminServices() {
         setOpen(true)
     }
 
-
-    const handleSubmit1 = async (e) => {
-
-        if (info.nombre.trim() === '' || info.categoria.trim() === '' || info.descripcion.trim() === '') {
-            setErrorMessage("Ingrese todos los datos primero");
-            return
-        }
-
-        const body2 = {
-
-            'nombre': info.nombre,
-            'categoria': info.categoria,
-            'descripcion': info.descripcion,
-            'encargado': incharge2.nombre,
-            'estado': 'Activo'
-        }
-
-        await fetch(`http://localhost:4000/services/${service.svid}`, {
-            method: 'PUT',
-            body: JSON.stringify(body2),
-            headers: { "content-Type": "application/json" }
-        });
-
-        setAdvertenceMenssage("");
-    }
-
     const handleClickEdit = async (e) => {
         setOpen1(true)
-
-        const svid = service.svid
-
-        const res = await fetch(`http://localhost:4000/services/${svid}`, {
-            method: 'GET',
-            headers: { "content-Type": "application/json" }
-        })
-
-        const data = await res.json();
-
-        setInfo(data)
-
+        setErrorMessage("");
     }
-
-    const handleChange2 = e => {
-        setInfo({
-            ...info,
-            [e.target.name]: e.target.value
-        })
-    }
-
-
-
 
     const handleClickDelete = e => {
         setAdvertenceMenssage('¿Estás seguro que quieres eliminar este servicio?')
@@ -112,7 +64,7 @@ export default function AdminServices() {
             'nombre': service.nombre,
             'categoria': service.categoria,
             'descripcion': service.descripcion,
-            'encargado': incharge.mbid,
+            'encargado': incharge2.nombres,
             'estado': 'Eliminado'
         }
 
@@ -147,90 +99,30 @@ export default function AdminServices() {
         }
     }
 
+    const handleChange = e => {
+        setCreate({
+            ...create,
+            [e.target.name]: e.target.value
+        })
+    }
 
-    const ErrorComponent = ({ errorMessage }) => {
-        return (
-            <Grid container
-                zIndex='2'
-                width='100vw'
-                height='100vh'
-                position='absolute'
-                alignItems='center'
-                textAlign='center'
-                justifyContent='center'
-                sx={{ backgroundColor: 'rgba(0,0,0,.2)', backdropFilter: 'blur(5px)', }}>
-                <Box
-                    width='300px'
-                    height='200px'
-                    borderRadius='20px'
-                    border='1px solid #BABBBF'
-                    sx={{ backgroundColor: '#ffffff' }}>
-                    <Typography color='#CD0227' mt='20px' variant="h5" fontWeight='bold'>Error</Typography>
-                    <p>{errorMessage}</p>
-                    <Button variant="outlined"
-                        size='medium'
-                        onClick={handleClick3}
-                        sx={{
-                            color: '#0265CD',
-                            mt: '30px',
-                            borderColor: '#0265CD',
-                            borderRadius: '50px',
-                            textTransform: 'none'
-                        }}> Volver
-                    </Button>
-                </Box>
-            </Grid>
+    const handleChange2 = e => {
+        setService({
+            ...service,
+            [e.target.name]: e.target.value
+        })
+    }
+
+    const handleChange1 = (event) => {
+        const {
+            target: { value },
+        } = event;
+        setIncharge2(
+            // On autofill we get a stringified value.
+            typeof value === 'string' ? value.split(',') : value,
         );
     };
 
-    const AdvertenceComponent = ({ advertenceMenssage }) => {
-        return (
-            <Grid container
-                zIndex='2'
-                width='100vw'
-                height='100vh'
-                position='absolute'
-                alignItems='center'
-                textAlign='center'
-                justifyContent='center'
-                sx={{ backgroundColor: 'rgba(0,0,0,.2)', backdropFilter: 'blur(5px)', }}>
-                <Box
-                    width='300px'
-                    height='200px'
-                    borderRadius='20px'
-                    border='1px solid #BABBBF'
-                    sx={{ backgroundColor: '#ffffff' }}>
-                    <Typography color='#000000' mt='20px' variant="h5" fontWeight='bold'>Advertencia</Typography>
-                    <p>{advertenceMenssage}</p>
-                    <Button variant="outlined"
-                        size='medium'
-                        onClick={handleClickAV2Can}
-                        sx={{
-                            color: '#0265CD',
-                            width: '80px',
-                            mt: '20px',
-                            borderColor: '#0265CD',
-                            borderRadius: '50px',
-                            textTransform: 'none'
-                        }}> Volver
-                    </Button>
-                    <Button variant="outlined"
-                        size='medium'
-                        onClick={handleClickAVConf}
-                        sx={{
-                            width: '80px',
-                            color: '#0265CD',
-                            mt: '20px',
-                            ml: '20px',
-                            borderColor: '#0265CD',
-                            borderRadius: '50px',
-                            textTransform: 'none'
-                        }}> Confirmar
-                    </Button>
-                </Box>
-            </Grid>
-        );
-    };
 
     const loadServices = async () => {
 
@@ -297,22 +189,18 @@ export default function AdminServices() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        const body3 = {
+
+            'nombre': create.nombre,
+            'categoria': create.categoria,
+            'descripcion': create.descripcion,
+            'estado': 'Activo'
+        }
+
         if (create.nombre.trim() === '' || create.categoria.trim() === '' || create.descripcion.trim() === '') {
             setErrorMessage("Ingrese todos los datos primero");
             setCreate({ nombre: '', categoria: '', descripcion: '' })
             return
-        }
-
-        const nombre = create.nombre;
-        const categoria = create.categoria;
-        const descripcion = create.descripcion;
-
-        const body3 = {
-
-            'nombre': nombre,
-            'categoria': categoria,
-            'descripcion': descripcion,
-            'estado': 'Activo'
         }
 
         const res3 = await fetch('http://localhost:4000/services', {
@@ -322,6 +210,17 @@ export default function AdminServices() {
         })
 
         const data3 = await res3.json();
+
+        setCreate(data3)
+
+
+
+        if (incharge2.length === 0) {
+            setErrorMessage('Por favor selecciona a uno de los encargados')
+            return
+        }
+
+        setIncharge2()
 
         var id = []
 
@@ -349,23 +248,27 @@ export default function AdminServices() {
         window.location.reload()
     }
 
-    const handleChange = e => {
-        setCreate({
-            ...create,
-            [e.target.name]: e.target.value
+    const handleSubmit2 = async (e) => {
+        e.preventDefault();
+
+        if (service.nombre.trim() === '' || service.categoria.trim() === '' || service.descripcion.trim() === '') {
+            setErrorMessage("Ingrese todos los datos primero");
+            return
+        }
+
+        const res = await fetch(`http://localhost:4000/services/${service.svid}`, {
+            method: 'PUT',
+            body: JSON.stringify(service),
+            headers: { "content-Type": "application/json" }
         })
+
+        const data = await res.json()
+
+        if (!data.message) {
+            window.location.reload();
+            return
+        }
     }
-
-
-    const handleChange1 = (event) => {
-        const {
-            target: { value },
-        } = event;
-        setIncharge2(
-            // On autofill we get a stringified value.
-            typeof value === 'string' ? value.split(',') : value,
-        );
-    };
 
     const loadIncharge = async () => {
 
@@ -384,17 +287,90 @@ export default function AdminServices() {
         loadIncharge();
     }, []);
 
+    const ErrorComponent = ({ errorMessage }) => {
+        return (
+            <Grid container
+                zIndex='2'
+                width='100vw'
+                height='100vh'
+                position='absolute'
+                alignItems='center'
+                textAlign='center'
+                justifyContent='center'
+                sx={{ backgroundColor: 'rgba(0,0,0,.2)', backdropFilter: 'blur(5px)', }}>
+                <Box
+                    width='300px'
+                    height='200px'
+                    borderRadius='20px'
+                    border='1px solid #BABBBF'
+                    sx={{ backgroundColor: '#ffffff' }}>
+                    <Typography color='#CD0227' mt='20px' variant="h5" fontWeight='bold'>Error</Typography>
+                    <p>{errorMessage}</p>
+                    <Button variant="outlined"
+                        size='medium'
+                        onClick={handleClick3}
+                        sx={{
+                            color: '#0265CD',
+                            mt: '30px',
+                            borderColor: '#0265CD',
+                            borderRadius: '50px',
+                            textTransform: 'none'
+                        }}> Volver
+                    </Button>
+                </Box>
+            </Grid>
+        );
+    };
 
-    const onClick = async () => {
-        if (sessionStorage.getItem('id') === null) {
-            return
-        }
-        if (incharge2.length === 0) {
-            setErrorMessage('Por favor selecciona a uno de los encargados')
-            return
-        }
+    const AdvertenceComponent = ({ advertenceMenssage }) => {
+        return (
+            <Grid container
+                zIndex='3'
+                width='100vw'
+                height='100vh'
+                position='absolute'
+                alignItems='center'
+                textAlign='center'
+                justifyContent='center'
+                sx={{ backgroundColor: 'rgba(0,0,0,.2)', backdropFilter: 'blur(5px)', }}>
+                <Box
+                    width='300px'
+                    height='200px'
+                    borderRadius='20px'
+                    border='1px solid #BABBBF'
+                    sx={{ backgroundColor: '#ffffff' }}>
+                    <Typography color='#000000' mt='20px' variant="h5" fontWeight='bold'>Advertencia</Typography>
+                    <p>{advertenceMenssage}</p>
+                    <Button variant="outlined"
+                        size='medium'
+                        onClick={handleClickAV2Can}
+                        sx={{
+                            color: '#0265CD',
+                            width: '80px',
+                            mt: '20px',
+                            borderColor: '#0265CD',
+                            borderRadius: '50px',
+                            textTransform: 'none'
+                        }}> Volver
+                    </Button>
+                    <Button variant="outlined"
+                        size='medium'
+                        onClick={handleClickAVConf}
+                        sx={{
+                            width: '80px',
+                            color: '#0265CD',
+                            mt: '20px',
+                            ml: '20px',
+                            borderColor: '#0265CD',
+                            borderRadius: '50px',
+                            textTransform: 'none'
+                        }}> Confirmar
+                    </Button>
+                </Box>
+            </Grid>
+        );
+    };
 
-    }
 
     return (
         <>
@@ -422,30 +398,32 @@ export default function AdminServices() {
                             <Typography fontWeight='bold'>X</Typography>
                         </IconButton>
                     </Grid>
-                    <Grid component={'form'} onSubmit={handleSubmit1}
+                    <Grid
                         container
                         direction='column'
                         height='70vh'
                         alignItems='center'
                         justifyContent='center'
+                        component={'form'}
+                        onSubmit={handleSubmit2}
                         item xs={12} sm={12} lg={12} md={12} xl={12}>
                         <Typography textAlign='start' variant="h6" fontWeight='bold' mr='25px'>Edita un servicio</Typography>
                         <TextField
                             name="nombre"
                             variant="outlined"
-                            value={info.nombre}
+                            value={service.nombre}
                             onChange={handleChange2}
                             sx={{ ml: '25px', mr: '25px', width: '80%', mt: '25px' }} />
                         <TextField
                             name="categoria"
                             variant="outlined"
-                            value={info.categoria}
+                            value={service.categoria}
                             onChange={handleChange2}
                             sx={{ ml: '25px', mr: '25px', width: '80%', mt: '25px' }} />
                         <TextField
                             name="descripcion"
                             variant="outlined"
-                            value={info.descripcion}
+                            value={service.descripcion}
                             onChange={handleChange2}
                             sx={{ ml: '25px', mr: '25px', width: '80%', mt: '25px' }} />
                         <FormControl sx={{ ml: '25px', mr: '25px', width: '80%', mt: '25px' }}>
@@ -476,15 +454,15 @@ export default function AdminServices() {
                         </FormControl>
                         <Grid
                             container
-                            direction='row'
-                            alignItems='end'
+                            paddingLeft='4vw'
+                            paddingRight='4vw'
+                            width='100%'
                             justifyContent='end'
-                            sx={{ display: { xs: 'contents', sm: ' flex' } }}>
+                            mb='25px'>
                             <Button
                                 type='submit'
-                                variant="contained"
-                                onClick={onClick}
-                                sx={{ mr: '30px', mt: '30px', borderRadius: '50px', width: '130px' }}>Guardar
+                                variant="outlined"
+                                sx={{ mt: '20px', borderRadius: '50px', width: '130px' }}>Guardar
                             </Button>
                         </Grid>
                         <Grid
@@ -542,14 +520,16 @@ export default function AdminServices() {
                             <Typography fontWeight='bold'>X</Typography>
                         </IconButton>
                     </Grid>
-                    <Grid component={'form'} onSubmit={handleSubmit}
+                    <Grid
                         container
                         direction='column'
                         height='70vh'
                         alignItems='center'
                         justifyContent='center'
+                        component={'form'}
+                        onSubmit={handleSubmit}
                         item xs={12} sm={12} lg={12} md={12} xl={12}>
-                        <Typography textAlign='start' variant="h6" fontWeight='bold' mr='25px'>Crea un nuevo servicio</Typography>
+                        <Typography textAlign='start' variant="h6" fontWeight='bold' mr='25px'>Registra un nuevo servicio</Typography>
                         <TextField
                             name="nombre"
                             label="Nombre del servicio"
@@ -600,15 +580,15 @@ export default function AdminServices() {
                         </FormControl>
                         <Grid
                             container
-                            direction='row'
-                            alignItems='end'
+                            paddingLeft='4vw'
+                            paddingRight='4vw'
+                            width='100%'
                             justifyContent='end'
-                            sx={{ display: { xs: 'contents', sm: ' flex' } }}>
+                            mb='25px'>
                             <Button
                                 type='submit'
-                                variant="contained"
-                                onClick={onClick}
-                                sx={{ mr: '30px', mt: '30px', borderRadius: '50px', width: '130px' }}>Guardar
+                                variant="outlined"
+                                sx={{ mt: '20px', borderRadius: '50px', width: '130px' }}>Registrar
                             </Button>
                         </Grid>
                         <Grid
@@ -739,7 +719,7 @@ export default function AdminServices() {
                                         }}>
                                         <Typography>{service.nombre}</Typography>
                                         <Grid>
-                                            <IconButton id={service.ctsid} onClick={handleClickEdit} sx={{ width: '30px', height: '30px', ":hover": { color: "white" } }}>
+                                            <IconButton id={service.svid} onClick={handleClickEdit} sx={{ width: '30px', height: '30px', ":hover": { color: "white" } }}>
                                                 <EditIcon></EditIcon>
                                             </IconButton>
                                             <IconButton onClick={handleClickDelete} sx={{ width: '30px', height: '30px', ":hover": { color: "white" } }}>

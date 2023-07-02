@@ -22,7 +22,7 @@ export default function AdminServices() {
     const [members, setMembers] = useState([])
     const [incharge, setIncharge] = useState([])
     const [incharge2, setIncharge2] = useState([])
-    const [create, setCreate] = useState({ nombre: '', categoria: '', descripcion: '', encargado: '' })
+    const [create, setCreate] = useState({ nombre: '', categoria: '', descripcion: ''})
 
     const ITEM_HEIGHT = 48;
     const ITEM_PADDING_TOP = 8;
@@ -64,7 +64,6 @@ export default function AdminServices() {
             'nombre': service.nombre,
             'categoria': service.categoria,
             'descripcion': service.descripcion,
-            'encargado': incharge2.nombres,
             'estado': 'Eliminado'
         }
 

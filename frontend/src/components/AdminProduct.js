@@ -5,7 +5,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Link } from 'react-router-dom';
-//import { ImagePicker } from 'react-image-picker';
+//import fs from 'fs-extra'
 
 export default function AdminClient() {
     const [open, setOpen] = useState(false);
@@ -30,6 +30,8 @@ export default function AdminClient() {
     const [isDisabled, setIsDisabled] = useState(true)
     const [search, setSearch] = useState({ search: '' })
     const [image, setImage] = useState(null);
+
+
 
     const handleClose = () => {
         setOpen(false);
@@ -75,23 +77,14 @@ export default function AdminClient() {
         setOpen4(true)
     }
 
-    const handleClickEditPic = () => {
-        /* // Open a window that allows the user to select another image.
-        const imagePicker = new ImagePicker();
-        imagePicker.open().then((file) => {
-            setImage(file);
-            // Save the image in process.env.PUBLIC_URL.
-            const fileName = file.name;
-            const filePath = `${process.env.PUBLIC_URL}/${fileName}`;
-            fs.writeFile(filePath, file.data, (err) => {
-                if (err) {
-                    console.log(err);
-                } else {
-                    console.log(`Image saved successfully to ${filePath}`);
-                }
-            });
-        }); */
-    }
+    const handleChangePic = async (event) => {
+        const { files } = event.target;
+        const img = files[0];
+
+        // Save the image to the process.env.PUBLIC_URL folder
+        const imgPath = `${process.env.PUBLIC_URL}/${img.name}`;
+        //await fs.writeFile(imgPath, img.content);
+    };
 
     const handleClickAVConf = async () => {
 
@@ -1629,7 +1622,7 @@ export default function AdminClient() {
                                 },
                             }}>
                             <div hidden={isHidden1}>
-                                <Typography mt='8px' mb='8px'>Seleciona uno de los clientes para ver su información.</Typography>
+                                <Typography mt='8px' mb='8px'>Seleciona uno de los productos para ver su información.</Typography>
                             </div>
                             <div hidden={!isHidden1} style={{ width: '100%' }}>
                                 <Typography variant='h6'>Información del producto</Typography>
@@ -1652,6 +1645,7 @@ export default function AdminClient() {
                                         </Grid>
                                     </Grid>
                                 </Typography>
+                                <Divider></Divider>
                                 <Grid
                                     container
                                     width='100%'
@@ -1670,12 +1664,16 @@ export default function AdminClient() {
                                         sx={{ backgroundImage: `url(${process.env.PUBLIC_URL + "/" + product.foto})`, backgroundSize: 'cover' }}>
                                         <Tooltip title='Cambiar foto'>
                                             <IconButton
-                                                sx={{ width: 30, height: 30, mb: '10px', mr: '10px', zIndex: '2' }}
-                                                onClick={handleClickEditPic}>
+                                                sx={{ width: 30, height: 30, mb: '10px', mr: '10px', zIndex: '0' }}>
                                                 <EditIcon></EditIcon>
                                             </IconButton>
                                         </Tooltip>
                                     </Grid>
+                                    {/* <TextField
+                                        id="imgDer"
+                                        type="file"
+                                        onChange={handleChangePic}
+                                    /> */}
                                 </Typography>
                             </div>
                         </Grid>

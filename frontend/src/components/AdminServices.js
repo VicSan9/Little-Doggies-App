@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import AdminNavbar from './AdminNavbar'
 import * as React from 'react';
-import { Grid, Typography, IconButton, Backdrop, Button, Card, Box, Divider, Avatar, TextField, Chip } from "@mui/material";
+import { Grid, Typography, IconButton, Backdrop, Button, Card, Box, Divider, Avatar, TextField, Chip, Tooltip } from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import InputLabel from '@mui/material/InputLabel';
@@ -15,14 +15,16 @@ export default function AdminServices() {
     const [open, setOpen] = useState(false);
     const [open1, setOpen1] = useState(false);
     const [isHidden1, setIsHidden1] = useState(false)
-    const [service, setService] = useState([])
+    const [service, setService] = useState({ nombre: '', categoria: '', descripcion: '', estado: 'Activo' })
     const [services, setServices] = useState([])
     const [errorMessage, setErrorMessage] = useState("");
     const [advertenceMenssage, setAdvertenceMenssage] = useState("");
     const [members, setMembers] = useState([])
     const [incharge, setIncharge] = useState([])
     const [incharge2, setIncharge2] = useState([])
-    const [create, setCreate] = useState({ nombre: '', categoria: '', descripcion: '', estado: 'Activo'})
+    const [incharge3, setIncharge3] = useState([])
+    const [incharge4, setIncharge4] = useState([])
+    const [create, setCreate] = useState({ nombre: '', categoria: '', descripcion: '', estado: 'Activo' })
 
     const ITEM_HEIGHT = 48;
     const ITEM_PADDING_TOP = 8;
@@ -38,6 +40,7 @@ export default function AdminServices() {
     const handleClose = () => {
         setOpen(false);
         setOpen1(false);
+        setIncharge4([]);
     };
 
     const handleClicNewService = async () => {
@@ -105,7 +108,7 @@ export default function AdminServices() {
         })
     }
 
-    const handleChange2 = e => {
+    const handleChange3 = e => {
         setService({
             ...service,
             [e.target.name]: e.target.value
@@ -117,6 +120,16 @@ export default function AdminServices() {
             target: { value },
         } = event;
         setIncharge2(
+            // On autofill we get a stringified value.
+            typeof value === 'string' ? value.split(',') : value,
+        );
+    };
+
+    const handleChange2 = (event) => {
+        const {
+            target: { value },
+        } = event;
+        setIncharge4(
             // On autofill we get a stringified value.
             typeof value === 'string' ? value.split(',') : value,
         );
@@ -188,49 +201,46 @@ export default function AdminServices() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-    
         if (create.nombre.trim() === '' || create.categoria.trim() === '' || create.descripcion.trim() === '') {
             setErrorMessage("Ingrese todos los datos primero");
-            setCreate({ nombre: '', categoria: '', descripcion: '' })
             return
         }
 
-        const res3 = await fetch('http://localhost:4000/services', {
+        if (incharge2.length === 0) {
+            setErrorMessage('Por favor selecciona los encargados')
+            return
+        }
+
+        const res = await fetch('http://localhost:4000/services', {
             method: 'POST',
             body: JSON.stringify(create),
             headers: { "content-Type": "application/json" }
         })
 
-        const data3 = await res3.json();
-
-        if (incharge2.length === 0) {
-            setErrorMessage('Por favor selecciona a uno de los encargados')
-            return
-        }
-
-        setIncharge2()
+        const data = await res.json();
 
         var id = []
 
         for (let i = 0; i < incharge2.length; i++) {
             for (let j = 0; j < incharge.length; j++) {
-                if (incharge2[i] === incharge[j].nombre) {
+                const nombre = incharge[j].nombres + ' ' + incharge[j].apellidos
+                if (incharge2[i] === nombre) {
                     id.push(incharge[j].mbid)
                 }
             }
         }
 
         for (let i = 0; i < id.length; i++) {
-            var body4 = {
+            var body = {
                 'mbid': id[i],
-                'svid': data3.svid,
+                'svid': data.svid,
             }
+
             await fetch('http://localhost:4000/membersServices', {
                 method: 'POST',
-                body: JSON.stringify(body4),
+                body: JSON.stringify(body),
                 headers: { "content-Type": "application/json" }
             })
-            console.log(body4)
         }
 
         window.location.reload()
@@ -244,22 +254,60 @@ export default function AdminServices() {
             return
         }
 
-        const res = await fetch(`http://localhost:4000/services/${service.svid}`, {
+        if (incharge4.length === 0) {
+            setErrorMessage('Por favor selecciona los encargados')
+            return
+        }
+
+        const body1 = {
+            'nombre': service.nombre,
+            'categoria': service.categoria,
+            'descripcion': service.descripcion,
+            'estado': 'Eliminado'
+        }
+
+        await fetch(`http://localhost:4000/services/${service.svid}`, {
             method: 'PUT',
+            body: JSON.stringify(body1),
+            headers: { "content-Type": "application/json" }
+        });
+
+        const res = await fetch(`http://localhost:4000/services`, {
+            method: 'POST',
             body: JSON.stringify(service),
             headers: { "content-Type": "application/json" }
         })
 
         const data = await res.json()
 
-        if (!data.message) {
-            window.location.reload();
-            return
+        var id = []
+
+        for (let i = 0; i < incharge4.length; i++) {
+            for (let j = 0; j < incharge3.length; j++) {
+                const nombre = incharge3[j].nombres + ' ' + incharge3[j].apellidos
+                if (incharge4[i] === nombre) {
+                    id.push(incharge3[j].mbid)
+                }
+            }
         }
+
+        for (let i = 0; i < id.length; i++) {
+            var body = {
+                'mbid': id[i],
+                'svid': data.svid,
+            }
+
+            await fetch('http://localhost:4000/membersServices', {
+                method: 'POST',
+                body: JSON.stringify(body),
+                headers: { "content-Type": "application/json" }
+            })
+        }
+        
+        window.location.reload();  
     }
 
     const loadIncharge = async () => {
-
         const res5 = await fetch(`http://localhost:4000/members`, {
             method: 'GET',
             headers: { "content-Type": "application/json" }
@@ -268,7 +316,7 @@ export default function AdminServices() {
         const data5 = await res5.json()
 
         setIncharge(data5)
-
+        setIncharge3(data5)
     }
 
     useEffect(() => {
@@ -359,7 +407,6 @@ export default function AdminServices() {
         );
     };
 
-
     return (
         <>
             {errorMessage && <ErrorComponent errorMessage={errorMessage} />}
@@ -369,13 +416,15 @@ export default function AdminServices() {
                 open={open1}>
                 <Grid
                     container
-                    alignItems='start'
+                    alignItems='flex-start'
                     height='75vh'
-                    width='60vw'
+                    width='45vw'
+                    maxWidth='1200px'
+                    maxHeight='600px'
                     bgcolor='#ffffff'
                     borderRadius='20px'
                     paddingRight='15px'
-                    paddingLeft='25px'
+                    paddingLeft='15px'
                     sx={{ color: '#000000', zIndex: (theme) => theme.zIndex.drawer + 1 }}>
                     <Grid
                         container
@@ -388,116 +437,107 @@ export default function AdminServices() {
                     </Grid>
                     <Grid
                         container
-                        direction='column'
                         height='70vh'
-                        alignItems='center'
+                        maxHeight='550px'
+                        alignItems='start'
                         justifyContent='center'
                         component={'form'}
                         onSubmit={handleSubmit2}
-                        item xs={12} sm={12} lg={12} md={12} xl={12}>
-                        <Typography textAlign='start' variant="h6" fontWeight='bold' mr='25px'>Edita un servicio</Typography>
-                        <TextField
-                            name="nombre"
-                            variant="outlined"
-                            value={service.nombre}
-                            onChange={handleChange2}
-                            sx={{ ml: '25px', mr: '25px', width: '80%', mt: '25px' }} />
-                        <TextField
-                            name="categoria"
-                            variant="outlined"
-                            value={service.categoria}
-                            onChange={handleChange2}
-                            sx={{ ml: '25px', mr: '25px', width: '80%', mt: '25px' }} />
-                        <TextField
-                            name="descripcion"
-                            variant="outlined"
-                            value={service.descripcion}
-                            onChange={handleChange2}
-                            sx={{ ml: '25px', mr: '25px', width: '80%', mt: '25px' }} />
-                        <FormControl sx={{ ml: '25px', mr: '25px', width: '80%', mt: '25px' }}>
-                            <InputLabel id="demo-simple-select-label">Encargado</InputLabel>
-                            <Select
-                                multiple
-                                labelId="demo-simple-select-label2"
-                                id="demo-simple-select2"
-                                value={incharge2}
-                                label="Encargado"
-                                onChange={handleChange1}
-                                renderValue={(selected) => (
-                                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                                        {selected.map((value) => (
-                                            <Chip key={value} label={value} />
-                                        ))}
-                                    </Box>
-                                )}
-                                MenuProps={MenuProps}>
-                                {incharge.map((encargado) => (
-                                    <MenuItem
-                                        key={encargado.mbid}
-                                        value={encargado.nombres + " " + encargado.apellidos}>
-                                        {encargado.nombres + " " + encargado.apellidos}
-                                    </MenuItem>
-                                ))}
-                            </Select>
-                        </FormControl>
+                        width='100%'>
                         <Grid
                             container
-                            paddingLeft='4vw'
-                            paddingRight='4vw'
+                            width='100%'
+                            justifyContent='center'
+                            alignItems='center'
+                            mb='10px'>
+                            <Typography variant='h6'>Registra un nuevo servicio</Typography>
+                        </Grid>
+                        <Grid
+                            container
+                            width='100%'
+                            justifyContent='center'
+                            alignItems='start'
+                            height='65%'
+                            paddingLeft='20px'
+                            paddingRight='20px'>
+                            <TextField
+                                fullWidth
+                                name="nombre"
+                                label="Nombre del servicio"
+                                variant="outlined"
+                                value={service.nombre}
+                                onChange={handleChange3}
+                            />
+                            <TextField
+                                fullWidth
+                                name="categoria"
+                                label="Categoria"
+                                variant="outlined"
+                                value={service.categoria}
+                                onChange={handleChange3}
+                            />
+                            <TextField
+                                fullWidth
+                                name="descripcion"
+                                label="Descripción"
+                                variant="outlined"
+                                value={service.descripcion}
+                                onChange={handleChange3}
+                            />
+                            <FormControl fullWidth>
+                                <InputLabel id="demo-simple-select-label2">Encargados</InputLabel>
+                                <Select
+                                    multiple
+                                    name="encargado"
+                                    labelId="demo-simple-select-label2"
+                                    id="demo-simple-select2"
+                                    value={incharge4}
+                                    label="Encargados"
+                                    onChange={handleChange2}
+                                    renderValue={(selected2) => (
+                                        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                                            {selected2.map((value) => (
+                                                <Chip key={value} label={value} />
+                                            ))}
+                                        </Box>
+                                    )}
+                                    MenuProps={MenuProps}>
+                                    {incharge3.map((encargado) => (
+                                        <MenuItem
+                                            key={encargado.mbid}
+                                            value={encargado.nombres + " " + encargado.apellidos}>
+                                            {encargado.nombres + " " + encargado.apellidos}
+                                        </MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl>
+                        </Grid>
+                        <Grid
+                            container
+                            paddingLeft='20px'
+                            paddingRight='20px'
                             width='100%'
                             justifyContent='end'
                             mb='25px'>
-                            <Button
-                                type='submit'
-                                variant="outlined"
-                                sx={{ mt: '20px', borderRadius: '50px', width: '130px' }}>Guardar
-                            </Button>
-                        </Grid>
-                        <Grid
-                            container
-                            ml='20px'
-                            mr='20px'
-                            width='95%'
-                            height='100%'
-                            justifyContent='center'
-                            overflow='scroll'
-                            display='block'
-                            sx={{
-                                '&::-webkit-scrollbar': {
-                                    width: '8px',
-                                    height: '8px',
-                                },
-                                '&::-webkit-scrollbar-thumb': {
-                                    backgroundColor: 'rgba(0, 0, 0, 0.1)',
-                                    borderRadius: '10px',
-                                    '&:hover': {
-                                        backgroundColor: 'rgba(0, 0, 0, 0.3)',
-                                    },
-                                },
-                                '&::-webkit-scrollbar: horizontal': {
-                                    display: 'none',
-                                },
-                            }}>
+                            <Button type='submit' variant='outlined' sx={{ borderRadius: '20px' }}>Registrar</Button>
                         </Grid>
                     </Grid>
-                    <Grid
-                        container
-                        height='75vh'>
-                    </Grid>
-                </Grid >
-            </Backdrop >
+                </Grid>
+            </Backdrop>
             <Backdrop
                 sx={{ color: 'rgba(0,0,0,.2)', backdropFilter: 'blur(5px)', zIndex: 1 }}
                 open={open}>
                 <Grid
                     container
-                    alignItems='start'
+                    alignItems='flex-start'
                     height='75vh'
-                    width='60vw'
+                    width='45vw'
+                    maxWidth='1200px'
+                    maxHeight='600px'
                     bgcolor='#ffffff'
                     borderRadius='20px'
                     paddingRight='15px'
-                    paddingLeft='25px'
+                    paddingLeft='15px'
                     sx={{ color: '#000000', zIndex: (theme) => theme.zIndex.drawer + 1 }}>
                     <Grid
                         container
@@ -510,108 +550,93 @@ export default function AdminServices() {
                     </Grid>
                     <Grid
                         container
-                        direction='column'
                         height='70vh'
-                        alignItems='center'
+                        maxHeight='550px'
+                        alignItems='start'
                         justifyContent='center'
                         component={'form'}
                         onSubmit={handleSubmit}
-                        item xs={12} sm={12} lg={12} md={12} xl={12}>
-                        <Typography textAlign='start' variant="h6" fontWeight='bold' mr='25px'>Registra un nuevo servicio</Typography>
-                        <TextField
-                            name="nombre"
-                            label="Nombre del servicio"
-                            variant="outlined"
-                            value={create.nombre}
-                            onChange={handleChange}
-                            sx={{ ml: '25px', mr: '25px', width: '80%', mt: '25px' }} />
-                        <TextField
-                            name="categoria"
-                            label="Categoria"
-                            variant="outlined"
-                            value={create.categoria}
-                            onChange={handleChange}
-                            sx={{ ml: '25px', mr: '25px', width: '80%', mt: '25px' }} />
-                        <TextField
-                            name="descripcion"
-                            label="Descripción"
-                            variant="outlined"
-                            value={create.descripcion}
-                            onChange={handleChange}
-                            sx={{ ml: '25px', mr: '25px', width: '80%', mt: '25px' }} />
-                        <FormControl sx={{ ml: '25px', mr: '25px', width: '80%', mt: '25px' }}>
-                            <InputLabel id="demo-simple-select-label">Encargado</InputLabel>
-                            <Select
-                                multiple
-                                name="encargado"
-                                labelId="demo-simple-select-label2"
-                                id="demo-simple-select2"
-                                value={incharge2}
-                                label="Encargado"
-                                onChange={handleChange1}
-                                renderValue={(selected) => (
-                                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                                        {selected.map((value) => (
-                                            <Chip key={value} label={value} />
-                                        ))}
-                                    </Box>
-                                )}
-                                MenuProps={MenuProps}>
-                                {incharge.map((encargado) => (
-                                    <MenuItem
-                                        key={encargado.mbid}
-                                        value={encargado.nombres + " " + encargado.apellidos}>
-                                        {encargado.nombres + " " + encargado.apellidos}
-                                    </MenuItem>
-                                ))}
-                            </Select>
-                        </FormControl>
+                        width='100%'>
                         <Grid
                             container
-                            paddingLeft='4vw'
-                            paddingRight='4vw'
+                            width='100%'
+                            justifyContent='center'
+                            alignItems='center'
+                            mb='10px'>
+                            <Typography variant='h6'>Registra un nuevo servicio</Typography>
+                        </Grid>
+                        <Grid
+                            container
+                            width='100%'
+                            justifyContent='center'
+                            alignItems='start'
+                            height='65%'
+                            paddingLeft='20px'
+                            paddingRight='20px'>
+                            <TextField
+                                fullWidth
+                                name="nombre"
+                                label="Nombre del servicio"
+                                variant="outlined"
+                                value={create.nombre}
+                                onChange={handleChange}
+                            />
+                            <TextField
+                                fullWidth
+                                name="categoria"
+                                label="Categoria"
+                                variant="outlined"
+                                value={create.categoria}
+                                onChange={handleChange}
+                            />
+                            <TextField
+                                fullWidth
+                                name="descripcion"
+                                label="Descripción"
+                                variant="outlined"
+                                value={create.descripcion}
+                                onChange={handleChange}
+                            />
+                            <FormControl fullWidth>
+                                <InputLabel id="demo-simple-select-label">Encargados</InputLabel>
+                                <Select
+                                    multiple
+                                    name="encargado"
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    value={incharge2}
+                                    label="Encargados"
+                                    onChange={handleChange1}
+                                    renderValue={(selected) => (
+                                        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                                            {selected.map((value) => (
+                                                <Chip key={value} label={value} />
+                                            ))}
+                                        </Box>
+                                    )}
+                                    MenuProps={MenuProps}>
+                                    {incharge.map((encargado) => (
+                                        <MenuItem
+                                            key={encargado.mbid}
+                                            value={encargado.nombres + " " + encargado.apellidos}>
+                                            {encargado.nombres + " " + encargado.apellidos}
+                                        </MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl>
+                        </Grid>
+                        <Grid
+                            container
+                            paddingLeft='20px'
+                            paddingRight='20px'
                             width='100%'
                             justifyContent='end'
                             mb='25px'>
-                            <Button
-                                type='submit'
-                                variant="outlined"
-                                sx={{ mt: '20px', borderRadius: '50px', width: '130px' }}>Registrar
-                            </Button>
-                        </Grid>
-                        <Grid
-                            container
-                            ml='20px'
-                            mr='20px'
-                            width='95%'
-                            height='100%'
-                            justifyContent='center'
-                            overflow='scroll'
-                            display='block'
-                            sx={{
-                                '&::-webkit-scrollbar': {
-                                    width: '8px',
-                                    height: '8px',
-                                },
-                                '&::-webkit-scrollbar-thumb': {
-                                    backgroundColor: 'rgba(0, 0, 0, 0.1)',
-                                    borderRadius: '10px',
-                                    '&:hover': {
-                                        backgroundColor: 'rgba(0, 0, 0, 0.3)',
-                                    },
-                                },
-                                '&::-webkit-scrollbar: horizontal': {
-                                    display: 'none',
-                                },
-                            }}>
+                            <Button type='submit' variant='outlined' sx={{ borderRadius: '20px' }}>Registrar</Button>
                         </Grid>
                     </Grid>
-                    <Grid
-                        container
-                        height='75vh'>
-                    </Grid>
-                </Grid >
-            </Backdrop >
+                </Grid>
+            </Backdrop>
             <Grid
                 container
                 direction='row'
@@ -639,8 +664,8 @@ export default function AdminServices() {
                             container
                             width='100%'
                             height='100%'
-                            paddingRight='8px'
                             paddingLeft='16px'
+                            paddingRight='2px'
                             direction='column'>
                             <Grid
                                 container
@@ -650,14 +675,16 @@ export default function AdminServices() {
                                 width='100%'
                                 mb='10px'
                             >
-                                <Typography variant='h6' fontSize='bold'>Servicios</Typography>
-                                <IconButton onClick={handleClicNewService} sx={{ mr: '8px', width: 40, height: 40, bgcolor: '#F5F5F5', '&:hover': { bgcolor: '#BABBBF' } }}>
-                                    <Typography>+</Typography>
-                                </IconButton>
+                                <Typography variant='h6' fontSize='bold'>{'Servicios'}</Typography>
+                                <Tooltip title='Nuevo producto'>
+                                    <IconButton onClick={handleClicNewService} sx={{ mr: '16px', width: 40, height: 40, bgcolor: '#F5F5F5', '&:hover': { bgcolor: '#BABBBF' } }}>
+                                        <Typography>+</Typography>
+                                    </IconButton>
+                                </Tooltip>
                             </Grid>
                             <Grid
                                 container
-                                height='90%'
+                                height='77%'
                                 overflow='scroll'
                                 alignItems='center'
                                 justifyContent='start'
@@ -688,7 +715,7 @@ export default function AdminServices() {
                                         container
                                         justifyContent='space-between'
                                         alignItems='center'
-                                        width='100%'
+                                        width='98%'
                                         border='1px solid #0265CD'
                                         borderRadius='20px'
                                         mb='10px'
@@ -705,14 +732,18 @@ export default function AdminServices() {
                                                 cursor: 'pointer'
                                             }
                                         }}>
-                                        <Typography>{service.nombre}</Typography>
+                                        <Typography textAlign='start' width='62%' overflow='hidden'>{service.nombre}</Typography>
                                         <Grid>
-                                            <IconButton id={service.svid} onClick={handleClickEdit} sx={{ width: '30px', height: '30px', ":hover": { color: "white" } }}>
-                                                <EditIcon></EditIcon>
-                                            </IconButton>
-                                            <IconButton onClick={handleClickDelete} sx={{ width: '30px', height: '30px', ":hover": { color: "white" } }}>
-                                                <HighlightOffIcon></HighlightOffIcon>
-                                            </IconButton>
+                                            <Tooltip title='Editar cliente'>
+                                                <IconButton id={service.svid} onClick={handleClickEdit} sx={{ width: '30px', height: '30px', ":hover": { color: "white" } }}>
+                                                    <EditIcon></EditIcon>
+                                                </IconButton>
+                                            </Tooltip>
+                                            <Tooltip title='Eliminar cliente'>
+                                                <IconButton onClick={handleClickDelete} sx={{ width: '30px', height: '30px', ":hover": { color: "white" } }}>
+                                                    <HighlightOffIcon></HighlightOffIcon>
+                                                </IconButton>
+                                            </Tooltip>
                                         </Grid>
                                     </Grid>
                                 ))}
@@ -725,47 +756,74 @@ export default function AdminServices() {
                         justifyContent='start'
                         alignItems='start'
                         direction='column'
-                        paddingRight='16px'
                         paddingLeft='16px'
+                        paddingRight='2px'
                         item xs={8} sm={8} lg={8} md={8} xl={8}>
-                        <div hidden={isHidden1}>
-                            <Typography mt='8px' mb='8px'>Seleciona uno de los servicios para ver su información.</Typography>
-                        </div>
-                        <div hidden={!isHidden1} style={{ width: '100%' }}>
-                            <Typography variant='h6'>Información del servicio</Typography>
-                            <Typography mb='15px' mt='15px' ml='10px' variant='h6' width='98%' sx={{ fontSize: '18px' }}>Información del cliente
-                                <Grid
-                                    container
-                                    alignItems='start'
-                                    justifyContent='center'>
-                                    <Grid item xs={4} sm={4} lg={4} md={4} xl={4}>
-                                        <Typography ml='15px' mt='8px' variant='body1' fontWeight='500'>Nombre</Typography>
-                                        <Typography ml='15px' mt='8px' variant='body1' fontWeight='500'>Categoria</Typography>
-                                        <Typography ml='15px' mt='8px' variant='body1' fontWeight='500'>Descripción</Typography>
-                                    </Grid>
-                                    <Grid item xs={8} sm={8} lg={8} md={8} xl={8}>
-                                        <Typography mt='8px' variant='body1'>{service.nombre}</Typography>
-                                        <Typography mt='8px' variant='body1'>{service.categoria}</Typography>
-                                        <Typography mt='8px' variant='body1'>{service.descripcion}</Typography>
-                                    </Grid>
-                                </Grid>
-                            </Typography>
-                            <Divider></Divider>
-                            <Typography mb='15px' mt='15px' ml='10px' variant='h6' width='98%' sx={{ fontSize: '18px' }}>Encargados
-                                {members.map(member => (
+                        <Grid
+                            container
+                            height='100%'
+                            overflow='scroll'
+                            alignItems='center'
+                            justifyContent='start'
+                            display='block'
+                            direction='column'
+                            paddingRight='10px'
+                            sx={{
+                                '&::-webkit-scrollbar': {
+                                    width: '8px',
+                                    height: '8px',
+                                },
+                                '&::-webkit-scrollbar-thumb': {
+                                    backgroundColor: 'rgba(0, 0, 0, 0.1)',
+                                    borderRadius: '10px',
+                                    '&:hover': {
+                                        backgroundColor: 'rgba(0, 0, 0, 0.3)',
+                                    },
+                                },
+                                '&::-webkit-scrollbar: horizontal': {
+                                    display: 'none',
+                                },
+                            }}>
+                            <div hidden={isHidden1}>
+                                <Typography mt='8px' mb='8px'>Seleciona uno de los servicios para ver su información.</Typography>
+                            </div>
+                            <div hidden={!isHidden1} style={{ width: '100%' }}>
+                                <Typography variant='h6'>{service.nombre}</Typography>
+                                <Typography mb='15px' mt='15px' ml='10px' variant='h6' width='98%' sx={{ fontSize: '18px' }}> Información del servicio
                                     <Grid
-                                        key={member.mbid}
                                         container
-                                        direction='row'
-                                        alignItems='center'
-                                        ml='15px' mt='8px'
-                                    >
-                                        <Avatar sx={{ width: 60, height: 60 }}></Avatar>
-                                        <Typography ml='15px' fontWeight='bold'>{member.nombres + ' ' + member.apellidos}</Typography>
+                                        alignItems='start'
+                                        justifyContent='center'>
+                                        <Grid item xs={4} sm={4} lg={4} md={4} xl={4}>
+                                            <Typography ml='15px' mt='8px' variant='body1' fontWeight='500'>Nombre</Typography>
+                                            <Typography ml='15px' mt='8px' variant='body1' fontWeight='500'>Categoria</Typography>
+                                            <Typography ml='15px' mt='8px' variant='body1' fontWeight='500'>Descripción</Typography>
+                                        </Grid>
+                                        <Grid item xs={8} sm={8} lg={8} md={8} xl={8}>
+                                            <Typography mt='8px' variant='body1'>{service.nombre}</Typography>
+                                            <Typography mt='8px' variant='body1'>{service.categoria}</Typography>
+                                            <Typography mt='8px' variant='body1'>{service.descripcion}</Typography>
+                                        </Grid>
                                     </Grid>
-                                ))}
-                            </Typography>
-                        </div>
+                                </Typography>
+                                <Divider></Divider>
+                                <Typography mb='15px' mt='15px' ml='10px' variant='h6' width='98%' sx={{ fontSize: '18px' }}>Encargados
+                                    {members.map(member => (
+                                        <Grid
+                                            key={member.mbid}
+                                            ml='15px'
+                                            container
+                                            direction='row'
+                                            alignItems='center'
+                                            mt='15px'
+                                        >
+                                            <Avatar sx={{ width: 60, height: 60 }}></Avatar>
+                                            <Typography ml='15px' fontWeight='bold'>{member.nombres + ' ' + member.apellidos}</Typography>
+                                        </Grid>
+                                    ))}
+                                </Typography>
+                            </div>
+                        </Grid>
                     </Grid>
                 </Grid>
             </Grid >

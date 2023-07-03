@@ -143,7 +143,7 @@ export default function Products() {
     const list = JSON.parse(localStorage.getItem('productList'))
     const num = localStorage.getItem('numProductList')
 
-    if(num != null && list != null){
+    if (num != null && list != null) {
       setShoppingCart(num)
       setProductList(list)
     }
@@ -151,7 +151,7 @@ export default function Products() {
 
   useEffect(() => {
     loadNumProduct();
-  },[]);
+  }, []);
 
   const handleClickAdd = (e) => {
     const product = e.currentTarget.id
@@ -175,7 +175,12 @@ export default function Products() {
   return (
     <>
       <Backdrop
-        sx={{ backdropFilter: 'blur(5px)', color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        sx={{
+          backdropFilter: 'blur(5px)',
+          color: '#fff',
+          zIndex: (theme) => theme.zIndex.drawer + 1,
+          display: { xs: 'none', sm: 'none', md: 'flex', lg: 'flex' }
+        }}
         open={open}
         onClick={handleClose}
       >
@@ -183,6 +188,22 @@ export default function Products() {
           src={process.env.PUBLIC_URL + "/" + foto}
           alt="foto"
           width='30%'>
+        </img>
+      </Backdrop>
+      <Backdrop
+        sx={{
+          backdropFilter: 'blur(5px)',
+          color: '#fff',
+          zIndex: (theme) => theme.zIndex.drawer + 1,
+          display: { xs: 'flex', sm: 'flex', md: 'none', lg: 'none' }
+        }}
+        open={open}
+        onClick={handleClose}
+      >
+        <img
+          src={process.env.PUBLIC_URL + "/" + foto}
+          alt="foto"
+          width='90%'>
         </img>
       </Backdrop>
       <Navbar></Navbar>
@@ -291,11 +312,11 @@ export default function Products() {
                       </Box>
                     </Tooltip>
                     <Grid container>
-                      <Grid item xl={9} ml='25px'>
+                      <Grid item xs={8} sm={9} md={9} lg={9} xl={9} ml='25px'>
                         <Typography fontWeight='bold' mt='10px'>{product.nombre}</Typography>
                         <Typography mt='5px'>{'$' + product.precio}</Typography>
                       </Grid>
-                      <Grid container alignContent='center' item xl={1}>
+                      <Grid container alignContent='center' item xs={2} sm={1} md={1} lg={1} xl={1}>
                         <Tooltip title='Agregar al carrito de compras'>
                           <IconButton id={product.prid} onClick={handleClickAdd} sx={{ mt: '10px', '&:hover': { color: '#0265CD' } }}>
                             <AddShoppingCartIcon></AddShoppingCartIcon>
@@ -375,11 +396,11 @@ export default function Products() {
                       </Box>
                     </Tooltip>
                     <Grid container>
-                      <Grid item xl={9} ml='25px'>
+                      <Grid item xs={8} sm={9} md={9} lg={9} xl={9} ml='25px'>
                         <Typography fontWeight='bold' mt='10px'>{product.nombre}</Typography>
                         <Typography mt='5px'>{'$' + product.precio}</Typography>
                       </Grid>
-                      <Grid container alignContent='center' item xl={1}>
+                      <Grid container alignContent='center' item xs={2} sm={1} md={1} lg={1} xl={1}>
                         <Tooltip title='Agregar al carrito de compras'>
                           <IconButton id={product.prid} onClick={handleClickAdd} sx={{ mt: '10px', '&:hover': { color: '#0265CD' } }}>
                             <AddShoppingCartIcon></AddShoppingCartIcon>
@@ -459,11 +480,11 @@ export default function Products() {
                       </Box>
                     </Tooltip>
                     <Grid container>
-                      <Grid item xl={9} ml='25px'>
+                      <Grid item xs={8} sm={9} md={9} lg={9} xl={9} ml='25px'>
                         <Typography fontWeight='bold' mt='10px'>{product.nombre}</Typography>
                         <Typography mt='5px'>{'$' + product.precio}</Typography>
                       </Grid>
-                      <Grid container alignContent='center' item xl={1}>
+                      <Grid container alignContent='center' item xs={2} sm={1} md={1} lg={1} xl={1}>
                         <Tooltip title='Agregar al carrito de compras'>
                           <IconButton id={product.prid} onClick={handleClickAdd} sx={{ mt: '10px', '&:hover': { color: '#0265CD' } }}>
                             <AddShoppingCartIcon></AddShoppingCartIcon>
@@ -546,11 +567,11 @@ export default function Products() {
                       </Box>
                     </Tooltip>
                     <Grid container>
-                      <Grid item xl={9} ml='25px'>
+                      <Grid item xs={8} sm={9} md={9} lg={9} xl={9} ml='25px'>
                         <Typography fontWeight='bold' mt='10px'>{product.nombre}</Typography>
                         <Typography mt='5px'>{'$' + product.precio}</Typography>
                       </Grid>
-                      <Grid container alignContent='center' item xl={1}>
+                      <Grid container alignContent='center' item xs={2} sm={1} md={1} lg={1} xl={1}>
                         <Tooltip title='Agregar al carrito de compras'>
                           <IconButton id={product.prid} onClick={handleClickAdd} sx={{ mt: '10px', '&:hover': { color: '#0265CD' } }}>
                             <AddShoppingCartIcon></AddShoppingCartIcon>

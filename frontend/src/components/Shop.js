@@ -54,7 +54,7 @@ export default function Products() {
   const navitate = useNavigate()
 
   const loadPorducts = async () => {
-    const res = await fetch('http://localhost:4000/products', {
+    const res = await fetch('http://localhost:4000/products2', {
       method: 'GET',
       headers: { "content-Type": "application/json" }
     })

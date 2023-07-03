@@ -1,9 +1,11 @@
 const { Router } = require('express');
-const { getAllProducts, getProducts, createProducts, deleteProducts, updateProducts } = require('../controllers/products.controller')
+const { getAllProducts, getProducts, createProducts, deleteProducts, updateProducts, getAllProducts2 } = require('../controllers/products.controller')
 
 const router = Router();
 
 router.get('/products', getAllProducts)
+
+router.get('/products2', getAllProducts2)
 
 router.get('/products/:id', getProducts)
 

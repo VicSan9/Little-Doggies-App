@@ -507,7 +507,8 @@ export default function UserQuotes() {
           <Grid
             container
             alignItems='center'
-            height='100vh'>
+            height='100vh'
+            sx={{display: { xs: 'none', sm: 'flex', md: 'flex', lg: 'flex', xl:'flex' }}}>
             <Grid
               container
               alignItems='center'
@@ -600,6 +601,133 @@ export default function UserQuotes() {
                         </Grid>
                         <Grid
                           item xs={6} sm={6} lg={6} md={6} xl={6}>
+                          <Typography>
+                            Servicios:
+                          </Typography>
+                          <Typography>
+                            {quote.servicios}
+                          </Typography>
+                        </Grid>
+                        <Grid
+                          container
+                          direction='row-reverse'
+                          id={quote.ctsid}
+                          item xs={2} sm={2} lg={2} md={2} xl={2}>
+                          <Tooltip title='Cancelar cita'>
+                            <IconButton id={quote.ctsid} onClick={handleClickDelete} sx={{ mr: '5px', ":hover": { color: "white" } }}>
+                              <HighlightOffIcon></HighlightOffIcon>
+                            </IconButton>
+                          </Tooltip>
+                          <Tooltip title='Modificar cita'>
+                            <IconButton id={quote.ctsid} onClick={handleClickEdit} sx={{ mr: '5px', ":hover": { color: "white" } }}>
+                              <EditIcon></EditIcon>
+                            </IconButton>
+                          </Tooltip>
+                        </Grid>
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                ))}
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid
+            container
+            alignItems='center'
+            height='40vh'
+            sx={{display: { xs: 'flex', sm: 'none', md: 'none', lg: 'none', xl:'none' }}}>
+            <Grid
+              container
+              alignItems='start'
+              height='40vh'>
+              <Grid
+                mt='10vh'
+                alignItems='center'
+                justifyContent='center'
+                height='60%'
+                item xs={12} sm={4} lg={4} md={4} xl={4}>
+                <Grid
+                  container
+                  alignItems='star'
+                  justifyContent='start'>
+                  <Typography textAlign='start' ml='20px' mt='20px' variant="h5" fontWeight='bold'>Información de las citas</Typography>
+                  <Typography textAlign='start' ml='20px' mr='20px' mt='30px' mb='50px' variant="body1">
+                    Aquí puedes ver y modificar las citas que has agendado
+                    como tambien cancelarlas. Para cancelar una cita tienes
+                    que hacerlo con 1 día de anticipación.
+                  </Typography>
+                </Grid>
+              </Grid>
+              <Grid
+                container
+                mt='5vh'
+                alignItems='start'
+                height='70vh'
+                direction='column'
+                paddingRight='20px'
+                item xs={12} sm={8} lg={8} md={8} xl={8}>
+                <div hidden={isHidden}>
+                  <Grid container direction='row'>
+                    <Typography ml='20px' mt='20px'>
+                      Aún no tienes citas programadas.
+                    </Typography>
+                    <Typography component={Link} color='#0265CD' style={{ marginTop: '20px', marginLeft: '5px' }} to='/citas'>{'Programa una cita ahora'}</Typography>
+                  </Grid>
+                </div>
+                {quotes.map((quote) => (
+                  <Grid
+                    key={quote.ctsid}
+                    container
+                    alignItems='start'
+                    justifyContent='center'
+                    direction='column'>
+                    <Typography ml='20px' mt='20px' fontWeight='bold'>
+                      Fecha: {quote.fecha}
+                    </Typography>
+                    <Grid
+                      component={Box}
+                      border='1px solid #BABBBF'
+                      borderRadius='15px'
+                      mt='5px'
+                      mr='20px'
+                      ml='20px'
+                      width='95%'
+                      sx={{
+                        '&:hover': {
+                          color: 'white',
+                          backgroundColor: '#0265CD'
+                        },
+                        alignItems: 'center',
+                        justifyContent: 'start',
+                        textAlign: 'start',
+                      }}>
+                      <Grid
+                        container
+                        direction='row'
+                        alignItems='center'
+                        justifyContent='flex-start'
+                        mt='5px'
+                        mb='5px'>
+                        <Grid
+                          item xs={3} sm={2} lg={2} md={2} xl={2}>
+                          <Typography ml='10px'>
+                            Hora:
+                          </Typography>
+                          <Typography ml='10px'>
+                            {quote.hora}
+                          </Typography>
+                        </Grid>
+                        <Grid
+                          item xs={3} sm={2} lg={2} md={2} xl={2}>
+                          <Typography>
+                            Mascota:
+                          </Typography>
+                          <Typography>
+                            {quote.nombre}
+                          </Typography>
+                        </Grid>
+                        <Grid
+                          item xs={4} sm={6} lg={6} md={6} xl={6}>
                           <Typography>
                             Servicios:
                           </Typography>

@@ -24,14 +24,11 @@ export default function AdminClient() {
     const [errorMessage, setErrorMessage] = useState("");
     const [advertenceMenssage, setAdvertenceMenssage] = useState("");
     const [advertenceMenssage2, setAdvertenceMenssage2] = useState("");
-    const [checkin, setCheckin] = useState({ nombres: '', apellidos: '', correo: '', direccion: '', telefono: '', usuario: '', contraseña: '', foto: 'foto', estado: 'Activo' })
+    const [newProduct, setNewProduct] = useState({ nombre: '', tipo: '', precio: '', cantidad: '', foto: 'Foto.png' })
     const [condicion, setCondicion] = useState('')
     const [condicion2, setCondicion2] = useState('')
     const [isDisabled, setIsDisabled] = useState(true)
     const [search, setSearch] = useState({ search: '' })
-    const [image, setImage] = useState(null);
-
-
 
     const handleClose = () => {
         setOpen(false);
@@ -155,8 +152,8 @@ export default function AdminClient() {
     }
 
     const handleChange = e => {
-        setCheckin({
-            ...checkin,
+        setNewProduct({
+            ...newProduct,
             [e.target.name]: e.target.value
         })
     }
@@ -275,15 +272,15 @@ export default function AdminClient() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (checkin.nombres.trim() === '' || checkin.apellidos.trim() === '' || checkin.correo.trim() === '' || checkin.direccion.trim() === '' || checkin.telefono.trim() === '' || checkin.usuario.trim() === '' || checkin.contraseña.trim() === '') {
+        if (newProduct.nombre.trim() === '' || newProduct.tipo.trim() === '' || newProduct.precio.trim() === '' || newProduct.cantidad.trim() === '') {
             setErrorMessage("Ingrese todos los datos primero");
-            setCheckin({ nombres: '', apellidos: '', correo: '', direccion: '', telefono: '', usuario: '', contraseña: '', foto: 'foto' })
+            setNewProduct({ nombre: '', tipo: '', precio: '', cantidad: '', foto: 'Foto.png' })
             return
         }
 
-        const res = await fetch('http://localhost:4000/clients', {
+        const res = await fetch('http://localhost:4000/products', {
             method: 'POST',
-            body: JSON.stringify(checkin),
+            body: JSON.stringify(newProduct),
             headers: { "content-Type": "application/json" }
         })
 
@@ -291,21 +288,6 @@ export default function AdminClient() {
 
         if (!data.message) {
             window.location.reload();
-            return
-        }
-
-        if (data.message.code === "22P02") {
-            setErrorMessage('Debe de ingresar un número en telefono')
-            return
-        }
-
-        if (data.message.constraint === "clientes_usuario_key") {
-            setErrorMessage('Nombre de usuario ya registrado')
-            return
-        }
-
-        if (data.message.constraint === "clientes_correo_key") {
-            setErrorMessage('Correo electrónico ya registrado')
             return
         }
     }
@@ -1273,7 +1255,7 @@ export default function AdminClient() {
                 <Grid
                     container
                     alignItems='flex-start'
-                    height='70vh'
+                    height='48vh'
                     width='70vw'
                     maxWidth='1200px'
                     maxHeight='600px'
@@ -1293,7 +1275,7 @@ export default function AdminClient() {
                     </Grid>
                     <Grid
                         container
-                        height='60vh'
+                        height='45vh'
                         maxHeight='550px'
                         alignItems='start'
                         component={'form'}
@@ -1304,14 +1286,14 @@ export default function AdminClient() {
                             justifyContent='center'
                             alignItems='center'
                             mb='10px'>
-                            <Typography variant='h6'>Registra un nuevo cliente</Typography>
+                            <Typography variant='h6'>Registra un nuevo producto</Typography>
                         </Grid>
                         <Grid
                             container
                             width='100%'
                             justifyContent='start'
                             alignItems='start'
-                            height='70%'>
+                            height='55%'>
                             <Grid
                                 container
                                 alignItems='center'
@@ -1325,10 +1307,10 @@ export default function AdminClient() {
                                     item xs={6} sm={6} lg={6} md={6} xl={6}>
                                     <TextField
                                         fullWidth
-                                        name="nombres"
-                                        label="Nombres"
+                                        name="nombre"
+                                        label="Nombre"
                                         variant="outlined"
-                                        value={checkin.nombres}
+                                        value={newProduct.nombre}
                                         onChange={handleChange}>
                                     </TextField>
                                 </Grid>
@@ -1337,14 +1319,20 @@ export default function AdminClient() {
                                     paddingLeft='2vw'
                                     paddingRight='4vw'
                                     item xs={6} sm={6} lg={6} md={6} xl={6}>
-                                    <TextField
-                                        fullWidth
-                                        name="apellidos"
-                                        label="Apellidos"
-                                        variant="outlined"
-                                        value={checkin.apellidos}
-                                        onChange={handleChange}>
-                                    </TextField>
+                                    <FormControl fullWidth>
+                                        <InputLabel id="demo-simple-select-label">Tipo de producto</InputLabel>
+                                        <Select
+                                            labelId="demo-simple-select-label"
+                                            id="demo-simple-select"
+                                            value={newProduct.tipo}
+                                            name='tipo'
+                                            label="Tipo de producto"
+                                            onChange={handleChange}>
+                                            <MenuItem value='Accesiorio'>Accesiorio</MenuItem>
+                                            <MenuItem value='Medicamento'>Medicamento</MenuItem>
+                                            <MenuItem value='Limpieza'>Limpieza</MenuItem>
+                                        </Select>
+                                    </FormControl>
                                 </Grid>
                             </Grid>
                             <Grid
@@ -1360,11 +1348,10 @@ export default function AdminClient() {
                                     item xs={6} sm={6} lg={6} md={6} xl={6}>
                                     <TextField
                                         fullWidth
-                                        name="telefono"
-                                        type="tel"
-                                        label="Número de telefono"
+                                        name="precio"
+                                        label="Precio"
                                         variant="outlined"
-                                        value={checkin.telefono}
+                                        value={newProduct.precio}
                                         onChange={handleChange}>
                                     </TextField>
                                 </Grid>
@@ -1375,68 +1362,10 @@ export default function AdminClient() {
                                     item xs={6} sm={6} lg={6} md={6} xl={6}>
                                     <TextField
                                         fullWidth
-                                        name="correo"
-                                        label="Correo Electrónico"
-                                        type="email"
+                                        name="cantidad"
+                                        label="Cantidad"
                                         variant="outlined"
-                                        value={checkin.correo}
-                                        onChange={handleChange}>
-                                    </TextField>
-                                </Grid>
-                            </Grid>
-                            <Grid
-                                container
-                                alignItems='center'
-                                justifyContent='start'
-                                direction='row'
-                                width='100%'>
-                                <Grid
-                                    container
-                                    paddingLeft='4vw'
-                                    paddingRight='2vw'
-                                    item xs={6} sm={6} lg={6} md={6} xl={6}>
-                                    <TextField
-                                        fullWidth
-                                        name="usuario"
-                                        label="Usuario"
-                                        variant="outlined"
-                                        value={checkin.usuario}
-                                        onChange={handleChange}>
-                                    </TextField>
-                                </Grid>
-                                <Grid
-                                    container
-                                    paddingLeft='2vw'
-                                    paddingRight='4vw'
-                                    item xs={6} sm={6} lg={6} md={6} xl={6}>
-                                    <TextField
-                                        fullWidth
-                                        name="contraseña"
-                                        type="password"
-                                        label="Contraseña"
-                                        variant="outlined"
-                                        value={checkin.contraseña}
-                                        onChange={handleChange}>
-                                    </TextField>
-                                </Grid>
-                            </Grid>
-                            <Grid
-                                container
-                                alignItems='center'
-                                justifyContent='start'
-                                direction='row'
-                                width='100%'>
-                                <Grid
-                                    container
-                                    paddingLeft='4vw'
-                                    paddingRight='2vw'
-                                    item xs={6} sm={6} lg={6} md={6} xl={6}>
-                                    <TextField
-                                        fullWidth
-                                        name="direccion"
-                                        label="Dirección"
-                                        variant="outlined"
-                                        value={checkin.direccion}
+                                        value={newProduct.cantidad}
                                         onChange={handleChange}>
                                     </TextField>
                                 </Grid>

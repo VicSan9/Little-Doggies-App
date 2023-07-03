@@ -38,7 +38,8 @@ export default function PersonalInformation() {
                 <Grid
                     container
                     alignItems='center'
-                    height='100vh'>
+                    height='100vh'
+                    sx={{display: { xs: 'none', sm: 'flex', md: 'flex', lg: 'flex', xl:'flex' }}}>
                     <Grid
                         container
                         alignItems='center'
@@ -114,6 +115,143 @@ export default function PersonalInformation() {
                                     borderRadius='10px'
                                     width='600px'
                                     mt='20px'>
+                                    <Typography textAlign='start' ml='20px' mt='20px' variant="h5" fontWeight='bold'>Información de Contacto</Typography>
+                                    <Grid container direction='row' mt='20px'>
+                                        <Grid container direction='column' item xs={6} sm={6} lg={6} md={6} xl={6}>
+                                            <Typography ml='20px' variant="body1" fontWeight='bold'> Correo electrónico</Typography>
+                                        </Grid>
+                                        <Grid container item xs={6} sm={6} lg={6} md={6} xl={6}>
+                                            <Typography ml='20px' variant="body1"> {user.correo}</Typography>
+                                        </Grid>
+                                    </Grid>
+                                    <Grid container direction='row' mt='20px'>
+                                        <Grid container direction='column' item xs={6} sm={6} lg={6} md={6} xl={6}>
+                                            <Typography ml='20px' variant="body1" fontWeight='bold'> Número de telefono</Typography>
+                                        </Grid>
+                                        <Grid container item xs={6} sm={6} lg={6} md={6} xl={6}>
+                                            <Typography ml='20px' variant="body1"> {user.telefono}</Typography>
+                                        </Grid>
+                                    </Grid>
+                                    <Grid container direction='row' mt='20px' mb='20px'>
+                                        <Grid container direction='column' item xs={6} sm={6} lg={6} md={6} xl={6}>
+                                            <Typography ml='20px' variant="body1" fontWeight='bold'> Dirección</Typography>
+                                        </Grid>
+                                        <Grid container item xs={6} sm={6} lg={6} md={6} xl={6}>
+                                            <Typography ml='20px' variant="body1"> {user.direccion}</Typography>
+                                        </Grid>
+                                    </Grid>
+                                </Grid>
+                                <Grid container
+                                    direction='column'
+                                    border='1px solid #BABBBF'
+                                    borderRadius='10px'
+                                    width='600px'
+                                    mt='40px'>
+                                    <Typography textAlign='start' ml='20px' mt='20px' variant="h5" fontWeight='bold'>Información de la Cuenta</Typography>
+                                    <Grid container direction='row' mt='20px'>
+                                        <Grid container direction='column' item xs={6} sm={6} lg={6} md={6} xl={6}>
+                                            <Typography ml='20px' variant="body1" fontWeight='bold'>Nombre de usuario</Typography>
+                                        </Grid>
+                                        <Grid container item xs={6} sm={6} lg={6} md={6} xl={6}>
+                                            <Typography ml='20px' variant="body1">{user.usuario}</Typography>
+                                        </Grid>
+                                    </Grid>
+                                    <Grid container direction='row' mt='20px' mb='20px'>
+                                        <Grid container direction='column' item xs={6} sm={6} lg={6} md={6} xl={6}>
+                                            <Typography ml='20px' variant="body1" fontWeight='bold'>Contraseña</Typography>
+                                        </Grid>
+                                        <Grid container item xs={6} sm={6} lg={6} md={6} xl={6}>
+                                            <Typography ml='20px' variant="body1">{user.contraseña}</Typography>
+                                        </Grid>
+                                    </Grid>
+                                </Grid>
+                            </Grid>
+                            <Button
+                                variant="outlined"
+                                sx={{ borderRadius: '20px', mt: '60px' }}
+                                onClick={handleClick}>
+                                Modificar información
+                            </Button>
+                        </Grid>
+                    </Grid>
+                </Grid>
+                <Grid
+                    container
+                    alignItems='center'
+                    height='75vh'
+                    sx={{display: { xs: 'flex', sm: 'none', md: 'none', lg: 'none', xl:'none' }}}>
+                    <Grid
+                        container
+                        alignItems='center'
+                        height='75vh'>
+                        <Grid
+                            mt='10vh'
+                            alignItems='center'
+                            justifyContent='center'
+                            item xs={12} sm={6} lg={6} md={6} xl={6}>
+                            <Grid
+                                container
+                                alignItems='star'
+                                justifyContent='start'>
+                                <Typography textAlign='start' ml='20px' mt='20px' variant="h5" fontWeight='bold'>Datos personales</Typography>
+                                <Typography textAlign='start' ml='20px' mr='20px' mt='30px' mb='50px' variant="body1">
+                                    Aquí puedes ver y modificar la información personal
+                                    que has compartido con nosotros. Por favor, asegúrate
+                                    de que los datos sean precisos y actualizados para que
+                                    podamos ofrecerte el mejor servicio posible.
+                                </Typography>
+                                <Grid container justifyContent='center' alignItems='center'>
+                                    <Grid container
+                                        direction='column'
+                                        border='1px solid #BABBBF'
+                                        borderRadius='10px'
+                                        width='600px'>
+                                        <Typography textAlign='start' ml='20px' mt='20px' variant="h5" fontWeight='bold'>Información personal</Typography>
+                                        <Grid container direction='row' mt='20px'>
+                                            <Grid container direction='column' item xs={6} sm={6} lg={6} md={6} xl={6}>
+                                                <Typography ml='20px' variant="body1" fontWeight='bold'> Foto</Typography>
+                                            </Grid>
+                                            <Grid container item xs={6} sm={6} lg={6} md={6} xl={6}>
+                                                <Avatar sx={{ width: '170px', height: '170px' }}></Avatar>
+                                            </Grid>
+                                        </Grid>
+                                        <Grid container direction='row' mt='20px'>
+                                            <Grid container direction='column' item xs={6} sm={6} lg={6} md={6} xl={6}>
+                                                <Typography ml='20px' variant="body1" fontWeight='bold'> Nombres</Typography>
+                                            </Grid>
+                                            <Grid container item xs={6} sm={6} lg={6} md={6} xl={6}>
+                                                <Typography ml='20px' variant="body1"> {user.nombres}</Typography>
+                                            </Grid>
+                                        </Grid>
+                                        <Grid container direction='row' mt='20px' mb='20px'>
+                                            <Grid container direction='column' item xs={6} sm={6} lg={6} md={6} xl={6}>
+                                                <Typography ml='20px' variant="body1" fontWeight='bold'> Apellidos</Typography>
+                                            </Grid>
+                                            <Grid container item xs={6} sm={6} lg={6} md={6} xl={6}>
+                                                <Typography ml='20px' variant="body1"> {user.apellidos}</Typography>
+                                            </Grid>
+                                        </Grid>
+                                    </Grid>
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                        <Grid
+                            mt='5vh'
+                            alignItems='center'
+                            justifyContent='center'
+                            textAlign='center'
+                            height='82vh'
+                            item xs={12} sm={6} lg={6} md={6} xl={6}>
+                            <Grid
+                                container
+                                alignItems='start'
+                                justifyContent='center'
+                                textAlign='start'>
+                                <Grid container
+                                    direction='column'
+                                    border='1px solid #BABBBF'
+                                    borderRadius='10px'
+                                    width='600px'>
                                     <Typography textAlign='start' ml='20px' mt='20px' variant="h5" fontWeight='bold'>Información de Contacto</Typography>
                                     <Grid container direction='row' mt='20px'>
                                         <Grid container direction='column' item xs={6} sm={6} lg={6} md={6} xl={6}>

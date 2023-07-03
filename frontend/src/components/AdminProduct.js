@@ -358,7 +358,7 @@ export default function AdminClient() {
                                             name='tipo'
                                             label="Tipo de producto"
                                             onChange={handleChange2}>
-                                            <MenuItem value='Accesiorio'>Accesorio</MenuItem>
+                                            <MenuItem value='Accesorio'>Accesorio</MenuItem>
                                             <MenuItem value='Medicamento'>Medicamento</MenuItem>
                                             <MenuItem value='Limpieza'>Limpieza</MenuItem>
                                         </Select>
@@ -492,7 +492,7 @@ export default function AdminClient() {
                                             name='tipo'
                                             label="Tipo de producto"
                                             onChange={handleChange}>
-                                            <MenuItem value='Accesiorio'>Accesiorio</MenuItem>
+                                            <MenuItem value='Accesorio'>Accesorio</MenuItem>
                                             <MenuItem value='Medicamento'>Medicamento</MenuItem>
                                             <MenuItem value='Limpieza'>Limpieza</MenuItem>
                                         </Select>

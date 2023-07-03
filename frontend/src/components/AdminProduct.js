@@ -10,10 +10,10 @@ export default function AdminClient() {
     const [open1, setOpen1] = useState(false);
     const [isHidden1, setIsHidden1] = useState(false)
     const [products, setProducts] = useState([])
-    const [product, setProduct] = useState({ nombre: '', tipo: '', precio: '', cantidad: '', foto: 'Foto.png' })
+    const [product, setProduct] = useState({ nombre: '', tipo: '', precio: '', cantidad: '', foto: '', estado: 'Activo' })
     const [errorMessage, setErrorMessage] = useState("");
     const [advertenceMenssage, setAdvertenceMenssage] = useState("");
-    const [newProduct, setNewProduct] = useState({ nombre: '', tipo: '', precio: '', cantidad: '', foto: 'Foto.png' })
+    const [newProduct, setNewProduct] = useState({ nombre: '', tipo: '', precio: '', cantidad: '', foto: 'Foto.png', estado: 'Activo' })
     const [search, setSearch] = useState({ search: '' })
 
     const handleClose = () => {
@@ -48,15 +48,16 @@ export default function AdminClient() {
 
     const handleClickAVConf = async () => {
 
-        /* const body = { 
+        const body = { 
             'nombre': product.nombre, 
             'tipo': product.tipo, 
             'precio': product.precio, 
             'cantidad': product.cantidad, 
-            'foto': 'Foto.png' 
-        } */
+            'foto': 'Foto.png',
+            'estado' : 'Eliminado'
+        }
 
-        /* await fetch(`http://localhost:4000/clients/${client.clid}`, {
+        await fetch(`http://localhost:4000/products/${product.prid}`, {
             method: 'PUT',
             body: JSON.stringify(body),
             headers: { "content-Type": "application/json" }
@@ -64,7 +65,7 @@ export default function AdminClient() {
 
         setAdvertenceMenssage("");
 
-        window.location.reload(); */
+        window.location.reload();
     }
 
     const handleClick3 = () => {
@@ -103,7 +104,7 @@ export default function AdminClient() {
 
     const loadProducts = async () => {
 
-        const res = await fetch(`http://localhost:4000/products`, {
+        const res = await fetch(`http://localhost:4000/products2`, {
             method: 'GET',
             headers: { "content-Type": "application/json" }
         })
@@ -138,7 +139,7 @@ export default function AdminClient() {
 
         if (newProduct.nombre.trim() === '' || newProduct.tipo.trim() === '' || newProduct.precio.trim() === '' || newProduct.cantidad.trim() === '') {
             setErrorMessage("Ingrese todos los datos primero");
-            setNewProduct({ nombre: '', tipo: '', precio: '', cantidad: '', foto: 'Foto.png' })
+            setNewProduct({ nombre: '', tipo: '', precio: '', cantidad: '', foto: 'Foto.png', estado: 'Activo' })
             return
         }
 

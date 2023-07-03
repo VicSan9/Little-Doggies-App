@@ -272,14 +272,15 @@ export default function UserPets() {
           <Grid
             container
             alignItems='center'
-            height='90vh'>
+            height='90vh'
+            sx={{display: { xs: 'none', sm: 'flex', md: 'flex', lg: 'flex', xl:'flex' }}}>
             <Grid
               alignItems='center'
               justifyContent='center'
               height='82vh'
               maxHeight='900px'
               minHeight='700px'
-              item xs={3} sm={3} lg={3} md={3} xl={3}
+              item xs={12} sm={12} md={3} lg={3} xl={3}
               borderRight='2px solid #BABBBF'>
               <Grid
                 container
@@ -318,10 +319,10 @@ export default function UserPets() {
                     }}>
                     <CardContent sx={{ width: '100%', padding: '0px' }}>
                       <Grid container direction='row' >
-                        <Grid item xs={3}>
+                        <Grid item xs={3} sm={3} md={5} lg={4} xl={3}>
                           <Avatar sx={{ ml: '5px', width: 50, height: 50 }}>M</Avatar>
                         </Grid>
-                        <Grid item xs={9} container direction='column' textAlign='start'>
+                        <Grid item xs={3} sm={3} md={7} lg={8} xl={9} container direction='column' textAlign='start'>
                           <Typography fontWeight='bold'>
                             {pet.nombre}
                           </Typography>
@@ -494,6 +495,252 @@ export default function UserPets() {
                         <Grid
                           container
                           width='100%'
+                          borderBottom='1px solid #BABBBF'
+                          mb='10px'
+                          key={report.ifid}>
+                          <Grid item xs={3} sm={3} lg={3} md={3} xl={3}>
+                            <Typography>{report.fecha}</Typography>
+                          </Grid>
+                          <Grid item xs={3} sm={3} lg={3} md={3} xl={3}>
+                            <Typography>{report.servicios}</Typography>
+                          </Grid>
+                          <Grid item xs={3} sm={3} lg={3} md={3} xl={3}>
+                            <Typography>{report.nota}</Typography>
+                          </Grid>
+                          <Grid item xs={3} sm={3} lg={3} md={3} xl={3}>
+                            <Typography>{report.nombres + " " + report.apellidos}</Typography>
+                          </Grid>
+                        </Grid>
+                      ))}
+                    </Grid>
+                  </Grid>
+                </div>
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid
+            container
+            alignItems='center'
+            height='90vh'
+            sx={{display: { xs: 'flex', sm: 'none', md: 'none', lg: 'none', xl:'none' }}}>
+            <Grid
+              alignItems='center'
+              justifyContent='center'
+              item xs={12} sm={12} md={3} lg={3} xl={3}>
+              <Grid
+                container
+                direction='column'
+                alignItems='star'
+                justifyContent='start'>
+                <Typography
+                  textAlign='start'
+                  ml='20px'
+                  mt='20px'
+                  mb='10px'
+                  variant="h5"
+                  fontWeight='bold'>
+                  Tus mascotas
+                </Typography>
+                {pets.map((pet) => (
+                  <Card
+                    component={Button}
+                    onFocus={handleFocus}
+                    key={pet.mcid}
+                    value={pet.mcid}
+                    sx={{
+                      '&:focus': {
+                        color: 'white',
+                        backgroundColor: '#0265CD',
+                      },
+                      border: '1px solid #BABBBF',
+                      borderRadius: '10px',
+                      textTransform: 'none',
+                      mt: '15px',
+                      ml: '20px',
+                      mr: '20px',
+                      height: '85px',
+                      width: '85%',
+                      boxShadow: 'none'
+                    }}>
+                    <CardContent sx={{ width: '100%', padding: '0px' }}>
+                      <Grid container direction='row' >
+                        <Grid item xs={3} sm={3} md={5} lg={4} xl={3}>
+                          <Avatar sx={{ ml: '5px', width: 50, height: 50 }}>M</Avatar>
+                        </Grid>
+                        <Grid item xs={3} sm={3} md={7} lg={8} xl={9} container direction='column' textAlign='start'>
+                          <Typography fontWeight='bold'>
+                            {pet.nombre}
+                          </Typography>
+                          <Typography>
+                            {pet.raza}
+                          </Typography>
+                        </Grid>
+                      </Grid>
+                    </CardContent>
+                  </Card>
+                ))}
+                <Tooltip title='Nueva mascota'>
+                  <Card
+                    component={Button}
+                    onClick={handleClick2}
+                    sx={{
+                      color: '#0265CD',
+                      border: '1px solid #BABBBF',
+                      borderRadius: '60px',
+                      textTransform: 'none',
+                      mb: '25px',
+                      mt: '15px',
+                      ml: '20px',
+                      height: '65px',
+                      width: '65px',
+                      boxShadow: 'none'
+                    }}>
+                    <CardContent sx={{ padding: '0px' }}>
+                      <Typography fontSize='25px'>
+                        +
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Tooltip>
+              </Grid>
+            </Grid>
+            <Grid
+              alignItems='center'
+              justifyContent='center'
+              height='82vh'
+              maxHeight='900px'
+              minHeight='700px'
+              item xs={12} sm={9} lg={9} md={9} xl={9}>
+              <Grid
+                container
+                direction='column'
+                alignItems='star'
+                justifyContent='start'
+                ml='20px'
+                mt='17px'
+                width='95%'
+                height='95%'>
+                <div hidden={isHidden}>
+                  <Typography
+                    textAlign='start'
+                    mb='10px'
+                    variant="body1">
+                    Seleciona una de tus mascotas para ver su información.
+                  </Typography>
+                </div>
+                <div hidden={!isHidden} style={{ height: '100%', width: '100%' }}>
+                  <Grid
+                    container
+                    height='50%'
+                    width='100%'>
+                    <Grid container direction='row'>
+                      <Typography
+                        textAlign='start'
+                        variant="h5"
+                        fontWeight='bold'
+                        height='15%'
+                        width='100%'>
+                        Datos de tu mascota
+                        <Tooltip title='Editar datos de tu mascota'>
+                          <IconButton
+                            onClick={handleClicEdit}
+                            sx={{ ml:'10px', '&:hover': { color: '#0265CD' } }}>
+                            <EditIcon sx={{ fontSize: 27 }}></EditIcon>
+                          </IconButton>
+                        </Tooltip>
+                        <Tooltip title='Eliminar mascota'>
+                          <IconButton onClick={handleClicDelete} sx={{ mr: '5px', '&:hover': { color: '#CD0227' } }}>
+                            <DeleteIcon sx={{ fontSize: 27 }}></DeleteIcon>
+                          </IconButton>
+                        </Tooltip>
+                      </Typography>
+                      <Grid
+                        container
+                        height='70%'
+                        width='100%'>
+                        <Grid
+                          container
+                          width='50%'
+                          height='90%'
+                          direction='column'
+                          justifyContent='space-between'>
+                          <Typography fontWeight='bold'>Nombre</Typography>
+                          <Typography fontWeight='bold'>Raza</Typography>
+                          <Typography fontWeight='bold'>Edad</Typography>
+                          <Typography fontWeight='bold'>Sexo</Typography>
+                        </Grid>
+                        <Grid
+                          container
+                          width='50%'
+                          height='90%'
+                          direction='column'
+                          justifyContent='space-between'>
+                          <Typography>{pet.nombre}</Typography>
+                          <Typography>{pet.raza}</Typography>
+                          <Typography>{pet.edad}</Typography>
+                          <Typography>{pet.sexo}</Typography>
+                        </Grid>
+                      </Grid>
+                      <Grid
+                        container
+                        height='90%'
+                        width='100%'>
+                        <Grid
+                          container
+                          width='50%'
+                          height='90%'
+                          direction='column'>
+                          <Typography mt='12px' height='70px' fontWeight='bold'>¿Presenta alguna condicion especial o alergia?</Typography>
+                          <Typography mt='35px' fontWeight='bold'>Foto</Typography>
+                        </Grid>
+                        <Grid
+                          container
+                          width='50%'
+                          height='90%'
+                          direction='column'>
+                          <Typography mt='12px' height='70px'>{pet.condicion}</Typography>
+                          <Avatar sx={{ mt: '40px', width: 120, height: 120 }}>M</Avatar>
+                        </Grid>
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                  <Grid
+                    container
+                    mt='250px'
+                    height='50%'
+                    width='100%'>
+                    <Grid container direction='column'>
+                      <Typography
+                        textAlign='start'
+                        variant="h5"
+                        fontWeight='bold'
+                        height='10%'
+                        width='100%'
+                        mb='20px'>
+                        Historial de citas
+                      </Typography>
+                      <Grid
+                        container
+                        width='95%'
+                        borderBottom='1px solid #BABBBF'
+                        mb='20px'>
+                        <Grid item xs={3} sm={3} lg={3} md={3} xl={3}>
+                          <Typography fontWeight='bold'>Fecha</Typography>
+                        </Grid>
+                        <Grid item xs={3} sm={3} lg={3} md={3} xl={3}>
+                          <Typography fontWeight='bold'>Servicios</Typography>
+                        </Grid>
+                        <Grid item xs={3} sm={3} lg={3} md={3} xl={3}>
+                          <Typography fontWeight='bold'>Nota</Typography>
+                        </Grid>
+                        <Grid item xs={3} sm={3} lg={3} md={3} xl={3}>
+                          <Typography fontWeight='bold'>Atendido por</Typography>
+                        </Grid>
+                      </Grid>
+                      {reports.map((report) => (
+                        <Grid
+                          container
+                          width='95%'
                           borderBottom='1px solid #BABBBF'
                           mb='10px'
                           key={report.ifid}>

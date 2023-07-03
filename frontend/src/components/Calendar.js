@@ -364,7 +364,8 @@ export default function Calendar() {
                 <Grid
                     container
                     alignItems='center'
-                    height='100vh'>
+                    height='100vh'
+                    sx={{display: { xs: 'none', sm: 'flex', md: 'flex', lg: 'flex', xl: 'flex' }}}>
                     <Grid
                         container
                         height='78vh'>
@@ -420,6 +421,130 @@ export default function Calendar() {
                             height='85vh'
                             item xs={6} sm={6} lg={6} md={6} xl={6}>
                             <Grid container mt='20px' ml='20px' mr='20px' width='auto'>
+                                <FormControl fullWidth>
+                                    <InputLabel id="demo-simple-select-label">Horario</InputLabel>
+                                    <Select
+                                        disabled={isDisable}
+                                        labelId="demo-simple-select-label"
+                                        id="demo-simple-select"
+                                        value={horario}
+                                        label="Horario"
+                                        onChange={handleChange}>
+                                        <MenuItem disabled={isLoggedIn1} value={hora1}>7:00 A.M</MenuItem>
+                                        <MenuItem disabled={isLoggedIn2} value={hora2}>8:30 A.M</MenuItem>
+                                        <MenuItem disabled={isLoggedIn3} value={hora3}>10:00 A.M</MenuItem>
+                                        <MenuItem disabled={isLoggedIn4} value={hora4}>1:00 P.M</MenuItem>
+                                        <MenuItem disabled={isLoggedIn5} value={hora5}>2:30 P.M</MenuItem>
+                                        <MenuItem disabled={isLoggedIn6} value={hora6}>4:00 P.M</MenuItem>
+                                    </Select>
+                                </FormControl>
+                                <FormControl fullWidth sx={{ mt: '20px' }}>
+                                    <InputLabel id="demo-simple-select-label2">Servicios</InputLabel>
+                                    <Select
+                                        multiple
+                                        disabled={isDisable}
+                                        labelId="demo-simple-select-label2"
+                                        id="demo-simple-select2"
+                                        value={servicio2}
+                                        label="Servicios"
+                                        onChange={handleChange5}
+                                        renderValue={(selected) => (
+                                            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                                                {selected.map((value) => (
+                                                    <Chip key={value} label={value} />
+                                                ))}
+                                            </Box>
+                                        )}
+                                        MenuProps={MenuProps}>
+                                        {servicios.map((servicio) => (
+                                            <MenuItem
+                                                key={servicio.svid}
+                                                value={servicio.nombre}>
+                                                {servicio.nombre}
+                                            </MenuItem>
+                                        ))}
+                                    </Select>
+                                    <FormHelperText>Escoge uno o varios servicios, si ya no quieres un servicio solo dale click de nuevo para quitarlo</FormHelperText>
+                                </FormControl>
+                                <Button
+                                    sx={{ mt: '40px', borderRadius: '20px' }}
+                                    fullWidth
+                                    disabled={isDisable}
+                                    variant="outlined"
+                                    onClick={handleClick2}
+                                >{'⮪ Cambiar fecha'}
+                                </Button>
+                                <Button
+                                    sx={{ mt: '20px', borderRadius: '20px' }}
+                                    fullWidth
+                                    disabled={isDisable}
+                                    variant="outlined"
+                                    onClick={onClick}
+                                >{'Agendar cita ✔'}
+                                </Button>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                </Grid>
+                <Grid
+                    container
+                    alignItems='center'
+                    height='100vh'
+                    sx={{display: { xs: 'flex', sm: 'none', md: 'none', lg: 'none', xl: 'none' }}}>
+                    <Grid
+                        container
+                        height='78vh'>
+                        <Grid   
+                            alignItems='star'
+                            justifyContent='center'
+                            height='85vh'
+                            item xs={12} sm={6} lg={6} md={6} xl={6}>
+                            <Grid
+                                container
+                                alignItems='star'
+                                justifyContent='start'>
+                                <Typography textAlign='start' mt='20px' variant="h5" fontWeight='bold'>Agenda tu cita</Typography>
+                                <Typography textAlign='start' mr='40px' mt='30px' mb='30px' variant="body1">
+                                    Aquí podrás programar tus citas para
+                                    el día que desees, por favor asegúrate de
+                                    escoger el día en el calendario, darle clic en confirmar y luego seleccionar el
+                                    horario que más se adecue a tus necesidades, por último
+                                    escoge los servicios que necesitarás para tu mascota.
+                                </Typography>
+                                <Grid
+                                    container
+                                    justifyContent='center'
+                                    alignItems='center'
+                                    direction='column'
+                                    mr='20px'>
+                                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                        <DemoContainer components={['DateCalendar', 'DateCalendar']}>
+                                            <DemoItem>
+                                                <DateCalendar
+                                                    disabled={isDisable2}
+                                                    disablePast={true}
+                                                    value={value}
+                                                    onChange={onChange}
+                                                    shouldDisableDate={shouldDisableDate}
+                                                    sx={{ margin: '0px' }} />
+                                            </DemoItem>
+                                        </DemoContainer>
+                                    </LocalizationProvider>
+                                    <Button
+                                        sx={{ mt: '20px', borderRadius: '20px' }}
+                                        fullWidth
+                                        disabled={isDisable2}
+                                        variant="outlined"
+                                        onClick={handleClick}
+                                    >{'Confirmar ➦'}
+                                    </Button>
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                        <Grid
+                            height='85vh'
+                            item xs={12} sm={6} lg={6} md={6} xl={6}>
+                            <Grid container mt='40px' ml='20px' mr='20px' width='auto'>
                                 <FormControl fullWidth>
                                     <InputLabel id="demo-simple-select-label">Horario</InputLabel>
                                     <Select

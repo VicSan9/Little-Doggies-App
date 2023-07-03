@@ -10,6 +10,16 @@ const getAllProducts = async (req, res, next) => {
     }
 }
 
+const getAllProducts2 = async (req, res, next) => {
+    try {
+        const allProducts = await pool.query
+            ('SELECT * FROM productos WHERE estado = $1', ['Activo']);
+        res.json(allProducts.rows);
+    } catch (error) {
+        next(error);
+    }
+}
+
 const getProducts = async (req, res, next) => {
     try {
         const { id } = req.params;
@@ -26,11 +36,11 @@ const getProducts = async (req, res, next) => {
 }
 
 const  createProducts = async (req, res, next) => {
-    const { nombre, tipo, precio, cantidad, foto } = req.body;
+    const { nombre, tipo, precio, cantidad, foto, estado } = req.body;
     try {
         const result = await pool.query
-            ('INSERT INTO productos ( nombre, tipo, precio, cantidad, foto) VALUES ($1, $2, $3, $4, $5) RETURNING *',
-                [ nombre, tipo, precio, cantidad, foto ]);                                 
+            ('INSERT INTO productos ( nombre, tipo, precio, cantidad, foto, estado) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
+                [ nombre, tipo, precio, cantidad, foto, estado ]);                                 
         res.json(result.rows[0]);
     } catch (error){
         next(error);
@@ -54,11 +64,11 @@ const deleteProducts = async (req, res, next) => {
 
 const updateProducts = async (req, res, next) => {
     const { id } = req.params;
-    const {  nombre, tipo, precio, cantidad, foto } = req.body;
+    const {  nombre, tipo, precio, cantidad, foto, estado } = req.body;
     try {
         const result = await pool.query(
-            'UPDATE productos SET nombre = $1, tipo = $2, precio = $3, cantidad = $4, foto = $5 WHERE prid = $6 RETURNING *',
-            [ nombre, tipo, precio, cantidad, foto, id]);
+            'UPDATE productos SET nombre = $1, tipo = $2, precio = $3, cantidad = $4, foto = $5, estado = $6 WHERE prid = $7 RETURNING *',
+            [ nombre, tipo, precio, cantidad, foto, estado, id]);
         if (result.rows.length === 0)
             return res.status(404).json({
                 message: "Producto no encontrado",
@@ -71,6 +81,7 @@ const updateProducts = async (req, res, next) => {
 
 module.exports = {
     getAllProducts,
+    getAllProducts2,
     getProducts,
     createProducts,
     deleteProducts,

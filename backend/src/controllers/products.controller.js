@@ -26,11 +26,11 @@ const getProducts = async (req, res, next) => {
 }
 
 const  createProducts = async (req, res, next) => {
-    const { nombre, tipo, precio, cantidad } = req.body;
+    const { nombre, tipo, precio, cantidad, foto } = req.body;
     try {
         const result = await pool.query
-            ('INSERT INTO productos ( nombre, tipo, precio, cantidad) VALUES ($1, $2, $3, $4) RETURNING *',
-                [ nombre, tipo, precio, cantidad]);                                 
+            ('INSERT INTO productos ( nombre, tipo, precio, cantidad, foto) VALUES ($1, $2, $3, $4, $5) RETURNING *',
+                [ nombre, tipo, precio, cantidad, foto ]);                                 
         res.json(result.rows[0]);
     } catch (error){
         next(error);

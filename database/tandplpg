@@ -14,6 +14,15 @@ ON S.svid = MS.svid
 GROUP BY MS.svid, S.estado, MS.msid
 ORDER BY MS.msid;
 
+--Vista para ver Miembros - Servicios y Si el estado del miembro
+CREATE VIEW memberServiceState2 AS
+SELECT MS.msid, MS.mbid, MS.svid, S.estado
+FROM miembros AS S
+JOiN MiembrosServicios AS MS
+ON S.mbid = MS.mbid
+GROUP BY S.mbid, S.estado, MS.msid
+ORDER BY MS.msid;
+
 --Vista para ver informes
 CREATE VIEW informs AS
 SELECT I.ifid, I.ctsid, C.clid, C.mcid, C.fecha, M.nombres, M.apellidos, I.nota, string_agg(S.nombre, ' ● ') AS servicios

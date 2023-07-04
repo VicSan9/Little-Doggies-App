@@ -5,6 +5,15 @@ FROM productos AS P
 JOIN pedidosproductos AS PP 
 ON pp.prid = p.prid;
 
+--Vista para ver Miembros - Servicios y Si el estado del servicio
+CREATE VIEW memberServiceState AS
+SELECT MS.msid, MS.mbid, MS.svid, S.estado
+FROM servicios AS S
+JOiN MiembrosServicios AS MS
+ON S.svid = MS.svid
+GROUP BY MS.svid, S.estado, MS.msid
+ORDER BY MS.msid;
+
 --Vista para ver informes
 CREATE VIEW informs AS
 SELECT I.ifid, I.ctsid, C.clid, C.mcid, C.fecha, M.nombres, M.apellidos, I.nota, string_agg(S.nombre, ' ● ') AS servicios

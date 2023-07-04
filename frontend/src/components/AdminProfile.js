@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 
 export default function AdminProfile() {
 
-    const [user, setUser] = useState([])
+    const [user, setUser] = useState({ usuario: '', contraseña: '', correo: '', nombres: '', apellidos: '', telefono: '', direccion: '', rol: '', foto: '', estado: '' })
     const [open, setOpen] = useState(false)
     const [errorMessage, setErrorMessage] = useState("");
 
@@ -331,7 +331,7 @@ export default function AdminProfile() {
                                         direction='column'
                                         border='1px solid #BABBBF'
                                         borderRadius='10px'
-                                        width='600px'>
+                                        width='97%'>
                                         <Typography textAlign='start' ml='20px' mt='20px' variant="h5" fontWeight='bold'>Información personal</Typography>
                                         <Grid container direction='row' mt='20px'>
                                             <Grid container direction='column' item xs={6} sm={6} lg={6} md={6} xl={6}>
@@ -378,8 +378,8 @@ export default function AdminProfile() {
                                 direction='column'
                                 border='1px solid #BABBBF'
                                 borderRadius='10px'
-                                width='600px'
-                                mt='20px'>
+                                width='93%'
+                                overflow='hidden'>
                                 <Typography textAlign='start' ml='20px' mt='20px' variant="h5" fontWeight='bold'>Información de Contacto</Typography>
                                 <Grid container direction='row' mt='20px'>
                                     <Grid container direction='column' item xs={6} sm={6} lg={6} md={6} xl={6}>
@@ -410,7 +410,7 @@ export default function AdminProfile() {
                                 direction='column'
                                 border='1px solid #BABBBF'
                                 borderRadius='10px'
-                                width='600px'
+                                width='93%'
                                 mt='40px'>
                                 <Typography textAlign='start' ml='20px' mt='20px' variant="h5" fontWeight='bold'>Información de la Cuenta</Typography>
                                 <Grid container direction='row' mt='20px'>

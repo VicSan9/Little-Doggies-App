@@ -167,7 +167,7 @@ export default function AdminServices() {
 
         setService(data)
 
-        const res2 = await fetch(`http://localhost:4000/membersServices`, {
+        const res2 = await fetch(`http://localhost:4000/services3`, {
             method: 'GET',
             headers: { "content-Type": "application/json" }
         })

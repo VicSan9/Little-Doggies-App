@@ -17,10 +17,11 @@ export default function AdminStaff() {
     const [errorMessage, setErrorMessage] = useState("");
     const [advertenceMenssage, setAdvertenceMenssage] = useState("");
     const [members, setMembers] = useState([])
-    const [member, setMember] = useState([])
+    const [member, setMember] = useState({ usuario: '', contraseña: '', correo: '', nombres: '', apellidos: '', telefono: '', direccion: '', rol: 'Trabajador', foto: 'foto', estado: 'Activo' })
     const [services, setServices] = useState([])
     const [service2, setServices2] = useState([])
-    const [create, setCreate] = useState({usuario: '', contraseña: '', correo: '', nombres: '', apellidos: '', telefono: '', direccion:'', rol: 'Trabajador',  foto: 'foto', estado: 'Activo'})
+    const [allServices, setallServices] = useState([])
+    const [create, setCreate] = useState({ usuario: '', contraseña: '', correo: '', nombres: '', apellidos: '', telefono: '', direccion: '', rol: 'Trabajador', foto: 'foto', estado: 'Activo' })
 
     const ITEM_HEIGHT = 48;
     const ITEM_PADDING_TOP = 8;
@@ -50,29 +51,89 @@ export default function AdminStaff() {
             return
         }
 
-        await fetch(`http://localhost:4000/members/${member.mbid}`, {
+        if (service2.length === 0) {
+            setErrorMessage('Por favor selecciona los servicios')
+            return
+        }
+
+        const body1 = {
+            'usuario': member.usuario + 'Eliminado' + member.mbid,
+            'contraseña': member.contraseña,
+            'correo': member.correo + 'Eliminado' + member.mbid,
+            'nombres': member.nombres,
+            'apellidos': member.apellidos,
+            'telefono': member.telefono,
+            'direccion': member.direccion,
+            'rol': 'Trabajador',
+            'foto': 'foto',
+            'estado': 'Eliminado'
+        }
+
+        const res5 =  await fetch(`http://localhost:4000/members/${member.mbid}`, {
             method: 'PUT',
-            body: JSON.stringify(member),
+            body: JSON.stringify(body1),
             headers: { "content-Type": "application/json" }
         });
 
-        window.location.reload();
+        const data5 = await res5.json();
 
-        setAdvertenceMenssage("");
+        console.log(data5)
+
+        const body2 = {
+            'usuario': member.usuario,
+            'contraseña': member.contraseña,
+            'correo': member.correo,
+            'nombres': member.nombres,
+            'apellidos': member.apellidos,
+            'telefono': member.telefono,
+            'direccion': member.direccion,
+            'rol': 'Trabajador',
+            'foto': 'foto',
+            'estado': 'Activo'
+        }
+
+        const res3 = await fetch('http://localhost:4000/members', {
+            method: 'POST',
+            body: JSON.stringify(body2),
+            headers: { "content-Type": "application/json" }
+        })
+
+        const data3 = await res3.json();
+
+        console.log(data3)
+
+        var id = []
+
+        for (let i = 0; i < service2.length; i++) {
+            for (let j = 0; j < allServices.length; j++) {
+                if (service2[i] === allServices[j].nombre) {
+                    id.push(allServices[j].svid)
+                }
+            }
+        }
+
+        for (let i = 0; i < id.length; i++) {
+            var body4 = {
+                'svid': id[i],
+                'mbid': data3.mbid,
+            }
+
+            const res = await fetch('http://localhost:4000/membersServices', {
+                method: 'POST',
+                body: JSON.stringify(body4),
+                headers: { "content-Type": "application/json" }
+            })
+
+            const data = await res.json()
+
+            console.log(data)
+        }
+
+        window.location.reload();
     }
 
     const handleClickEdit = async (e) => {
         setOpen1(true)
-
-        const res = await fetch(`http://localhost:4000/members/${member.mbid}`, {
-            method: 'GET',
-            headers: { "content-Type": "application/json" }
-        })
-
-        const data = await res.json();
-
-        setMember(data)
-
     }
 
     const handleChange = e => {
@@ -91,9 +152,7 @@ export default function AdminStaff() {
     }
 
     const handleClickAVConf = async () => {
-
         const body1 = {
-
             'usuario': member.usuario,
             'contraseña': member.contraseña,
             'correo': member.correo,
@@ -111,8 +170,6 @@ export default function AdminStaff() {
             body: JSON.stringify(body1),
             headers: { "content-Type": "application/json" }
         });
-
-        setAdvertenceMenssage("");
 
         window.location.reload();
     }
@@ -147,6 +204,15 @@ export default function AdminStaff() {
         const data = await res.json()
 
         setMembers(data)
+
+        const res2 = await fetch(`http://localhost:4000/services`, {
+            method: 'GET',
+            headers: { "content-Type": "application/json" }
+        })
+
+        const data2 = await res2.json()
+
+        setallServices(data2)
     }
 
     useEffect(() => {
@@ -168,7 +234,7 @@ export default function AdminStaff() {
 
         setMember(data2)
 
-        const res3 = await fetch(`http://localhost:4000/membersServices`, {
+        const res3 = await fetch(`http://localhost:4000/services2`, {
             method: 'GET',
             headers: { "content-Type": "application/json" }
         })
@@ -217,9 +283,6 @@ export default function AdminStaff() {
             return
         }
 
-        if (sessionStorage.getItem('id') === null) {
-            return
-        }
         if (service2.length === 0) {
             setErrorMessage('Por favor selecciona los servicios')
             return
@@ -236,9 +299,9 @@ export default function AdminStaff() {
         var id = []
 
         for (let i = 0; i < service2.length; i++) {
-            for (let j = 0; j < services.length; j++) {
-                if (service2[i] === services[j].nombre) {
-                    id.push(services[j].svid)
+            for (let j = 0; j < allServices.length; j++) {
+                if (service2[i] === allServices[j].nombre) {
+                    id.push(allServices[j].svid)
                 }
             }
         }
@@ -248,12 +311,12 @@ export default function AdminStaff() {
                 'svid': id[i],
                 'mbid': data3.mbid,
             }
+
             await fetch('http://localhost:4000/membersServices', {
                 method: 'POST',
                 body: JSON.stringify(body4),
                 headers: { "content-Type": "application/json" }
             })
-            console.log(body4)
         }
 
         window.location.reload()
@@ -545,11 +608,11 @@ export default function AdminStaff() {
                                                 </Box>
                                             )}
                                             MenuProps={MenuProps}>
-                                            {services.map((servicios) => (
+                                            {allServices.map((service) => (
                                                 <MenuItem
-                                                    key={servicios.svid}
-                                                    value={servicios.nombre}>
-                                                    {servicios.nombre}
+                                                    key={service.svid}
+                                                    value={service.nombre}>
+                                                    {service.nombre}
                                                 </MenuItem>
                                             ))}
                                         </Select>
@@ -795,11 +858,11 @@ export default function AdminStaff() {
                                                 </Box>
                                             )}
                                             MenuProps={MenuProps}>
-                                            {services.map((servicios) => (
+                                            {allServices.map((service) => (
                                                 <MenuItem
-                                                    key={servicios.svid}
-                                                    value={servicios.nombre}>
-                                                    {servicios.nombre}
+                                                    key={service.svid}
+                                                    value={service.nombre}>
+                                                    {service.nombre}
                                                 </MenuItem>
                                             ))}
                                         </Select>
@@ -813,7 +876,7 @@ export default function AdminStaff() {
                             paddingRight='4vw'
                             width='100%'
                             justifyContent='end'
-                            mb='25px'>
+                            mt='25px'>
                             <Button type='submit' variant='outlined' sx={{ borderRadius: '20px' }}>Registrar</Button>
                         </Grid>
                     </Grid>
@@ -974,82 +1037,108 @@ export default function AdminStaff() {
                         paddingRight='16px'
                         paddingLeft='16px'
                         item xs={8} sm={8} lg={8} md={8} xl={8}>
-                        <div hidden={isHidden1}>
-                            <Typography mt='8px' mb='8px'>Seleciona uno de los miembros para ver su información.</Typography>
-                        </div>
-                        <div hidden={!isHidden1} style={{ width: '100%' }}>
-                            <Typography variant='h6'>Datos del trabajador</Typography>
-                            <Typography mb='15px' mt='15px' ml='10px' variant='h6' width='98%' sx={{ fontSize: '18px' }}>Información personal
-                                <Grid
-                                    container
-                                    alignItems='start'
-                                    justifyContent='center'>
-                                    <Grid item xs={4} sm={4} lg={4} md={4} xl={4}>
-                                        <Typography ml='15px' mt='8px' variant='body1' fontWeight='500'>Nombres</Typography>
-                                        <Typography ml='15px' mt='8px' variant='body1' fontWeight='500'>Apellidos</Typography>
-                                    </Grid>
-                                    <Grid item xs={4} sm={4} lg={4} md={4} xl={4}>
-                                        <Typography mt='8px' variant='body1'>{member.nombres}</Typography>
-                                        <Typography mt='8px' variant='body1'>{member.apellidos}</Typography>
-                                    </Grid>
-                                    <Grid item xs={4} sm={4} lg={4} md={4} xl={4}>
-                                        <Avatar sx={{ width: 90, height: 90 }}></Avatar>
-                                    </Grid>
-                                </Grid>
-                            </Typography>
-                            <Divider></Divider>
-                            <Typography mb='15px' mt='15px' ml='10px' variant='h6' width='98%' sx={{ fontSize: '18px' }}>Información de contacto
-                                <Grid
-                                    container
-                                    alignItems='start'
-                                    justifyContent='center'>
-                                    <Grid item xs={4} sm={4} lg={4} md={4} xl={4}>
-                                        <Typography ml='15px' mt='8px' variant='body1' fontWeight='500'>Correo Electronico</Typography>
-                                        <Typography ml='15px' mt='8px' variant='body1' fontWeight='500'>Número de telefono</Typography>
-                                        <Typography ml='15px' mt='8px' variant='body1' fontWeight='500'>Dirección</Typography>
-                                    </Grid>
-                                    <Grid item xs={8} sm={8} lg={8} md={8} xl={8}>
-                                        <Typography mt='8px' variant='body1'>{member.correo}</Typography>
-                                        <Typography mt='8px' variant='body1'>{member.telefono}</Typography>
-                                        <Typography mt='8px' variant='body1'>{member.direccion}</Typography>
-                                    </Grid>
-                                </Grid>
-                            </Typography>
-                            <Divider></Divider>
-                            <Typography mb='15px' mt='15px' ml='10px' variant='h6' width='98%' sx={{ fontSize: '18px' }}>Información de la cuenta
-                                <Grid
-                                    container
-                                    alignItems='start'
-                                    justifyContent='center'>
-                                    <Grid item xs={4} sm={4} lg={4} md={4} xl={4}>
-                                        <Typography ml='15px' mt='8px' variant='body1' fontWeight='500'>Nombre de usuario</Typography>
-                                        <Typography ml='15px' mt='8px' variant='body1' fontWeight='500'>Contraseña</Typography>
-                                    </Grid>
-                                    <Grid item xs={8} sm={8} lg={8} md={8} xl={8}>
-                                        <Typography mt='8px' variant='body1'>{member.usuario}</Typography>
-                                        <Typography mt='8px' variant='body1'>{member.contraseña}</Typography>
-                                    </Grid>
-                                </Grid>
-                            </Typography>
-                            <Divider></Divider>
-                            <Typography mb='15px' mt='15px' ml='10px' variant='h6' width='98%' sx={{ fontSize: '18px' }}>Servicios
-                                {services.map(servicio => (
+                        <Grid
+                            container
+                            height='100%'
+                            overflow='scroll'
+                            alignItems='center'
+                            justifyContent='start'
+                            display='block'
+                            direction='column'
+                            paddingRight='10px'
+                            sx={{
+                                '&::-webkit-scrollbar': {
+                                    width: '8px',
+                                    height: '8px',
+                                },
+                                '&::-webkit-scrollbar-thumb': {
+                                    backgroundColor: 'rgba(0, 0, 0, 0.1)',
+                                    borderRadius: '10px',
+                                    '&:hover': {
+                                        backgroundColor: 'rgba(0, 0, 0, 0.3)',
+                                    },
+                                },
+                                '&::-webkit-scrollbar: horizontal': {
+                                    display: 'none',
+                                },
+                            }}>
+                            <div hidden={isHidden1}>
+                                <Typography mt='8px' mb='8px'>Seleciona uno de los miembros para ver su información.</Typography>
+                            </div>
+                            <div hidden={!isHidden1} style={{ width: '100%' }}>
+                                <Typography variant='h6'>Datos del trabajador</Typography>
+                                <Typography mb='15px' mt='15px' ml='10px' variant='h6' width='98%' sx={{ fontSize: '18px' }}>Información personal
                                     <Grid
-                                        key={servicio.mbid}
                                         container
-                                        direction='row'
-                                        ml='15px' mt='8px'>
-                                        <Card sx={{ backgroundColor: '#A9A9A9', width: '300px', height: '50px' }}>
-                                            <CardContent>
-                                                <Typography variant='body1' fontWeight='500'>
-                                                    {servicio.nombre}
-                                                </Typography>
-                                            </CardContent>
-                                        </Card>
+                                        alignItems='start'
+                                        justifyContent='center'>
+                                        <Grid item xs={4} sm={4} lg={4} md={4} xl={4}>
+                                            <Typography ml='15px' mt='8px' variant='body1' fontWeight='500'>Nombres</Typography>
+                                            <Typography ml='15px' mt='8px' variant='body1' fontWeight='500'>Apellidos</Typography>
+                                        </Grid>
+                                        <Grid item xs={4} sm={4} lg={4} md={4} xl={4}>
+                                            <Typography mt='8px' variant='body1'>{member.nombres}</Typography>
+                                            <Typography mt='8px' variant='body1'>{member.apellidos}</Typography>
+                                        </Grid>
+                                        <Grid item xs={4} sm={4} lg={4} md={4} xl={4}>
+                                            <Avatar sx={{ width: 90, height: 90 }}></Avatar>
+                                        </Grid>
                                     </Grid>
-                                ))}
-                            </Typography>
-                        </div>
+                                </Typography>
+                                <Divider></Divider>
+                                <Typography mb='15px' mt='15px' ml='10px' variant='h6' width='98%' sx={{ fontSize: '18px' }}>Información de contacto
+                                    <Grid
+                                        container
+                                        alignItems='start'
+                                        justifyContent='center'>
+                                        <Grid item xs={4} sm={4} lg={4} md={4} xl={4}>
+                                            <Typography ml='15px' mt='8px' variant='body1' fontWeight='500'>Correo Electronico</Typography>
+                                            <Typography ml='15px' mt='8px' variant='body1' fontWeight='500'>Número de telefono</Typography>
+                                            <Typography ml='15px' mt='8px' variant='body1' fontWeight='500'>Dirección</Typography>
+                                        </Grid>
+                                        <Grid item xs={8} sm={8} lg={8} md={8} xl={8}>
+                                            <Typography mt='8px' variant='body1'>{member.correo}</Typography>
+                                            <Typography mt='8px' variant='body1'>{member.telefono}</Typography>
+                                            <Typography mt='8px' variant='body1'>{member.direccion}</Typography>
+                                        </Grid>
+                                    </Grid>
+                                </Typography>
+                                <Divider></Divider>
+                                <Typography mb='15px' mt='15px' ml='10px' variant='h6' width='98%' sx={{ fontSize: '18px' }}>Información de la cuenta
+                                    <Grid
+                                        container
+                                        alignItems='start'
+                                        justifyContent='center'>
+                                        <Grid item xs={4} sm={4} lg={4} md={4} xl={4}>
+                                            <Typography ml='15px' mt='8px' variant='body1' fontWeight='500'>Nombre de usuario</Typography>
+                                            <Typography ml='15px' mt='8px' variant='body1' fontWeight='500'>Contraseña</Typography>
+                                        </Grid>
+                                        <Grid item xs={8} sm={8} lg={8} md={8} xl={8}>
+                                            <Typography mt='8px' variant='body1'>{member.usuario}</Typography>
+                                            <Typography mt='8px' variant='body1'>{member.contraseña}</Typography>
+                                        </Grid>
+                                    </Grid>
+                                </Typography>
+                                <Divider></Divider>
+                                <Typography mb='15px' mt='15px' ml='10px' variant='h6' width='98%' sx={{ fontSize: '18px' }}>Servicios
+                                    {services.map(servicio => (
+                                        <Grid
+                                            key={servicio.svid}
+                                            container
+                                            direction='row'
+                                            ml='15px' mt='8px'>
+                                            <Card sx={{ backgroundColor: '#A9A9A9', width: '300px', height: '50px' }}>
+                                                <CardContent>
+                                                    <Typography variant='body1' fontWeight='500'>
+                                                        {servicio.nombre}
+                                                    </Typography>
+                                                </CardContent>
+                                            </Card>
+                                        </Grid>
+                                    ))}
+                                </Typography>
+                            </div>
+                        </Grid>
                     </Grid>
                 </Grid>
             </Grid >

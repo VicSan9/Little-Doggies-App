@@ -647,7 +647,7 @@ export default function AdminServices() {
                 <AdminNavbar></AdminNavbar>
                 <Grid
                     container
-                    width='95.2vw'
+                    width='95vw'
                     height='90%'
                     maxHeight='930px'
                     direction='row'

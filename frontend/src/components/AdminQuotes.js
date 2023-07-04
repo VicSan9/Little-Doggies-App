@@ -654,7 +654,7 @@ export default function AdminQuotes() {
         setIsDisable3(false)
         setOpen(true)
 
-        const res = await fetch(`http://localhost:4000/clients`, {
+        const res = await fetch(`http://localhost:4000/clients2`, {
             method: 'GET',
             headers: { "content-Type": "application/json" }
         })
@@ -1506,7 +1506,7 @@ export default function AdminQuotes() {
                                 <AccordionDetails sx={{ paddingRight: '10px', paddingLeft: '10px' }}>
                                     <Grid
                                         container
-                                        height='45vh'
+                                        height='43vh'
                                         overflow='scroll'
                                         alignItems='center'
                                         justifyContent='start'
@@ -1581,7 +1581,7 @@ export default function AdminQuotes() {
                                 <AccordionDetails sx={{ paddingRight: '10px', paddingLeft: '10px' }}>
                                     <Grid
                                         container
-                                        height='45vh'
+                                        height='43vh'
                                         overflow='scroll'
                                         alignItems='center'
                                         justifyContent='start'
@@ -1656,7 +1656,7 @@ export default function AdminQuotes() {
                                 <AccordionDetails sx={{ paddingRight: '10px', paddingLeft: '10px' }}>
                                     <Grid
                                         container
-                                        height='45vh'
+                                        height='43vh'
                                         overflow='scroll'
                                         alignItems='center'
                                         justifyContent='start'

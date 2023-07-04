@@ -1472,7 +1472,7 @@ export default function AdminClient() {
                 <AdminNavbar></AdminNavbar>
                 <Grid
                     container
-                    width='95.2vw'
+                    width='95vw'
                     height='90%'
                     maxHeight='930px'
                     direction='row'
@@ -1529,7 +1529,7 @@ export default function AdminClient() {
                             </Grid>
                             <Grid
                                 container
-                                height='77%'
+                                height='76%'
                                 overflow='scroll'
                                 alignItems='center'
                                 justifyContent='start'
@@ -1578,7 +1578,7 @@ export default function AdminClient() {
                                             }
                                         }}>
                                         <Avatar sx={{ width: 45, height: 45 }}></Avatar>
-                                        <Typography textAlign='center' width='62%' overflow='hidden'>{client.nombres + ' ' + client.apellidos}</Typography>
+                                        <Typography textAlign='center' width='61%' overflow='hidden'>{client.nombres + ' ' + client.apellidos}</Typography>
                                         <Grid>
                                             <Tooltip title='Editar cliente'>
                                                 <IconButton id={client.clid} onClick={handleClickEdit} sx={{ width: '30px', height: '30px', ":hover": { color: "white" } }}>

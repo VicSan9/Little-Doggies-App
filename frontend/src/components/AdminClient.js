@@ -609,7 +609,8 @@ export default function AdminClient() {
                                 alignItems='center'
                                 justifyContent='start'
                                 direction='row'
-                                width='100%'>
+                                width='100%'
+                                mb='10px'>
                                 <Grid
                                     container
                                     paddingLeft='4vw'
@@ -644,7 +645,8 @@ export default function AdminClient() {
                                 alignItems='center'
                                 justifyContent='start'
                                 direction='row'
-                                width='100%'>
+                                width='100%'
+                                mb='10px'>
                                 <Grid
                                     container
                                     paddingLeft='4vw'
@@ -681,7 +683,7 @@ export default function AdminClient() {
                             </Grid>
                             <Grid
                                 container
-                                alignItems='center'
+                                alignItems='start'
                                 justifyContent='start'
                                 direction='row'
                                 width='100%'>
@@ -963,7 +965,8 @@ export default function AdminClient() {
                                 alignItems='center'
                                 justifyContent='start'
                                 direction='row'
-                                width='100%'>
+                                width='100%'
+                                mb='10px'>
                                 <Grid
                                     container
                                     paddingLeft='4vw'
@@ -998,7 +1001,8 @@ export default function AdminClient() {
                                 alignItems='center'
                                 justifyContent='start'
                                 direction='row'
-                                width='100%'>
+                                width='100%'
+                                mb='10px'>
                                 <Grid
                                     container
                                     paddingLeft='4vw'
@@ -1035,7 +1039,7 @@ export default function AdminClient() {
                             </Grid>
                             <Grid
                                 container
-                                alignItems='center'
+                                alignItems='start'
                                 justifyContent='start'
                                 direction='row'
                                 width='100%'>

@@ -25,6 +25,20 @@ const getServices = async (req, res, next) => {
     }
 }
 
+const getServices2 = async (req, res, next) => {
+    try {
+        const result = await pool.query
+            ('SELECT * FROM memberServiceState WHERE estado = $1', ['Activo']);
+        if (result.rows.length === 0)
+            return res.status(404).json({
+                message: "servicio no encontrado",
+            });
+        res.json(result.rows);
+    } catch (error) {
+        next(error);
+    }
+}
+
 const createServices = async (req, res, next) => {
     const { nombre, categoria, descripcion, estado } = req.body;
     try {
@@ -72,6 +86,7 @@ const updateServices = async (req, res, next) => {
 module.exports = {
     getAllServices,
     getServices,
+    getServices2,
     createServices,
     deleteServices,
     updateServices

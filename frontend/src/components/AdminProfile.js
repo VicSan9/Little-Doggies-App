@@ -163,6 +163,7 @@ export default function AdminProfile() {
                                         fullWidth
                                         name="nombres"
                                         variant="outlined"
+                                        label="Nombres"
                                         value={user.nombres}
                                         onChange={handleChange}>
                                     </TextField>
@@ -176,6 +177,7 @@ export default function AdminProfile() {
                                         fullWidth
                                         name="apellidos"
                                         variant="outlined"
+                                        label="Apellidos"
                                         value={user.apellidos}
                                         onChange={handleChange}>
                                     </TextField>
@@ -196,6 +198,7 @@ export default function AdminProfile() {
                                         fullWidth
                                         name="telefono"
                                         type="tel"
+                                        label="Celular"
                                         variant="outlined"
                                         value={user.telefono}
                                         onChange={handleChange}>
@@ -211,6 +214,7 @@ export default function AdminProfile() {
                                         name="correo"
                                         type="email"
                                         variant="outlined"
+                                        label="Correo"
                                         value={user.correo}
                                         onChange={handleChange}>
                                     </TextField>
@@ -231,6 +235,7 @@ export default function AdminProfile() {
                                         fullWidth
                                         name="usuario"
                                         variant="outlined"
+                                        label="Usuario"
                                         value={user.usuario}
                                         onChange={handleChange}>
                                     </TextField>
@@ -245,6 +250,7 @@ export default function AdminProfile() {
                                         name="contraseña"
                                         type="password"
                                         variant="outlined"
+                                        label="Contraseña"
                                         value={user.contraseña}
                                         onChange={handleChange}>
                                     </TextField>
@@ -265,6 +271,7 @@ export default function AdminProfile() {
                                         fullWidth
                                         name="direccion"
                                         variant="outlined"
+                                        label="Dirección"
                                         value={user.direccion}
                                         onChange={handleChange}>
                                     </TextField>

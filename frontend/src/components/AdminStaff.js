@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import React from 'react'
 import AdminNavbar from './AdminNavbar'
-import { Grid, Typography, Divider, Avatar, TextField, Button, IconButton, Box, Backdrop, Card, CardContent, Chip } from "@mui/material";
+import { Grid, Typography, Divider, Avatar, TextField, Button, IconButton, Box, Backdrop, Card, CardContent, Chip, Tooltip } from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import InputLabel from '@mui/material/InputLabel';
@@ -69,7 +69,7 @@ export default function AdminStaff() {
             'estado': 'Eliminado'
         }
 
-        const res5 =  await fetch(`http://localhost:4000/members/${member.mbid}`, {
+        const res5 = await fetch(`http://localhost:4000/members/${member.mbid}`, {
             method: 'PUT',
             body: JSON.stringify(body1),
             headers: { "content-Type": "application/json" }
@@ -480,6 +480,7 @@ export default function AdminStaff() {
                                         fullWidth
                                         name="nombres"
                                         variant="outlined"
+                                        label="Nombres"
                                         value={member.nombres}
                                         onChange={handleChange}>
                                     </TextField>
@@ -493,6 +494,7 @@ export default function AdminStaff() {
                                         fullWidth
                                         name="apellidos"
                                         variant="outlined"
+                                        label="Apellidos"
                                         value={member.apellidos}
                                         onChange={handleChange}>
                                     </TextField>
@@ -514,6 +516,7 @@ export default function AdminStaff() {
                                         fullWidth
                                         name="telefono"
                                         type="tel"
+                                        label="Celular"
                                         variant="outlined"
                                         value={member.telefono}
                                         onChange={handleChange}>
@@ -528,6 +531,7 @@ export default function AdminStaff() {
                                         fullWidth
                                         name="correo"
                                         type="email"
+                                        label="Correo"
                                         variant="outlined"
                                         value={member.correo}
                                         onChange={handleChange}>
@@ -550,6 +554,7 @@ export default function AdminStaff() {
                                         fullWidth
                                         name="usuario"
                                         variant="outlined"
+                                        label="Usuario"
                                         value={member.usuario}
                                         onChange={handleChange}>
                                     </TextField>
@@ -563,6 +568,7 @@ export default function AdminStaff() {
                                         fullWidth
                                         name="contraseña"
                                         type="password"
+                                        label="Contraseña"
                                         variant="outlined"
                                         value={member.contraseña}
                                         onChange={handleChange}>
@@ -584,6 +590,7 @@ export default function AdminStaff() {
                                         fullWidth
                                         name="direccion"
                                         variant="outlined"
+                                        label="Dirección"
                                         value={member.direccion}
                                         onChange={handleChange}>
                                     </TextField>
@@ -966,9 +973,11 @@ export default function AdminStaff() {
                                 mb='10px'
                             >
                                 <Typography variant='h6' fontSize='bold'>Personal</Typography>
-                                <IconButton onClick={handleClicNewPersonal} sx={{ mr: '8px', width: 40, height: 40, bgcolor: '#F5F5F5', '&:hover': { bgcolor: '#BABBBF' } }}>
-                                    <Typography>+</Typography>
-                                </IconButton>
+                                <Tooltip title='Nuevo empleado'>
+                                    <IconButton onClick={handleClicNewPersonal} sx={{ mr: '8px', width: 40, height: 40, bgcolor: '#F5F5F5', '&:hover': { bgcolor: '#BABBBF' } }}>
+                                        <Typography>+</Typography>
+                                    </IconButton>
+                                </Tooltip>
                             </Grid>
                             <Grid
                                 container
@@ -1022,12 +1031,16 @@ export default function AdminStaff() {
                                         }}>
                                         <Typography>{miembros.nombres + " " + miembros.apellidos}</Typography>
                                         <Grid>
-                                            <IconButton id={miembros.mbid} onClick={handleClickEdit} sx={{ width: '30px', height: '30px', ":hover": { color: "white" } }}>
-                                                <EditIcon></EditIcon>
-                                            </IconButton>
-                                            <IconButton onClick={handleClickDelete} sx={{ width: '30px', height: '30px', ":hover": { color: "white" } }}>
-                                                <HighlightOffIcon></HighlightOffIcon>
-                                            </IconButton>
+                                            <Tooltip title='Editar empleado'>
+                                                <IconButton id={miembros.mbid} onClick={handleClickEdit} sx={{ width: '30px', height: '30px', ":hover": { color: "white" } }}>
+                                                    <EditIcon></EditIcon>
+                                                </IconButton>
+                                            </Tooltip>
+                                            <Tooltip title='Eliminar empleado'>
+                                                <IconButton onClick={handleClickDelete} sx={{ width: '30px', height: '30px', ":hover": { color: "white" } }}>
+                                                    <HighlightOffIcon></HighlightOffIcon>
+                                                </IconButton>
+                                            </Tooltip>
                                         </Grid>
                                     </Grid>
                                 ))}

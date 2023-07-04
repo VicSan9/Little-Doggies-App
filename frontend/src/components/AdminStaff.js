@@ -469,7 +469,8 @@ export default function AdminStaff() {
                                 alignItems='center'
                                 justifyContent='start'
                                 direction='row'
-                                width='100%'>
+                                width='100%'
+                                mb='5px'>
                                 <Grid
                                     container
                                     paddingLeft='4vw'
@@ -502,7 +503,8 @@ export default function AdminStaff() {
                                 alignItems='center'
                                 justifyContent='start'
                                 direction='row'
-                                width='100%'>
+                                width='100%'
+                                mb='5px'>
                                 <Grid
                                     container
                                     paddingLeft='4vw'
@@ -537,7 +539,8 @@ export default function AdminStaff() {
                                 alignItems='center'
                                 justifyContent='start'
                                 direction='row'
-                                width='100%'>
+                                width='100%'
+                                mb='5px'>
                                 <Grid
                                     container
                                     paddingLeft='4vw'
@@ -626,7 +629,7 @@ export default function AdminStaff() {
                             paddingRight='4vw'
                             width='100%'
                             justifyContent='end'
-                            mb='25px'>
+                            mt='30px'>
                             <Button type='submit' variant='outlined' sx={{ borderRadius: '20px' }}>Guardar</Button>
                         </Grid>
                         <Grid
@@ -712,7 +715,8 @@ export default function AdminStaff() {
                                 alignItems='center'
                                 justifyContent='start'
                                 direction='row'
-                                width='100%'>
+                                width='100%'
+                                mb='5px'>
                                 <Grid
                                     container
                                     paddingLeft='4vw'
@@ -747,7 +751,8 @@ export default function AdminStaff() {
                                 alignItems='center'
                                 justifyContent='start'
                                 direction='row'
-                                width='100%'>
+                                width='100%'
+                                mb='5px'>
                                 <Grid
                                     container
                                     paddingLeft='4vw'
@@ -784,7 +789,8 @@ export default function AdminStaff() {
                                 alignItems='center'
                                 justifyContent='start'
                                 direction='row'
-                                width='100%'>
+                                width='100%'
+                                mb='5px'>
                                 <Grid
                                     container
                                     paddingLeft='4vw'
@@ -876,7 +882,7 @@ export default function AdminStaff() {
                             paddingRight='4vw'
                             width='100%'
                             justifyContent='end'
-                            mt='25px'>
+                            mt='30px'>
                             <Button type='submit' variant='outlined' sx={{ borderRadius: '20px' }}>Registrar</Button>
                         </Grid>
                     </Grid>

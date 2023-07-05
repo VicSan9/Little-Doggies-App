@@ -109,7 +109,8 @@ export default function NewPet() {
                     container
                     justifyContent='center'
                     alignItems='center'
-                    height='100vh'>
+                    height='100vh'
+                    mt='70px'>
                     <Grid
                         component={'form'}
                         onSubmit={handleSubmit}

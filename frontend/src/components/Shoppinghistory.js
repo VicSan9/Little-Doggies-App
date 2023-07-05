@@ -44,7 +44,8 @@ export default function Shoppinghistory() {
                     <Grid
                         container
                         alignItems='center'
-                        height='100vh'>
+                        height='82vh'
+                        mt='10px'>
                         <Grid
                             mt='5vh'
                             alignItems='center'
@@ -58,7 +59,7 @@ export default function Shoppinghistory() {
                                 justifyContent='start'>
                                 <Typography textAlign='start' ml='20px' mt='20px' variant="h5" fontWeight='bold'>Historial de compras</Typography>
                                 <Typography textAlign='start' ml='20px' mr='20px' mt='30px' mb='50px' variant="body1">
-                                    Aquí puedes ver las compras que has realizado
+                                    Aquí puedes ver las compras que has realizado, si deseas cancelar un pedido ponte en contacto con nosotros
                                 </Typography>
                             </Grid>
                         </Grid>
@@ -104,7 +105,7 @@ export default function Shoppinghistory() {
                                         mt='5px'
                                         mb='5px'>
                                         <Grid
-                                            item xs={2} sm={2} lg={2} md={2} xl={2}>
+                                            item xs={2} sm={2} lg={2} md={3} xl={2}>
                                             <Typography ml='20px'>
                                                 Referencia:
                                             </Typography>
@@ -113,7 +114,7 @@ export default function Shoppinghistory() {
                                             </Typography>
                                         </Grid>
                                         <Grid
-                                            item xs={8} sm={8} lg={8} md={8} xl={8}>
+                                            item xs={8} sm={8} lg={8} md={7} xl={8}>
                                             <Typography>
                                                 Nombre del producto:
                                             </Typography>

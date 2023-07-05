@@ -275,6 +275,10 @@ export default function Calendar() {
 
     const loadServices = async () => {
 
+        if (miembro === '') {
+            return
+        }
+
         const res = await fetch(`http://localhost:4000/services4/${miembro}`, {
             method: 'GET',
             headers: { "content-Type": "application/json" }

@@ -135,8 +135,6 @@ export default function Calendar() {
             'miembro': miembro
         }
 
-        console.log(body)
-
         const res = await fetch('http://localhost:4000/quotes2', {
             method: 'POST',
             body: JSON.stringify(body),
@@ -144,8 +142,6 @@ export default function Calendar() {
         })
 
         const data = await res.json()
-
-        console.log(data)
 
         if (res.status === 404) {
             setIsLoggedIn1(false)
@@ -298,8 +294,6 @@ export default function Calendar() {
 
             s.push(data2)
         }
-
-        console.log(s)
 
         setServicios(s)
     }

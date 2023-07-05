@@ -506,15 +506,15 @@ export default function UserQuotes() {
         <div hidden={isHidden2}>
           <Grid
             container
-            alignItems='center'
-            height='100vh'
-            sx={{display: { xs: 'none', sm: 'flex', md: 'flex', lg: 'flex', xl:'flex' }}}>
+            alignItems='start'
+            height='100%'
+            sx={{ display: { xs: 'none', sm: 'flex', md: 'flex', lg: 'flex', xl: 'flex' } }}>
             <Grid
               container
               alignItems='center'
-              height='100vh'>
+              height='100%'
+              mt='65px'>
               <Grid
-                mt='5vh'
                 alignItems='center'
                 justifyContent='center'
                 height='82vh'
@@ -524,11 +524,10 @@ export default function UserQuotes() {
                   container
                   alignItems='star'
                   justifyContent='start'>
-                  <Typography textAlign='start' ml='20px' mt='20px' variant="h5" fontWeight='bold'>Información de las citas</Typography>
-                  <Typography textAlign='start' ml='20px' mr='20px' mt='30px' mb='50px' variant="body1">
+                  <Typography textAlign='start' ml='20px' mr='5px' mt='20px' variant="h5" fontWeight='bold'>Información de las citas</Typography>
+                  <Typography textAlign='start' ml='20px' mr='10px' mt='30px' mb='50px' variant="body1">
                     Aquí puedes ver y modificar las citas que has agendado
-                    como tambien cancelarlas. Para cancelar una cita tienes
-                    que hacerlo con 1 día de anticipación.
+                    como tambien cancelarlas.
                   </Typography>
                 </Grid>
               </Grid>
@@ -538,7 +537,24 @@ export default function UserQuotes() {
                 alignItems='start'
                 height='82vh'
                 direction='column'
-                item xs={8} sm={8} lg={8} md={8} xl={8}>
+                item xs={8} sm={8} lg={8} md={8} xl={8}
+                overflow='scroll'
+                sx={{
+                  '&::-webkit-scrollbar': {
+                    width: '8px',
+                    height: '8px',
+                  },
+                  '&::-webkit-scrollbar-thumb': {
+                    backgroundColor: 'rgba(0, 0, 0, 0.1)',
+                    borderRadius: '10px',
+                    '&:hover': {
+                      backgroundColor: 'rgba(0, 0, 0, 0.3)',
+                    },
+                  },
+                  '&::-webkit-scrollbar: horizontal': {
+                    display: 'none',
+                  },
+                }}>
                 <div hidden={isHidden}>
                   <Grid container direction='row'>
                     <Typography ml='20px' mt='20px'>
@@ -600,7 +616,7 @@ export default function UserQuotes() {
                           </Typography>
                         </Grid>
                         <Grid
-                          item xs={6} sm={6} lg={6} md={6} xl={6}>
+                          item xs={6} sm={6} md={5} lg={6} xl={6}>
                           <Typography>
                             Servicios:
                           </Typography>
@@ -612,7 +628,7 @@ export default function UserQuotes() {
                           container
                           direction='row-reverse'
                           id={quote.ctsid}
-                          item xs={2} sm={2} lg={2} md={2} xl={2}>
+                          item xs={2} sm={2} md={3} lg={2} xl={2}>
                           <Tooltip title='Cancelar cita'>
                             <IconButton id={quote.ctsid} onClick={handleClickDelete} sx={{ mr: '5px', ":hover": { color: "white" } }}>
                               <HighlightOffIcon></HighlightOffIcon>
@@ -635,7 +651,7 @@ export default function UserQuotes() {
             container
             alignItems='center'
             height='40vh'
-            sx={{display: { xs: 'flex', sm: 'none', md: 'none', lg: 'none', xl:'none' }}}>
+            sx={{ display: { xs: 'flex', sm: 'none', md: 'none', lg: 'none', xl: 'none' } }}>
             <Grid
               container
               alignItems='start'

@@ -1,4 +1,4 @@
-const pool = require ('../db');
+const pool = require('../db');
 
 const getAllServices = async (req, res, next) => {
     try {
@@ -53,14 +53,29 @@ const getServices3 = async (req, res, next) => {
     }
 }
 
+const getServices4 = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const result = await pool.query
+            ('SELECT * FROM memberServiceState3 WHERE estadom = $1 AND mbid = $2 AND estados = $3', ['Activo', id, 'Activo']);
+        if (result.rows.length === 0)
+            return res.status(404).json({
+                message: "servicio no encontrado",
+            });
+        res.json(result.rows);
+    } catch (error) {
+        next(error);
+    }
+}
+
 const createServices = async (req, res, next) => {
     const { nombre, categoria, descripcion, estado } = req.body;
     try {
         const result = await pool.query
             ('INSERT INTO servicios (nombre, categoria, descripcion, estado) VALUES ($1, $2, $3, $4) RETURNING *',
-                [nombre, categoria, descripcion, estado]);                                 
+                [nombre, categoria, descripcion, estado]);
         res.json(result.rows[0]);
-    } catch (error){
+    } catch (error) {
         next(error);
     }
 }
@@ -102,6 +117,7 @@ module.exports = {
     getServices,
     getServices2,
     getServices3,
+    getServices4,
     createServices,
     deleteServices,
     updateServices

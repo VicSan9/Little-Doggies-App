@@ -70,12 +70,14 @@ CREATE TABLE IF NOT EXISTS citas(
 	ctsid INTEGER UNIQUE DEFAULT NEXTVAL('ctid_seq'),
 	clid INTEGER NOT NULL,
 	mcid INTEGER NOT NULL,
+	mbid INTEGER NOT NULL,
 	fecha VARCHAR(50) NOT NULL,
 	hora TIME NOT NULL,
 	estado VARCHAR(50) NOT NULL, 
 	PRIMARY KEY (ctsid),
 	FOREIGN KEY (clid) REFERENCES clientes (clid),
-	FOREIGN KEY (mcid) REFERENCES mascotas (mcid)
+	FOREIGN KEY (mcid) REFERENCES mascotas (mcid),
+	FOREIGN KEY (mbid) REFERENCES miembros (mbid)
 );
 --Tabla de informes
 CREATE TABLE IF NOT EXISTS informes(

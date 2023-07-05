@@ -47,6 +47,10 @@ export default function UserQuotes() {
 
   const [horario, setHorario] = useState('');
 
+  const [miembro, setMiembro] = useState('');
+
+  const [miembros, setMiembros] = useState([]);
+
   const [isLoggedIn1, setIsLoggedIn1] = useState(false);
 
   const [isLoggedIn2, setIsLoggedIn2] = useState(false);
@@ -263,13 +267,22 @@ export default function UserQuotes() {
       setErrorMessage('Escoge un día primero')
       return
     }
+    if (miembro === '') {
+      setErrorMessage('Escoga quién lo va a atender')
+      return
+    }
 
     setIsDisable(false)
     setIsDisable2(true)
 
+    const body = {
+      'fecha': fecha.fecha,
+      'miembro': miembro
+    }
+
     const res = await fetch('http://localhost:4000/quotes2', {
       method: 'POST',
-      body: JSON.stringify(fecha),
+      body: JSON.stringify(body),
       headers: { "content-Type": "application/json" }
     })
 
@@ -378,6 +391,10 @@ export default function UserQuotes() {
     setHorario(event.target.value);
   };
 
+  const handleChange2 = (event) => {
+    setMiembro(event.target.value);
+  };
+
   const onChange = async (newValue) => {
 
     const date = newValue
@@ -399,18 +416,51 @@ export default function UserQuotes() {
 
   const loadServices = async () => {
 
-    const res = await fetch('http://localhost:4000/services', {
+    if (miembro === '') {
+      return
+    }
+
+    const res = await fetch(`http://localhost:4000/services4/${miembro}`, {
       method: 'GET',
       headers: { "content-Type": "application/json" }
     })
 
     const data = await res.json();
 
-    setServicios(data)
+    const s = []
+
+    for (let i = 0; i < data.length; i++) {
+
+      const res2 = await fetch(`http://localhost:4000/services/${data[i].svid}`, {
+        method: 'GET',
+        headers: { "content-Type": "application/json" }
+      })
+
+      const data2 = await res2.json();
+
+      s.push(data2)
+    }
+
+    setServicios(s)
   }
 
   useEffect(() => {
     loadServices();
+  }, [miembro]);
+
+  const loadMembers = async () => {
+    const res = await fetch('http://localhost:4000/members', {
+      method: 'GET',
+      headers: { "content-Type": "application/json" }
+    })
+
+    const data = await res.json()
+
+    setMiembros(data)
+  }
+
+  useEffect(() => {
+    loadMembers();
   }, []);
 
   const shouldDisableDate = (date) => {
@@ -445,6 +495,7 @@ export default function UserQuotes() {
     const body1 = {
       'clid': quote.clid,
       'mcid': quote.mcid,
+      'mbid': quote.mbid,
       'fecha': quote.fecha,
       'hora': quote.hora,
       'estado': 'Cancelada'
@@ -459,6 +510,7 @@ export default function UserQuotes() {
     const body = {
       'clid': sessionStorage.getItem('id'),
       'estado': 'Espera',
+      'mbid': quote.mbid,
       'mcid': quote.mcid,
       'fecha': formattedDate,
       'hora': horario,
@@ -513,7 +565,7 @@ export default function UserQuotes() {
               container
               alignItems='center'
               height='100%'
-              mt='65px'>
+              mt='80px'>
               <Grid
                 alignItems='center'
                 justifyContent='center'
@@ -524,7 +576,7 @@ export default function UserQuotes() {
                   container
                   alignItems='star'
                   justifyContent='start'>
-                  <Typography textAlign='start' ml='20px' mr='5px' mt='20px' variant="h5" fontWeight='bold'>Información de las citas</Typography>
+                  <Typography textAlign='start' ml='20px' mr='5px' mt='5px' variant="h5" fontWeight='bold'>Información de las citas</Typography>
                   <Typography textAlign='start' ml='20px' mr='10px' mt='30px' mb='50px' variant="body1">
                     Aquí puedes ver y modificar las citas que has agendado
                     como tambien cancelarlas.
@@ -533,7 +585,6 @@ export default function UserQuotes() {
               </Grid>
               <Grid
                 container
-                mt='5vh'
                 alignItems='start'
                 height='82vh'
                 direction='column'
@@ -570,7 +621,7 @@ export default function UserQuotes() {
                     alignItems='start'
                     justifyContent='center'
                     direction='column'>
-                    <Typography ml='20px' mt='20px' fontWeight='bold'>
+                    <Typography ml='20px' mt='5px' fontWeight='bold'>
                       Fecha: {quote.fecha}
                     </Typography>
                     <Grid
@@ -779,16 +830,34 @@ export default function UserQuotes() {
           <Grid
             container
             alignItems='center'
-            height='100vh'>
+            height='100%'>
             <Grid
               container
-              height='78vh'>
+              height='100%'
+              mt='80px'>
               <Grid
                 alignItems='star'
                 justifyContent='center'
-                height='85vh'
+                height='81vh'
                 item xs={6} sm={6} lg={6} md={6} xl={6}
-                borderRight='2px solid #BABBBF'>
+                borderRight='2px solid #BABBBF'
+                overflow='scroll'
+                sx={{
+                  '&::-webkit-scrollbar': {
+                    width: '8px',
+                    height: '8px',
+                  },
+                  '&::-webkit-scrollbar-thumb': {
+                    backgroundColor: 'rgba(0, 0, 0, 0.1)',
+                    borderRadius: '10px',
+                    '&:hover': {
+                      backgroundColor: 'rgba(0, 0, 0, 0.3)',
+                    },
+                  },
+                  '&::-webkit-scrollbar: horizontal': {
+                    display: 'none',
+                  },
+                }}>
                 <Grid
                   container
                   alignItems='star'
@@ -820,6 +889,25 @@ export default function UserQuotes() {
                         </DemoItem>
                       </DemoContainer>
                     </LocalizationProvider>
+                    <FormControl fullWidth sx={{ mt: '20px' }}>
+                      <InputLabel id="demo-simple-select-label">Selecciona la persona que quieres que te atienda</InputLabel>
+                      <Select
+                        disabled={isDisable2}
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        value={miembro}
+                        label="Selecciona la persona que quieres que te atienda"
+                        onChange={handleChange2}>
+                        {miembros.map(miembro => (
+                          <MenuItem
+                            key={miembro.mbid}
+                            id={miembro.mbid}
+                            value={miembro.mbid}
+                          >{miembro.nombres + ' ' + miembro.apellidos}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
                     <Button
                       sx={{ mt: '20px', borderRadius: '20px' }}
                       fullWidth
@@ -832,8 +920,25 @@ export default function UserQuotes() {
                 </Grid>
               </Grid>
               <Grid
-                height='85vh'
-                item xs={6} sm={6} lg={6} md={6} xl={6}>
+                height='81vh'
+                item xs={6} sm={6} lg={6} md={6} xl={6}
+                overflow='scroll'
+                sx={{
+                  '&::-webkit-scrollbar': {
+                    width: '8px',
+                    height: '8px',
+                  },
+                  '&::-webkit-scrollbar-thumb': {
+                    backgroundColor: 'rgba(0, 0, 0, 0.1)',
+                    borderRadius: '10px',
+                    '&:hover': {
+                      backgroundColor: 'rgba(0, 0, 0, 0.3)',
+                    },
+                  },
+                  '&::-webkit-scrollbar: horizontal': {
+                    display: 'none',
+                  },
+                }}>
                 <Grid container mt='20px' ml='20px' mr='20px' width='auto'>
                   <FormControl fullWidth>
                     <InputLabel id="demo-simple-select-label">Horario</InputLabel>

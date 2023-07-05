@@ -39,18 +39,35 @@ export default function PersonalInformation() {
                     container
                     alignItems='center'
                     height='100vh'
-                    sx={{display: { xs: 'none', sm: 'flex', md: 'flex', lg: 'flex', xl:'flex' }}}>
+                    sx={{ display: { xs: 'none', sm: 'flex', md: 'flex', lg: 'flex', xl: 'flex' } }}>
                     <Grid
                         container
                         alignItems='center'
-                        height='100vh'>
+                        height='80vh'>
                         <Grid
                             mt='5vh'
                             alignItems='center'
                             justifyContent='center'
-                            height='82vh'
+                            height='80vh'
                             item xs={6} sm={6} lg={6} md={6} xl={6}
-                            borderRight='2px solid #BABBBF'>
+                            borderRight='2px solid #BABBBF'
+                            overflow='scroll'
+                            sx={{
+                                '&::-webkit-scrollbar': {
+                                    width: '8px',
+                                    height: '8px',
+                                },
+                                '&::-webkit-scrollbar-thumb': {
+                                    backgroundColor: 'rgba(0, 0, 0, 0.1)',
+                                    borderRadius: '10px',
+                                    '&:hover': {
+                                        backgroundColor: 'rgba(0, 0, 0, 0.3)',
+                                    },
+                                },
+                                '&::-webkit-scrollbar: horizontal': {
+                                    display: 'none',
+                                },
+                            }}>
                             <Grid
                                 container
                                 alignItems='star'
@@ -67,7 +84,8 @@ export default function PersonalInformation() {
                                         direction='column'
                                         border='1px solid #BABBBF'
                                         borderRadius='10px'
-                                        width='600px'>
+                                        mb='10px'
+                                        width='98%'>
                                         <Typography textAlign='start' ml='20px' mt='20px' variant="h5" fontWeight='bold'>Información personal</Typography>
                                         <Grid container direction='row' mt='20px'>
                                             <Grid container direction='column' item xs={6} sm={6} lg={6} md={6} xl={6}>
@@ -103,7 +121,24 @@ export default function PersonalInformation() {
                             justifyContent='center'
                             textAlign='center'
                             height='82vh'
-                            item xs={6} sm={6} lg={6} md={6} xl={6}>
+                            item xs={6} sm={6} lg={6} md={6} xl={6}
+                            overflow='scroll'
+                            sx={{
+                                '&::-webkit-scrollbar': {
+                                    width: '8px',
+                                    height: '8px',
+                                },
+                                '&::-webkit-scrollbar-thumb': {
+                                    backgroundColor: 'rgba(0, 0, 0, 0.1)',
+                                    borderRadius: '10px',
+                                    '&:hover': {
+                                        backgroundColor: 'rgba(0, 0, 0, 0.3)',
+                                    },
+                                },
+                                '&::-webkit-scrollbar: horizontal': {
+                                    display: 'none',
+                                },
+                            }}>
                             <Grid
                                 container
                                 alignItems='start'
@@ -113,7 +148,7 @@ export default function PersonalInformation() {
                                     direction='column'
                                     border='1px solid #BABBBF'
                                     borderRadius='10px'
-                                    width='600px'
+                                    width='98%'
                                     mt='20px'>
                                     <Typography textAlign='start' ml='20px' mt='20px' variant="h5" fontWeight='bold'>Información de Contacto</Typography>
                                     <Grid container direction='row' mt='20px'>
@@ -145,7 +180,7 @@ export default function PersonalInformation() {
                                     direction='column'
                                     border='1px solid #BABBBF'
                                     borderRadius='10px'
-                                    width='600px'
+                                    width='98%'
                                     mt='40px'>
                                     <Typography textAlign='start' ml='20px' mt='20px' variant="h5" fontWeight='bold'>Información de la Cuenta</Typography>
                                     <Grid container direction='row' mt='20px'>
@@ -179,7 +214,7 @@ export default function PersonalInformation() {
                     container
                     alignItems='center'
                     height='75vh'
-                    sx={{display: { xs: 'flex', sm: 'none', md: 'none', lg: 'none', xl:'none' }}}>
+                    sx={{ display: { xs: 'flex', sm: 'none', md: 'none', lg: 'none', xl: 'none' } }}>
                     <Grid
                         container
                         alignItems='center'

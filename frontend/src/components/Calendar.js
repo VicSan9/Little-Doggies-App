@@ -365,16 +365,34 @@ export default function Calendar() {
                     container
                     alignItems='center'
                     height='100vh'
-                    sx={{display: { xs: 'none', sm: 'flex', md: 'flex', lg: 'flex', xl: 'flex' }}}>
+                    sx={{ display: { xs: 'none', sm: 'flex', md: 'flex', lg: 'flex', xl: 'flex' } }}>
                     <Grid
                         container
-                        height='78vh'>
+                        mt='60px'
+                        height='85%'>
                         <Grid
                             alignItems='star'
                             justifyContent='center'
                             height='85vh'
                             item xs={6} sm={6} lg={6} md={6} xl={6}
-                            borderRight='2px solid #BABBBF'>
+                            borderRight='2px solid #BABBBF'
+                            overflow='scroll'
+                            sx={{
+                                '&::-webkit-scrollbar': {
+                                    width: '8px',
+                                    height: '8px',
+                                },
+                                '&::-webkit-scrollbar-thumb': {
+                                    backgroundColor: 'rgba(0, 0, 0, 0.1)',
+                                    borderRadius: '10px',
+                                    '&:hover': {
+                                        backgroundColor: 'rgba(0, 0, 0, 0.3)',
+                                    },
+                                },
+                                '&::-webkit-scrollbar: horizontal': {
+                                    display: 'none',
+                                },
+                            }}>
                             <Grid
                                 container
                                 alignItems='star'
@@ -419,7 +437,24 @@ export default function Calendar() {
                         </Grid>
                         <Grid
                             height='85vh'
-                            item xs={6} sm={6} lg={6} md={6} xl={6}>
+                            item xs={6} sm={6} lg={6} md={6} xl={6}
+                            overflow='scroll'
+                            sx={{
+                                '&::-webkit-scrollbar': {
+                                    width: '8px',
+                                    height: '8px',
+                                },
+                                '&::-webkit-scrollbar-thumb': {
+                                    backgroundColor: 'rgba(0, 0, 0, 0.1)',
+                                    borderRadius: '10px',
+                                    '&:hover': {
+                                        backgroundColor: 'rgba(0, 0, 0, 0.3)',
+                                    },
+                                },
+                                '&::-webkit-scrollbar: horizontal': {
+                                    display: 'none',
+                                },
+                            }}>
                             <Grid container mt='20px' ml='20px' mr='20px' width='auto'>
                                 <FormControl fullWidth>
                                     <InputLabel id="demo-simple-select-label">Horario</InputLabel>
@@ -490,11 +525,11 @@ export default function Calendar() {
                     container
                     alignItems='center'
                     height='100vh'
-                    sx={{display: { xs: 'flex', sm: 'none', md: 'none', lg: 'none', xl: 'none' }}}>
+                    sx={{ display: { xs: 'flex', sm: 'none', md: 'none', lg: 'none', xl: 'none' } }}>
                     <Grid
                         container
                         height='78vh'>
-                        <Grid   
+                        <Grid
                             alignItems='star'
                             justifyContent='center'
                             height='85vh'

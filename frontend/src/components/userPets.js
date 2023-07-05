@@ -267,20 +267,18 @@ export default function UserPets() {
       {advertenceMenssage && <AdvertenceComponent advertenceMenssage={advertenceMenssage} />}
       <Navbar></Navbar>
       <Container maxWidth='xl' fixed>
-        <Box height='70px'></Box>
         <div hidden={isHidden2}>
           <Grid
             container
             alignItems='center'
-            height='90vh'
-            sx={{display: { xs: 'none', sm: 'flex', md: 'flex', lg: 'flex', xl:'flex' }}}>
+            height='100%'
+            mt='70px'
+            sx={{ display: { xs: 'none', sm: 'flex', md: 'flex', lg: 'flex', xl: 'flex' } }}>
             <Grid
               alignItems='center'
               justifyContent='center'
-              height='82vh'
-              maxHeight='900px'
-              minHeight='700px'
-              item xs={12} sm={12} md={3} lg={3} xl={3}
+              height='83vh'
+              item xs={12} sm={12} md={4} lg={3} xl={3}
               borderRight='2px solid #BABBBF'>
               <Grid
                 container
@@ -362,10 +360,8 @@ export default function UserPets() {
             <Grid
               alignItems='center'
               justifyContent='center'
-              height='82vh'
-              maxHeight='900px'
-              minHeight='700px'
-              item xs={9} sm={9} lg={9} md={9} xl={9}>
+              height='83vh'
+              item xs={9} sm={9} lg={9} md={8} xl={9}>
               <Grid
                 container
                 direction='column'
@@ -386,7 +382,7 @@ export default function UserPets() {
                 <div hidden={!isHidden} style={{ height: '100%', width: '100%' }}>
                   <Grid
                     container
-                    height='50%'
+                    height='65%'
                     width='100%'>
                     <Grid container direction='row'>
                       <Typography
@@ -419,22 +415,22 @@ export default function UserPets() {
                           width='50%'
                           height='90%'
                           direction='column'
-                          justifyContent='space-around'>
-                          <Typography fontWeight='bold'>Nombre</Typography>
-                          <Typography fontWeight='bold'>Raza</Typography>
-                          <Typography fontWeight='bold'>Edad</Typography>
-                          <Typography fontWeight='bold'>Sexo</Typography>
+                          justifyContent='start'>
+                          <Typography fontWeight='bold' mb='25px'>Nombre</Typography>
+                          <Typography fontWeight='bold' mb='25px'>Raza</Typography>
+                          <Typography fontWeight='bold' mb='25px'>Edad</Typography>
+                          <Typography fontWeight='bold' mb='25px'>Sexo</Typography>
                         </Grid>
                         <Grid
                           container
                           width='50%'
                           height='90%'
                           direction='column'
-                          justifyContent='space-around'>
-                          <Typography>{pet.nombre}</Typography>
-                          <Typography>{pet.raza}</Typography>
-                          <Typography>{pet.edad}</Typography>
-                          <Typography>{pet.sexo}</Typography>
+                          justifyContent='start'>
+                          <Typography mb='25px'>{pet.nombre}</Typography>
+                          <Typography mb='25px'>{pet.raza}</Typography>
+                          <Typography mb='25px'>{pet.edad}</Typography>
+                          <Typography mb='25px'>{pet.sexo}</Typography>
                         </Grid>
                       </Grid>
                       <Grid
@@ -446,7 +442,7 @@ export default function UserPets() {
                           width='50%'
                           height='90%'
                           direction='column'>
-                          <Typography mt='20px' height='70px' ml='20px' fontWeight='bold'>¿Presenta alguna condicion especial o alergia?</Typography>
+                          <Typography height='70px' ml='20px' fontWeight='bold'>Condición</Typography>
                           <Typography ml='20px' fontWeight='bold'>Foto</Typography>
                         </Grid>
                         <Grid
@@ -454,23 +450,41 @@ export default function UserPets() {
                           width='50%'
                           height='90%'
                           direction='column'>
-                          <Typography height='70px' mt='20px' ml='20px'>{pet.condicion}</Typography>
-                          <Avatar sx={{ mt: '5px', ml: '20px', width: '50%', height: '50%' }}>M</Avatar>
+                          <Typography height='70px' ml='20px'>{pet.condicion}</Typography>
+                          <Avatar sx={{ mt: '5px', ml: '20px', width: 100, height: 100 }}>M</Avatar>
                         </Grid>
                       </Grid>
                     </Grid>
                   </Grid>
                   <Grid
                     container
-                    height='50%'
-                    width='100%'>
+                    height='35%'
+                    width='100%'
+                    overflow='scroll'
+                    sx={{
+                      '&::-webkit-scrollbar': {
+                        width: '8px',
+                        height: '8px',
+                      },
+                      '&::-webkit-scrollbar-thumb': {
+                        backgroundColor: 'rgba(0, 0, 0, 0.1)',
+                        borderRadius: '10px',
+                        '&:hover': {
+                          backgroundColor: 'rgba(0, 0, 0, 0.3)',
+                        },
+                      },
+                      '&::-webkit-scrollbar: horizontal': {
+                        display: 'none',
+                      },
+                    }}>
                     <Grid container direction='column'>
                       <Typography
                         textAlign='start'
                         variant="h5"
                         fontWeight='bold'
                         height='10%'
-                        width='100%'>
+                        width='100%'
+                        mb='30px'>
                         Historial de citas
                       </Typography>
                       <Grid
@@ -522,7 +536,7 @@ export default function UserPets() {
             container
             alignItems='center'
             height='90vh'
-            sx={{display: { xs: 'flex', sm: 'none', md: 'none', lg: 'none', xl:'none' }}}>
+            sx={{ display: { xs: 'flex', sm: 'none', md: 'none', lg: 'none', xl: 'none' } }}>
             <Grid
               alignItems='center'
               justifyContent='center'
@@ -644,7 +658,7 @@ export default function UserPets() {
                         <Tooltip title='Editar datos de tu mascota'>
                           <IconButton
                             onClick={handleClicEdit}
-                            sx={{ ml:'10px', '&:hover': { color: '#0265CD' } }}>
+                            sx={{ ml: '10px', '&:hover': { color: '#0265CD' } }}>
                             <EditIcon sx={{ fontSize: 27 }}></EditIcon>
                           </IconButton>
                         </Tooltip>

@@ -784,6 +784,8 @@ export default function UserPets() {
             container
             justifyContent='center'
             alignItems='center'
+            mt='75px'
+            mb='20px'
             height='85vh'>
             <Grid
               component={'form'}

@@ -134,7 +134,8 @@ export default function ShoppingCart() {
               justifyContent='start'
               container
               width='100%'
-              height='85vh'
+              height='100vh'
+              mt='20px'
               direction='column'>
               <Typography variant="h5" fontWeight='bold'>Carrito de compras</Typography>
               <Grid

@@ -34,6 +34,10 @@ export default function Calendar() {
 
     const [horario, setHorario] = React.useState('');
 
+    const [miembro, setMiembro] = React.useState('');
+
+    const [miembros, setMiembros] = React.useState([]);
+
     const [isLoggedIn1, setIsLoggedIn1] = React.useState(false);
 
     const [isLoggedIn2, setIsLoggedIn2] = React.useState(false);
@@ -118,17 +122,30 @@ export default function Calendar() {
             setErrorMessage('Escoge un día primero')
             return
         }
+        if (miembro === '') {
+            setErrorMessage('Escoga quién lo va a atender')
+            return
+        }
 
         setIsDisable(false)
         setIsDisable2(true)
 
+        const body = {
+            'fecha': fecha.fecha,
+            'miembro': miembro
+        }
+
+        console.log(body)
+
         const res = await fetch('http://localhost:4000/quotes2', {
             method: 'POST',
-            body: JSON.stringify(fecha),
+            body: JSON.stringify(body),
             headers: { "content-Type": "application/json" }
         })
 
         const data = await res.json()
+
+        console.log(data)
 
         if (res.status === 404) {
             setIsLoggedIn1(false)
@@ -233,6 +250,10 @@ export default function Calendar() {
         setHorario(event.target.value);
     };
 
+    const handleChange2 = (event) => {
+        setMiembro(event.target.value);
+    };
+
     const onChange = async (newValue) => {
 
         const date = newValue
@@ -254,18 +275,48 @@ export default function Calendar() {
 
     const loadServices = async () => {
 
-        const res = await fetch('http://localhost:4000/services', {
+        const res = await fetch(`http://localhost:4000/services4/${miembro}`, {
             method: 'GET',
             headers: { "content-Type": "application/json" }
         })
 
         const data = await res.json();
 
-        setServicios(data)
+        const s = []
+
+        for (let i = 0; i < data.length; i++) {
+            const res2 = await fetch(`http://localhost:4000/services/${data[i].svid}`, {
+                method: 'GET',
+                headers: { "content-Type": "application/json" }
+            })
+
+            const data2 = await res2.json();
+
+            s.push(data2)
+        }
+
+        console.log(s)
+
+        setServicios(s)
     }
 
     React.useEffect(() => {
         loadServices();
+    }, [miembro]);
+
+    const loadMembers = async () => {
+        const res = await fetch('http://localhost:4000/members', {
+            method: 'GET',
+            headers: { "content-Type": "application/json" }
+        })
+
+        const data = await res.json()
+
+        setMiembros(data)
+    }
+
+    React.useEffect(() => {
+        loadMembers();
     }, []);
 
     const shouldDisableDate = (date) => {
@@ -300,6 +351,7 @@ export default function Calendar() {
         const body = {
             'clid': sessionStorage.getItem('id'),
             'mcid': localStorage.getItem('idMascota'),
+            'mbid': miembro,
             'fecha': formattedDate,
             'hora': horario,
             'estado': 'Espera',
@@ -424,6 +476,25 @@ export default function Calendar() {
                                             </DemoItem>
                                         </DemoContainer>
                                     </LocalizationProvider>
+                                    <FormControl fullWidth sx={{ mt: '20px' }}>
+                                        <InputLabel id="demo-simple-select-label">Selecciona la persona que quieres que te atienda</InputLabel>
+                                        <Select
+                                            disabled={isDisable2}
+                                            labelId="demo-simple-select-label"
+                                            id="demo-simple-select"
+                                            value={miembro}
+                                            label="Selecciona la persona que quieres que te atienda"
+                                            onChange={handleChange2}>
+                                            {miembros.map(miembro => (
+                                                <MenuItem
+                                                    key={miembro.mbid}
+                                                    id={miembro.mbid}
+                                                    value={miembro.mbid}
+                                                >{miembro.nombres + ' ' + miembro.apellidos}
+                                                </MenuItem>
+                                            ))}
+                                        </Select>
+                                    </FormControl>
                                     <Button
                                         sx={{ mt: '20px', borderRadius: '20px' }}
                                         fullWidth

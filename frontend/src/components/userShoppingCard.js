@@ -242,7 +242,7 @@ export default function UserShoppingCart() {
                             justifyContent='start'
                             container
                             width='100%'
-                            height='85vh'
+                            height='80vh'
                             direction='column'>
                             <Typography variant="h5" fontWeight='bold'>Carrito de compras</Typography>
                             <Grid

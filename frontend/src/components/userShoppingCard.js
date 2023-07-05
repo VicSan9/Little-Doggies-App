@@ -235,14 +235,15 @@ export default function UserShoppingCart() {
                         width='100%'
                         height='100vh'
                         justifyContent='center'
-                        alignItems='start'>
+                        alignItems='start'
+                        mt='20px'>
                         <Box height='60px'>a</Box>
                         <Grid
                             alignItems='center'
                             justifyContent='start'
                             container
                             width='100%'
-                            height='80vh'
+                            height='100vh'
                             direction='column'>
                             <Typography variant="h5" fontWeight='bold'>Carrito de compras</Typography>
                             <Grid

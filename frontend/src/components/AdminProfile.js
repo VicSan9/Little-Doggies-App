@@ -1,6 +1,6 @@
 import React from 'react'
 import AdminNavbar from './AdminNavbar'
-import { Grid, Typography, Avatar, Button, Backdrop, IconButton, TextField, Box } from "@mui/material";
+import { Grid, Typography, Avatar, Button, Backdrop, IconButton, TextField, Box, Tooltip } from "@mui/material";
 import { useEffect, useState } from "react";
 import EditIcon from '@mui/icons-material/Edit';
 
@@ -459,9 +459,11 @@ export default function AdminProfile() {
                                 alignItems='start'
                                 justifyContent='start'>
                                 <Typography width='100%' textAlign='start' ml='20px' mt='20px' variant="h5" fontWeight='bold'>Datos personales
-                                    <IconButton sx={{ ml: '10px' }} onClick={handleClickModifyInformation}>
-                                        <EditIcon></EditIcon>
-                                    </IconButton>
+                                    <Tooltip title='Editar información'>
+                                        <IconButton sx={{ ml: '10px' }} onClick={handleClickModifyInformation}>
+                                            <EditIcon></EditIcon>
+                                        </IconButton>
+                                    </Tooltip>
                                 </Typography>
                                 <Grid
                                     container

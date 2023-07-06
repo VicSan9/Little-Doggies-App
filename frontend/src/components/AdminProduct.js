@@ -53,7 +53,7 @@ export default function AdminClient() {
     };
 
     const handleUpload = () => {
-        if(selectedFile === null){
+        if (selectedFile === null) {
             setErrorMessage('Escoge una foto primero')
             return
         }
@@ -112,7 +112,7 @@ export default function AdminClient() {
             'tipo': product.tipo,
             'precio': product.precio,
             'cantidad': product.cantidad,
-            'foto': 'Foto.png',
+            'foto': product.foto,
             'estado': 'Eliminado'
         }
 
@@ -209,6 +209,23 @@ export default function AdminClient() {
         })
 
         const data = await res.json()
+
+        const foto = data.prid + '-product.jpg'
+
+        const body = {
+            'nombre': data.nombre,
+            'tipo': data.tipo,
+            'precio': data.precio,
+            'cantidad': data.cantidad,
+            'foto': foto,
+            'estado': data.estado
+        }
+
+        await fetch(`http://localhost:4000/products/${data.prid}`, {
+            method: 'PUT',
+            body: JSON.stringify(body),
+            headers: { "content-Type": "application/json" }
+        })
 
         if (!data.message) {
             window.location.reload();
@@ -853,7 +870,7 @@ export default function AdminClient() {
                                         <Tooltip title='Cambiar foto'>
                                             <IconButton
                                                 onClick={handleClick}
-                                                sx={{ width: 30, height: 30, mb: '10px', mr: '10px', zIndex: '0' }}>
+                                                sx={{ width: 30, height: 30, mb: '10px', mr: '10px', zIndex: '0', bgcolor:'#ffffff', '&:hover':{color:'#ffffff'} }}>
                                                 <EditIcon></EditIcon>
                                             </IconButton>
                                         </Tooltip>

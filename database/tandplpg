@@ -1,9 +1,16 @@
 --Vista para ver el nombre y precio de los productos agregados a los pedidos
 CREATE VIEW orders AS
-SELECT PP.pdid AS id_pedido, P.nombre, P.precio
+SELECT PP.pdid AS id_pedido, P.nombre, P.precio, p.prid
 FROM productos AS P
 JOIN pedidosproductos AS PP 
 ON pp.prid = p.prid;
+
+--Vista para ver toda la información de los clientes que tienen pedidos
+CREATE VIEW clientsOrders AS
+SELECT P.pdid AS pdid, C.clid, C.nombres, C.apellidos, C.telefono, C.direccion, C.correo
+FROM clientes AS C
+JOIN pedidos AS P 
+ON C.clid = p.clid;
 
 --Vista para ver Miembros - Servicios y Si el estado del servicio
 CREATE VIEW memberServiceState AS
@@ -18,20 +25,9 @@ ORDER BY MS.msid;
 CREATE VIEW memberServiceState2 AS
 SELECT MS.msid, MS.mbid, MS.svid, S.estado
 FROM miembros AS S
-JOIN MiembrosServicios AS MS
+JOiN MiembrosServicios AS MS
 ON S.mbid = MS.mbid
 GROUP BY S.mbid, S.estado, MS.msid
-ORDER BY MS.msid;
-
---Vista para ver Miembros - Servicios y el estado del miembro y el servicio
-CREATE VIEW memberServiceState3 AS
-SELECT MS.msid, MS.mbid, MS.svid, M.estado AS estadoM, S.estado AS estadoS
-FROM miembros AS M
-JOIN MiembrosServicios AS MS
-ON M.mbid = MS.mbid
-JOIN servicios AS S
-ON S.svid = MS.svid
-GROUP BY M.mbid, M.estado, MS.msid, S.estado
 ORDER BY MS.msid;
 
 --Vista para ver informes
@@ -64,7 +60,7 @@ ORDER BY C.ctsid;
 
 --Vista para ver la información de una cita como administrador
 CREATE VIEW adminQuote AS
-SELECT C.mbid, C.ctsid, C.clid, C.estado, CL.nombres, CL.apellidos, CL.correo, CL.telefono, CL.direccion, C.fecha, C.hora , M.nombre, M.raza, M.edad, M.sexo, M.condicion, string_agg(S.nombre, ' ● ') AS servicios
+SELECT C.ctsid, C.clid, C.estado, CL.nombres, CL.apellidos, CL.correo, CL.telefono, CL.direccion, C.fecha, C.hora , M.nombre, M.raza, M.edad, M.sexo, M.condicion, string_agg(S.nombre, ' ● ') AS servicios
 FROM citas AS C
 JOIN citasServicios AS CS
 ON CS.ctsid = C.ctsid AND C.estado = 'Espera'
@@ -79,13 +75,13 @@ ORDER BY C.hora, C.fecha DESC;
 
 --Vista para ver el id del pedido y la suma total a pagar por pedido
 CREATE VIEW ordervalue AS
-SELECT PD.clid, PD.fecha, PD.pdid AS id_pedido, string_agg(P.nombre, ' ● '), SUM(P.precio) AS valor_total_pedido
+SELECT PD.clid, PD.fecha, PD.pdid AS id_pedido, P.prid AS id_producto, string_agg(P.nombre, ' ● '), SUM(P.precio) AS valor_total_pedido
 FROM productos AS P
 JOIN pedidosProductos AS PP
 ON PP.prid = p.prid
 JOIN pedidos AS PD
 ON PD.pdid = PP.pdid
-GROUP BY id_pedido, PD.clid
+GROUP BY id_pedido, PD.clid, id_producto
 ORDER BY id_pedido ASC;
 
 --Vista para ver todos los usuarios

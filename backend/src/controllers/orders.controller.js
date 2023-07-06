@@ -3,8 +3,8 @@ const pool = require('../db');
 const getAllOrders = async (req, res, next) => {
     try {
         const AllOrders = await pool.query
-            ('SELECT * FROM pedidos');
-        res.json(AllOrders);
+            ('SELECT * FROM pedidos WHERE estado = $1', ['Pendiente']);
+        res.json(AllOrders.rows);
     } catch (error){
         next(error);
     }
@@ -30,6 +30,20 @@ const getOrder2 = async (req, res, next) => {
         const { id } = req.body;
         const result = await pool.query
             ('SELECT * FROM ordervalue WHERE clid = $1', [id]);
+        if (result.rows.length === 0)
+            return res.status(404).json({
+                message: "Pedido no encontrado",
+            });
+        res.json(result.rows);
+    } catch (error) {
+        next(error);
+    }
+}
+
+const getOrder3 = async (req, res, next) => {
+    try {
+        const result = await pool.query
+            ('SELECT * FROM clientsOrders');
         if (result.rows.length === 0)
             return res.status(404).json({
                 message: "Pedido no encontrado",
@@ -88,6 +102,7 @@ module.exports = {
     getAllOrders,
     getOrder,
     getOrder2,
+    getOrder3,
     createOrder,
     deleteOrder,
     updateOrder

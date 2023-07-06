@@ -65,10 +65,11 @@ VALUES 	(1, 1,'Se aplico una inyección extra'),
 		(2, 2,'Sin nota'),
 		(3, 1,'Sin nota');
 --Insertar pedidos
-INSERT INTO pedidos (clid, fecha)
-VALUES 	(1001, '12 de mayo 2023'),
-		(1002, '15 de mayo 2023'),
-		(1001, '20 de mayo 2023');
+INSERT INTO pedidos (clid, fecha, estado)
+VALUES 	(1001, '12 de mayo 2023', 'Pendiente'),
+		(1002, '15 de mayo 2023', 'Pendiente'),
+		(1001, '20 de mayo 2023', 'Pendiente'),
+		(1001, '07 de julio 2023', 'Entregado');
 --Insertar citasServicios
 INSERT INTO citasServicios (ctsid, svid)
 VALUES 	(1, 1),
@@ -98,7 +99,7 @@ VALUES 	(1, 1),
 --Insertar pedidiosProductos
 INSERT INTO pedidosProductos (pdid, prid) VALUES (1, 1);
 INSERT INTO pedidosProductos (pdid, prid) VALUES (1, 1);
-INSERT INTO pedidosProductos (pdid, prid) VALUES (1, 2);
+INSERT INTO pedidosProductos (pdid, prid) VALUES (4, 2);
 INSERT INTO pedidosProductos (pdid, prid) VALUES (2, 1);
 INSERT INTO pedidosProductos (pdid, prid) VALUES (3, 1);
 INSERT INTO pedidosProductos (pdid, prid) VALUES (3, 3);

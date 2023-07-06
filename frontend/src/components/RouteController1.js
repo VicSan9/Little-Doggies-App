@@ -30,17 +30,27 @@ const RouteController = ({ componet: Componet, ...rest }) => {
                 if (login.rol === 'Administrador') {
                     const ruta = window.location.toString()
                     const ruta2 = ruta.split('/')
-                    if (ruta2[3].toLowerCase() === 'admin'){
+                    if (ruta2[3].toLowerCase() === 'admin') {
                         window.history.forward()
                         return
                     } else {
                         navigate('/admin')
                         return
                     }
-                    
                 }
-                return
-
+                if (login.rol === 'Trabajador') {
+                    const ruta = window.location.toString()
+                    const ruta2 = ruta.split('/')
+                    if (ruta2[3].toLowerCase() === 'empleado') {
+                        window.history.forward()
+                        return
+                    } else {
+                        navigate('/empleado')
+                        return
+                    }
+                } else {
+                    navigate('/home')
+                }
             } else {
                 setIsAuth(false)
                 sessionStorage.clear()
@@ -69,53 +79,7 @@ const RouteController = ({ componet: Componet, ...rest }) => {
             setIsAuth(false)
             return
         }
-
-    if (res.status === 200) {
-        if (auth === 'yes' && user === login.usuario && password === login.contraseña && id === login.id && rol === login.rol) {
-            setIsAuth(true)
-            if (login.rol === 'Trabajador') {
-                const ruta = window.location.toString()
-                const ruta2 = ruta.split('/')
-                if (ruta2[3].toLowerCase() === 'empleado'){
-                    window.history.forward()
-                    return
-                } else {
-                    navigate('/empleado')
-                    return
-                }
-                
-            }
-            return
-
-        } else {
-            setIsAuth(false)
-            sessionStorage.clear()
-        }
-    } else {
-        setIsAuth(false)
-        sessionStorage.clear()
     }
-
-    if (auth === null) {
-        setIsAuth(false)
-        return
-    }
-
-    if (user === null) {
-        setIsAuth(false)
-        return
-    }
-
-    if (password === null) {
-        setIsAuth(false)
-        return
-    }
-
-    if (rol === null) {
-        setIsAuth(false)
-        return
-    }
-}
 
     useEffect(() => {
         init()

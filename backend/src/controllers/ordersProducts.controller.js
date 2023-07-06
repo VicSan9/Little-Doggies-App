@@ -25,6 +25,20 @@ const getOrderProduct = async (req, res, next) => {
     }
 }
 
+const getOrderProduct2 = async (req, res, next) => {
+    try {
+        const result = await pool.query
+            ('SELECT * FROM orders');
+        if (result.rows.length === 0)
+            return res.status(404).json({
+                message: "Pedido - Producto no encontrado",
+            });
+        res.json(result.rows);
+    } catch (error) {
+        next(error);
+    }
+}
+
 const  createOrderProduct = async (req, res, next) => {
     const { pdid, prid } = req.body;
     try {
@@ -72,6 +86,7 @@ const updateOrderProduct = async (req, res, next) => {
 module.exports = {
     getAllOrdersProducts,
     getOrderProduct,
+    getOrderProduct2,
     createOrderProduct,
     deleteOrderProduct,
     updateOrderProduct

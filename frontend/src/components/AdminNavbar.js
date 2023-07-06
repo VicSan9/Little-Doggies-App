@@ -6,6 +6,7 @@ import GroupsIcon from '@mui/icons-material/Groups';
 import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
 import InventoryIcon from '@mui/icons-material/Inventory';
 import PersonIcon from '@mui/icons-material/Person';
+import DeliveryDiningIcon from '@mui/icons-material/DeliveryDining';
 import Logout from '@mui/icons-material/Logout';
 import { useNavigate } from 'react-router-dom';
 
@@ -16,6 +17,7 @@ export default function AdminNavbar() {
     const [colorStaff, setColorStaff] = useState({ color1: '#000000', color2: '#ffffff' })
     const [colorProducts, setColorProcolorProducts] = useState({ color1: '#000000', color2: '#ffffff' })
     const [colorProfile, setColorProcolorProfile] = useState({ color1: '#000000', color2: '#ffffff' })
+    const [colorOrders, setColorOrders] = useState({ color1: '#000000', color2: '#ffffff' })
 
     const navigate = useNavigate()
 
@@ -40,6 +42,12 @@ export default function AdminNavbar() {
     const colorClientFun = () => {
         if (window.location.href.toString() === 'http://localhost:3000/admin/clientes') {
             setColorClient({ color1: '#ffffff', color2: '#0265CD' })
+        }
+    }
+
+    const colorOrdersFun = () => {
+        if (window.location.href.toString() === 'http://localhost:3000/admin/pedidos') {
+            setColorOrders({ color1: '#ffffff', color2: '#0265CD' })
         }
     }
 
@@ -76,6 +84,10 @@ export default function AdminNavbar() {
     }, [])
 
     useEffect(() => {
+        colorOrdersFun()
+    }, [])
+
+    useEffect(() => {
         colorClientFun()
     }, [])
 
@@ -101,6 +113,10 @@ export default function AdminNavbar() {
 
     const handleClickProfile = () => {
         navigate('/admin/perfil')
+    }
+
+    const handleClickOrders = () => {
+        navigate('/admin/pedidos')
     }
 
     const handleClickLogout = () => {
@@ -242,12 +258,33 @@ export default function AdminNavbar() {
                         <InventoryIcon sx={{ fontSize: '200%' }}></InventoryIcon>
                     </Grid>
                 </Tooltip>
+                <Tooltip title="Pedidos" placement="right">
+                    <Grid
+                        component={Button}
+                        onClick={handleClickOrders}
+                        container
+                        alignContent='center'
+                        justifyContent='center'
+                        item xs={1} sm={1} lg={1} md={1} xl={1}
+                        bgcolor={colorOrders.color2}
+                        color={colorOrders.color1}
+                        sx={{
+                            minWidth: '50px',
+                            borderRadius: '0px',
+                            '&:hover': {
+                                bgcolor: '#0265CD'
+                            },
+                            padding: '0px',
+                        }}>
+                        <DeliveryDiningIcon sx={{ fontSize: '200%' }}></DeliveryDiningIcon>
+                    </Grid>
+                </Tooltip>
                 <Grid
                     container
                     alignContent='center'
                     justifyContent='end'
                     direction='column'
-                    item xs={6} sm={6} lg={6} md={6} xl={6}>
+                    item xs={4} sm={4} lg={4} md={4} xl={4}>
                     <Tooltip title="Perfil" placement="right">
                         <Grid
                             component={Button}

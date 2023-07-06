@@ -13,6 +13,8 @@ export default function AdminStaff() {
 
     const [open, setOpen] = useState(false)
     const [open1, setOpen1] = useState(false);
+    const [open2, setOpen2] = useState(false);
+    const [foto, setFoto] = useState('');
     const [isHidden1, setIsHidden1] = useState(false)
     const [errorMessage, setErrorMessage] = useState("");
     const [advertenceMenssage, setAdvertenceMenssage] = useState("");
@@ -33,6 +35,14 @@ export default function AdminStaff() {
             },
         },
     };
+
+    const handleClickFoto = () => {
+        setOpen2(true);
+    }
+
+    const handleClickFoto2 = () => {
+        setOpen2(false);
+    }
 
     const handleClose = () => {
         setOpen(false);
@@ -233,6 +243,7 @@ export default function AdminStaff() {
         const data2 = await res2.json()
 
         setMember(data2)
+        setFoto(data2.foto)
 
         const res3 = await fetch(`http://localhost:4000/services2`, {
             method: 'GET',
@@ -419,6 +430,22 @@ export default function AdminStaff() {
         <>
             {errorMessage && <ErrorComponent errorMessage={errorMessage} />}
             {advertenceMenssage && <AdvertenceComponent advertenceMenssage={advertenceMenssage} />}
+            <Backdrop
+                sx={{
+                    backdropFilter: 'blur(5px)',
+                    color: '#fff',
+                    zIndex: (theme) => theme.zIndex.drawer + 1,
+                    display: { xs: 'none', sm: 'none', md: 'flex', lg: 'flex' }
+                }}
+                open={open2}
+                onClick={handleClickFoto2}
+            >
+                <img
+                    src={"http://localhost:4000/" + foto}
+                    alt="foto"
+                    width='30%'>
+                </img>
+            </Backdrop>
             <Backdrop
                 sx={{ color: 'rgba(0,0,0,.2)', backdropFilter: 'blur(5px)', zIndex: 1 }}
                 open={open1}>
@@ -1100,7 +1127,7 @@ export default function AdminStaff() {
                                             <Typography mt='8px' variant='body1'>{member.apellidos}</Typography>
                                         </Grid>
                                         <Grid item xs={4} sm={4} lg={4} md={4} xl={4}>
-                                            <Avatar sx={{ width: 90, height: 90 }}></Avatar>
+                                            <Avatar component={Button} onClick={handleClickFoto} src={`http://localhost:4000/` + member.foto} sx={{ width: 90, height: 90 }}></Avatar>
                                         </Grid>
                                     </Grid>
                                 </Typography>

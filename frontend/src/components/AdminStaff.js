@@ -1127,7 +1127,7 @@ export default function AdminStaff() {
                                             <Typography mt='8px' variant='body1'>{member.apellidos}</Typography>
                                         </Grid>
                                         <Grid item xs={4} sm={4} lg={4} md={4} xl={4}>
-                                            <Avatar component={Button} onClick={handleClickFoto} src={`http://localhost:4000/` + member.foto} sx={{ width: 90, height: 90 }}></Avatar>
+                                            <Avatar component={Button} onClick={handleClickFoto} src={`http://localhost:4000/` + member.foto} sx={{ width: 90, height: 90, p:'0px' }}></Avatar>
                                         </Grid>
                                     </Grid>
                                 </Typography>

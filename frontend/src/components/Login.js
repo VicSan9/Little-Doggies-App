@@ -35,12 +35,13 @@ export default function Login() {
       sessionStorage.setItem('correo', data.correo)
       sessionStorage.setItem('id', data.id)
       sessionStorage.setItem('auth', 'yes')
-      if (sessionStorage.getItem('rol') === 'Administrador') {
+      if (data.rol === 'Administrador') {
         navigate('/admin')
       }
-      if (sessionStorage.getItem('rol') === 'Trabajador') {
-          navigate('/empleado')
-      } else {
+      if (data.rol === 'Trabajador') {
+        navigate('/empleado')
+      } 
+      if (data.rol === 'Cliente') {
         navigate("/home")
       }
     }

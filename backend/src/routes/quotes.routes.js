@@ -9,7 +9,7 @@ router.post('/quotes2', getQuotes2)
 
 router.post('/quotes3', getQuotes3)
 
-router.get('/quotes4', getQuotes4)
+router.get('/quotes4/:id', getQuotes4)
 
 router.get('/quotes/:id', getQuotes)
 

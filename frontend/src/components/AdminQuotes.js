@@ -46,9 +46,12 @@ export default function AdminQuotes() {
     const [quote, SetQuote] = useState([])
     const [isHidden, setIsHidden] = useState(true)
     const [value, setValue] = useState(null);
+    const [miembro, setMiembro] = useState('');
+    const [miembros, setMiembros] = useState([]);
     const [fecha, setFecha] = useState({ fecha: '' })
     const [servicios, setServicios] = useState([])
     const [servicio2, setServicio2] = useState([])
+    const [servicios3, setServicios3] = useState([])
     const [horario, setHorario] = useState('');
     const [isLoggedIn1, setIsLoggedIn1] = useState(false);
     const [isLoggedIn2, setIsLoggedIn2] = useState(false);
@@ -92,6 +95,25 @@ export default function AdminQuotes() {
         })
     }
 
+    const loadMembers = async () => {
+        const res = await fetch('http://localhost:4000/members', {
+            method: 'GET',
+            headers: { "content-Type": "application/json" }
+        })
+
+        const data = await res.json()
+
+        setMiembros(data)
+    }
+
+    useEffect(() => {
+        loadMembers();
+    }, []);
+
+    const handleChange0 = (event) => {
+        setMiembro(event.target.value);
+    };
+
     const handleChange5 = (event) => {
         const {
             target: { value },
@@ -114,6 +136,7 @@ export default function AdminQuotes() {
         const body1 = {
             'clid': quote.clid,
             'mcid': quote.mcid,
+            'mbid': quote.mbid,
             'fecha': quote.fecha,
             'hora': quote.hora,
             'estado': 'Cancelada'
@@ -222,13 +245,22 @@ export default function AdminQuotes() {
             setErrorMessage('Escoge un día primero')
             return
         }
+        if (miembro === '') {
+            setErrorMessage('Escoga quién lo va a atender')
+            return
+        }
 
         setIsDisable(false)
         setIsDisable2(true)
 
+        const body = {
+            'fecha': fecha.fecha,
+            'miembro': miembro
+        }
+
         const res = await fetch('http://localhost:4000/quotes2', {
             method: 'POST',
-            body: JSON.stringify(fecha),
+            body: JSON.stringify(body),
             headers: { "content-Type": "application/json" }
         })
 
@@ -357,19 +389,68 @@ export default function AdminQuotes() {
     }
 
     const loadServices = async () => {
+        if (miembro === '') {
+            return
+        }
 
-        const res = await fetch('http://localhost:4000/services', {
+        const res = await fetch(`http://localhost:4000/services4/${miembro}`, {
             method: 'GET',
             headers: { "content-Type": "application/json" }
         })
 
         const data = await res.json();
 
-        setServicios(data)
+        const s = []
+
+        for (let i = 0; i < data.length; i++) {
+
+            const res2 = await fetch(`http://localhost:4000/services/${data[i].svid}`, {
+                method: 'GET',
+                headers: { "content-Type": "application/json" }
+            })
+
+            const data2 = await res2.json();
+
+            s.push(data2)
+        }
+
+        setServicios(s)
     }
 
     useEffect(() => {
         loadServices();
+    }, [miembro]);
+
+    const loadServices2 = async () => {
+
+        const id = sessionStorage.getItem('id');
+
+        const res = await fetch(`http://localhost:4000/services4/${id}`, {
+            method: 'GET',
+            headers: { "content-Type": "application/json" }
+        })
+
+        const data = await res.json();
+
+        const s = []
+
+        for (let i = 0; i < data.length; i++) {
+
+            const res2 = await fetch(`http://localhost:4000/services/${data[i].svid}`, {
+                method: 'GET',
+                headers: { "content-Type": "application/json" }
+            })
+
+            const data2 = await res2.json();
+
+            s.push(data2)
+        }
+
+        setServicios3(s)
+    }
+
+    useEffect(() => {
+        loadServices2();
     }, []);
 
     const shouldDisableDate = (date) => {
@@ -405,6 +486,7 @@ export default function AdminQuotes() {
             'clid': idCliente,
             'estado': 'Espera',
             'mcid': petId,
+            'mbid': miembro,
             'fecha': formattedDate,
             'hora': horario,
         }
@@ -468,6 +550,7 @@ export default function AdminQuotes() {
         const body1 = {
             'clid': quote.clid,
             'mcid': quote.mcid,
+            'mbid': quote.mbid,
             'fecha': quote.fecha,
             'hora': quote.hora,
             'estado': 'Cancelada'
@@ -483,6 +566,7 @@ export default function AdminQuotes() {
             'clid': quote.clid,
             'estado': 'Espera',
             'mcid': quote.mcid,
+            'mbid': miembro,
             'fecha': formattedDate,
             'hora': horario,
         }
@@ -752,6 +836,7 @@ export default function AdminQuotes() {
         const body1 = {
             'clid': quote.clid,
             'mcid': quote.mcid,
+            'mbid': quote.mbid,
             'fecha': quote.fecha,
             'hora': quote.hora,
             'estado': 'Atendido'
@@ -802,7 +887,7 @@ export default function AdminQuotes() {
                 headers: { "content-Type": "application/json" }
             })
         }
-        
+
         window.location.reload()
     }
 
@@ -922,7 +1007,7 @@ export default function AdminQuotes() {
                                             </Box>
                                         )}
                                         MenuProps={MenuProps}>
-                                        {servicios.map((servicio) => (
+                                        {servicios3.map((servicio) => (
                                             <MenuItem
                                                 key={servicio.svid}
                                                 value={servicio.nombre}>
@@ -1015,8 +1100,27 @@ export default function AdminQuotes() {
                                             </DemoItem>
                                         </DemoContainer>
                                     </LocalizationProvider>
+                                    <FormControl fullWidth sx={{ mt: '20px' }}>
+                                        <InputLabel id="demo-simple-select-label">Selecciona la persona que quieres que te atienda</InputLabel>
+                                        <Select
+                                            disabled={isDisable2}
+                                            labelId="demo-simple-select-label"
+                                            id="demo-simple-select"
+                                            value={miembro}
+                                            label="Selecciona la persona que quieres que te atienda"
+                                            onChange={handleChange0}>
+                                            {miembros.map(miembro => (
+                                                <MenuItem
+                                                    key={miembro.mbid}
+                                                    id={miembro.mbid}
+                                                    value={miembro.mbid}
+                                                >{miembro.nombres + ' ' + miembro.apellidos}
+                                                </MenuItem>
+                                            ))}
+                                        </Select>
+                                    </FormControl>
                                     <Button
-                                        sx={{ mb: '20px', borderRadius: '20px' }}
+                                        sx={{ mt: '20px', borderRadius: '20px' }}
                                         fullWidth
                                         disabled={isDisable2}
                                         variant="outlined"
@@ -1174,8 +1278,27 @@ export default function AdminQuotes() {
                                                 </DemoItem>
                                             </DemoContainer>
                                         </LocalizationProvider>
+                                        <FormControl fullWidth sx={{ mt: '20px' }}>
+                                            <InputLabel id="demo-simple-select-label">Selecciona la persona que quieres que te atienda</InputLabel>
+                                            <Select
+                                                disabled={isDisable2}
+                                                labelId="demo-simple-select-label"
+                                                id="demo-simple-select"
+                                                value={miembro}
+                                                label="Selecciona la persona que quieres que te atienda"
+                                                onChange={handleChange0}>
+                                                {miembros.map(miembro => (
+                                                    <MenuItem
+                                                        key={miembro.mbid}
+                                                        id={miembro.mbid}
+                                                        value={miembro.mbid}
+                                                    >{miembro.nombres + ' ' + miembro.apellidos}
+                                                    </MenuItem>
+                                                ))}
+                                            </Select>
+                                        </FormControl>
                                         <Button
-                                            sx={{ mb: '20px', borderRadius: '20px' }}
+                                            sx={{ mt: '20px', borderRadius: '20px' }}
                                             fullWidth
                                             disabled={isDisable2}
                                             variant="outlined"

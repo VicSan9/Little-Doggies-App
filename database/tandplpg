@@ -90,7 +90,7 @@ ORDER BY C.ctsid;
 
 --Vista para ver la información de una cita como administrador
 CREATE VIEW adminQuote AS
-SELECT C.ctsid, C.clid, C.estado, CL.nombres, CL.apellidos, CL.correo, CL.telefono, CL.direccion, C.fecha, C.hora , M.nombre, M.raza, M.edad, M.sexo, M.condicion, string_agg(S.nombre, ' ● ') AS servicios
+SELECT C.mbid, C.ctsid, C.clid, C.estado, CL.nombres, CL.apellidos, CL.correo, CL.telefono, CL.direccion, C.fecha, C.hora , M.nombre, M.raza, M.edad, M.sexo, M.condicion, string_agg(S.nombre, ' ● ') AS servicios
 FROM citas AS C
 JOIN citasServicios AS CS
 ON CS.ctsid = C.ctsid AND C.estado = 'Espera'

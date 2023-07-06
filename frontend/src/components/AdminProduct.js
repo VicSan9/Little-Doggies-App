@@ -8,6 +8,7 @@ import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 export default function AdminClient() {
     const [open, setOpen] = useState(false);
     const [open1, setOpen1] = useState(false);
+    const [open2, setOpen2] = useState(false);
     const [isHidden1, setIsHidden1] = useState(false)
     const [products, setProducts] = useState([])
     const [product, setProduct] = useState({ nombre: '', tipo: '', precio: '', cantidad: '', foto: '', estado: 'Activo' })
@@ -18,6 +19,7 @@ export default function AdminClient() {
     const [selectedFile, setSelectedFile] = useState(null);
 
     const handleChangePic = async (event) => {
+
         const name = event.target.files[0].name
 
         const nameFile = name.split('.')
@@ -29,12 +31,12 @@ export default function AdminClient() {
         const full = newName + '.' + extencion
 
         const body = {
-            nombre: product.nombre, 
-            tipo: product.tipo, 
-            precio: product.precio, 
-            cantidad: product.cantidad, 
-            foto: full, 
-            estado: product.estado 
+            nombre: product.nombre,
+            tipo: product.tipo,
+            precio: product.precio,
+            cantidad: product.cantidad,
+            foto: full,
+            estado: product.estado
         }
 
         await fetch(`http://localhost:4000/products/${product.prid}`, {
@@ -51,7 +53,10 @@ export default function AdminClient() {
     };
 
     const handleUpload = () => {
-        console.log(selectedFile)
+        if(selectedFile === null){
+            setErrorMessage('Escoge una foto primero')
+            return
+        }
 
         const formData = new FormData();
         formData.append('photo', selectedFile);
@@ -67,7 +72,17 @@ export default function AdminClient() {
             .catch(error => {
                 console.error(error);
             });
+
+        window.location.reload();
     };
+
+    const handleCan = () => {
+        setOpen2(false)
+    }
+
+    const handleClick = () => {
+        setOpen2(true);
+    }
 
     const handleClose = () => {
         setOpen(false);
@@ -323,6 +338,42 @@ export default function AdminClient() {
         <>
             {errorMessage && <ErrorComponent errorMessage={errorMessage} />}
             {advertenceMenssage && <AdvertenceComponent advertenceMenssage={advertenceMenssage} />}
+            <Backdrop
+                sx={{ color: 'rgba(0,0,0,.2)', backdropFilter: 'blur(5px)', zIndex: 1 }}
+                open={open2}>
+                <Grid
+                    container
+                    width='40vw'
+                    height='20vh'
+                    bgcolor='#ffffff'
+                    borderRadius='20px'
+                    justifyContent='center'
+                    alignItems='start'
+                    paddingRight='23px'
+                    paddingLeft='23px'>
+                    <Grid
+                        container
+                        height='70%'
+                        width='100%'
+                        justifyContent='center'>
+                        <TextField
+                            type="file"
+                            onChange={handleChangePic}
+                            sx={{ mt: '10px' }}
+                        />
+                    </Grid>
+                    <Grid
+                        container
+                        height='30%'
+                        width='100%'
+                        justifyContent='space-between'
+                        direction='row'>
+                        <Button onClick={handleCan}>Cancelar</Button>
+                        <Button onClick={handleUpload}>Subir foto</Button>
+                    </Grid>
+
+                </Grid>
+            </Backdrop>
             <Backdrop
                 sx={{ color: 'rgba(0,0,0,.2)', backdropFilter: 'blur(5px)', zIndex: 1 }}
                 open={open1}>
@@ -801,16 +852,12 @@ export default function AdminClient() {
                                         sx={{ backgroundImage: `url(http://localhost:4000/${product.foto})`, backgroundSize: 'cover' }}>
                                         <Tooltip title='Cambiar foto'>
                                             <IconButton
+                                                onClick={handleClick}
                                                 sx={{ width: 30, height: 30, mb: '10px', mr: '10px', zIndex: '0' }}>
                                                 <EditIcon></EditIcon>
                                             </IconButton>
                                         </Tooltip>
                                     </Grid>
-                                    <TextField
-                                        type="file"
-                                        onChange={handleChangePic}
-                                    />
-                                    <Button onClick={handleUpload}>Subir foto</Button>
                                 </Typography>
                             </div>
                         </Grid>

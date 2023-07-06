@@ -15,12 +15,14 @@ const membersServicesRoutes = require('./routes/membersServices.routes')
 const reportsServicesRoutes = require('./routes/reportsServices.routes')
 const quotesServicesRoutes = require('./routes/quotesServices.routes')
 const loginRoutes = require('./routes/login.routes')
+const multerRoutes = require('./routes/multer.routes')
 
 const app = express();
 
 app.use(cors())
 app.use(morgan('dev'))
 app.use(express.json())
+app.use(express.static('public'))
 
 app.use(membersRoutes)
 app.use(clientsRoutes)
@@ -35,6 +37,7 @@ app.use(membersServicesRoutes)
 app.use(reportsServicesRoutes)
 app.use(quotesServicesRoutes)
 app.use(loginRoutes)
+app.use(multerRoutes)
 
 app.use((err, req, res, next) => {
     return res.json({

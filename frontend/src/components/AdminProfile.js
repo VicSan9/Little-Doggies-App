@@ -26,16 +26,16 @@ export default function AdminProfile() {
         const full = newName + '.' + extencion
 
         const body = {
-            usuario: user.usuario, 
-            contraseña: user.contraseña, 
-            correo: user.correo, 
-            nombres: user.nombres, 
-            apellidos: user.apellidos, 
-            telefono: user.telefono, 
-            direccion: user.direccion, 
-            rol: user.rol,  
-            foto: full,  
-            estado: user.estado,  
+            usuario: user.usuario,
+            contraseña: user.contraseña,
+            correo: user.correo,
+            nombres: user.nombres,
+            apellidos: user.apellidos,
+            telefono: user.telefono,
+            direccion: user.direccion,
+            rol: user.rol,
+            foto: full,
+            estado: user.estado,
         }
 
         await fetch(`http://localhost:4000/members/${user.mbid}`, {
@@ -482,8 +482,10 @@ export default function AdminProfile() {
                                             <Grid container direction='column' item xs={6} sm={6} lg={6} md={6} xl={6}>
                                                 <Typography ml='20px' variant="body1" fontWeight='bold'> Foto</Typography>
                                             </Grid>
-                                            <Grid container justifyContent='center' item xs={6} sm={6} lg={6} md={6} xl={6}>
-                                                <Avatar component={Button} onClick={handleClickFoto} src={`http://localhost:4000/` + user.foto} sx={{ p: '0px', width: '200px', height: '200px' }}></Avatar>
+                                            <Grid container direction='column' justifyContent='center' alignItems='center' item xs={6} sm={6} lg={6} md={6} xl={6}>
+                                                <Grid>
+                                                    <Avatar component={Button} onClick={handleClickFoto} src={`http://localhost:4000/` + user.foto} sx={{ p: '0px', width: '200px', height: '200px' }}></Avatar>
+                                                </Grid>
                                                 <Button onClick={handleClickEditFoto}>Cambiar foto</Button>
                                             </Grid>
                                         </Grid>

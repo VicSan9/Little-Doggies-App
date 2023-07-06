@@ -165,7 +165,7 @@ export default function Home() {
               ¡Compra los mejores productos para tu mascota a un excelente precio!
             </Typography>
             <Link href="#"
-              to='/productos'
+              to='/shop'
               style={{
                 marginBottom: '70px',
                 fontWeight: '900px',

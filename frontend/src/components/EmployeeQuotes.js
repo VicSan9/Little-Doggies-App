@@ -233,6 +233,7 @@ export default function AdminQuotes() {
         const body1 = {
             'clid': quote.clid,
             'mcid': quote.mcid,
+            'mbid': quote.mbid,
             'fecha': quote.fecha,
             'hora': quote.hora,
             'estado': 'Atendido'

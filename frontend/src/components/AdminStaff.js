@@ -19,11 +19,11 @@ export default function AdminStaff() {
     const [errorMessage, setErrorMessage] = useState("");
     const [advertenceMenssage, setAdvertenceMenssage] = useState("");
     const [members, setMembers] = useState([])
-    const [member, setMember] = useState({ usuario: '', contraseña: '', correo: '', nombres: '', apellidos: '', telefono: '', direccion: '', rol: 'Trabajador', foto: 'foto', estado: 'Activo' })
+    const [member, setMember] = useState({ usuario: '', contraseña: '', correo: '', nombres: '', apellidos: '', telefono: '', direccion: '', rol: 'Trabajador', foto: '', estado: 'Activo' })
     const [services, setServices] = useState([])
     const [service2, setServices2] = useState([])
     const [allServices, setallServices] = useState([])
-    const [create, setCreate] = useState({ usuario: '', contraseña: '', correo: '', nombres: '', apellidos: '', telefono: '', direccion: '', rol: 'Trabajador', foto: 'foto', estado: 'Activo' })
+    const [create, setCreate] = useState({ usuario: '', contraseña: '', correo: '', nombres: '', apellidos: '', telefono: '', direccion: '', rol: 'Trabajador', foto: '', estado: 'Activo' })
 
     const ITEM_HEIGHT = 48;
     const ITEM_PADDING_TOP = 8;
@@ -75,7 +75,7 @@ export default function AdminStaff() {
             'telefono': member.telefono,
             'direccion': member.direccion,
             'rol': 'Trabajador',
-            'foto': 'foto',
+            'foto': member.foto,
             'estado': 'Eliminado'
         }
 
@@ -98,7 +98,7 @@ export default function AdminStaff() {
             'telefono': member.telefono,
             'direccion': member.direccion,
             'rol': 'Trabajador',
-            'foto': 'foto',
+            'foto': member.foto,
             'estado': 'Activo'
         }
 
@@ -171,7 +171,7 @@ export default function AdminStaff() {
             'telefono': member.telefono,
             'direccion': member.direccion,
             'rol': 'Trabajador',
-            'foto': 'foto',
+            'foto': member.foto,
             'estado': 'Eliminado'
         }
 
@@ -306,6 +306,25 @@ export default function AdminStaff() {
         })
 
         const data3 = await res3.json();
+
+        const body1 = {
+            'usuario': data3.usuario,
+            'contraseña': data3.contraseña,
+            'correo': data3.correo,
+            'nombres': data3.nombres,
+            'apellidos': data3.apellidos,
+            'telefono': data3.telefono,
+            'direccion': data3.direccion,
+            'rol': 'Trabajador',
+            'foto': data3.mbid+'-member.jpg',
+            'estado': data3.estado
+        }
+
+        await fetch(`http://localhost:4000/members/${data3.mbid}`, {
+            method: 'PUT',
+            body: JSON.stringify(body1),
+            headers: { "content-Type": "application/json" }
+        });
 
         var id = []
 

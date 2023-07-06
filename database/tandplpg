@@ -7,21 +7,21 @@ ON pp.prid = p.prid;
 
 --Vista para ver toda la información de los clientes que tienen pedidos
 CREATE VIEW clientsOrders AS
-SELECT P.pdid AS pdid, C.clid, C.nombres, C.apellidos, C.telefono, C.direccion, C.correo, P.estado
+SELECT P.pdid AS pdid, C.clid, C.nombres, C.apellidos, C.telefono, C.direccion, C.correo
 FROM clientes AS C
 JOIN pedidos AS P 
 ON C.clid = p.clid
-GROUP BY P.pdid, C.clid, P.estado;
+GROUP BY P.pdid, C.clid;
 
 --vista para ver toda la informacion de lo productos comprados por un cliente
 CREATE VIEW infoproductos AS
-SELECT PR.pdid AS pdid, P.nombre AS nombre, count(PR.prid) AS cantidad, P.precio AS subtotal, PP.fecha, PR.estado
+SELECT PR.pdid AS pdid, P.nombre AS nombre, count(PR.prid) AS cantidad, P.precio AS subtotal, PP.fecha
 FROM productos AS P
 JOIN pedidosProductos AS PR
 ON PR.prid = P.prid
 JOIN pedidos AS PP
 ON PP.pdid = PR.pdid
-GROUP BY PR.pdid, P.nombre, P.precio, PP.fecha, PR.estado;
+GROUP BY PR.pdid, P.nombre, P.precio, PP.fecha;
 
 --vista para ver el valor total por pedido
 CREATE VIEW valortotal AS
@@ -105,13 +105,13 @@ ORDER BY C.hora, C.fecha DESC;
 
 --Vista para ver el id del pedido y la suma total a pagar por pedido
 CREATE VIEW ordervalue AS
-SELECT PD.clid, PD.fecha, PD.pdid AS id_pedido, P.prid AS id_producto, string_agg(P.nombre, ' ● '), SUM(P.precio) AS valor_total_pedido
+SELECT PD.clid, PD.fecha, PD.pdid AS id_pedido, P.prid AS id_producto, SUM(P.precio) AS valor_total_pedido, count(PP.prid), P.nombre AS nombre
 FROM productos AS P
 JOIN pedidosProductos AS PP
 ON PP.prid = p.prid
 JOIN pedidos AS PD
 ON PD.pdid = PP.pdid
-GROUP BY id_pedido, PD.clid, id_producto
+GROUP BY id_pedido, PD.clid, id_producto, PD.fecha
 ORDER BY id_pedido ASC;
 
 --Vista para ver todos los usuarios

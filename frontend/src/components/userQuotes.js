@@ -415,7 +415,6 @@ export default function UserQuotes() {
   }
 
   const loadServices = async () => {
-
     if (miembro === '') {
       return
     }

@@ -7,25 +7,25 @@ ON pp.prid = p.prid;
 
 --Vista para ver toda la información de los clientes que tienen pedidos
 CREATE VIEW clientsOrders AS
-SELECT P.pdid AS pdid, C.clid, C.nombres, C.apellidos, C.telefono, C.direccion, C.correo
+SELECT P.pdid AS pdid, C.clid, C.nombres, C.apellidos, C.telefono, C.direccion, C.correo, P.estado
 FROM clientes AS C
 JOIN pedidos AS P 
 ON C.clid = p.clid
-GROUP BY P.pdid, C.clid;
+GROUP BY P.pdid, C.clid, P.estado;
 
 --vista para ver toda la informacion de lo productos comprados por un cliente
 CREATE VIEW infoproductos AS
-SELECT PR.pdid AS pdid, P.nombre AS nombre, count(PR.prid) AS cantidad, P.precio AS subtotal, PP.fecha
+SELECT PR.pdid AS pdid, P.nombre AS nombre, count(PR.prid) AS cantidad, P.precio AS subtotal, PP.fecha, PR.estado
 FROM productos AS P
 JOIN pedidosProductos AS PR
 ON PR.prid = P.prid
 JOIN pedidos AS PP
 ON PP.pdid = PR.pdid
-GROUP BY PR.pdid, P.nombre, P.precio, PP.fecha;
+GROUP BY PR.pdid, P.nombre, P.precio, PP.fecha, PR.estado;
 
 --vista para ver el valor total por pedido
 CREATE VIEW valortotal AS
-SELECT PR.pdid AS pdid, SUM(P.precio)
+SELECT PR.pdid AS pdid, SUM(P.precio) AS total
 FROM productos AS P
 JOIN pedidosProductos AS PR
 ON PR.prid = P.prid

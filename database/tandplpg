@@ -31,7 +31,6 @@ JOIN pedidosProductos AS PR
 ON PR.prid = P.prid
 GROUP BY PR.pdid; 
 
-
 --Vista para ver Miembros - Servicios y Si el estado del servicio
 CREATE VIEW memberServiceState AS
 SELECT MS.msid, MS.mbid, MS.svid, S.estado
@@ -48,6 +47,17 @@ FROM miembros AS S
 JOiN MiembrosServicios AS MS
 ON S.mbid = MS.mbid
 GROUP BY S.mbid, S.estado, MS.msid
+ORDER BY MS.msid;
+
+--Vista para ver Miembros - Servicios y Si el estado del miembro y el servicio
+CREATE VIEW memberServiceState3 AS
+SELECT MS.msid, MS.mbid, MS.svid, M.estado AS estadoM, S.estado AS estadoS
+FROM miembros AS M
+JOIN MiembrosServicios AS MS
+ON M.mbid = MS.mbid
+JOIN servicios AS S
+ON S.svid = MS.svid
+GROUP BY M.mbid, M.estado, MS.msid, S.estado
 ORDER BY MS.msid;
 
 --Vista para ver informes

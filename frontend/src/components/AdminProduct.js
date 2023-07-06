@@ -15,6 +15,59 @@ export default function AdminClient() {
     const [advertenceMenssage, setAdvertenceMenssage] = useState("");
     const [newProduct, setNewProduct] = useState({ nombre: '', tipo: '', precio: '', cantidad: '', foto: 'Foto.png', estado: 'Activo' })
     const [search, setSearch] = useState({ search: '' })
+    const [selectedFile, setSelectedFile] = useState(null);
+
+    const handleChangePic = async (event) => {
+        const name = event.target.files[0].name
+
+        const nameFile = name.split('.')
+
+        const extencion = nameFile[nameFile.length - 1]
+
+        const newName = product.foto.split('.')[0]
+
+        const full = newName + '.' + extencion
+
+        const body = {
+            nombre: product.nombre, 
+            tipo: product.tipo, 
+            precio: product.precio, 
+            cantidad: product.cantidad, 
+            foto: full, 
+            estado: product.estado 
+        }
+
+        await fetch(`http://localhost:4000/products/${product.prid}`, {
+            method: 'PUT',
+            body: JSON.stringify(body),
+            headers: { "content-Type": "application/json" }
+        })
+
+        const file = event.target.files[0];
+
+        const modifiedFile = new File([file], full, { type: file.type });
+
+        setSelectedFile(modifiedFile);
+    };
+
+    const handleUpload = () => {
+        console.log(selectedFile)
+
+        const formData = new FormData();
+        formData.append('photo', selectedFile);
+
+        fetch('http://localhost:4000/upload', {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data.message);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    };
 
     const handleClose = () => {
         setOpen(false);
@@ -33,28 +86,19 @@ export default function AdminClient() {
         setAdvertenceMenssage('¿Estás seguro que quieres eliminar este producto?')
     }
 
-    /* const handleChangePic = async (event) => {
-        const { files } = event.target;
-        const img = files[0];
-
-        // Save the image to the process.env.PUBLIC_URL folder
-        const imgPath = `${process.env.PUBLIC_URL}/${img.name}`;
-        //await fs.writeFile(imgPath, img.content);
-    }; */
-
     const handleClickAV2Can = () => {
         setAdvertenceMenssage("");
     }
 
     const handleClickAVConf = async () => {
 
-        const body = { 
-            'nombre': product.nombre, 
-            'tipo': product.tipo, 
-            'precio': product.precio, 
-            'cantidad': product.cantidad, 
+        const body = {
+            'nombre': product.nombre,
+            'tipo': product.tipo,
+            'precio': product.precio,
+            'cantidad': product.cantidad,
             'foto': 'Foto.png',
-            'estado' : 'Eliminado'
+            'estado': 'Eliminado'
         }
 
         await fetch(`http://localhost:4000/products/${product.prid}`, {
@@ -754,7 +798,7 @@ export default function AdminClient() {
                                         justifyContent='end'
                                         width='300px'
                                         height='400px'
-                                        sx={{ backgroundImage: `url(${process.env.PUBLIC_URL + "/" + product.foto})`, backgroundSize: 'cover' }}>
+                                        sx={{ backgroundImage: `url(http://localhost:4000/${product.foto})`, backgroundSize: 'cover' }}>
                                         <Tooltip title='Cambiar foto'>
                                             <IconButton
                                                 sx={{ width: 30, height: 30, mb: '10px', mr: '10px', zIndex: '0' }}>
@@ -762,11 +806,11 @@ export default function AdminClient() {
                                             </IconButton>
                                         </Tooltip>
                                     </Grid>
-                                    {/* <TextField
-                                        id="imgDer"
+                                    <TextField
                                         type="file"
                                         onChange={handleChangePic}
-                                    /> */}
+                                    />
+                                    <Button onClick={handleUpload}>Subir foto</Button>
                                 </Typography>
                             </div>
                         </Grid>

@@ -74,7 +74,9 @@ export default function AdminQuotes() {
     };
 
     const loadQuotes2 = async () => {
-        const res = await fetch(`http://localhost:4000/quotes4`, {
+        const id = sessionStorage.getItem('id');
+
+        const res = await fetch(`http://localhost:4000/quotes4/${id}`, {
             method: 'GET',
             headers: { "content-Type": "application/json" }
         })

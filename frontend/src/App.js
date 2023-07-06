@@ -30,6 +30,7 @@ import AdminProfile from './components/AdminProfile'
 import EmployeeQuotes from './components/EmployeeQuotes'
 import EmployeeProfile from './components/EmployeeProfile'
 import EmployeeOrders from './components/EmployeeOrders'
+import AdminOrders from './components/AdminOrders'
 
 export default function App({ children }) {
   return (
@@ -64,6 +65,7 @@ export default function App({ children }) {
           <Route path='/admin/clientes' element={<RouteControler1 componet={AdminClient} />} />
           <Route path='/admin/servicios' element={<RouteControler1 componet={AdminServices} />} />
           <Route path='/admin/perfil' element={<RouteControler1 componet={AdminProfile} />} />
+          <Route path='/admin/pedidos' element={<RouteControler1 componet={AdminOrders} />} />
           <Route path='/empleado' element={<RouteControler1 componet={EmployeeQuotes} />} />
           <Route path='/empleado/perfil' element={<RouteControler1 componet={EmployeeProfile} />} />
           <Route path='/empleado/pedidos' element={<RouteControler1 componet={EmployeeOrders} />} />

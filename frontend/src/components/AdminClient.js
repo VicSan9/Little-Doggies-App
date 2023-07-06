@@ -1581,7 +1581,7 @@ export default function AdminClient() {
                                                 cursor: 'pointer'
                                             }
                                         }}>
-                                        <Avatar sx={{ width: 45, height: 45 }}></Avatar>
+                                        <Avatar src={`http://localhost:4000/` + client.foto} sx={{ width: 45, height: 45 }}></Avatar>
                                         <Typography textAlign='center' width='61%' overflow='hidden'>{client.nombres + ' ' + client.apellidos}</Typography>
                                         <Grid>
                                             <Tooltip title='Editar cliente'>

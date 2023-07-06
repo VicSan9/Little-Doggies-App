@@ -57,8 +57,9 @@ const getQuotes3 = async (req, res, next) => {
 
 const getQuotes4 = async (req, res, next) => {
     try {
+        const { id } = req.params;
         const result = await pool.query
-            ('SELECT * FROM adminQuote')
+            ('SELECT * FROM adminQuote WHERE mbid = $1', [id])
         if (result.rows.length === 0)
             return res.status(404).json({
                 message: "No hay citas programadas",

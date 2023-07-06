@@ -144,7 +144,7 @@ export default function AdminNavbar() {
                             container
                             alignContent='center'
                             justifyContent='center'
-                            item xs={2} sm={2} lg={2} md={2} xl={2}
+                            item xs={1} sm={1} lg={1} md={1} xl={1}
                             bgcolor={colorPerfil.color2}
                             color={colorPerfil.color1}
                             sx={{

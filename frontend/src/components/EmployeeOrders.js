@@ -6,6 +6,7 @@ export default function EmployeeOrders() {
 
     const [orders, setOrders] = useState([])
     const [order, setOrder] = useState([])
+    const [total, setTotal] = useState([])
     const [client, setClient] = useState([])
     const [ordersProduct, setOrdersProduct] = useState([])
     const [isHidden1, setIsHidden1] = useState(false)
@@ -72,47 +73,39 @@ export default function EmployeeOrders() {
 
         setClient(clients)
 
-        const res4 = await fetch(`http://localhost:4000/ordersProducts/${id}`, {
-            method: 'GET',
+        const body = { 'id': id }
+
+        const res4 = await fetch(`http://localhost:4000/ordersProducts2`, {
+            method: 'POST',
+            body: JSON.stringify(body),
             headers: { "content-Type": "application/json" }
         })
 
-        const data4 = await res4.json()
+        const data4 = await res4.json();
 
-        console.log(data4)
+        if (res4.status === 404) {
+            setOrdersProduct([])
+            return
+        }
 
-        const res5 = await fetch(`http://localhost:4000/ordersProducts2`, {
-            method: 'GET',
+        setOrdersProduct(data4)
+
+        const body1 = { 'id': id }
+
+        const res3 = await fetch(`http://localhost:4000/ordersProducts3`, {
+            method: 'POST',
+            body: JSON.stringify(body1),
             headers: { "content-Type": "application/json" }
         })
 
-        const data5 = await res5.json()
+        const data3 = await res3.json();
 
-        console.log(data5)
-
-        const idp = []
-
-        for (let i = 0; i < data5.length; i++) {
-            if (data5[i].id_pedido === data4.pdid) {
-                idp.push(data5[i].prid)
-            }
+        if (res3.status === 404) {
+            setTotal([])
+            return
         }
 
-        const pedidoproducto = []
-
-        for (let i = 0; i < idp.length; i++) {
-            const res6 = await fetch(`http://localhost:4000/products/${idp[i]}`, {
-                method: 'GET',
-                headers: { "content-Type": "application/json" }
-            })
-
-            const data6 = await res6.json();
-
-            pedidoproducto.push(data6)
-
-        }
-        setOrdersProduct(pedidoproducto)
-
+        setTotal(data3)
     }
 
     const colorFun = (id) => {
@@ -273,7 +266,7 @@ export default function EmployeeOrders() {
                                 </Typography>
                                 <Divider></Divider>
                                 <Typography mb='15px' mt='15px' ml='10px' variant='h6' width='98%' sx={{ fontSize: '18px' }}>Información del producto
-                                    {ordersProduct.map((producto, index) => (
+                                    {ordersProduct.map((producto) => (
                                         <Grid
                                             container
                                             alignItems='start'
@@ -284,25 +277,25 @@ export default function EmployeeOrders() {
                                                 <Typography ml='15px' mt='8px' variant='body1' fontWeight='500'>Precio por unidad</Typography>
                                             </Grid>
                                             <Grid item xs={8} sm={8} lg={8} md={8} xl={8}>
-                                                <React.Fragment key={index}>
-                                                    <Typography mt='8px' variant='body1'>{producto.nombre}</Typography>
-                                                    <Typography mt='8px' variant='body1'>cantidad</Typography>
-                                                    <Typography mt='8px' variant='body1'>{producto.precio}</Typography>
-                                                </React.Fragment>
+                                                <Typography mt='8px' variant='body1'>{producto.nombre}</Typography>
+                                                <Typography mt='8px' variant='body1'>{producto.cantidad}</Typography>
+                                                <Typography mt='8px' variant='body1'>{producto.subtotal}</Typography>
                                             </Grid>
                                         </Grid>
                                     ))}
                                 </Typography>
                                 <Divider></Divider>
                                 <Typography mb='15px' mt='15px' ml='10px' variant='h6' width='98%' sx={{ fontSize: '18px' }}>Valor a pagar
-                                    <Grid
-                                        container
-                                        alignItems='start'
-                                        justifyContent='start'>
-                                        <Grid item xs={8} sm={8} lg={8} md={8} xl={8}>
-                                            <Typography ml='15px' mt='10px' variant='body1'>Pagar</Typography>
+                                    {total.map((valortotal) => (
+                                        <Grid
+                                            container
+                                            alignItems='start'
+                                            justifyContent='start'>
+                                            <Grid item xs={8} sm={8} lg={8} md={8} xl={8}>
+                                                <Typography ml='15px' mt='10px' variant='body1'>{valortotal.total}</Typography>
+                                            </Grid>
                                         </Grid>
-                                    </Grid>
+                                    ))}
                                 </Typography>
                             </div>
                         </Grid>

@@ -1,6 +1,6 @@
 --Vista para ver el nombre y precio de los productos agregados a los pedidos
 CREATE VIEW orders AS
-SELECT PP.pdid AS id_pedido, P.nombre, P.precio, p.prid
+SELECT PP.pdid AS id_pedido, P.nombre, P.precio
 FROM productos AS P
 JOIN pedidosproductos AS PP 
 ON pp.prid = p.prid;
@@ -10,7 +10,27 @@ CREATE VIEW clientsOrders AS
 SELECT P.pdid AS pdid, C.clid, C.nombres, C.apellidos, C.telefono, C.direccion, C.correo
 FROM clientes AS C
 JOIN pedidos AS P 
-ON C.clid = p.clid;
+ON C.clid = p.clid
+GROUP BY P.pdid, C.clid;
+
+--vista para ver toda la informacion de lo productos comprados por un cliente
+CREATE VIEW infoproductos AS
+SELECT PR.pdid AS pdid, P.nombre AS nombre, count(PR.prid) AS cantidad, P.precio AS subtotal, PP.fecha
+FROM productos AS P
+JOIN pedidosProductos AS PR
+ON PR.prid = P.prid
+JOIN pedidos AS PP
+ON PP.pdid = PR.pdid
+GROUP BY PR.pdid, P.nombre, P.precio, PP.fecha;
+
+--vista para ver el valor total por pedido
+CREATE VIEW valortotal AS
+SELECT PR.pdid AS pdid, SUM(P.precio)
+FROM productos AS P
+JOIN pedidosProductos AS PR
+ON PR.prid = P.prid
+GROUP BY PR.pdid; 
+
 
 --Vista para ver Miembros - Servicios y Si el estado del servicio
 CREATE VIEW memberServiceState AS

@@ -5,7 +5,7 @@ const getAllOrdersProducts = async (req, res, next) => {
         const result = await pool.query
             ('SELECT * FROM pedidosProductos');
         res.json(result);
-    } catch (error){
+    } catch (error) {
         next(error);
     }
 }
@@ -27,8 +27,9 @@ const getOrderProduct = async (req, res, next) => {
 
 const getOrderProduct2 = async (req, res, next) => {
     try {
+        const { id } = req.body;
         const result = await pool.query
-            ('SELECT * FROM orders');
+            ('SELECT * FROM infoproductos WHERE pdid = $1', [id]);
         if (result.rows.length === 0)
             return res.status(404).json({
                 message: "Pedido - Producto no encontrado",
@@ -39,14 +40,29 @@ const getOrderProduct2 = async (req, res, next) => {
     }
 }
 
-const  createOrderProduct = async (req, res, next) => {
+const getOrderProduct3 = async (req, res, next) => {
+    try {
+        const { id } = req.body;
+        const result = await pool.query
+            ('SELECT * FROM valortotal WHERE pdid = $1', [id]);
+        if (result.rows.length === 0)
+            return res.status(404).json({
+                message: "Pedido - producto no encontrado",
+            });
+        res.json(result.rows);
+    } catch (error) {
+        next(error);
+    }
+}
+
+const createOrderProduct = async (req, res, next) => {
     const { pdid, prid } = req.body;
     try {
         const result = await pool.query
             ('INSERT INTO pedidosProductos (pdid, prid) VALUES ($1, $2) RETURNING *',
-                [pdid, prid]);                                 
+                [pdid, prid]);
         res.json(result.rows[0]);
-    } catch (error){
+    } catch (error) {
         next(error);
     }
 }
@@ -87,6 +103,7 @@ module.exports = {
     getAllOrdersProducts,
     getOrderProduct,
     getOrderProduct2,
+    getOrderProduct3,
     createOrderProduct,
     deleteOrderProduct,
     updateOrderProduct

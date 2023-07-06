@@ -103,6 +103,7 @@ CREATE TABLE IF NOT EXISTS pedidos(
 	pdid INTEGER UNIQUE DEFAULT NEXTVAL('pdid_seq'),
 	clid INTEGER NOT NULL,
 	fecha VARCHAR (50) NOT NULL,
+	estado VARCHAR(50) NOT NULL,
 	PRIMARY KEY (pdid),
 	FOREIGN KEY (clid) REFERENCES clientes (clid)
 );

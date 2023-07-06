@@ -123,7 +123,6 @@ CREATE TABLE IF NOT EXISTS pedidosProductos(
 	ppid INTEGER UNIQUE DEFAULT NEXTVAL('ppid_seq'),
 	pdid INTEGER NOT NULL,
 	prid INTEGER NOT NULL,
-	estado VARCHAR (50) NOT NULL,
 	PRIMARY KEY (ppid),
 	FOREIGN KEY (pdid) REFERENCES pedidos (pdid),
 	FOREIGN KEY (prid) REFERENCES productos (prid)

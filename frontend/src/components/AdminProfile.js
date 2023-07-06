@@ -2,12 +2,94 @@ import React from 'react'
 import AdminNavbar from './AdminNavbar'
 import { Grid, Typography, Avatar, Button, Backdrop, IconButton, TextField, Box } from "@mui/material";
 import { useEffect, useState } from "react";
+import EditIcon from '@mui/icons-material/Edit';
 
 export default function AdminProfile() {
 
     const [user, setUser] = useState({ usuario: '', contraseña: '', correo: '', nombres: '', apellidos: '', telefono: '', direccion: '', rol: '', foto: '', estado: '' })
     const [open, setOpen] = useState(false)
+    const [open1, setOpen1] = useState(false)
+    const [open2, setOpen2] = useState(false)
     const [errorMessage, setErrorMessage] = useState("");
+    const [selectedFile, setSelectedFile] = useState(null);
+
+    const handleChangePic = async (event) => {
+
+        const name = event.target.files[0].name
+
+        const nameFile = name.split('.')
+
+        const extencion = nameFile[nameFile.length - 1]
+
+        const newName = user.foto.split('.')[0]
+
+        const full = newName + '.' + extencion
+
+        const body = {
+            usuario: user.usuario, 
+            contraseña: user.contraseña, 
+            correo: user.correo, 
+            nombres: user.nombres, 
+            apellidos: user.apellidos, 
+            telefono: user.telefono, 
+            direccion: user.direccion, 
+            rol: user.rol,  
+            foto: full,  
+            estado: user.estado,  
+        }
+
+        await fetch(`http://localhost:4000/members/${user.mbid}`, {
+            method: 'PUT',
+            body: JSON.stringify(body),
+            headers: { "content-Type": "application/json" }
+        })
+
+        const file = event.target.files[0];
+
+        const modifiedFile = new File([file], full, { type: file.type });
+
+        setSelectedFile(modifiedFile);
+    };
+
+    const handleUpload = () => {
+        if (selectedFile === null) {
+            setErrorMessage('Escoge una foto primero')
+            return
+        }
+
+        const formData = new FormData();
+        formData.append('photo', selectedFile);
+
+        fetch('http://localhost:4000/upload', {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data.message);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+
+        window.location.reload();
+    };
+
+    const handleCan = () => {
+        setOpen1(false)
+    }
+
+    const handleClickEditFoto = () => {
+        setOpen1(true);
+    }
+
+    const handleClickFoto = () => {
+        setOpen2(true);
+    }
+
+    const handleClickFoto2 = () => {
+        setOpen2(false);
+    }
 
     const loadUser = async () => {
 
@@ -103,6 +185,58 @@ export default function AdminProfile() {
     return (
         <>
             {errorMessage && <ErrorComponent errorMessage={errorMessage} />}
+            <Backdrop
+                sx={{
+                    backdropFilter: 'blur(5px)',
+                    color: '#fff',
+                    zIndex: (theme) => theme.zIndex.drawer + 1,
+                    display: { xs: 'none', sm: 'none', md: 'flex', lg: 'flex' }
+                }}
+                open={open2}
+                onClick={handleClickFoto2}
+            >
+                <img
+                    src={"http://localhost:4000/" + user.foto}
+                    alt="foto"
+                    width='30%'>
+                </img>
+            </Backdrop>
+            <Backdrop
+                sx={{ color: 'rgba(0,0,0,.2)', backdropFilter: 'blur(5px)', zIndex: 1 }}
+                open={open1}>
+                <Grid
+                    container
+                    width='40vw'
+                    height='20vh'
+                    bgcolor='#ffffff'
+                    borderRadius='20px'
+                    justifyContent='center'
+                    alignItems='start'
+                    paddingRight='23px'
+                    paddingLeft='23px'>
+                    <Grid
+                        container
+                        height='70%'
+                        width='100%'
+                        justifyContent='center'>
+                        <TextField
+                            type="file"
+                            onChange={handleChangePic}
+                            sx={{ mt: '10px' }}
+                        />
+                    </Grid>
+                    <Grid
+                        container
+                        height='30%'
+                        width='100%'
+                        justifyContent='space-between'
+                        direction='row'>
+                        <Button onClick={handleCan}>Cancelar</Button>
+                        <Button onClick={handleUpload}>Subir foto</Button>
+                    </Grid>
+
+                </Grid>
+            </Backdrop>
             <Backdrop
                 sx={{ color: 'rgba(0,0,0,.2)', backdropFilter: 'blur(5px)', zIndex: 1 }}
                 open={open}>
@@ -324,7 +458,11 @@ export default function AdminProfile() {
                                 container
                                 alignItems='start'
                                 justifyContent='start'>
-                                <Typography textAlign='start' ml='20px' mt='20px' variant="h5" fontWeight='bold'>Datos personales</Typography>
+                                <Typography width='100%' textAlign='start' ml='20px' mt='20px' variant="h5" fontWeight='bold'>Datos personales
+                                    <IconButton sx={{ ml: '10px' }} onClick={handleClickModifyInformation}>
+                                        <EditIcon></EditIcon>
+                                    </IconButton>
+                                </Typography>
                                 <Grid
                                     container
                                     alignItems='start'
@@ -344,8 +482,9 @@ export default function AdminProfile() {
                                             <Grid container direction='column' item xs={6} sm={6} lg={6} md={6} xl={6}>
                                                 <Typography ml='20px' variant="body1" fontWeight='bold'> Foto</Typography>
                                             </Grid>
-                                            <Grid container item xs={6} sm={6} lg={6} md={6} xl={6}>
-                                                <Avatar sx={{ width: '200px', height: '200px' }}></Avatar>
+                                            <Grid container justifyContent='center' item xs={6} sm={6} lg={6} md={6} xl={6}>
+                                                <Avatar component={Button} onClick={handleClickFoto} src={`http://localhost:4000/` + user.foto} sx={{ p: '0px', width: '200px', height: '200px' }}></Avatar>
+                                                <Button onClick={handleClickEditFoto}>Cambiar foto</Button>
                                             </Grid>
                                         </Grid>
                                         <Grid container direction='row' mt='20px'>
@@ -438,12 +577,6 @@ export default function AdminProfile() {
                                 </Grid>
                             </Grid>
                         </Grid>
-                        <Button
-                            variant="outlined"
-                            onClick={handleClickModifyInformation}
-                            sx={{ borderRadius: '20px', mt: '60px' }}>
-                            Modificar información
-                        </Button>
                     </Grid>
                 </Grid>
             </Grid>

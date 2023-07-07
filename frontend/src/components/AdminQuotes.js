@@ -876,14 +876,19 @@ export default function AdminQuotes() {
         const data = await res.json();
 
         var id = []
+        
+        console.log(servicios3)
+        console.log(servicio2)
 
         for (let i = 0; i < servicio2.length; i++) {
-            for (let j = 0; j < servicios.length; j++) {
-                if (servicio2[i] === servicios[j].nombre) {
-                    id.push(servicios[j].svid)
+            for (let j = 0; j < servicios3.length; j++) {
+                if (servicio2[i] === servicios3[j].nombre) {
+                    id.push(servicios3[j].svid)
                 }
             }
         }
+
+        console.log(id)
 
         for (let i = 0; i < id.length; i++) {
             var body2 = {
@@ -897,7 +902,7 @@ export default function AdminQuotes() {
             })
         }
 
-        window.location.reload()
+        //window.location.reload()
     }
 
     return (

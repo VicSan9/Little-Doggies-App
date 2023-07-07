@@ -19,8 +19,8 @@ export default function AdminClient() {
     const [clients, setClients] = useState([])
     const [client, setClient] = useState({ nombres: '', apellidos: '', correo: '', direccion: '', telefono: '', usuario: '', contraseña: '', foto: '', estado: 'Activo' })
     const [pets, setPets] = useState([])
-    const [pet, setPet] = useState({ clid: '', nombre: '', raza: '', edad: '', sexo: '', condicion: '', estado: 'Activo' })
-    const [petSelect, setPetSelect] = useState({ clid: '', nombre: '', raza: '', edad: '', sexo: '', condicion: '', estado: '' })
+    const [pet, setPet] = useState({ clid: '', nombre: '', raza: '', edad: '', sexo: '', condicion: '', estado: 'Activo', foto: '' })
+    const [petSelect, setPetSelect] = useState({ clid: '', nombre: '', raza: '', edad: '', sexo: '', condicion: '', estado: '', foto: '' })
     const [reports, setReports] = useState([])
     const [errorMessage, setErrorMessage] = useState("");
     const [advertenceMenssage, setAdvertenceMenssage] = useState("");
@@ -1744,7 +1744,7 @@ export default function AdminClient() {
                                                     <CardContent sx={{ width: '100%', padding: '0px' }}>
                                                         <Grid container direction='row' >
                                                             <Grid item xs={4}>
-                                                                <Avatar sx={{ ml: '5px', width: 50, height: 50 }}>M</Avatar>
+                                                                <Avatar src={`http://localhost:4000/` + pet.foto} sx={{ ml: '5px', width: 50, height: 50 }}>M</Avatar>
                                                             </Grid>
                                                             <Grid item xs={8} container direction='column' textAlign='start'>
                                                                 <Typography fontWeight='bold'>

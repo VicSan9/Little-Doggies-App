@@ -284,7 +284,7 @@ export default function AdminNavbar() {
                     alignContent='center'
                     justifyContent='end'
                     direction='column'
-                    item xs={4} sm={4} lg={4} md={4} xl={4}>
+                    item xs={5} sm={5} lg={5} md={5} xl={5}>
                     <Tooltip title="Perfil" placement="right">
                         <Grid
                             component={Button}
@@ -292,7 +292,7 @@ export default function AdminNavbar() {
                             container
                             alignContent='center'
                             justifyContent='center'
-                            item xs={2} sm={2} lg={2} md={2} xl={2}
+                            item xs={2.5} sm={2.5} lg={2.5} md={2.5} xl={2.5}
                             bgcolor={colorProfile.color2}
                             color={colorProfile.color1}
                             sx={{
@@ -310,7 +310,7 @@ export default function AdminNavbar() {
                         container
                         alignContent='center'
                         justifyContent='center'
-                        item xs={2} sm={2} lg={2} md={2} xl={2}>
+                        item xs={2.5} sm={2.5} lg={2.5} md={2.5} xl={2.5}>
                         <Tooltip title="Cerrar Sesión" placement="right">
                             <IconButton onClick={handleClickLogout} sx={{'&:hover':{color:'#CD0227'}}}>
                                 <Logout sx={{ fontSize: '100%' }}></Logout>

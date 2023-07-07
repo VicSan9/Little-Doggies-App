@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, Card, CardContent, Container, FormControl, FormHelperText, Grid, IconButton, InputLabel, MenuItem, Select, TextField, Tooltip, Typography } from "@mui/material";
+import { Avatar, Backdrop, Box, Button, Card, CardContent, Container, FormControl, FormHelperText, Grid, IconButton, InputLabel, MenuItem, Select, TextField, Tooltip, Typography } from "@mui/material";
 import Navbar from "./UserNavbar";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -13,7 +13,7 @@ export default function UserPets() {
 
   const [pet, setPet] = useState([])
 
-  const [pet2, setPet2] = useState({ clid: '', nombre: '', raza: '', edad: '', sexo: '', condicion: '', estado: 'Activo' })
+  const [pet2, setPet2] = useState({ clid: '', nombre: '', raza: '', edad: '', sexo: '', condicion: '', estado: 'Activo', foto: '' })
 
   const [reports, setReports] = useState([])
 
@@ -28,6 +28,8 @@ export default function UserPets() {
   const [errorMessage, setErrorMessage] = useState("");
 
   const [advertenceMenssage, setAdvertenceMenssage] = useState("");
+
+  const [open2, setOpen2] = useState(false);
 
   const AdvertenceComponent = ({ advertenceMenssage }) => {
     return (
@@ -113,13 +115,21 @@ export default function UserPets() {
     );
   };
 
+  const handleClickFoto = async () => {
+    setOpen2(true)
+  }
+
+  const handleClickFoto2 = () => {
+    setOpen2(false)
+  }
+
   const handleClickAV2Can = () => {
     setAdvertenceMenssage("");
   }
 
   const handleClickAVConf = async () => {
 
-    const body = { clid: pet2.clid, nombre: pet2.nombre, raza: pet2.raza, edad: pet2.edad, sexo: pet2.sexo, condicion: pet2.condicion, estado: 'Eliminada' }
+    const body = { clid: pet2.clid, nombre: pet2.nombre, raza: pet2.raza, edad: pet2.edad, sexo: pet2.sexo, condicion: pet2.condicion, estado: 'Eliminada', foto: pet2.foto}
 
     await fetch(`http://localhost:4000/pets/${pet.mcid}`, {
       method: 'PUT',
@@ -266,17 +276,33 @@ export default function UserPets() {
       {errorMessage && <ErrorComponent errorMessage={errorMessage} />}
       {advertenceMenssage && <AdvertenceComponent advertenceMenssage={advertenceMenssage} />}
       <Navbar></Navbar>
+      <Backdrop
+        sx={{
+          backdropFilter: 'blur(5px)',
+          color: '#fff',
+          zIndex: (theme) => theme.zIndex.drawer + 1,
+          display: { xs: 'none', sm: 'none', md: 'flex', lg: 'flex' }
+        }}
+        open={open2}
+        onClick={handleClickFoto2}
+      >
+        <img
+          src={"http://localhost:4000/" + pet.foto}
+          alt="foto"
+          width='30%'>
+        </img>
+      </Backdrop>
       <Container maxWidth='xl' fixed>
         <div hidden={isHidden2}>
           <Grid
             container
             alignItems='center'
             height='100%'
-            mt='70px'
             sx={{ display: { xs: 'none', sm: 'flex', md: 'flex', lg: 'flex', xl: 'flex' } }}>
             <Grid
               alignItems='center'
               justifyContent='center'
+              mt='90px'
               height='83vh'
               item xs={12} sm={12} md={4} lg={3} xl={3}
               borderRight='2px solid #BABBBF'>
@@ -318,7 +344,7 @@ export default function UserPets() {
                     <CardContent sx={{ width: '100%', padding: '0px' }}>
                       <Grid container direction='row' >
                         <Grid item xs={3} sm={3} md={5} lg={4} xl={3}>
-                          <Avatar sx={{ ml: '5px', width: 50, height: 50 }}>M</Avatar>
+                          <Avatar src={`http://localhost:4000/` + pet.foto} sx={{ ml: '5px', width: 50, height: 50 }}>M</Avatar>
                         </Grid>
                         <Grid item xs={3} sm={3} md={7} lg={8} xl={9} container direction='column' textAlign='start'>
                           <Typography fontWeight='bold'>
@@ -360,6 +386,7 @@ export default function UserPets() {
             <Grid
               alignItems='center'
               justifyContent='center'
+              mt='90px'
               height='83vh'
               item xs={9} sm={9} lg={9} md={8} xl={9}>
               <Grid
@@ -451,7 +478,7 @@ export default function UserPets() {
                           height='90%'
                           direction='column'>
                           <Typography height='70px' ml='20px'>{pet.condicion}</Typography>
-                          <Avatar sx={{ mt: '5px', ml: '20px', width: 100, height: 100 }}>M</Avatar>
+                          <Avatar component={Button} onClick={handleClickFoto} src={`http://localhost:4000/` + pet.foto} sx={{ mt: '5px', ml: '20px', width: 100, height: 100, p:'0px' }}>M</Avatar>
                         </Grid>
                       </Grid>
                     </Grid>

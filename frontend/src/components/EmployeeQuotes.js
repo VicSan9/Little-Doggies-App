@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import EmployeeNavbar from './EmployeeNavbar'
-import { Accordion, AccordionDetails, AccordionSummary, Avatar, Backdrop, Box, Button, Card, CardContent, Chip, Divider, Fab, FormHelperText, Grid, IconButton, TextField, Typography } from "@mui/material";
+import { Accordion, AccordionDetails, AccordionSummary, Avatar, Backdrop, Box, Button, Card, Chip, Divider, Fab, FormHelperText, Grid, IconButton, TextField, Typography } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import EditIcon from '@mui/icons-material/Edit';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
@@ -36,15 +36,10 @@ export default function AdminQuotes() {
     const [isHidden1, setIsHidden1] = useState(false)
     const [isDisabled, setIsDisabled] = useState(true)
     const [isDisabled2, setIsDisabled2] = useState(true)
-    const [open, setOpen] = React.useState(false);
-    const [open1, setOpen1] = React.useState(false);
-    const [open2, setOpen2] = React.useState(false);
-    const [clients, setClients] = useState([])
-    const [idCliente, setIdCliente] = useState('')
-    const [petId, setPetId] = useState('')
-    const [pets, setPets] = useState([])
+    const [open1, setOpen1] = useState(false);
+    const [open2, setOpen2] = useState(false);
+    const [open3, setOpen3] = useState(false);
     const [quote, SetQuote] = useState([])
-    const [isHidden, setIsHidden] = useState(true)
     const [value, setValue] = useState(null);
     const [miembro, setMiembro] = useState('');
     const [miembros, setMiembros] = useState([]);
@@ -61,10 +56,8 @@ export default function AdminQuotes() {
     const [isLoggedIn6, setIsLoggedIn6] = useState(false);
     const [isDisable, setIsDisable] = useState(true)
     const [isDisable2, setIsDisable2] = useState(false)
-    const [isDisable3, setIsDisable3] = useState(false)
     const [errorMessage, setErrorMessage] = useState("");
     const [advertenceMenssage, setAdvertenceMenssage] = useState("");
-    const [search, setSearch] = useState({ search: '' })
     const [nota, setNota] = useState({ pregunta: 'No', nota: '' })
 
     const hora1 = '07:00:00'
@@ -73,6 +66,14 @@ export default function AdminQuotes() {
     const hora4 = '13:00:00'
     const hora5 = '14:30:00'
     const hora6 = '16:00:00'
+
+    const handleClickFoto = () => {
+        setOpen3(true);
+    }
+
+    const handleClickFoto2 = () => {
+        setOpen3(false);
+    }
 
     const handleClickEdit = e => {
         setExpanded(false)
@@ -83,16 +84,6 @@ export default function AdminQuotes() {
 
     const handleClickDelete = e => {
         setAdvertenceMenssage('¿Estás seguro que quieres cancelar esta cita?')
-    }
-
-    const handleClange = e => {
-        const value = e.target.value
-        const name = e.target.name
-
-        setSearch({
-            ...search,
-            [name]: value
-        })
     }
 
     const loadMembers = async () => {
@@ -461,71 +452,6 @@ export default function AdminQuotes() {
         return day === 6 || day === 0;
     };
 
-    const onClick = async () => {
-        if (sessionStorage.getItem('id') === null) {
-            return
-        }
-        if (horario === '') {
-            setErrorMessage('Por favor selecciona un horario primero')
-            return
-        }
-        if (servicio2.length === 0) {
-            setErrorMessage('Por favor selecciona los servicios primero')
-            return
-        }
-
-        const day = (dayjs(value).date())
-        const month = (dayjs(value).month())
-        const year = (dayjs(value).year())
-
-        const monthName = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
-
-        const formattedDate = `${day} de ${monthName[month]} del ${year}`
-
-        const body = {
-            'clid': idCliente,
-            'estado': 'Espera',
-            'mcid': petId,
-            'mbid': miembro,
-            'fecha': formattedDate,
-            'hora': horario,
-        }
-
-        const res = await fetch('http://localhost:4000/quotes', {
-            method: 'POST',
-            body: JSON.stringify(body),
-            headers: { "content-Type": "application/json" }
-        })
-
-        const data = await res.json();
-
-        console.log(data)
-
-        var id = []
-
-        for (let i = 0; i < servicio2.length; i++) {
-            for (let j = 0; j < servicios.length; j++) {
-                if (servicio2[i] === servicios[j].nombre) {
-                    id.push(servicios[j].svid)
-                }
-            }
-        }
-
-        for (let i = 0; i < id.length; i++) {
-            var body2 = {
-                'ctsid': data.ctsid,
-                'svid': id[i]
-            }
-            await fetch('http://localhost:4000/quotesServices', {
-                method: 'POST',
-                body: JSON.stringify(body2),
-                headers: { "content-Type": "application/json" }
-            })
-        }
-
-        window.location.reload()
-    }
-
     const onClick2 = async () => {
         if (sessionStorage.getItem('id') === null) {
             return
@@ -718,86 +644,12 @@ export default function AdminQuotes() {
         }
     }
 
-    const clienteColor1 = (id) => {
-        if (Number(id) === idCliente) {
-            return '#0265CD'
-        } else {
-            return 'transparent'
-        }
-    }
-
-    const clienteColor2 = (id) => {
-        if (Number(id) === idCliente) {
-            return '#FFFFFF'
-        } else {
-            return '#000000'
-        }
-    }
-
-    const handleClicNewQuote = async () => {
-        setExpanded(false)
-        setSelectQuote([])
-        setIsHidden1(false)
-        setIsDisable3(false)
-        setOpen(true)
-
-        const res = await fetch(`http://localhost:4000/clients2`, {
-            method: 'GET',
-            headers: { "content-Type": "application/json" }
-        })
-
-        const data = await res.json()
-
-        setClients(data)
-    }
-
     const handleClose = () => {
-        setOpen(false);
         setOpen1(false);
         setOpen2(false);
         setIsDisabled2(true)
         setServicio2([])
-        setPetId('')
-        setIsHidden(true)
     };
-
-    const onClickVolver = () => {
-        setIsHidden(true)
-    }
-
-    const onClickSiguiente = () => {
-        setIsHidden(false)
-    }
-
-    const handleClickClient = async (e) => {
-        setPets([])
-        setPetId('')
-        setIsDisable3(false)
-        const id = Number(e.currentTarget.id)
-        setIdCliente(id)
-
-        const body = { 'id': id }
-
-        const res = await fetch('http://localhost:4000/pets', {
-            method: 'POST',
-            body: JSON.stringify(body),
-            headers: { "content-Type": "application/json" }
-        })
-
-        if (res.status === 404) {
-            return
-        }
-
-        const data = await res.json();
-
-        setPets(data)
-    }
-
-    const handleFocus = (event) => {
-        const id = Number(event.target.value)
-        setPetId(id)
-        setIsDisable3(true)
-    }
 
     const handleClickReaInf = () => {
         setNota({ pregunta: 'No', nota: 'Ninguna' })
@@ -895,6 +747,22 @@ export default function AdminQuotes() {
         <>
             {errorMessage && <ErrorComponent errorMessage={errorMessage} />}
             {advertenceMenssage && <AdvertenceComponent advertenceMenssage={advertenceMenssage} />}
+            <Backdrop
+                sx={{
+                    backdropFilter: 'blur(5px)',
+                    color: '#fff',
+                    zIndex: (theme) => theme.zIndex.drawer + 1,
+                    display: { xs: 'none', sm: 'none', md: 'flex', lg: 'flex' }
+                }}
+                open={open3}
+                onClick={handleClickFoto2}
+            >
+                <img
+                    src={`http://localhost:4000/` + selectQuote.foto}
+                    alt="foto"
+                    width='30%'>
+                </img>
+            </Backdrop>
             <Backdrop
                 sx={{ color: 'rgba(0,0,0,.2)', backdropFilter: 'blur(5px)', zIndex: 1 }}
                 open={open2}>
@@ -1200,385 +1068,6 @@ export default function AdminQuotes() {
                     </Grid>
                 </Grid >
             </Backdrop >
-            <Backdrop
-                sx={{ color: 'rgba(0,0,0,.2)', backdropFilter: 'blur(5px)', zIndex: 1 }}
-                open={open}>
-                <Grid
-                    container
-                    alignItems='start'
-                    height='80vh'
-                    width='80vw'
-                    bgcolor='#ffffff'
-                    borderRadius='20px'
-                    paddingRight='15px'
-                    paddingLeft='25px'
-                    sx={{ color: '#000000', zIndex: (theme) => theme.zIndex.drawer + 1 }}>
-                    <div hidden={isHidden}>
-                        <Grid
-                            container
-                            direction='row'
-                            width='100%'
-                            justifyContent='end'>
-                            <IconButton sx={{ mt: '10px', width: 25, height: 25, '&:hover': { color: '#CD0227', bgcolor: '#FFFFFF' } }} onClick={handleClose}>
-                                <Typography fontWeight='bold'>X</Typography>
-                            </IconButton>
-                        </Grid>
-                        <Grid
-                            container
-                            height='65vh'>
-                            <Grid
-                                alignItems='start'
-                                justifyContent='center'
-                                height='65vh'
-                                item xs={6} sm={6} lg={6} md={6} xl={6}
-                                borderRight='1px solid #BABBBF'
-                                overflow='scroll'
-                                sx={{
-                                    '&::-webkit-scrollbar': {
-                                        width: '8px',
-                                        height: '8px',
-                                    },
-                                    '&::-webkit-scrollbar-thumb': {
-                                        backgroundColor: 'rgba(0, 0, 0, 0.1)',
-                                        borderRadius: '10px',
-                                        '&:hover': {
-                                            backgroundColor: 'rgba(0, 0, 0, 0.3)',
-                                        },
-                                    },
-                                    '&::-webkit-scrollbar: horizontal': {
-                                        display: 'none',
-                                    },
-                                }}>
-                                <Grid
-                                    container
-                                    alignItems='star'
-                                    justifyContent='start'>
-                                    <Typography textAlign='start' variant="h6" fontWeight='bold'>Programa citas</Typography>
-                                    <Typography textAlign='start' mr='40px' mt='10px' mb='10px' variant="body1">
-                                        Aquí podrás programar citas para tus clientes, por favor asegúrate de
-                                        escoger el día en el calendario, darle click en confirmar y luego seleccionar el
-                                        horario, por último escoge los servicios que necesitara el cliente.
-                                    </Typography>
-                                    <Grid
-                                        container
-                                        justifyContent='center'
-                                        alignItems='center'
-                                        direction='column'
-                                        mr='20px'>
-                                        <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                            <DemoContainer components={['DateCalendar', 'DateCalendar']}>
-                                                <DemoItem>
-                                                    <DateCalendar
-                                                        disabled={isDisable2}
-                                                        disablePast={true}
-                                                        value={value}
-                                                        onChange={onChange}
-                                                        shouldDisableDate={shouldDisableDate}
-                                                        sx={{ margin: '0px' }} />
-                                                </DemoItem>
-                                            </DemoContainer>
-                                        </LocalizationProvider>
-                                        <FormControl fullWidth sx={{ mt: '20px' }}>
-                                            <InputLabel id="demo-simple-select-label">Selecciona la persona que quieres que te atienda</InputLabel>
-                                            <Select
-                                                disabled={isDisable2}
-                                                labelId="demo-simple-select-label"
-                                                id="demo-simple-select"
-                                                value={miembro}
-                                                label="Selecciona la persona que quieres que te atienda"
-                                                onChange={handleChange0}>
-                                                {miembros.map(miembro => (
-                                                    <MenuItem
-                                                        key={miembro.mbid}
-                                                        id={miembro.mbid}
-                                                        value={miembro.mbid}
-                                                    >{miembro.nombres + ' ' + miembro.apellidos}
-                                                    </MenuItem>
-                                                ))}
-                                            </Select>
-                                        </FormControl>
-                                        <Button
-                                            sx={{ mt: '20px', borderRadius: '20px' }}
-                                            fullWidth
-                                            disabled={isDisable2}
-                                            variant="outlined"
-                                            onClick={handleClick}
-                                        >{'Confirmar ➦'}
-                                        </Button>
-                                    </Grid>
-                                </Grid>
-                            </Grid>
-                            <Grid
-                                height='85vh'
-                                item xs={6} sm={6} lg={6} md={6} xl={6}>
-                                <Grid container mt='20px' ml='20px' mr='20px' width='auto'>
-                                    <FormControl fullWidth>
-                                        <InputLabel id="demo-simple-select-label">Horario</InputLabel>
-                                        <Select
-                                            disabled={isDisable}
-                                            labelId="demo-simple-select-label"
-                                            id="demo-simple-select"
-                                            value={horario}
-                                            label="Horario"
-                                            onChange={handleChange}>
-                                            <MenuItem disabled={isLoggedIn1} value={hora1}>7:00 A.M</MenuItem>
-                                            <MenuItem disabled={isLoggedIn2} value={hora2}>8:30 A.M</MenuItem>
-                                            <MenuItem disabled={isLoggedIn3} value={hora3}>10:00 A.M</MenuItem>
-                                            <MenuItem disabled={isLoggedIn4} value={hora4}>1:00 P.M</MenuItem>
-                                            <MenuItem disabled={isLoggedIn5} value={hora5}>2:30 P.M</MenuItem>
-                                            <MenuItem disabled={isLoggedIn6} value={hora6}>4:00 P.M</MenuItem>
-                                        </Select>
-                                    </FormControl>
-                                    <FormControl fullWidth sx={{ mt: '20px' }}>
-                                        <InputLabel id="demo-simple-select-label2">Servicios</InputLabel>
-                                        <Select
-                                            multiple
-                                            disabled={isDisable}
-                                            labelId="demo-simple-select-label2"
-                                            id="demo-simple-select2"
-                                            value={servicio2}
-                                            label="Servicios"
-                                            onChange={handleChange5}
-                                            renderValue={(selected) => (
-                                                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                                                    {selected.map((value) => (
-                                                        <Chip key={value} label={value} />
-                                                    ))}
-                                                </Box>
-                                            )}
-                                            MenuProps={MenuProps}>
-                                            {servicios.map((servicio) => (
-                                                <MenuItem
-                                                    key={servicio.svid}
-                                                    value={servicio.nombre}>
-                                                    {servicio.nombre}
-                                                </MenuItem>
-                                            ))}
-                                        </Select>
-                                        <FormHelperText>Escoge uno o varios servicios, si ya no quieres un servicio solo dale click de nuevo para quitarlo</FormHelperText>
-                                    </FormControl>
-                                    <Button
-                                        sx={{ mt: '40px', borderRadius: '20px' }}
-                                        fullWidth
-                                        disabled={isDisable}
-                                        variant="outlined"
-                                        onClick={handleClick2}
-                                    >{'⮪ Cambiar fecha'}
-                                    </Button>
-                                    <Button
-                                        sx={{ mt: '20px', borderRadius: '20px' }}
-                                        fullWidth
-                                        disabled={isDisable}
-                                        variant="outlined"
-                                        onClick={onClick}
-                                    >{'Programar cita ✔'}
-                                    </Button>
-                                </Grid>
-                            </Grid>
-                        </Grid>
-                        <IconButton onClick={onClickVolver} sx={{ borderRadius: '20px', '&:hover': { color: '#0265CD', bgcolor: '#FFFFFF' } }}>
-                            <Typography>{'⮪ Volver'}</Typography>
-                        </IconButton>
-                    </div>
-                    <div hidden={!isHidden} style={{ width: '100%' }}>
-                        <Grid
-                            container
-                            direction='row'
-                            width='100%'
-                            justifyContent='end'>
-                            <IconButton sx={{ mt: '10px', width: 25, height: 25, '&:hover': { color: '#CD0227', bgcolor: '#FFFFFF' } }} onClick={handleClose}>
-                                <Typography fontWeight='bold'>X</Typography>
-                            </IconButton>
-                        </Grid>
-                        <Grid
-                            container
-                            height='65vh'>
-                            <Grid
-                                alignItems='start'
-                                justifyContent='center'
-                                height='65vh'
-                                item xs={6} sm={6} lg={6} md={6} xl={6}
-                                borderRight='1px solid #BABBBF'>
-                                <Grid
-                                    container
-                                    alignItems='star'
-                                    justifyContent='start'
-                                    direction='column'
-                                    height='100%'>
-                                    <Typography textAlign='start' variant="h6" fontWeight='bold'>Crea una nueva cita</Typography>
-                                    <Typography textAlign='start' mr='40px' mt='10px' mb='10px' variant="body1">Selecione el cliente</Typography>
-                                    <Grid
-                                        container
-                                        direction='column'
-                                        width='95%'
-                                        height='80%'
-                                        borderRadius='20px'
-                                        backgroundColor='#F5F5F5'
-                                        border='1px solid #F5F5F5'>
-                                        <Grid
-                                            mt='15px'
-                                            container
-                                            direction='row'
-                                            alignItems='center'
-                                            justifyContent='center'>
-                                            <Typography mr='10px'>{'Buscar '}</Typography>
-                                            <TextField
-                                                variant='outlined'
-                                                onChange={handleClange}
-                                                name='search'
-                                                value={search.search}
-                                                InputProps={{ sx: { borderRadius: '20px', height: '50px' } }}
-                                                sx={{
-                                                    mb: '10px',
-                                                    width: '80%',
-                                                }}>
-                                            </TextField>
-                                        </Grid>
-                                        <Grid
-                                            container
-                                            direction='column'
-                                            display='block'
-                                            overflow='scroll'
-                                            height='75%'
-                                            alignItems='center'
-                                            justifyContent='center'
-                                            paddingLeft='20px'
-                                            paddingRight='10px'
-                                            width='100%'
-                                            sx={{
-                                                '&::-webkit-scrollbar': {
-                                                    width: '8px',
-                                                    height: '8px',
-                                                },
-                                                '&::-webkit-scrollbar-thumb': {
-                                                    backgroundColor: 'rgba(0, 0, 0, 0.1)',
-                                                    borderRadius: '10px',
-                                                    '&:hover': {
-                                                        backgroundColor: 'rgba(0, 0, 0, 0.3)',
-                                                    },
-                                                },
-                                                '&::-webkit-scrollbar: horizontal': {
-                                                    display: 'none',
-                                                },
-                                            }}>
-                                            {clients.filter(client => client.nombres.toLowerCase().includes(search.search.toLowerCase().trim()) === true || client.apellidos.toLowerCase().includes(search.search.toLowerCase().trim()) === true).map((client) => (
-                                                <Grid
-                                                    key={client.clid}
-                                                    id={client.clid}
-                                                    component={Button}
-                                                    onClick={handleClickClient}
-                                                    container
-                                                    width='100%'
-                                                    height='70px'
-                                                    border='1px solid #0265CD'
-                                                    borderRadius='20px'
-                                                    alignItems='center'
-                                                    justifyContent='space-between'
-                                                    mt='15px'
-                                                    backgroundColor={clienteColor1(client.clid)}
-                                                    color={clienteColor2(client.clid)}
-                                                    sx={{
-                                                        p: '0px',
-                                                        textTransform: 'none',
-                                                        '&:hover': {
-                                                            backgroundColor: '#0265CD',
-                                                            color: '#FFFFFF',
-                                                        },
-                                                        '&:focus': {
-                                                            backgroundColor: '#0265CD',
-                                                            color: '#FFFFFF',
-                                                        },
-                                                    }}>
-                                                    <Avatar sx={{ ml: '10px', color: '#000000', width: 55, height: 55 }}></Avatar>
-                                                    <Typography mr='10px' overflow='hidden'>{client.nombres + ' ' + client.apellidos}</Typography>
-                                                </Grid>
-                                            ))}
-                                        </Grid>
-                                    </Grid>
-                                </Grid>
-                            </Grid>
-                            <Grid
-                                height='100%'
-                                item xs={6} sm={6} lg={6} md={6} xl={6}>
-                                <Typography ml='20px' width='100%' textAlign='start'>Seleciona la mascota</Typography>
-                                <Grid
-                                    container
-                                    ml='20px'
-                                    mr='20px'
-                                    width='95%'
-                                    height='100%'
-                                    justifyContent='center'
-                                    overflow='scroll'
-                                    display='block'
-                                    sx={{
-                                        '&::-webkit-scrollbar': {
-                                            width: '8px',
-                                            height: '8px',
-                                        },
-                                        '&::-webkit-scrollbar-thumb': {
-                                            backgroundColor: 'rgba(0, 0, 0, 0.1)',
-                                            borderRadius: '10px',
-                                            '&:hover': {
-                                                backgroundColor: 'rgba(0, 0, 0, 0.3)',
-                                            },
-                                        },
-                                        '&::-webkit-scrollbar: horizontal': {
-                                            display: 'none',
-                                        },
-                                    }}>
-                                    {pets.map((pet) => (
-                                        <Card
-                                            component={Button}
-                                            onFocus={handleFocus}
-                                            key={pet.mcid}
-                                            value={pet.mcid}
-                                            sx={{
-                                                '&:focus': {
-                                                    color: 'white',
-                                                    backgroundColor: '#0265CD',
-                                                },
-                                                border: '1px solid #BABBBF',
-                                                borderRadius: '10px',
-                                                textTransform: 'none',
-                                                mb: '10px',
-                                                mt: '5px',
-                                                mr: '10px',
-                                                height: '85px',
-                                                width: '263px',
-                                                boxShadow: 'none'
-                                            }}>
-                                            <CardContent sx={{ width: '230px', padding: '0px' }}>
-                                                <Grid container direction='row'>
-                                                    <Grid item xs={4}>
-                                                        <Avatar sx={{ ml: '5px', width: 50, height: 50 }}>M</Avatar>
-                                                    </Grid>
-                                                    <Grid item xs={8} container direction='column' textAlign='start'>
-                                                        <Typography fontWeight='bold'>
-                                                            {pet.nombre}
-                                                        </Typography>
-                                                        <Typography>
-                                                            {pet.raza}
-                                                        </Typography>
-                                                    </Grid>
-                                                </Grid>
-                                            </CardContent>
-                                        </Card>
-                                    ))}
-                                </Grid>
-                            </Grid>
-                        </Grid>
-                        <Grid
-                            container
-                            width='100%'
-                            direction='row'
-                            justifyContent='end'>
-                            <IconButton onClick={onClickSiguiente} disabled={!isDisable3} sx={{ borderRadius: '20px', '&:hover': { color: '#0265CD', bgcolor: '#FFFFFF' } }}>
-                                <Typography>{'Siguiente ➦'}</Typography>
-                            </IconButton>
-                        </Grid>
-                    </div>
-                </Grid >
-            </Backdrop >
             <Grid
                 container
                 direction='row'
@@ -1616,9 +1105,6 @@ export default function AdminQuotes() {
                                 mb='10px'
                             >
                                 <Typography variant='h6' fontSize='bold'>Citas</Typography>
-                                <IconButton onClick={handleClicNewQuote} sx={{ width: 40, height: 40, bgcolor: '#F5F5F5', '&:hover': { bgcolor: '#BABBBF' } }}>
-                                    <Typography>+</Typography>
-                                </IconButton>
                             </Grid>
                             <Accordion expanded={expanded === 'panel1'} onChange={handleChange2('panel1')} sx={{ boxShadow: 'none', '&:hover': { bgcolor: '#F5F5F5', borderRadius: '20px', } }}>
                                 <AccordionSummary
@@ -1901,7 +1387,7 @@ export default function AdminQuotes() {
                                         <Typography mt='8px' variant='body1'>{selectQuote.condicion}</Typography>
                                     </Grid>
                                     <Grid container justifyContent='center' item xs={4} sm={4} lg={4} md={4} xl={4}>
-                                        <Avatar sx={{ width: '160px', height: '160px' }}></Avatar>
+                                        <Avatar component={Button} onClick={handleClickFoto} src={`http://localhost:4000/` + selectQuote.foto} sx={{ width: '160px', height: '160px', p:'0px' }}></Avatar>
                                     </Grid>
                                 </Grid>
                             </Typography>

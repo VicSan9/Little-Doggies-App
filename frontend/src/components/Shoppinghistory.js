@@ -56,9 +56,8 @@ export default function Shoppinghistory() {
                         container
                         alignItems='center'
                         height='82vh'
-                        mt='10px'>
+                        mt='60px'>
                         <Grid
-                            mt='5vh'
                             alignItems='center'
                             justifyContent='center'
                             height='82vh'
@@ -76,11 +75,28 @@ export default function Shoppinghistory() {
                         </Grid>
                         <Grid
                             container
-                            mt='5vh'
                             alignItems='start'
                             height='82vh'
                             direction='column'
-                            item xs={8} sm={8} lg={8} md={8} xl={8}>
+                            item xs={8} sm={8} lg={8} md={8} xl={8}
+                            display='block'
+                            overflow='scroll'
+                            sx={{
+                                '&::-webkit-scrollbar': {
+                                    width: '8px',
+                                    height: '8px',
+                                },
+                                '&::-webkit-scrollbar-thumb': {
+                                    backgroundColor: 'rgba(0, 0, 0, 0.1)',
+                                    borderRadius: '10px',
+                                    '&:hover': {
+                                        backgroundColor: 'rgba(0, 0, 0, 0.3)',
+                                    },
+                                },
+                                '&::-webkit-scrollbar: horizontal': {
+                                    display: 'none',
+                                },
+                            }}>
                             {orders.map((order) => (
                                 <Grid
                                     container
@@ -97,7 +113,7 @@ export default function Shoppinghistory() {
                                         mt='5px'
                                         mr='20px'
                                         ml='20px'
-                                        width='95%'
+                                        width='93%'
                                         sx={{
                                             '&:hover': {
                                                 color: 'white',
@@ -137,7 +153,7 @@ export default function Shoppinghistory() {
                                                     <Typography>
                                                         {inf.nombre + ' x' + inf.count}
                                                     </Typography>
-                                                ))}   
+                                                ))}
                                             </Grid>
                                             <Grid
                                                 item xs={2} sm={2} lg={2} md={2} xl={2}>

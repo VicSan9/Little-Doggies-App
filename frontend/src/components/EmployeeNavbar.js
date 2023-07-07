@@ -144,7 +144,7 @@ export default function AdminNavbar() {
                             container
                             alignContent='center'
                             justifyContent='center'
-                            item xs={1} sm={1} lg={1} md={1} xl={1}
+                            item xs={1.33} sm={1.33} lg={1.33} md={1.33} xl={1.33}
                             bgcolor={colorPerfil.color2}
                             color={colorPerfil.color1}
                             sx={{
@@ -162,7 +162,7 @@ export default function AdminNavbar() {
                         container
                         alignContent='center'
                         justifyContent='center'
-                        item xs={2} sm={2} lg={2} md={2} xl={2}>
+                        item xs={1.33} sm={1.33} lg={1.33} md={1.33} xl={1.33}>
                         <Tooltip title="Cerrar Sesión" placement="right">
                             <IconButton onClick={handleClickLogout} sx={{ '&:hover': { color: '#CD0227' } }}>
                                 <Logout sx={{ fontSize: '100%' }}></Logout>

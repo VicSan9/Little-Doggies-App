@@ -1,5 +1,5 @@
 --Eliminar vistar
-DROP VIEW orders, ordervalue, users, infoQuotes, informs, adminQuote, memberServiceState, memberServiceState2, memberServiceState3, clientsOrders, infoproductos, valortotal;
+DROP VIEW orders, ordervalue, ordervalue2, users, infoQuotes, informs, adminQuote, memberServiceState, memberServiceState2, memberServiceState3, clientsOrders, infoproductos, valortotal;
 --Eliminar triggers
 DROP TRIGGER trigger_products_available ON pedidosProductos;
 --Eliminar funciones

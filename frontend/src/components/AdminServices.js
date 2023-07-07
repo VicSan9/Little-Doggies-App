@@ -14,6 +14,7 @@ export default function AdminServices() {
 
     const [open, setOpen] = useState(false);
     const [open1, setOpen1] = useState(false);
+    const [open2, setOpen2] = useState(false);
     const [isHidden1, setIsHidden1] = useState(false)
     const [service, setService] = useState({ nombre: '', categoria: '', descripcion: '', estado: 'Activo' })
     const [services, setServices] = useState([])
@@ -24,6 +25,7 @@ export default function AdminServices() {
     const [incharge2, setIncharge2] = useState([])
     const [incharge3, setIncharge3] = useState([])
     const [incharge4, setIncharge4] = useState([])
+    const [foto, setFoto] = useState('')
     const [create, setCreate] = useState({ nombre: '', categoria: '', descripcion: '', estado: 'Activo' })
 
     const ITEM_HEIGHT = 48;
@@ -36,6 +38,24 @@ export default function AdminServices() {
             },
         },
     };
+
+    const handleClickFoto = async (event) => {
+        const id = event.currentTarget.value
+
+        const res = await fetch(`http://localhost:4000/members/${id}`, {
+            method: 'GET',
+            headers: { "content-Type": "application/json" }
+        })
+
+        const data = await res.json()
+
+        setFoto(data.foto)
+        setOpen2(true)
+    }
+
+    const handleClickFoto2 = () => {
+        setOpen2(false)
+    }
 
     const handleClose = () => {
         setOpen(false);
@@ -411,6 +431,22 @@ export default function AdminServices() {
         <>
             {errorMessage && <ErrorComponent errorMessage={errorMessage} />}
             {advertenceMenssage && <AdvertenceComponent advertenceMenssage={advertenceMenssage} />}
+            <Backdrop
+                sx={{
+                    backdropFilter: 'blur(5px)',
+                    color: '#fff',
+                    zIndex: (theme) => theme.zIndex.drawer + 1,
+                    display: { xs: 'none', sm: 'none', md: 'flex', lg: 'flex' }
+                }}
+                open={open2}
+                onClick={handleClickFoto2}
+            >
+                <img
+                    src={"http://localhost:4000/" + foto}
+                    alt="foto"
+                    width='30%'>
+                </img>
+            </Backdrop>
             <Backdrop
                 sx={{ color: 'rgba(0,0,0,.2)', backdropFilter: 'blur(5px)', zIndex: 1 }}
                 open={open1}>
@@ -817,7 +853,7 @@ export default function AdminServices() {
                                             alignItems='center'
                                             mt='15px'
                                         >
-                                            <Avatar sx={{ width: 60, height: 60 }}></Avatar>
+                                            <Avatar value={member.mbid} component={Button} onClick={handleClickFoto} src={`http://localhost:4000/` + member.foto} sx={{ width: 60, height: 60, p:'0px' }}></Avatar>
                                             <Typography ml='15px' fontWeight='bold'>{member.nombres + ' ' + member.apellidos}</Typography>
                                         </Grid>
                                     ))}

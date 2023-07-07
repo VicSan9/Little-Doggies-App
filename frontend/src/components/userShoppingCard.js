@@ -143,6 +143,7 @@ export default function UserShoppingCart() {
         const body = {
             clid: clid,
             fecha: formattedDate,
+            'estado': 'Pendiente'
         }
 
         const res = await fetch('http://localhost:4000/orders', {
@@ -152,6 +153,8 @@ export default function UserShoppingCart() {
         })
 
         const data = await res.json()
+
+        console.log(data)
 
         const orderId = data.pdid
 

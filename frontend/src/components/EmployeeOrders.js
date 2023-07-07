@@ -115,8 +115,8 @@ export default function EmployeeOrders() {
         const formattedDate = `${day} de ${monthName[month]} del ${year}`
 
         const body = {
-            'clid': client.clid,
-            'fecha': formattedDate,
+            clid: client.clid,
+            fecha: formattedDate,
             'estado': 'Entregado'
         }
 
@@ -133,8 +133,8 @@ export default function EmployeeOrders() {
         const order1 = data.pdid
 
         const body2 = {
-            'pdid': order1,
-            'prid': ordersProduct.prid,
+            pdid: order1,
+            prid: ordersProduct.prid,
         }
 
         const res2 = await fetch(`http://localhost:4000/ordersProducts/${order.pdid}`, {

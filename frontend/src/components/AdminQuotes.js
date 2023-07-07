@@ -1926,7 +1926,7 @@ export default function AdminQuotes() {
                                         <Typography mt='8px' variant='body1'>{selectQuote.condicion}</Typography>
                                     </Grid>
                                     <Grid container justifyContent='center' item xs={4} sm={4} lg={4} md={4} xl={4}>
-                                        <Avatar component={Button} onClick={handleClickFoto} src={`http://localhost:4000/` + selectQuote.foto} sx={{ width: '160px', height: '160px' }}></Avatar>
+                                        <Avatar component={Button} onClick={handleClickFoto} src={`http://localhost:4000/` + selectQuote.foto} sx={{ width: '160px', height: '160px', p:'0px' }}></Avatar>
                                     </Grid>
                                 </Grid>
                             </Typography>

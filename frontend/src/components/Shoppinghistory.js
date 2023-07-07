@@ -8,7 +8,7 @@ export default function Shoppinghistory() {
 
     const loadOrders = async () => {
 
-        const id = sessionStorage.getItem('id')  
+        const id = sessionStorage.getItem('id')
 
         const body = { 'id': id }
 
@@ -40,7 +40,7 @@ export default function Shoppinghistory() {
                     container
                     alignItems='center'
                     height='100vh'
-                    sx={{display: { xs: 'none', sm: 'flex', md: 'flex', lg: 'flex', xl:'flex' }}}>
+                    sx={{ display: { xs: 'none', sm: 'flex', md: 'flex', lg: 'flex', xl: 'flex' } }}>
                     <Grid
                         container
                         alignItems='center'
@@ -71,69 +71,68 @@ export default function Shoppinghistory() {
                             direction='column'
                             item xs={8} sm={8} lg={8} md={8} xl={8}>
                             {orders.map((order) => (
-                            <Grid
-                                key={order.id_pedido}
-                                container
-                                alignItems='start'
-                                justifyContent='center'
-                                direction='column'>
-                                <Typography ml='20px' mt='20px' fontWeight='bold'>
-                                    Fecha: {order.fecha}
-                                </Typography>
                                 <Grid
-                                    component={Box}
-                                    border='1px solid #BABBBF'
-                                    borderRadius='15px'
-                                    mt='5px'
-                                    mr='20px'
-                                    ml='20px'
-                                    width='95%'
-                                    sx={{
-                                        '&:hover': {
-                                            color: 'white',
-                                            backgroundColor: '#0265CD'
-                                        },
-                                        alignItems: 'center',
-                                        justifyContent: 'start',
-                                        textAlign: 'start',
-                                    }}>
+                                    container
+                                    alignItems='start'
+                                    justifyContent='center'
+                                    direction='column'>
+                                    <Typography ml='20px' mt='20px' fontWeight='bold'>
+                                        Fecha: {order.fecha}
+                                    </Typography>
                                     <Grid
-                                        container
-                                        direction='row'
-                                        alignItems='center'
-                                        justifyContent='flex-start'
+                                        component={Box}
+                                        border='1px solid #BABBBF'
+                                        borderRadius='15px'
                                         mt='5px'
-                                        mb='5px'>
+                                        mr='20px'
+                                        ml='20px'
+                                        width='95%'
+                                        sx={{
+                                            '&:hover': {
+                                                color: 'white',
+                                                backgroundColor: '#0265CD'
+                                            },
+                                            alignItems: 'center',
+                                            justifyContent: 'start',
+                                            textAlign: 'start',
+                                        }}>
                                         <Grid
-                                            item xs={2} sm={2} lg={2} md={3} xl={2}>
-                                            <Typography ml='20px'>
-                                                Referencia:
-                                            </Typography>
-                                            <Typography ml='20px'>
-                                                {order.id_pedido}
-                                            </Typography>
-                                        </Grid>
-                                        <Grid
-                                            item xs={8} sm={8} lg={8} md={7} xl={8}>
-                                            <Typography>
-                                                Nombre del producto:
-                                            </Typography>
-                                            <Typography>
-                                                {order.string_agg}
-                                            </Typography>
-                                        </Grid>
-                                        <Grid
-                                            item xs={2} sm={2} lg={2} md={2} xl={2}>
-                                            <Typography>
-                                                Total:
-                                            </Typography>
-                                            <Typography>
-                                                {order.valor_total_pedido}
-                                            </Typography>
+                                            container
+                                            direction='row'
+                                            alignItems='center'
+                                            justifyContent='flex-start'
+                                            mt='5px'
+                                            mb='5px'>
+                                            <Grid
+                                                item xs={2} sm={2} lg={2} md={3} xl={2}>
+                                                <Typography ml='20px'>
+                                                    Referencia:
+                                                </Typography>
+                                                <Typography ml='20px'>
+                                                    {order.id_pedido}
+                                                </Typography>
+                                            </Grid>
+                                            <Grid
+                                                item xs={8} sm={8} lg={8} md={7} xl={8}>
+                                                <Typography>
+                                                    Nombre del producto:
+                                                </Typography>
+                                                <Typography>
+                                                    {order.nombre}
+                                                </Typography>
+                                            </Grid>
+                                            <Grid
+                                                item xs={2} sm={2} lg={2} md={2} xl={2}>
+                                                <Typography>
+                                                    Total:
+                                                </Typography>
+                                                <Typography>
+                                                    {order.valor_total_pedido}
+                                                </Typography>
+                                            </Grid>
                                         </Grid>
                                     </Grid>
                                 </Grid>
-                            </Grid>
                             ))}
                         </Grid>
                     </Grid>
@@ -142,7 +141,7 @@ export default function Shoppinghistory() {
                     container
                     alignItems='center'
                     height='20vh'
-                    sx={{display: { xs: 'flex', sm: 'none', md: 'none', lg: 'none', xl:'none' }}}>
+                    sx={{ display: { xs: 'flex', sm: 'none', md: 'none', lg: 'none', xl: 'none' } }}>
                     <Grid
                         container
                         alignItems='center'
@@ -172,69 +171,69 @@ export default function Shoppinghistory() {
                             paddingRight='20px'
                             item xs={12} sm={8} lg={8} md={8} xl={8}>
                             {orders.map((order) => (
-                            <Grid
-                                key={order.id_pedido}
-                                container
-                                alignItems='start'
-                                justifyContent='center'
-                                direction='column'>
-                                <Typography ml='20px' mt='20px' fontWeight='bold'>
-                                    Fecha: {order.fecha}
-                                </Typography>
                                 <Grid
-                                    component={Box}
-                                    border='1px solid #BABBBF'
-                                    borderRadius='15px'
-                                    mt='5px'
-                                    mr='20px'
-                                    ml='20px'
-                                    width='95%'
-                                    sx={{
-                                        '&:hover': {
-                                            color: 'white',
-                                            backgroundColor: '#0265CD'
-                                        },
-                                        alignItems: 'center',
-                                        justifyContent: 'start',
-                                        textAlign: 'start',
-                                    }}>
+                                    key={order.id_pedido}
+                                    container
+                                    alignItems='start'
+                                    justifyContent='center'
+                                    direction='column'>
+                                    <Typography ml='20px' mt='20px' fontWeight='bold'>
+                                        Fecha: {order.fecha}
+                                    </Typography>
                                     <Grid
-                                        container
-                                        direction='row'
-                                        alignItems='start'
-                                        justifyContent='flex-start'
+                                        component={Box}
+                                        border='1px solid #BABBBF'
+                                        borderRadius='15px'
                                         mt='5px'
-                                        mb='5px'>
+                                        mr='20px'
+                                        ml='20px'
+                                        width='95%'
+                                        sx={{
+                                            '&:hover': {
+                                                color: 'white',
+                                                backgroundColor: '#0265CD'
+                                            },
+                                            alignItems: 'center',
+                                            justifyContent: 'start',
+                                            textAlign: 'start',
+                                        }}>
                                         <Grid
-                                            item xs={4} sm={2} lg={2} md={2} xl={2}>
-                                            <Typography ml='20px'>
-                                                Referencia:
-                                            </Typography>
-                                            <Typography ml='20px'>
-                                                {order.id_pedido}
-                                            </Typography>
-                                        </Grid>
-                                        <Grid
-                                            item xs={6} sm={8} lg={8} md={8} xl={8}>
-                                            <Typography>
-                                                Nombre del producto:
-                                            </Typography>
-                                            <Typography>
-                                                {order.string_agg}
-                                            </Typography>
-                                        </Grid>
-                                        <Grid
-                                            item xs={2} sm={2} lg={2} md={2} xl={2}>
-                                            <Typography>
-                                                Total:
-                                            </Typography>
-                                            <Typography>
-                                                {order.valor_total_pedido}
-                                            </Typography>
+                                            container
+                                            direction='row'
+                                            alignItems='start'
+                                            justifyContent='flex-start'
+                                            mt='5px'
+                                            mb='5px'>
+                                            <Grid
+                                                item xs={4} sm={2} lg={2} md={2} xl={2}>
+                                                <Typography ml='20px'>
+                                                    Referencia:
+                                                </Typography>
+                                                <Typography ml='20px'>
+                                                    {order.id_pedido}
+                                                </Typography>
+                                            </Grid>
+                                            <Grid
+                                                item xs={6} sm={8} lg={8} md={8} xl={8}>
+                                                <Typography>
+                                                    Nombre del producto:
+                                                </Typography>
+                                                <Typography>
+                                                    {order.nombre}
+                                                </Typography>
+                                            </Grid>
+                                            <Grid
+                                                item xs={2} sm={2} lg={2} md={2} xl={2}>
+                                                <Typography>
+                                                    Total:
+                                                </Typography>
+                                                <Typography>
+                                                    {order.valor_total_pedido}
+                                                </Typography>
+                                            </Grid>
                                         </Grid>
                                     </Grid>
                                 </Grid>
-                            </Grid>
                             ))}
                         </Grid>
                     </Grid>

@@ -5,6 +5,7 @@ import Navbar from "./UserNavbar";
 export default function Shoppinghistory() {
 
     const [orders, setOrders] = useState([])
+    const [info, setInfo] = useState([])
 
     const loadOrders = async () => {
 
@@ -12,7 +13,7 @@ export default function Shoppinghistory() {
 
         const body = { 'id': id }
 
-        const res = await fetch(`http://localhost:4000/orders2`, {
+        const res = await fetch(`http://localhost:4000/orders4`, {
             method: 'POST',
             body: JSON.stringify(body),
             headers: { "content-Type": "application/json" }
@@ -26,6 +27,16 @@ export default function Shoppinghistory() {
         }
 
         setOrders(data)
+
+        const res2 = await fetch(`http://localhost:4000/orders2`, {
+            method: 'POST',
+            body: JSON.stringify(body),
+            headers: { "content-Type": "application/json" }
+        })
+
+        const data2 = await res2.json()
+
+        setInfo(data2)
     }
 
     useEffect(() => {
@@ -104,7 +115,12 @@ export default function Shoppinghistory() {
                                             mt='5px'
                                             mb='5px'>
                                             <Grid
-                                                item xs={2} sm={2} lg={2} md={3} xl={2}>
+                                                item xs={2} sm={2} lg={2} md={3} xl={2}
+                                                container
+                                                alignItems='start'
+                                                justifyContent='start'
+                                                direction='column'
+                                                textAlign='start'>
                                                 <Typography ml='20px'>
                                                     Referencia:
                                                 </Typography>
@@ -115,11 +131,13 @@ export default function Shoppinghistory() {
                                             <Grid
                                                 item xs={8} sm={8} lg={8} md={7} xl={8}>
                                                 <Typography>
-                                                    Nombre del producto:
+                                                    Productos:
                                                 </Typography>
-                                                <Typography>
-                                                    {order.nombre}
-                                                </Typography>
+                                                {info.filter(inf => inf.id_pedido === order.id_pedido).map((inf) => (
+                                                    <Typography>
+                                                        {inf.nombre + ' x' + inf.count}
+                                                    </Typography>
+                                                ))}   
                                             </Grid>
                                             <Grid
                                                 item xs={2} sm={2} lg={2} md={2} xl={2}>

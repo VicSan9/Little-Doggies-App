@@ -32,11 +32,11 @@ const getPets = async (req, res, next) => {
 }
 
 const createPets = async (req, res, next) => {
-    const { clid, nombre, raza, edad, sexo, condicion, estado } = req.body;
+    const { clid, nombre, raza, edad, sexo, condicion, estado, foto } = req.body;
     try {
         const result = await pool.query
-            ('INSERT INTO mascotas (clid, nombre, raza, edad, sexo, condicion, estado) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
-                [clid, nombre, raza, edad, sexo, condicion, estado]);
+            ('INSERT INTO mascotas (clid, nombre, raza, edad, sexo, condicion, estado, foto) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *',
+                [clid, nombre, raza, edad, sexo, condicion, estado, foto]);
         res.json(result.rows[0]);
     } catch (error) {
         next(error);
@@ -60,11 +60,11 @@ const deletePets = async (req, res, next) => {
 
 const updatePets = async (req, res, next) => {
     const { id } = req.params;
-    const { clid, nombre, raza, edad, sexo, condicion, estado  } = req.body;
+    const { clid, nombre, raza, edad, sexo, condicion, estado,foto  } = req.body;
     try {
         const result = await pool.query(
-            'UPDATE mascotas SET clid = $1, nombre = $2, raza = $3,  edad = $4, sexo = $5, condicion = $6, estado = $7 WHERE mcid = $8 RETURNING *',
-            [clid, nombre, raza, edad, sexo, condicion, estado, id]);
+            'UPDATE mascotas SET clid = $1, nombre = $2, raza = $3,  edad = $4, sexo = $5, condicion = $6, estado = $7, foto = $8 WHERE mcid = $9 RETURNING *',
+            [clid, nombre, raza, edad, sexo, condicion, estado, foto, id]);
         if (result.rows.length === 0)
             return res.status(404).json({
                 message: "Mascota no encontrada",

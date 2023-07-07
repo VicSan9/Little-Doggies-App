@@ -295,7 +295,7 @@ export default function UserShoppingCart() {
                                         sx={{ display: { xs: 'none', sm: 'flex', md: 'flex', lg: 'flex', xl: 'flex' } }}>
                                         <Grid container justifyContent='start' item xs={12} sm={12} md={12} lg={6} xl={6} >
                                             <img
-                                                src={process.env.PUBLIC_URL + "/" + product.foto}
+                                                src={`http://localhost:4000/` + product.foto}
                                                 width='200px'
                                                 alt="foto">
                                             </img>
@@ -384,7 +384,7 @@ export default function UserShoppingCart() {
                                         sx={{ display: { xs: 'flex', sm: 'none', md: 'none', lg: 'none', xl: 'none' } }}>
                                         <Grid container justifyContent='start' item xs={12} sm={12} md={12} lg={6} xl={6} >
                                             <img
-                                                src={process.env.PUBLIC_URL + "/" + product.foto}
+                                                src={`http://localhost:4000/` + product.foto}
                                                 width='155px'
                                                 alt="foto">
                                             </img>

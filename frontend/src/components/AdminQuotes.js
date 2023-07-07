@@ -39,6 +39,7 @@ export default function AdminQuotes() {
     const [open, setOpen] = React.useState(false);
     const [open1, setOpen1] = React.useState(false);
     const [open2, setOpen2] = React.useState(false);
+    const [open3, setOpen3] = React.useState(false);
     const [clients, setClients] = useState([])
     const [idCliente, setIdCliente] = useState('')
     const [petId, setPetId] = useState('')
@@ -73,6 +74,14 @@ export default function AdminQuotes() {
     const hora4 = '13:00:00'
     const hora5 = '14:30:00'
     const hora6 = '16:00:00'
+
+    const handleClickFoto = () => {
+        setOpen3(true);
+    }
+
+    const handleClickFoto2 = () => {
+        setOpen3(false);
+    }
 
     const handleClickEdit = e => {
         setExpanded(false)
@@ -896,6 +905,22 @@ export default function AdminQuotes() {
             {errorMessage && <ErrorComponent errorMessage={errorMessage} />}
             {advertenceMenssage && <AdvertenceComponent advertenceMenssage={advertenceMenssage} />}
             <Backdrop
+                sx={{
+                    backdropFilter: 'blur(5px)',
+                    color: '#fff',
+                    zIndex: (theme) => theme.zIndex.drawer + 1,
+                    display: { xs: 'none', sm: 'none', md: 'flex', lg: 'flex' }
+                }}
+                open={open3}
+                onClick={handleClickFoto2}
+            >
+                <img
+                    src={`http://localhost:4000/` + selectQuote.foto}
+                    alt="foto"
+                    width='30%'>
+                </img>
+            </Backdrop>
+            <Backdrop
                 sx={{ color: 'rgba(0,0,0,.2)', backdropFilter: 'blur(5px)', zIndex: 1 }}
                 open={open2}>
                 <Grid
@@ -1489,7 +1514,7 @@ export default function AdminQuotes() {
                                                             color: '#FFFFFF',
                                                         },
                                                     }}>
-                                                    <Avatar sx={{ ml: '10px', color: '#000000', width: 55, height: 55 }}></Avatar>
+                                                    <Avatar src={`http://localhost:4000/` + client.foto} sx={{ ml: '10px', color: '#000000', width: 55, height: 55 }}></Avatar>
                                                     <Typography mr='10px' overflow='hidden'>{client.nombres + ' ' + client.apellidos}</Typography>
                                                 </Grid>
                                             ))}
@@ -1550,7 +1575,7 @@ export default function AdminQuotes() {
                                             <CardContent sx={{ width: '230px', padding: '0px' }}>
                                                 <Grid container direction='row'>
                                                     <Grid item xs={4}>
-                                                        <Avatar sx={{ ml: '5px', width: 50, height: 50 }}>M</Avatar>
+                                                        <Avatar src={`http://localhost:4000/` + pet.foto} sx={{ ml: '5px', width: 50, height: 50 }}>M</Avatar>
                                                     </Grid>
                                                     <Grid item xs={8} container direction='column' textAlign='start'>
                                                         <Typography fontWeight='bold'>
@@ -1901,7 +1926,7 @@ export default function AdminQuotes() {
                                         <Typography mt='8px' variant='body1'>{selectQuote.condicion}</Typography>
                                     </Grid>
                                     <Grid container justifyContent='center' item xs={4} sm={4} lg={4} md={4} xl={4}>
-                                        <Avatar sx={{ width: '160px', height: '160px' }}></Avatar>
+                                        <Avatar  component={Button} onClick={handleClickFoto} src={`http://localhost:4000/` + selectQuote.foto} sx={{ width: '160px', height: '160px' }}></Avatar>
                                     </Grid>
                                 </Grid>
                             </Typography>

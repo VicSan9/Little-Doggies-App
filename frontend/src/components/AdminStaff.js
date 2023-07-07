@@ -1075,7 +1075,8 @@ export default function AdminStaff() {
                                                 cursor: 'pointer'
                                             }
                                         }}>
-                                        <Typography>{miembros.nombres + " " + miembros.apellidos}</Typography>
+                                        <Avatar src={`http://localhost:4000/` + miembros.foto} sx={{ width: 45, height: 45 }}></Avatar>
+                                        <Typography textAlign='center' width='61%' overflow='hidden'>{miembros.nombres + " " + miembros.apellidos}</Typography>
                                         <Grid>
                                             <Tooltip title='Editar empleado'>
                                                 <IconButton id={miembros.mbid} onClick={handleClickEdit} sx={{ width: '30px', height: '30px', ":hover": { color: "white" } }}>

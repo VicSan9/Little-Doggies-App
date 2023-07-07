@@ -179,7 +179,7 @@ export default function Quotes() {
                   <CardContent sx={{ width: '230px', padding: '0px' }}>
                     <Grid container direction='row'>
                       <Grid item xs={4}>
-                        <Avatar sx={{ ml: '5px', width: 50, height: 50 }}>M</Avatar>
+                        <Avatar src={`http://localhost:4000/` + pet.foto} sx={{ ml: '5px', width: 50, height: 50 }}>M</Avatar>
                       </Grid>
                       <Grid item xs={8} container direction='column' textAlign='start'>
                         <Typography fontWeight='bold'>

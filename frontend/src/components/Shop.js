@@ -185,7 +185,7 @@ export default function Products() {
         onClick={handleClose}
       >
         <img
-          src={process.env.PUBLIC_URL + "/" + foto}
+          src={`http://localhost:4000/` + foto}
           alt="foto"
           width='30%'>
         </img>
@@ -201,7 +201,7 @@ export default function Products() {
         onClick={handleClose}
       >
         <img
-          src={process.env.PUBLIC_URL + "/" + foto}
+          src={`http://localhost:4000/` +  foto}
           alt="foto"
           width='90%'>
         </img>
@@ -304,7 +304,7 @@ export default function Products() {
                       <Box textAlign='center' sx={{ height: 405, maxWidth: 300, width: '100%', p: 0 }}>
                         <Link id={product.foto} onClick={handleClick}>
                           <img
-                            src={process.env.PUBLIC_URL + "/" + product.foto}
+                            src={`http://localhost:4000/` + product.foto}
                             width='300px'
                             alt="foto">
                           </img>
@@ -388,7 +388,7 @@ export default function Products() {
                       <Box textAlign='center' sx={{ height: 405, maxWidth: 300, width: '100%', p: 0 }}>
                         <Link id={product.foto} onClick={handleClick}>
                           <img
-                            src={process.env.PUBLIC_URL + "/" + product.foto}
+                            src={`http://localhost:4000/` + product.foto}
                             width='300px'
                             alt="foto">
                           </img>
@@ -472,7 +472,7 @@ export default function Products() {
                       <Box textAlign='center' sx={{ height: 405, maxWidth: 300, width: '100%', p: 0 }}>
                         <Link id={product.foto} onClick={handleClick}>
                           <img
-                            src={process.env.PUBLIC_URL + "/" + product.foto}
+                            src={`http://localhost:4000/` + product.foto}
                             width='300px'
                             alt="foto">
                           </img>
@@ -559,7 +559,7 @@ export default function Products() {
                       <Box textAlign='center' sx={{ height: 405, maxWidth: 300, width: '100%', p: 0 }}>
                         <Link id={product.foto} onClick={handleClick}>
                           <img
-                            src={process.env.PUBLIC_URL + "/" + product.foto}
+                            src={`http://localhost:4000/` + product.foto}
                             width='300px'
                             alt="foto">
                           </img>

@@ -110,7 +110,7 @@ export default function AdminNavbar() {
                         <CalendarMonthIcon sx={{ fontSize: '200%' }}></CalendarMonthIcon>
                     </Grid>
                 </Tooltip>
-                <Tooltip title="Orders" placement="right">
+                <Tooltip title="Pedidos" placement="right">
                     <Grid
                         component={Button}
                         onClick={handleClickOrders}

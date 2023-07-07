@@ -7,8 +7,17 @@ export default function PersonalInformation() {
 
     const [user, setUser] = useState([])
     const [open1, setOpen1] = useState(false)
+    const [open2, setOpen2] = useState(false)
     const [selectedFile, setSelectedFile] = useState(null);
     const [errorMessage, setErrorMessage] = useState("");
+
+    const handleClickFoto = () => {
+        setOpen2(true);
+    }
+
+    const handleClickFoto2 = () => {
+        setOpen2(false);
+    }
 
     const handleChangePic = async (event) => {
 
@@ -149,6 +158,22 @@ export default function PersonalInformation() {
         <>
             {errorMessage && <ErrorComponent errorMessage={errorMessage} />}
             <Backdrop
+                sx={{
+                    backdropFilter: 'blur(5px)',
+                    color: '#fff',
+                    zIndex: (theme) => theme.zIndex.drawer + 1,
+                    display: { xs: 'none', sm: 'none', md: 'flex', lg: 'flex' }
+                }}
+                open={open2}
+                onClick={handleClickFoto2}
+            >
+                <img
+                    src={"http://localhost:4000/" + user.foto}
+                    alt="foto"
+                    width='30%'>
+                </img>
+            </Backdrop>
+            <Backdrop
                 sx={{ color: 'rgba(0,0,0,.2)', backdropFilter: 'blur(5px)', zIndex: 2 }}
                 open={open1}>
                 <Grid
@@ -241,7 +266,7 @@ export default function PersonalInformation() {
                                                 <Typography ml='20px' variant="body1" fontWeight='bold'> Foto</Typography>
                                             </Grid>
                                             <Grid container justifyContent='center' item xs={6} sm={6} lg={6} md={6} xl={6}>
-                                                <Avatar src={`http://localhost:4000/` + id + '-client.jpg'} sx={{ width: '180px', height: '180px' }}></Avatar>
+                                                <Avatar component={Button} onClick={handleClickFoto} src={`http://localhost:4000/` + id + '-client.jpg'} sx={{ width: '180px', height: '180px', p:'0px' }}></Avatar>
                                                 <Button onClick={handleClickEditFoto}>Cambiar foto</Button>
                                             </Grid>
                                         </Grid>
@@ -396,8 +421,9 @@ export default function PersonalInformation() {
                                             <Grid container direction='column' item xs={6} sm={6} lg={6} md={6} xl={6}>
                                                 <Typography ml='20px' variant="body1" fontWeight='bold'> Foto</Typography>
                                             </Grid>
-                                            <Grid container item xs={6} sm={6} lg={6} md={6} xl={6}>
-                                                <Avatar sx={{ width: '170px', height: '170px' }}></Avatar>
+                                            <Grid container justifyContent='center' item xs={6} sm={6} lg={6} md={6} xl={6}>
+                                                <Avatar component={Button} onClick={handleClickFoto} src={`http://localhost:4000/` + id + '-client.jpg'} sx={{ width: '180px', height: '180px' }}></Avatar>
+                                                <Button onClick={handleClickEditFoto}>Cambiar foto</Button>
                                             </Grid>
                                         </Grid>
                                         <Grid container direction='row' mt='20px'>

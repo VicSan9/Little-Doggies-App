@@ -62,6 +62,7 @@ CREATE TABLE IF NOT EXISTS mascotas(
 	sexo VARCHAR (50) NOT NULL,
 	condicion VARCHAR (200) NOT NULL,
 	estado VARCHAR (50) NOT NULL,
+	foto VARCHAR (50) NOT NULL,
 	PRIMARY KEY (mcid),
 	FOREIGN KEY (clid) REFERENCES clientes (clid)
 );

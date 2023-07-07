@@ -114,6 +114,16 @@ ON PD.pdid = PP.pdid
 GROUP BY id_pedido, PD.clid, id_producto, PD.fecha
 ORDER BY id_pedido ASC;
 
+CREATE VIEW ordervalue2 AS
+SELECT PD.clid, PD.fecha, PD.pdid AS id_pedido, SUM(P.precio) AS valor_total_pedido
+FROM productos AS P
+JOIN pedidosProductos AS PP
+ON PP.prid = p.prid
+JOIN pedidos AS PD
+ON PD.pdid = PP.pdid
+GROUP BY id_pedido, PD.clid, PD.fecha
+ORDER BY id_pedido ASC;
+
 --Vista para ver todos los usuarios
 CREATE VIEW users AS
 SELECT M.mbid AS id, M.usuario, M.contraseña, M.nombres, M.apellidos, M.rol, M.correo

@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom"
 export default function Navbar() {
 
     const usuario = sessionStorage.getItem('usuario');
+    const id = sessionStorage.getItem('id');
 
     const [isVisible, setIsVisible] = React.useState(true)
 
@@ -176,7 +177,7 @@ export default function Navbar() {
                                         aria-haspopup="true"
                                         aria-expanded={open ? 'true' : undefined}
                                     >
-                                        <Avatar sx={{ width: 51, height: 51 }}></Avatar>
+                                        <Avatar src={`http://localhost:4000/` + id + '-client.jpg'} sx={{ width: 51, height: 51 }}></Avatar>
                                     </IconButton>
                                 </Tooltip>
                             </Box>
@@ -224,7 +225,7 @@ export default function Navbar() {
                                         sx={{ borderRadius: '20px 20px 0px 0px', backgroundColor: '#D9D9D9' }}>
                                         <Grid container direction='row'>
                                             <Grid item xs={4}>
-                                                <Avatar sx={{ ml: '13px', mt: '15px', border: '1px solid #000000', width: 60, height: 60 }}></Avatar>
+                                                <Avatar src={`http://localhost:4000/` + id + '-client.jpg'} sx={{ ml: '13px', mt: '15px', border: '1px solid #000000', width: 60, height: 60 }}></Avatar>
                                             </Grid>
                                             <Grid item xs={8}>
                                                 <Typography mt='20px' fontWeight='bold'>{sessionStorage.getItem('usuario')}</Typography>

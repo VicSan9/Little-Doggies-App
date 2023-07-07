@@ -64,8 +64,6 @@ export default function EmployeeOrders() {
 
         const data3 = await res3.json();
 
-        console.log(data3)
-
         setOrdersProduct(data3)
 
         const body1 = { 'id': id }

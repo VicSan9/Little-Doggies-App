@@ -721,9 +721,9 @@ export default function AdminQuotes() {
         var id = []
 
         for (let i = 0; i < servicio2.length; i++) {
-            for (let j = 0; j < servicios.length; j++) {
-                if (servicio2[i] === servicios[j].nombre) {
-                    id.push(servicios[j].svid)
+            for (let j = 0; j < servicios3.length; j++) {
+                if (servicio2[i] === servicios3[j].nombre) {
+                    id.push(servicios3[j].svid)
                 }
             }
         }

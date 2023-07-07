@@ -251,6 +251,8 @@ export default function UserPets() {
 
     const data2 = await res2.json()
 
+    console.log(data2)
+
     if (res2.status === 404) {
       setReports([])
       return

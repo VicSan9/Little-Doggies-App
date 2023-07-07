@@ -49,7 +49,7 @@ const RouteController = ({ componet: Componet, ...rest }) => {
                         return
                     }
                 } else {
-                    navigate('/home')
+                    window.history.forward()
                 }
             } else {
                 setIsAuth(false)

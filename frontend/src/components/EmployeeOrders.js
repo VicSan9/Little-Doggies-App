@@ -33,16 +33,16 @@ export default function EmployeeOrders() {
 
         setIsHidden1(true)
 
-        const res = await fetch(`http://localhost:4000/orders/${id}`, {
+        const res1 = await fetch(`http://localhost:4000/orders/${id}`, {
             method: 'GET',
             headers: { "content-Type": "application/json" }
         })
 
-        const data = await res.json()
+        const data1 = await res1.json()
 
-        setOrder(data)
+        setOrder(data1)
 
-        console.log(data)
+        console.log(data1)
 
         const body = { 'id': id }
 
@@ -58,37 +58,32 @@ export default function EmployeeOrders() {
 
         const body2 = { 'id': id }
 
-        const res4 = await fetch(`http://localhost:4000/ordersProducts2`, {
+        const res3 = await fetch(`http://localhost:4000/ordersProducts2`, {
             method: 'POST',
             body: JSON.stringify(body2),
+            headers: { "content-Type": "application/json" }
+        })
+
+        const data3 = await res3.json();
+
+        setOrdersProduct(data3)
+
+        const body1 = { 'id': id }
+
+        const res4 = await fetch(`http://localhost:4000/ordersProducts3`, {
+            method: 'POST',
+            body: JSON.stringify(body1),
             headers: { "content-Type": "application/json" }
         })
 
         const data4 = await res4.json();
 
         if (res4.status === 404) {
-            setOrdersProduct([])
-            return
-        }
-
-        setOrdersProduct(data4)
-
-        const body1 = { 'id': id }
-
-        const res3 = await fetch(`http://localhost:4000/ordersProducts3`, {
-            method: 'POST',
-            body: JSON.stringify(body1),
-            headers: { "content-Type": "application/json" }
-        })
-
-        const data3 = await res3.json();
-
-        if (res3.status === 404) {
             setTotal([])
             return
         }
 
-        setTotal(data3)
+        setTotal(data4)
 
     }
 

@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function NewPet() {
 
-    const [pet, setPet] = useState({ clid: '', nombre: '', raza: '', edad: '', sexo: '', condicion: '', estado: 'Activo' })
+    const [pet, setPet] = useState({ clid: '', nombre: '', raza: '', edad: '', sexo: '', condicion: '', estado: 'Activo', foto: 'Foto' })
 
     const [condicion, setCondicion] = useState('')
 
@@ -20,7 +20,7 @@ export default function NewPet() {
 
         if (pet.nombre.trim() === '' || pet.raza.trim() === '' || pet.edad.trim() === '' || pet.sexo.trim() === '') {
             setErrorMessage("Ingrese todos los datos primero");
-            setPet({ clid: '', nombre: '', raza: '', edad: '', sexo: '', condicion: '', estado: 'Activo' })
+            setPet({ clid: '', nombre: '', raza: '', edad: '', sexo: '', condicion: '', estado: 'Activo', foto: ''})
             return
         }
 
@@ -38,8 +38,24 @@ export default function NewPet() {
 
         const data = await res.json()
 
+        const body = {
+            clid: data.clid, 
+            nombre: data.nombre, 
+            raza: data.raza, 
+            edad: data.edad,  
+            sexo: data.sexo, 
+            condicion: data.condicion,  
+            estado: data.estado,  
+            foto: data.mcid + '-pet.jpg' 
+        }
+
+        await fetch(`http://localhost:4000/pets/${data.mcid}`, {
+            method: 'PUT',
+            body: JSON.stringify(body),
+            headers: { "content-Type": "application/json" }
+        })
+
         if (!data.menssage) {
-            setPet({ clid: '', nombre: '', raza: '', edad: '', sexo: '', condicion: '', estado: 'Activo' })
             navigate('/mis-mascotas')
         }
     }

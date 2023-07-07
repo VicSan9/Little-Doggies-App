@@ -55,6 +55,21 @@ const getOrder3 = async (req, res, next) => {
     }
 }
 
+const getOrder4 = async (req, res, next) => {
+    try {
+        const { id} = req.body;
+        const result = await pool.query
+            ('SELECT * FROM ordervalue2 WHERE clid = $1', [id]);
+        if (result.rows.length === 0)
+            return res.status(404).json({
+                message: "Pedido no encontrado",
+            });
+        res.json(result.rows);
+    } catch (error) {
+        next(error);
+    }
+}
+
 const  createOrder = async (req, res, next) => {
     const { clid, fecha, estado } = req.body;
     try {
@@ -104,6 +119,7 @@ module.exports = {
     getOrder,
     getOrder2,
     getOrder3,
+    getOrder4,
     createOrder,
     deleteOrder,
     updateOrder

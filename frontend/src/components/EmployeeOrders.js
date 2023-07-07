@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import EmployeeNavbar from './EmployeeNavbar';
 import { Grid, Typography, Card, Divider, IconButton, Tooltip } from "@mui/material";
 import CheckIcon from '@mui/icons-material/Check';
+import dayjs from "dayjs";
 
 export default function EmployeeOrders() {
 
@@ -100,6 +101,56 @@ export default function EmployeeOrders() {
         }
     }
 
+    const handleClickDelivery = async () => {
+
+        const fecha = Date.now()
+        const date = new Date(fecha)
+
+        const day = (dayjs(date).date())
+        const month = (dayjs(date).month())
+        const year = (dayjs(date).year())
+
+        const monthName = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+
+        const formattedDate = `${day} de ${monthName[month]} del ${year}`
+
+        const body = {
+            clid: client.clid,
+            fecha: formattedDate,
+            'estado': 'Entregado'
+        }
+
+        const res = await fetch(`http://localhost:4000/orders/${order.pdid}`, {
+            method: 'PUT',
+            body: JSON.stringify(body),
+            headers: { "content-Type": "application/json" }
+        })
+
+        const data = await res.json()
+
+        console.log(data)
+
+        const order1 = data.pdid
+
+        const body2 = {
+            pdid: order1,
+            prid: ordersProduct.prid,
+        }
+
+        const res2 = await fetch(`http://localhost:4000/ordersProducts/${order.pdid}`, {
+            method: 'PUT',
+            body: JSON.stringify(body2),
+            headers: { "content-Type": "application/json" }
+        })
+
+        const data2 = await res2.json()
+
+        console.log(data2)
+
+        //window.location.reload()
+    }
+
+
     return (
         <>
             <Grid
@@ -186,7 +237,7 @@ export default function EmployeeOrders() {
                                         }}>
                                         <Typography textAlign='start' width='62%' overflow='hidden'>{'Pedido Nro.' + pedido.pdid}</Typography>
                                         <Tooltip title='Marcar como entregado'>
-                                            <IconButton sx={{'&:hover':{color:'#ffffff'}}}>
+                                            <IconButton id={pedido.pdid} onClick={handleClickDelivery} sx={{ '&:hover': { color: '#ffffff' } }}>
                                                 <CheckIcon></CheckIcon>
                                             </IconButton>
                                         </Tooltip>

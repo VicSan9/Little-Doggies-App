@@ -14,6 +14,8 @@ export default function AdminClient() {
     const [open3, setOpen3] = useState(false);
     const [open4, setOpen4] = useState(false);
     const [open5, setOpen5] = useState(false);
+    const [open6, setOpen6] = useState(false);
+    const [open7, setOpen7] = useState(false);
     const [isHidden, setIsHidden] = useState(false)
     const [isHidden1, setIsHidden1] = useState(false)
     const [clients, setClients] = useState([])
@@ -30,6 +32,75 @@ export default function AdminClient() {
     const [condicion2, setCondicion2] = useState('')
     const [isDisabled, setIsDisabled] = useState(true)
     const [search, setSearch] = useState({ search: '' })
+    const [selectedFile, setSelectedFile] = useState(null);
+
+    const handleChangePic = async (event) => {
+
+        const name = event.target.files[0].name
+
+        const nameFile = name.split('.')
+
+        const extencion = nameFile[nameFile.length - 1]
+
+        const newName = petSelect.foto.split('.')[0]
+
+        const full = newName + '.' + extencion
+
+        const body = {
+            clid: petSelect.clid,
+            nombre: petSelect.nombre,
+            raza: petSelect.raza,
+            edad: petSelect.edad,
+            sexo: petSelect.sexo,
+            condicion: petSelect.condicion,
+            estado: petSelect.estado,
+            foto: full
+        }
+
+        await fetch(`http://localhost:4000/pets/${petSelect.mcid}`, {
+            method: 'PUT',
+            body: JSON.stringify(body),
+            headers: { "content-Type": "application/json" }
+        })
+
+        const file = event.target.files[0];
+
+        const modifiedFile = new File([file], full, { type: file.type });
+
+        setSelectedFile(modifiedFile);
+    };
+
+    const handleUpload = () => {
+        if (selectedFile === null) {
+            setErrorMessage('Escoge una foto primero')
+            return
+        }
+
+        const formData = new FormData();
+        formData.append('photo', selectedFile);
+
+        fetch('http://localhost:4000/upload', {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data.message);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+
+        window.location.reload();
+    };
+
+    const handleCan = () => {
+        setOpen7(false)
+    }
+
+    const handleClickCambiarFotoPet = () => {
+        setOpen7(true);
+    }
 
     const handleClickFoto = () => {
         setOpen5(true);
@@ -37,6 +108,14 @@ export default function AdminClient() {
 
     const handleClickFoto2 = () => {
         setOpen5(false);
+    }
+
+    const handleClickFoto3 = () => {
+        setOpen6(true);
+    }
+
+    const handleClickFoto4 = () => {
+        setOpen6(false);
     }
 
     const handleClose = () => {
@@ -47,7 +126,7 @@ export default function AdminClient() {
         setOpen4(false);
         setCondicion('')
         setIsDisabled(true)
-        setPet({ clid: '', nombre: '', raza: '', edad: '', sexo: '', condicion: '', estado: 'Activo' })
+        setPet({ clid: '', nombre: '', raza: '', edad: '', sexo: '', condicion: '', estado: 'Activo', foto: '' })
     };
 
     const handleClose2 = () => {
@@ -117,7 +196,8 @@ export default function AdminClient() {
             edad: petSelect.edad,
             sexo: petSelect.sexo,
             condicion: petSelect.condicion,
-            estado: 'Eliminada'
+            estado: 'Eliminada',
+            foto: petSelect.foto
         }
 
         await fetch(`http://localhost:4000/pets/${petSelect.mcid}`, {
@@ -294,7 +374,7 @@ export default function AdminClient() {
 
         if (checkin.nombres.trim() === '' || checkin.apellidos.trim() === '' || checkin.correo.trim() === '' || checkin.direccion.trim() === '' || checkin.telefono.trim() === '' || checkin.usuario.trim() === '' || checkin.contraseña.trim() === '') {
             setErrorMessage("Ingrese todos los datos primero");
-            setCheckin({ nombres: '', apellidos: '', correo: '', direccion: '', telefono: '', usuario: '', contraseña: '', foto: 'foto' })
+            setCheckin({ nombres: '', apellidos: '', correo: '', direccion: '', telefono: '', usuario: '', contraseña: '', foto: '', estado: 'Activo' })
             return
         }
 
@@ -386,8 +466,25 @@ export default function AdminClient() {
 
         const data = await res.json()
 
+        const body = {
+            clid: data.clid,
+            nombre: data.nombre,
+            raza: data.raza,
+            edad: data.edad,
+            sexo: data.sexo,
+            condicion: data.condicion,
+            estado: data.estado,
+            foto: data.mcid + '-pet.jpg'
+        }
+
+        await fetch(`http://localhost:4000/pets/${data.mcid}`, {
+            method: 'PUT',
+            body: JSON.stringify(body),
+            headers: { "content-Type": "application/json" }
+        })
+
         if (!data.menssage) {
-            setPet({ clid: '', nombre: '', raza: '', edad: '', sexo: '', condicion: '', estado: 'Activo' })
+            setPet({ clid: '', nombre: '', raza: '', edad: '', sexo: '', condicion: '', estado: 'Activo', foto: '' })
             window.location.reload()
         }
     }
@@ -415,7 +512,7 @@ export default function AdminClient() {
         const data = await res.json()
 
         if (!data.menssage) {
-            setPetSelect({ clid: '', nombre: '', raza: '', edad: '', sexo: '', condicion: '', estado: '' })
+            setPetSelect({ clid: '', nombre: '', raza: '', edad: '', sexo: '', condicion: '', estado: '', foto: '' })
             window.location.reload()
         }
     }
@@ -568,6 +665,58 @@ export default function AdminClient() {
             {errorMessage && <ErrorComponent errorMessage={errorMessage} />}
             {advertenceMenssage && <AdvertenceComponent advertenceMenssage={advertenceMenssage} />}
             {advertenceMenssage2 && <AdvertenceComponent2 advertenceMenssage={advertenceMenssage2} />}
+            <Backdrop
+                sx={{ color: 'rgba(0,0,0,.2)', backdropFilter: 'blur(5px)', zIndex: 2 }}
+                open={open7}>
+                <Grid
+                    container
+                    width='40vw'
+                    height='20vh'
+                    bgcolor='#ffffff'
+                    borderRadius='20px'
+                    justifyContent='center'
+                    alignItems='start'
+                    paddingRight='23px'
+                    paddingLeft='23px'>
+                    <Grid
+                        container
+                        height='70%'
+                        width='100%'
+                        justifyContent='center'>
+                        <TextField
+                            type="file"
+                            onChange={handleChangePic}
+                            sx={{ mt: '10px' }}
+                        />
+                    </Grid>
+                    <Grid
+                        container
+                        height='30%'
+                        width='100%'
+                        justifyContent='space-between'
+                        direction='row'>
+                        <Button onClick={handleCan}>Cancelar</Button>
+                        <Button onClick={handleUpload}>Subir foto</Button>
+                    </Grid>
+
+                </Grid>
+            </Backdrop>
+            <Backdrop
+                sx={{
+                    backdropFilter: 'blur(5px)',
+                    color: '#fff',
+                    zIndex: (theme) => theme.zIndex.drawer + 1,
+                    display: { xs: 'none', sm: 'none', md: 'flex', lg: 'flex' }
+                }}
+                open={open6}
+                onClick={handleClickFoto4}
+            >
+                <img
+                    src={"http://localhost:4000/" + petSelect.foto}
+                    alt="foto"
+                    width='30%'>
+                </img>
+            </Backdrop>
             <Backdrop
                 sx={{
                     backdropFilter: 'blur(5px)',
@@ -852,7 +1001,7 @@ export default function AdminClient() {
                                         width='50%'
                                         height='90%'
                                         direction='column'>
-                                        <Typography mt='20px' height='70px' ml='20px' fontWeight='bold'>¿Presenta alguna condicion especial o alergia?</Typography>
+                                        <Typography mt='15px' height='61px' ml='20px' fontWeight='bold'>Condicion</Typography>
                                         <Typography ml='20px' fontWeight='bold'>Foto</Typography>
                                     </Grid>
                                     <Grid
@@ -860,8 +1009,15 @@ export default function AdminClient() {
                                         width='50%'
                                         height='90%'
                                         direction='column'>
-                                        <Typography height='70px' width='100%' mt='20px' ml='20px'>{petSelect.condicion}</Typography>
-                                        <Avatar sx={{ mt: '5px', ml: '20px', width: 110, height: 110 }}>M</Avatar>
+                                        <Typography height='70px' width='100%' mt='15px' ml='20px'>{petSelect.condicion}</Typography>
+                                        <Grid
+                                            container
+                                            direction='column'
+                                            alignItems='center'
+                                            justifyContent='center'>
+                                            <Avatar component={Button} onClick={handleClickFoto3} src={`http://localhost:4000/` + petSelect.foto} sx={{ mt: '5px', width: 110, height: 110, p: '0px' }}>M</Avatar>
+                                            <Button onClick={handleClickCambiarFotoPet}>Cambiar foto</Button>
+                                        </Grid>
                                     </Grid>
                                 </Grid>
                             </Grid>
@@ -1678,7 +1834,7 @@ export default function AdminClient() {
                                             <Typography mt='8px' variant='body1'>{client.apellidos}</Typography>
                                         </Grid>
                                         <Grid item xs={4} sm={4} lg={4} md={4} xl={4}>
-                                            <Avatar component={Button} onClick={handleClickFoto} src={`http://localhost:4000/` + client.foto} sx={{ width: 100, height: 100, p:'0px' }}></Avatar>
+                                            <Avatar component={Button} onClick={handleClickFoto} src={`http://localhost:4000/` + client.foto} sx={{ width: 100, height: 100, p: '0px' }}></Avatar>
                                         </Grid>
                                     </Grid>
                                 </Typography>

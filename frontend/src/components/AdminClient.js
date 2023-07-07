@@ -13,10 +13,11 @@ export default function AdminClient() {
     const [open2, setOpen2] = useState(false);
     const [open3, setOpen3] = useState(false);
     const [open4, setOpen4] = useState(false);
+    const [open5, setOpen5] = useState(false);
     const [isHidden, setIsHidden] = useState(false)
     const [isHidden1, setIsHidden1] = useState(false)
     const [clients, setClients] = useState([])
-    const [client, setClient] = useState({ nombres: '', apellidos: '', correo: '', direccion: '', telefono: '', usuario: '', contraseña: '', foto: 'foto', estado: 'Activo' })
+    const [client, setClient] = useState({ nombres: '', apellidos: '', correo: '', direccion: '', telefono: '', usuario: '', contraseña: '', foto: '', estado: 'Activo' })
     const [pets, setPets] = useState([])
     const [pet, setPet] = useState({ clid: '', nombre: '', raza: '', edad: '', sexo: '', condicion: '', estado: 'Activo' })
     const [petSelect, setPetSelect] = useState({ clid: '', nombre: '', raza: '', edad: '', sexo: '', condicion: '', estado: '' })
@@ -24,11 +25,19 @@ export default function AdminClient() {
     const [errorMessage, setErrorMessage] = useState("");
     const [advertenceMenssage, setAdvertenceMenssage] = useState("");
     const [advertenceMenssage2, setAdvertenceMenssage2] = useState("");
-    const [checkin, setCheckin] = useState({ nombres: '', apellidos: '', correo: '', direccion: '', telefono: '', usuario: '', contraseña: '', foto: 'foto', estado: 'Activo' })
+    const [checkin, setCheckin] = useState({ nombres: '', apellidos: '', correo: '', direccion: '', telefono: '', usuario: '', contraseña: '', foto: '', estado: 'Activo' })
     const [condicion, setCondicion] = useState('')
     const [condicion2, setCondicion2] = useState('')
     const [isDisabled, setIsDisabled] = useState(true)
     const [search, setSearch] = useState({ search: '' })
+
+    const handleClickFoto = () => {
+        setOpen5(true);
+    }
+
+    const handleClickFoto2 = () => {
+        setOpen5(false);
+    }
 
     const handleClose = () => {
         setOpen(false);
@@ -553,12 +562,28 @@ export default function AdminClient() {
             [name]: value
         })
     }
-    
+
     return (
         <>
             {errorMessage && <ErrorComponent errorMessage={errorMessage} />}
             {advertenceMenssage && <AdvertenceComponent advertenceMenssage={advertenceMenssage} />}
             {advertenceMenssage2 && <AdvertenceComponent2 advertenceMenssage={advertenceMenssage2} />}
+            <Backdrop
+                sx={{
+                    backdropFilter: 'blur(5px)',
+                    color: '#fff',
+                    zIndex: (theme) => theme.zIndex.drawer + 1,
+                    display: { xs: 'none', sm: 'none', md: 'flex', lg: 'flex' }
+                }}
+                open={open5}
+                onClick={handleClickFoto2}
+            >
+                <img
+                    src={"http://localhost:4000/" + client.foto}
+                    alt="foto"
+                    width='30%'>
+                </img>
+            </Backdrop>
             <Backdrop
                 sx={{ color: 'rgba(0,0,0,.2)', backdropFilter: 'blur(5px)', zIndex: 2 }}
                 open={open4}>
@@ -1653,7 +1678,7 @@ export default function AdminClient() {
                                             <Typography mt='8px' variant='body1'>{client.apellidos}</Typography>
                                         </Grid>
                                         <Grid item xs={4} sm={4} lg={4} md={4} xl={4}>
-                                            <Avatar sx={{ width: 100, height: 100 }}></Avatar>
+                                            <Avatar component={Button} onClick={handleClickFoto} src={`http://localhost:4000/` + client.foto} sx={{ width: 100, height: 100, p:'0px' }}></Avatar>
                                         </Grid>
                                     </Grid>
                                 </Typography>

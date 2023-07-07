@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import AdminNavbar from './AdminNavbar';
-import { Grid, Typography, Card, Divider} from "@mui/material";
+import { Grid, Typography, Card, Divider } from "@mui/material";
 
-export default function AdminOrders() {
+export default function EmployeeOrders() {
 
     const [orders, setOrders] = useState([])
     const [order, setOrder] = useState([])
@@ -21,7 +21,6 @@ export default function AdminOrders() {
         const data = await res.json()
 
         setOrders(data)
-
     }
 
     useEffect(() => {
@@ -43,42 +42,25 @@ export default function AdminOrders() {
 
         setOrder(data)
 
-        const res2 = await fetch(`http://localhost:4000/orders3`, {
-            method: 'GET',
-            headers: { "content-Type": "application/json" }
-        })
-
-        const data2 = await res2.json()
-
-        const ids = []
-
-        for (let i = 0; i < data2.length; i++) {
-            if (data2[i].pdid === data.pdid) {
-                ids.push(data2[i].clid)
-            }
-        }
-
-        const clients = []
-
-        for (let i = 0; i < ids.length; i++) {
-            const res3 = await fetch(`http://localhost:4000/clients/${ids[i]}`, {
-                method: 'GET',
-                headers: { "content-Type": "application/json" }
-            })
-
-            const data3 = await res3.json();
-
-            clients.push(data3)
-
-        }
-
-        setClient(clients)
+        console.log(data)
 
         const body = { 'id': id }
 
-        const res4 = await fetch(`http://localhost:4000/ordersProducts2`, {
+        const res2 = await fetch(`http://localhost:4000/orders3`, {
             method: 'POST',
             body: JSON.stringify(body),
+            headers: { "content-Type": "application/json" }
+        })
+
+        const data2 = await res2.json();
+
+        setClient(data2)
+
+        const body2 = { 'id': id }
+
+        const res4 = await fetch(`http://localhost:4000/ordersProducts2`, {
+            method: 'POST',
+            body: JSON.stringify(body2),
             headers: { "content-Type": "application/json" }
         })
 
@@ -90,8 +72,6 @@ export default function AdminOrders() {
         }
 
         setOrdersProduct(data4)
-
-        console.log(data4)
 
         const body1 = { 'id': id }
 
@@ -110,7 +90,6 @@ export default function AdminOrders() {
 
         setTotal(data3)
 
-        console.log(data3)
     }
 
     const colorFun = (id) => {
@@ -251,6 +230,7 @@ export default function AdminOrders() {
                                 <Typography mb='15px' mt='15px' ml='10px' variant='h6' width='98%' sx={{ fontSize: '18px' }}>Información del cliente
                                     {client.map((cliente) => (
                                         <Grid
+                                            key={cliente.clid}
                                             container
                                             alignItems='start'
                                             justifyContent='start'>
@@ -273,6 +253,7 @@ export default function AdminOrders() {
                                 <Typography mb='15px' mt='15px' ml='10px' variant='h6' width='98%' sx={{ fontSize: '18px' }}>Información del producto
                                     {ordersProduct.map((producto) => (
                                         <Grid
+                                            key={producto.prid}
                                             container
                                             alignItems='start'
                                             justifyContent='start'>
@@ -304,8 +285,8 @@ export default function AdminOrders() {
                                 </Typography>
                             </div>
                         </Grid>
-                    </Grid>
-                </Grid>
+                    </Grid >
+                </Grid >
             </Grid >
         </>
     )

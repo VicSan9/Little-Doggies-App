@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import EmployeeNavbar from './EmployeeNavbar';
-import { Grid, Typography, Card, Divider, Button } from "@mui/material";
+import { Grid, Typography, Card, Divider, IconButton, Tooltip } from "@mui/material";
+import CheckIcon from '@mui/icons-material/Check';
 
 export default function EmployeeOrders() {
 
@@ -12,7 +13,6 @@ export default function EmployeeOrders() {
     const [isHidden1, setIsHidden1] = useState(false)
 
     const loadOrders = async () => {
-
         const res = await fetch(`http://localhost:4000/orders`, {
             method: 'GET',
             headers: { "content-Type": "application/json" }
@@ -42,8 +42,6 @@ export default function EmployeeOrders() {
 
         setOrder(data1)
 
-        console.log(data1)
-
         const body = { 'id': id }
 
         const res2 = await fetch(`http://localhost:4000/orders3`, {
@@ -66,6 +64,8 @@ export default function EmployeeOrders() {
 
         const data3 = await res3.json();
 
+        console.log(data3)
+
         setOrdersProduct(data3)
 
         const body1 = { 'id': id }
@@ -84,7 +84,6 @@ export default function EmployeeOrders() {
         }
 
         setTotal(data4)
-
     }
 
     const colorFun = (id) => {
@@ -127,7 +126,25 @@ export default function EmployeeOrders() {
                         justifyContent='center'
                         alignItems='start'
                         height='100%'
-                        sx={{ borderRight: '1px solid #BABBBF' }}>
+                        overflow='scroll'
+                        display='block'
+                        sx={{
+                            borderRight: '1px solid #BABBBF',
+                            '&::-webkit-scrollbar': {
+                                width: '8px',
+                                height: '8px',
+                            },
+                            '&::-webkit-scrollbar-thumb': {
+                                backgroundColor: 'rgba(0, 0, 0, 0.1)',
+                                borderRadius: '10px',
+                                '&:hover': {
+                                    backgroundColor: 'rgba(0, 0, 0, 0.3)',
+                                },
+                            },
+                            '&::-webkit-scrollbar: horizontal': {
+                                display: 'none',
+                            },
+                        }}>
                         <Grid
                             container
                             width='100%'
@@ -137,20 +154,12 @@ export default function EmployeeOrders() {
                             direction='column'>
                             <Grid
                                 container
-                                direction='row'
+                                direction='column'
                                 justifyContent='space-between'
                                 alignItems='center'
                                 width='100%'
                                 mb='10px'>
-                                <Typography variant='h6' fontSize='bold'>Pedidos</Typography>
-                                <Grid
-                                    container
-                                    alignItems='start'
-                                    justifyContent='start'>
-                                    <Typography textAlign='start' mr='5px' mt='5px' mb='5px' variant="body1">
-                                        Pedidos pendientes
-                                    </Typography>
-                                </Grid>
+                                <Typography width='100%' variant='h6' fontSize='bold' mb='10px'>Pedidos</Typography>
                                 {orders.map((pedido) => (
                                     <Grid
                                         component={Card}
@@ -160,7 +169,7 @@ export default function EmployeeOrders() {
                                         container
                                         justifyContent='space-between'
                                         alignItems='center'
-                                        width='98%'
+                                        width='100%'
                                         border='1px solid #0265CD'
                                         borderRadius='20px'
                                         mb='10px'
@@ -177,7 +186,12 @@ export default function EmployeeOrders() {
                                                 cursor: 'pointer'
                                             }
                                         }}>
-                                        <Typography textAlign='start' width='62%' overflow='hidden'>{pedido.pdid}</Typography>
+                                        <Typography textAlign='start' width='62%' overflow='hidden'>{'Pedido Nro.' + pedido.pdid}</Typography>
+                                        <Tooltip title='Marcar como entregado'>
+                                            <IconButton sx={{'&:hover':{color:'#ffffff'}}}>
+                                                <CheckIcon></CheckIcon>
+                                            </IconButton>
+                                        </Tooltip>
                                     </Grid>
                                 ))}
                             </Grid>
@@ -218,7 +232,7 @@ export default function EmployeeOrders() {
                                 },
                             }}>
                             <div hidden={isHidden1}>
-                                <Typography mt='8px' mb='8px'>Seleciona uno de los miembros para ver su información.</Typography>
+                                <Typography mt='8px' mb='8px'>Seleciona uno de los pedidos para ver su información.</Typography>
                             </div>
                             <div hidden={!isHidden1} style={{ width: '100%' }}>
                                 <Typography variant='h6'>Información del pedido</Typography>
@@ -270,6 +284,7 @@ export default function EmployeeOrders() {
                                     {total.map((valortotal) => (
                                         <Grid
                                             container
+                                            key={valortotal.pdid}
                                             alignItems='start'
                                             justifyContent='start'>
                                             <Grid item xs={8} sm={8} lg={8} md={8} xl={8}>
@@ -278,15 +293,6 @@ export default function EmployeeOrders() {
                                         </Grid>
                                     ))}
                                 </Typography>
-                                <Grid
-                                    container
-                                    paddingLeft='5vw'
-                                    paddingRight='5vw'
-                                    width='100%'
-                                    justifyContent='end'
-                                    mt='20vh'>
-                                    <Button type='submit' variant='outlined' sx={{ borderRadius: '20px' }}>Entregado</Button>
-                                </Grid>
                             </div>
                         </Grid>
                     </Grid >

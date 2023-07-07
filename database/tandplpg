@@ -90,7 +90,7 @@ ORDER BY C.ctsid;
 
 --Vista para ver la información de una cita como administrador
 CREATE VIEW adminQuote AS
-SELECT C.mbid, C.ctsid, C.clid, C.estado, CL.nombres, CL.apellidos, CL.correo, CL.telefono, CL.direccion, C.fecha, C.hora , M.nombre, M.raza, M.edad, M.sexo, M.condicion, string_agg(S.nombre, ' ● ') AS servicios
+SELECT C.mbid, C.ctsid, C.clid, C.estado, CL.nombres, CL.apellidos, CL.correo, CL.telefono, CL.direccion, C.fecha, C.hora , M.nombre, M.raza, M.edad, M.sexo, M.condicion, M.foto, string_agg(S.nombre, ' ● ') AS servicios
 FROM citas AS C
 JOIN citasServicios AS CS
 ON CS.ctsid = C.ctsid AND C.estado = 'Espera'
@@ -100,7 +100,7 @@ JOIN mascotas AS M
 ON C.mcid = M.mcid
 JOIN clientes AS CL
 ON C.clid = CL.clid
-GROUP BY C.ctsid, M.nombre, CL.nombres, CL.apellidos, CL.correo, CL.telefono, CL.direccion, M.raza, M.edad, M.sexo, M.condicion
+GROUP BY C.ctsid, M.nombre, CL.nombres, CL.apellidos, CL.correo, CL.telefono, CL.direccion, M.raza, M.edad, M.sexo, M.condicion, M.foto
 ORDER BY C.hora, C.fecha DESC;
 
 --Vista para ver el id del pedido y la suma total a pagar por pedido

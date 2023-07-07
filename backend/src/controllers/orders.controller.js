@@ -14,7 +14,7 @@ const getOrder = async (req, res, next) => {
     try {
         const { id } = req.params;
         const result = await pool.query
-            ('SELECT * FROM pedidos WHERE pdid = $1', [id]);
+            ('SELECT * FROM pedidos WHERE pdid = $1' [id]);
         if (result.rows.length === 0)
             return res.status(404).json({
                 message: "Pedido no encontrado",
@@ -27,7 +27,7 @@ const getOrder = async (req, res, next) => {
 
 const getOrder2 = async (req, res, next) => {
     try {
-        const { id } = req.body;
+        const { id} = req.body;
         const result = await pool.query
             ('SELECT * FROM ordervalue WHERE clid = $1', [id]);
         if (result.rows.length === 0)
@@ -42,8 +42,9 @@ const getOrder2 = async (req, res, next) => {
 
 const getOrder3 = async (req, res, next) => {
     try {
+        const {id} = req.body;
         const result = await pool.query
-            ('SELECT * FROM clientsOrders');
+            ('SELECT * FROM clientsOrders WHERE pdid = $1', [id]);
         if (result.rows.length === 0)
             return res.status(404).json({
                 message: "Pedido no encontrado",
@@ -55,11 +56,11 @@ const getOrder3 = async (req, res, next) => {
 }
 
 const  createOrder = async (req, res, next) => {
-    const { clid, fecha } = req.body;
+    const { clid, fecha, estado } = req.body;
     try {
         const result = await pool.query
-            ('INSERT INTO pedidos (clid, fecha) VALUES ($1, $2) RETURNING *',
-                [clid, fecha]);                                 
+            ('INSERT INTO pedidos (clid, fecha, estado) VALUES ($1, $2, $3) RETURNING *',
+                [clid, fecha, estado]);                                 
         res.json(result.rows[0]);
     } catch (error){
         next(error);
@@ -83,11 +84,11 @@ const deleteOrder = async (req, res, next) => {
 
 const updateOrder = async (req, res, next) => {
     const { id } = req.params;
-    const { clid, fecha } = req.body;
+    const { clid, fecha, estado } = req.body;
     try {
         const result = await pool.query(
-            'UPDATE pedidos SET clid = $1, fecha = $2 WHERE pdid = $3 RETURNING *',
-            [clid, fecha, id]);
+            'UPDATE pedidos SET clid = $1, fecha = $2, estado = $3 WHERE pdid = $3 RETURNING *',
+            [clid, fecha, estado, id]);
         if (result.rows.length === 0)
             return res.status(404).json({
                 message: "Pedido no encontrado",

@@ -11,14 +11,14 @@ VALUES 	('Corte corto', 'Peluqueria', 'Descripción del servicio', 'Activo'),
 		('Baño, secado y cepillado', 'Peluqueria', 'Descripción del servicio', 'Eliminado');
 --Insertar clientes 
 INSERT INTO clientes (nombres, apellidos, correo, direccion, telefono, usuario, contraseña, foto, estado)
-VALUES 	('Mercy', 'Castro Romero', 'merxicc@gmail.com', '270 Superior Lane', '12345512', 'userCliente1', '321dsa', '1-client.jpg', 'Activo'),
-		('Torie Jethro', 'Leftly Booler', 'lbaunton6@gmail.com', '1966 Hanover Pass', '41252155', 'userCliente2', '321asd', '2-client.jpg', 'Activo'),
-		('Davide', 'Ost Merrell', 'eanstiss4@gmail.com', '8 Browning Hill', '41252155', 'jkorejs1', '321asd', '3-client.jpg', 'Activo'),
-		('Hailee Paige', 'Tresvina Turbat', 'jbaudryl@gmail.com', '9609 Sachs Plaza', '41252155', 'lkliesl2', '321asd', '4-client.jpg', 'Activo'),
-		('Erin', 'Gomes Baudry', 'mmilesopm@gmail.com', '93 Sutherland Pass', '41252155', 'csurcomb3', '321asd', '5-client.jpg', 'Activo'),
-		('Killie Jameson', 'Burchess Schirak', 'kflinn5@gmail.com', '35895 Clyde Gallagher Avenue', '41252155', 'amyrtle5', '321asd', '6-client.jpg', 'Activo'),
-		('Laina Gweneth', 'Merrell Baunton', 'kbroinlich11@gmail.com', '6 Montana Parkway', '41252155', 'tguerrieri6', '321asd', '7-client.jpg', 'Activo'),
-		('Jhonatan Esteban', 'Castrillón Perez', 'mnotonx@gmail.com', 'Pradera#-Cr', '41252155', 'dantonescu9', '321asd', '8-client.jpg', 'Activo');
+VALUES 	('Mercy', 'Castro Romero', 'merxicc@gmail.com', '270 Superior Lane', '12345512', 'userCliente1', '321dsa', '1001-client.jpg', 'Activo'),
+		('Torie Jethro', 'Leftly Booler', 'lbaunton6@gmail.com', '1966 Hanover Pass', '41252155', 'userCliente2', '321asd', '1002-client.jpg', 'Activo'),
+		('Davide', 'Ost Merrell', 'eanstiss4@gmail.com', '8 Browning Hill', '41252155', 'jkorejs1', '321asd', '1003-client.jpg', 'Activo'),
+		('Hailee Paige', 'Tresvina Turbat', 'jbaudryl@gmail.com', '9609 Sachs Plaza', '41252155', 'lkliesl2', '321asd', '1004-client.jpg', 'Activo'),
+		('Erin', 'Gomes Baudry', 'mmilesopm@gmail.com', '93 Sutherland Pass', '41252155', 'csurcomb3', '321asd', '1005-client.jpg', 'Activo'),
+		('Killie Jameson', 'Burchess Schirak', 'kflinn5@gmail.com', '35895 Clyde Gallagher Avenue', '41252155', 'amyrtle5', '321asd', '1006-client.jpg', 'Activo'),
+		('Laina Gweneth', 'Merrell Baunton', 'kbroinlich11@gmail.com', '6 Montana Parkway', '41252155', 'tguerrieri6', '321asd', '1007-client.jpg', 'Activo'),
+		('Jhonatan Esteban', 'Castrillón Perez', 'mnotonx@gmail.com', 'Pradera#-Cr', '41252155', 'dantonescu9', '321asd', '1008-client.jpg', 'Activo');
 --Insertar productos
 INSERT INTO productos (nombre, tipo, precio, cantidad, foto, estado)
 VALUES 	('Collar negro', 'Accesorio', 12321, 6, '1-product.jpg', 'Activo'),

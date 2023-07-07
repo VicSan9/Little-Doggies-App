@@ -47,10 +47,10 @@ VALUES 	('Collar negro', 'Accesorio', 12321, 6, '1-product.jpg', 'Activo'),
 		('Pelu2 - Acondicionador', 'Limpieza', 7587, 12, '24-product.jpg', 'Activo'),
 		('Can & Felis - Champú', 'Limpieza', 7587, 12, '25-product.jpg', 'Activo');
 --Insertar mascotas
-INSERT INTO mascotas (clid, nombre, raza, edad, sexo, condicion, estado)
-VALUES 	(1002, 'Tony', 'Bulldog', '2 años', 'Macho', 'Ninguna', 'Activo'),
-		(1001, 'Luna', 'Pastor aleman', '4 años', 'Hembra', 'Alergia en la piel', 'Activo'),
-		(1001, 'Pelusa', 'Akita', '6 meses', 'Macho', 'Ninguna', 'Activo');
+INSERT INTO mascotas (clid, nombre, raza, edad, sexo, condicion, estado, foto)
+VALUES 	(1002, 'Tony', 'Bulldog', '2 años', 'Macho', 'Ninguna', 'Activo', '1-pet.jpg'),
+		(1001, 'Luna', 'Pastor aleman', '4 años', 'Hembra', 'Alergia en la piel', 'Activo', '2-pet.jpg'),
+		(1001, 'Pelusa', 'Akita', '6 meses', 'Macho', 'Ninguna', 'Activo', '3-pet.jpg');
 --Insertar citas
 INSERT INTO citas (clid, mcid, mbid, fecha, hora, estado)
 VALUES	(1002, 1, 1, '7 de Junio del 2023', '8:30', 'Atendido'),
